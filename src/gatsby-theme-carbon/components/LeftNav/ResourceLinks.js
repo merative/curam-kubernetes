@@ -8,11 +8,11 @@ const links = [
   },
   {
     title: 'GitHub',
-    href: 'https://github.com/merative/spm-kubernetes',
+    href: 'https://github.com/merative/curam-kubernetes',
   },
   {
     title: 'Change Log',
-    href: 'https://github.com/merative/spm-kubernetes/blob/main/CHANGELOG.md',
+    href: 'https://github.com/merative/curam-kubernetes/blob/main/CHANGELOG.md',
   }
 ];
 

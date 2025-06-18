@@ -1,5 +1,5 @@
 {
-  "name": "spm-kubernetes",
+  "name": "curam-kubernetes",
   "private": true,
   "version": "24.11.0",
   "license": "Apache 2.0",
