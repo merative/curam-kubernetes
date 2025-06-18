@@ -5,22 +5,22 @@ description: GitHub repo
 
 This runbook and its associated artifacts are provisioned through GitHub.
 
-Download the [spm-kubernetes](https://github.com/merative/spm-kubernetes)
+Download the [curam-kubernetes](https://github.com/merative/curam-kubernetes)
 repository on your development system. Take the following steps:
 
 ## Install Git
 
 Git is the distributed version control system on which GitHub is built. Usually Git is already included on development systems, but if it is missing, you can get it from [Getting Started - Installing Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git).
 
-## Clone the spm-kubernetes repo
+## Clone the curam-kubernetes repo
 
 Clone the repository locally by using the following command:
 
 ```shell
-git clone https://github.com/merative/spm-kubernetes
+git clone https://github.com/merative/curam-kubernetes
 ```
 
-The Git clone command creates a folder that is named `spm-kubernetes` in your current path. This folder is referred to by `$SPM_HOME` (or `$env:SPM_HOME` for Windows) for the remainder of this runbook. The `$SPM_HOME` folder contains three subfolders:
+The Git clone command creates a folder that is named `curam-kubernetes` in your current path. This folder is referred to by `$SPM_HOME` (or `$env:SPM_HOME` for Windows) for the remainder of this runbook. The `$SPM_HOME` folder contains three subfolders:
 
 * *src/pages:* Contains the source files for this runbook. Do not modify the source files.
 * *dockerfiles:* Contains the Docker® files and other artifacts that are used to generate the Merative Social Program Management (SPM) containers. For more information, see [Setting up the Docker context](/build-images/setup_docker_context).

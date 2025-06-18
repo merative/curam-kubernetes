@@ -31,7 +31,7 @@ This option is only available in SPM V8.0.1 or higher. For more information abou
 ### Sample implementation
 
 The sample implementation is based on a proof-of-concept performed to illustrate the capability.
-Artifacts used for the proof-of-concept are provided as samples in the [GitHub repo](https://github.com/merative/spm-kubernetes).
+Artifacts used for the proof-of-concept are provided as samples in the [GitHub repo](https://github.com/merative/curam-kubernetes).
 
 Notable decisions and limitations used in performing the proof-of-concept:
 
@@ -171,7 +171,7 @@ Exporter thread:
 
 ### Creating the Docker image for the sidecar container
 
-In support of building the sidecar Docker image the following files are included in the `dockerfiles/Liberty/xmlserver-metrics` folder of the [GitHub repo](https://github.com/merative/spm-kubernetes):
+In support of building the sidecar Docker image the following files are included in the `dockerfiles/Liberty/xmlserver-metrics` folder of the [GitHub repo](https://github.com/merative/curam-kubernetes):
 
 * The `.Dockerfile` that builds the image: `XMLServer-metrics.Dockerfile`
 * The sample proof-of-concept implementation executable, `xmlserver_prometheus.jar`, and source, `xmlserver_prometheus-sources.jar`
@@ -274,7 +274,7 @@ Sample files are provided to define the sidecar and Prometheus configuration and
 
 For more information see the [XML Server Configuration Reference](/deployment/config-reference#xml-server).
 
-The following files are included in the [helm-charts/xmlserver/](https://github.com/merative/spm-kubernetes/tree/main/helm-charts/xmlserver)
+The following files are included in the [helm-charts/xmlserver/](https://github.com/merative/curam-kubernetes/tree/main/helm-charts/xmlserver)
 folder of the GitHub repo for deploying the `xmlserver-metrics` sidecar container and configuring it for the XML server:
 
 * `./templates/deployment.yaml` - defines the `xmlserver-metrics` sidecar
