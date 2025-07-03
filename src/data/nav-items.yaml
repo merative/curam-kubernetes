@@ -75,8 +75,6 @@
       path: /supporting-infrastructure/keycloak/
     - title: Logging
       path: /supporting-infrastructure/logging/
-    - title: MQ Overview and Configuration
-      path: /supporting-infrastructure/mq/mq-overview/
     - title: Persistent Timers
       path: /supporting-infrastructure/persistent-timers/
     - title: XML server service
