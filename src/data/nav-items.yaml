@@ -72,7 +72,7 @@
     - title: Enabling ISAM
       path: /supporting-infrastructure/ISAM/
     - title: Enabling Keycloak
-      path: /supporting-infrastructure/keycloak/
+      path: /supporting-infrastructure/KeyCloak/
     - title: Logging
       path: /supporting-infrastructure/logging/
     - title: Persistent Timers
