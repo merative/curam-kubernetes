@@ -1,6 +1,6 @@
 const siteTitle = 'Cúram on Kubernetes Runbook'
 
-var sitePrefix = process.env.SITE_PREFIX || ""
+var sitePrefix = process.env.SITE_PREFIX || "/curam-kubernetes/"
 console.log(`Using SITE_PREFIX: '${sitePrefix}'`)
 
 module.exports = {
