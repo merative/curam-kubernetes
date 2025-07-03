@@ -14,6 +14,13 @@ All notable changes to this project will be documented in this file
   * `dockerfiles/Liberty/Java8`
 * `dockerfiles/Liberty/ModernJava` will serve as the main line, with new folders created upon release.
 
+* Updated `helm-charts/apps/templates/configmaps/configmap-log4j.yaml` to adhere to log4j v2 standard tags
+
+* Keycloak Client Configuration: Updates were made to enable OIDC (OpenID Connect) integration with Liberty. This includes the following:
+  * The apps chart was updated to include the required Keycloak client configuration properties for OIDC
+  * The spm chart was updated to include the required Keycloak redirects
+  * Updated `helm-charts/spm/values.yaml` to parameterize the coordinates for the keycloak server
+
 #### Chart Breaking Changes
 
 * The IBM-MQ-InstallRA version must be greater than or equal to 9.3.
@@ -33,6 +40,9 @@ All notable changes to this project will be documented in this file
 * Added `SPM 8.2.0.0` Prerequisite software details
 * Addition of Development/Test Support for Amazon Elastic Kubernetes Service (EKS)
 * Addition of Production Support for Azure Kubernetes Service (AKS)
+* Created `helm-charts/keycloak/templates/configmaps/configmap-oidc.yaml` to manage Keycloak client configurations dynamically for Liberty
+* Update `config-reference` to include new settings for enabling/disabling OIDC and specifying the Keycloak server endpoint and client ID/secret
+* Added `routes-apps-liberty-oidc` to manage Keycloak redirects and callback URLs required for OIDC flows.
 
 ### Changed
 
@@ -53,27 +63,7 @@ All notable changes to this project will be documented in this file
 * Added/updated `tlsSecretName` value in `xmlserver` and `mqserver` values files for secret creation.
 * Removed references to IBM Cloud Object Storage (affects documentation and/or deployment).
 * Refined runbook content: removed outdated references, added information about currently supported tools, and fixed broken links.
-
-## v24.11.6
-
-### Breaking Change
-
-* Updated `helm-charts/apps/templates/configmaps/configmap-log4j.yaml` to adhere to log4j v2 standard tags
-
-* Keycloak Client Configuration: Updates were made to enable OIDC (OpenID Connect) integration with Liberty. This includes the following:
-  * The apps chart was updated to include the required Keycloak client configuration properties for OIDC
-  * The spm chart was updated to include the required Keycloak redirects
-  * Updated `helm-charts/spm/values.yaml` to parameterize the coordinates for the keycloak server
-
-### Added
-
-* Created `helm-charts/keycloak/templates/configmaps/configmap-oidc.yaml` to manage Keycloak client configurations dynamically for Liberty
-* Update `config-reference` to include new settings for enabling/disabling OIDC and specifying the Keycloak server endpoint and client ID/secret
-* Added `routes-apps-liberty-oidc` to manage Keycloak redirects and callback URLs required for OIDC flows.
-
-### Changed
-
-* Updated WebSphere Liberty version to include `24.0.0.12`
+* Updated WebSphere Liberty version to include `25.0.0.3`
 * Updated `helm-charts/apps/templates/configmap-endpoints.yaml`
 * Updated `helm-charts/apps/templates/configmap-jms-producer-security.yaml` for OIDC
 * Updated `helm-charts/apps/templates/configmap-server.yaml` to enable OIDC in Liberty server
