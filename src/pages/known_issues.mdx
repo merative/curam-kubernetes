@@ -8,7 +8,7 @@ Some issues might require product changes to resolve them.
 Helm Charts:
   <AnchorLink>Storage initialized using a runbook version older than 20.9.0</AnchorLink>
 WebSphere Liberty:
-  <AnchorLink>Context Root Not Found error on the SPM home page, BIRT, or caseload summary pages</AnchorLink>
+  <AnchorLink>Context Root Not Found error on the Cúram home page, BIRT, or caseload summary pages</AnchorLink>
   <AnchorLink>The logs contain occurrences of the ICWWKS4001I message</AnchorLink>
   <AnchorLink>IBM MQ XAER_PROTO issue</AnchorLink>
   <AnchorLink>Method calls that cross the client/server boundary</AnchorLink>
@@ -32,13 +32,9 @@ global:
         supplementalGroups: [888]
 ```
 
-This is due to a update in IBM MQ, the details of which can be found [here](https://github.com/IBM/charts/blob/master/stable/ibm-mqadvanced-server-dev/RELEASENOTES.md).
+This is due to a update in IBM MQ, the details of which can be found in the [IBM MQ charts](https://github.com/IBM/charts/blob/master/stable/ibm-mqadvanced-server-dev/RELEASENOTES.md).
 
 ## WebSphere Liberty
-
-### Context Root Not Found error on the SPM home page, BIRT, or caseload summary pages
-
-The `Context Root Not Found` error occurs because the deployment does not install the BIRT application.
 
 ### The logs contain occurrences of the ICWWKS4001I message
 
@@ -116,22 +112,22 @@ RUN if [ "$EAR_NAME" = "Curam" ] ; then \
 
 #### Why the error occurs
 
-As part of the SPM journey to Kubernetes, SPM made a number of changes in the areas of transaction isolation, messaging architecture, and elasticity so that SPM could leverage the benefits of Kubernetes.
+As part of the Cúram journey to Kubernetes, Cúram made a number of changes in the areas of transaction isolation, messaging architecture, and elasticity so that Cúram could leverage the benefits of Kubernetes.
 
-For more information about SPM Kubernetes architecture changes, see **Kubernetes architecture** in the *Social Program Management SPM on Kubernetes Guide*.
+For more information about Cúram Kubernetes architecture changes, see **Kubernetes architecture** in the *Cúram on Kubernetes Guide*.
 
 <InlineNotification>
 
-The Social Program Management PDF documentation is available to download from [Merative Support Docs](https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/).
+Cúram PDF documentation is available to download from [Cúram Support Docs](https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/).
 
 </InlineNotification>
 
 Part of these changes included splitting the Curam applications into separate server and client .ear files, which provided necessary flexibility and isolation when deploying and running in Kubernetes.
 However, classes that cross the client/server boundary cause errors due to this isolation.
-For SPM product classes that have this requirement the Liberty shared folder is used.
-These product classes are the EJB local interfaces as described in the SPM Transaction isolation. For more information about EJB local interface, see **Transaction isolation** in the *Social Program Management SPM on Kubernetes Guide*.
+For Cúram product classes that have this requirement the Liberty shared folder is used.
+These product classes are the EJB local interfaces as described in the Cúram Transaction isolation. For more information about EJB local interface, see **Transaction isolation** in the *Cúram on Kubernetes Guide*.
 
-In relation to the Liberty classloader for SPM, SPM specifies the `parentFirst` classloader policy. This was done to increase cohesion and lower coupling between the client and server.
+In relation to the Liberty classloader for Cúram, Cúram specifies the `parentFirst` classloader policy. This was done to increase cohesion and lower coupling between the client and server.
 The use of this policy means that the classes are loaded from the application server libraries to the application.
 The shared folder is loaded before the applications and it loads all the common classes used by both the server code (CuramServerCode.ear) and client code (Curam.ear).
 After that the server and client load their classes using those already loaded previously from the shared folder.

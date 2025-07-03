@@ -1,0 +1,56 @@
+{{- if not .Values.global.mq.tlsSecretName }}
+{{- include "sch.config.init" (list . "mqserver.sch.chart.config.values") -}}
+---
+###############################################################################
+# © Merative US L.P. 2025
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mq-cert-config-{{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
+data:
+  cert-config.cnf: |
+    [ req ]
+    default_bits       = 2048
+    prompt             = no
+    default_md         = sha256
+    distinguished_name = dn
+    x509_extensions    = v3_req
+
+    [ dn ]
+    CN = {{ .Release.Name }}-mqserver
+
+    [ v3_req ]
+    subjectAltName = @alt_names
+
+    [ alt_names ]
+    DNS.1 = {{ .Release.Name }}-mqserver-curam
+    DNS.2 = {{ .Release.Name }}-mqserver-rest
+    DNS.3 = {{ .Release.Name }}-mqserver-curambirtviewer
+    DNS.4 = {{ .Release.Name }}-mqserver-citizenportal
+    DNS.5 = {{ .Release.Name }}-mqserver-curamwebservices
+    DNS.6 = {{ .Release.Name }}-mqserver-cpmexternalns
+    DNS.7 = {{ .Release.Name }}-mqserver-cpmexternals
+    DNS.8 = {{ .Release.Name }}-mqserver-navigatorns
+    DNS.9 = {{ .Release.Name }}-mqserver-navigators
+    DNS.10 = {{ .Release.Name }}-mqserver-mdtworkspace
+    DNS.11 = {{ .Release.Name }}-mqserver-samplepublicaccess
+{{- end }}

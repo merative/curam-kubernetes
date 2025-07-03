@@ -92,46 +92,14 @@ export const SwitcherLink = ({
 // Note: if you change this, update the max-height in the switcher stylesheet
 const DefaultChildren = () => (
   <>
-    <SwitcherDivider>Foundations</SwitcherDivider>
-    <SwitcherLink href="https://ibm.com/brand" isInternal>
-      IBM Brand Center
-    </SwitcherLink>
-    <SwitcherLink href="https://ibm.com/design/language">
-      IBM Design Language
-    </SwitcherLink>
-    <SwitcherDivider>Implementation</SwitcherDivider>
-    <SwitcherLink href="https://www.carbondesignsystem.com/">
-      Carbon Design System
-    </SwitcherLink>
-    <SwitcherLink href="https://www.ibm.com/standards/web/carbon-for-ibm-dotcom/">
-      Carbon for IBM.com
-    </SwitcherLink>
-    <SwitcherLink href="https://www.ibm.com/design/event/">
-      IBM Event Design
-    </SwitcherLink>
-    <SwitcherDivider>Practices</SwitcherDivider>
-    <SwitcherLink href="https://www.ibm.com/design/thinking/">
-      Enterprise Design Thinking
-    </SwitcherLink>
-    <SwitcherLink href="https://www.ibm.com/able/">
-      IBM Accessibility
-    </SwitcherLink>
-    <SwitcherLink href="https://www.ibm.com/design/ai">
-      IBM Design for AI
-    </SwitcherLink>
-    <SwitcherLink href="https://www.ibm.com/design/research/">
-      IBM Design Research
-    </SwitcherLink>
-    <SwitcherLink href="https://www.ibm.com/services/ibmix/">
-      IBM iX
-    </SwitcherLink>
-    <SwitcherDivider>Community</SwitcherDivider>
-    <SwitcherLink href="https://www.ibm.com/design/">
-      IBM Design
-    </SwitcherLink>
-    <SwitcherLink href="https://www.ibm.com/design/racial-equity-in-design">
-      Racial Equity in Design
-    </SwitcherLink>
+    <SwitcherDivider>Documentation</SwitcherDivider>
+      <SwitcherLink href="https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/" isInternal>
+        Cúram Documentation'
+      </SwitcherLink>
+    
+    <SwitcherDivider>PlaceHolder a</SwitcherDivider>
+    <SwitcherDivider>PLaceholder b</SwitcherDivider>
+    
   </>
 );
 

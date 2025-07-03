@@ -1,0 +1,67 @@
+{{- include "sch.config.init" (list . "apps.sch.chart.config.values") -}}
+{{- if $.Values.global.oidc.enabled }}
+---
+###############################################################################
+# © Merative US L.P. 2024,2025
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-openid-config-cm
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "sch.metadata.labels.standard" (list . "") | nindent 4 }}
+data:
+  server_oidc.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!--
+      Copyright Merative US L.P. 2022,2025
+    -->
+    <server>
+
+      <featureManager>
+        <feature>openidConnectClient-1.0</feature>
+        <feature>transportSecurity-1.0</feature>
+      </featureManager>
+
+      <openidConnectClient
+        id="spm"                       
+        clientId="{{ .Values.keycloakConfig.clientId }}" 
+        scope="openid profile"          
+        discoveryEndpointUrl="https://{{ .Values.keycloakConfig.keycloakHost }}/realms/{{ .Values.keycloakConfig.realm }}/.well-known/openid-configuration" 
+        responseType="id_token"
+        userIdentifier="preferred_username"
+        redirectToRPHostAndPort="{{ .Values.global.ingress.hostname }}"
+        sslRef="defaultSSLConfig"
+        trustStoreRef="defaultKeyStore"
+        trustAliasName="keycloakCertAlias"
+        signatureAlgorithm="none"
+        disableLtpaCookie="false"
+        allowCustomCacheKey="false"
+        authFilterRef="curamAuthFilter"/>
+
+      <webAppSecurity
+        ssoRequiresSSL="true"
+        ssoCookieName="SPMLtpa2Cookie"
+      />
+
+      <authFilter id=" curamAuthFilter">
+        <requestUrl id="myRequestUrl" urlPattern="/Curam|/CitizenPortal" matchType="contains"/> 
+      </authFilter>   
+
+
+    </server>
+{{- end }}

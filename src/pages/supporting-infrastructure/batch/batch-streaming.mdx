@@ -6,26 +6,26 @@ tabs: ['Batch Processing', 'Batch Streaming']
 
 ## How batch streaming is deployed in Kubernetes
 
-Merative Social Program Management (SPM) on Kubernetes supports a different model for batch processing in AKS, where, as outlined earlier, SPM batch processing can be built and deployed into its own pod.
-By running SPM batch processing in its own pod, the pod can leverage the benefits of flexibility, elasticity, efficiency and the strategic value offered by cloud native architecture.
+Cúram on Kubernetes supports a different model for batch processing in AKS, where, as outlined earlier, Cúram batch processing can be built and deployed into its own pod.
+By running Cúram batch processing in its own pod, the pod can leverage the benefits of flexibility, elasticity, efficiency and the strategic value offered by cloud native architecture.
 
 ### What is batch streaming?
 
 The batch streaming infrastructure provides a straightforward mechanism to implement a batch process so that it can be run in parallel (streams) across multiple pods.
 For example, if we wanted to issue payments, the chunker identifies all the cases to be paid and the stream would process a case and issue the payments that are due.
 
-![spm batch on kubernetes](../../../images/spm_batch_processing_on_kubernetes.png)
+![Cúram batch on kubernetes](../../../images/curam_batch_processing_on_kubernetes.png)
 <Caption>
 
-*Figure 1:* SPM batch processing on kubernetes
+*Figure 1:* Cúram batch processing on kubernetes
 
 </Caption>
 
-For more information about batch streaming architecture, see **Batch Streaming Architecture** in the *Social Program Management Cúram Batch Performance Mechanisms*.
+For more information about batch streaming architecture, see **Batch Streaming Architecture** in the *Cúram Batch Performance Mechanisms*.
 
 <InlineNotification>
 
-The Social Program Management PDF documentation is available to download from [Merative Support Docs](https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/).
+Cúram PDF documentation is available to download from [Cúram Support Docs](https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/).
 
 </InlineNotification>
 
@@ -74,7 +74,7 @@ The first stage is to set up a new YAML file for the streaming and chunking batc
 
 <InlineNotification>
 
-**Note:** No SPM default installation settings were changed.
+**Note:** No Cúram default installation settings were changed.
 
 </InlineNotification>
 

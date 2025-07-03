@@ -2,7 +2,7 @@
 
 ## Introduction
 
-* The SPM chart is the umbrella Helm chart for IBM Cúram Social Program Management (SPM) Platform responsible for coordinating the deployment of the application across multiple subcharts.
+* The SPM chart is the umbrella Helm chart for Cúram Platform responsible for coordinating the deployment of the application across multiple subcharts.
 
 ## Chart Details
 
@@ -10,7 +10,7 @@
 * Deployment of a single IHS replica with static content
 * Deployment of a single MQ replica
 * Deployment of a single Cúram application replica (one producer pod, one consumer pod)
-* Starting from `spm-kubernetes` release `21.7.0`, chart versions have been updated to align with the release version.
+* Starting from `curam-kubernetes` release `21.7.0`, chart versions have been updated to align with the release version.
 
 ## Prerequisites
 
@@ -38,4 +38,4 @@ None
 
 ## Configuration
 
-See [Configuration reference](https://merative.github.io/spm-kubernetes/deployment/config-reference) section of the runbook.
+See [Configuration reference](https://merative.github.io/curam-kubernetes/deployment/config-reference) section of the runbook.

@@ -3,57 +3,26 @@ title: Base third-party software
 description: Base third-party software
 ---
 
-Install the base third-party software that is needed to build Merative Social Program Management and run WebSphere® Liberty.
-
 <InlineNotification kind="warning">
 
 **Important!**
 
 * Check with your system administrator before installing any software.
-* Ensure that you have access to the internet to install relevant third-party software and updates, where required.
+* We advise clients to seek licence advice from their IBM re-seller regarding entitlements
 
 </InlineNotification>
 
 <AnchorLinks small>
   <AnchorLink>IBM WebSphere Liberty</AnchorLink>
-  <AnchorLink>Java</AnchorLink>
+  <AnchorLink>Java Requirement</AnchorLink>
   <AnchorLink>Database</AnchorLink>
-  <AnchorLink>Apache Ant</AnchorLink>
+  <AnchorLink>Apache Ant for Java8</AnchorLink>
+  <AnchorLink>Apache Ant for ModernJava</AnchorLink>
 </AnchorLinks>
 
 ## IBM WebSphere Liberty
 
-The following sections show you how to download and install WebSphere Liberty.
-
-### IBM Installation Manager
-
-After installing WebSphere Liberty you will need to apply a fix pack using Installation Manager. You can download and install Installation Manager
-1.9 or later from [IBM Installation Manager and Packaging Utility](https://www.ibm.com/support/pages/installation-manager-and-packaging-utility-download-documents).
-
-### IBM WebSphere Liberty licensing
-
-Customers who are licensed for WebSphere Hybrid Edition or IBM Cloudpak for Applications are entitled to access a WebSphere liberty licence.
-However, we advise clients to seek licence advice from their IBM re-seller regarding entitlements. If you are not an existing WebSphere customer you can download a 60 day trial of WebsShere Liberty from IBM.
-
-### Install IBM WebSphere Liberty
-
-WebSphere Liberty is the only application server supported by SPM on Kubernetes and is therefore required.
-
-#### Download and install WebSphere Liberty.
-
-Browse to [Passport Advantage](https://www.ibm.com/software/passportadvantage/index.html), then search for and download one of the following packages:
-
-* IBM WebSphere Application Server Liberty Network Deployment (part number **CND1NML**)
-* IBM WebSphere Application Server Liberty Base (part number **CNXH7ML**)
-
-If you are unsure of what installer to use, contact your IBM Account Executive.
-
-Also, download and install the following packages:
-
-* [20.0.0.9 Fix Pack](https://www.ibm.com/support/pages/node/6324189)
-* [8.0.6.15 IBM SDK Java Technology Edition](https://www.ibm.com/support/pages/node/587245#80615)
-
-Install WebSphere Liberty as described in [Installing Liberty](https://www.ibm.com/docs/en/was-liberty/base?topic=SSEQTP_liberty/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/twlp_inst_top.html).
+WebSphere Liberty is the only application server supported by Cúram on Kubernetes and is therefore required.
 
 When installed, create an environment variable `WLP_HOME` that points to the WebSphere Liberty installation directory. For example:
 
@@ -61,54 +30,51 @@ When installed, create an environment variable `WLP_HOME` that points to the Web
 WLP_HOME=/opt/IBM/WebSphere/Liberty
 ```
 
-## Java
+## Java Requirement
 
-Java version 8 is required. See
-[IBM SDK Java Technology Edition Version 8.0](https://www.ibm.com/support/pages/java-sdk-downloads-version-80)
-for download and installation information.
+As of the Cúram 8.2 release, Cúram supports `Java 8` and `Java 21` , the latest version of Java will be referred to as `ModernJava`.
 
-* When installed, create the following environment variable:
+See [Cúram Supported Prerequisites](https://curam-spm-devops.github.io/wh-support-docs/) for the latest list of supported Java versions and JDK distributions.
 
-  ```
-  JAVA_HOME=$WLP_HOME/java/8.0
+After installing Java, set the `JAVA_HOME` environment variable as follows:
+
+```sh
+export JAVA_HOME=$WLP_HOME/java/<version>
   ```
 
 * Add `$JAVA_HOME/bin` to the `PATH` environment variable.
 
+Because of compatibility differences between Java 8 and Java 21, the Dockerfiles used by Cúram have been separated into version-specific directories. Java8 and ModernJava. These directories are referenced using the placeholder `$CURAM_JAVA_MODE` in this documentation.
+
+Be sure to check the `dockerfiles/Liberty` directory to confirm that you're using a supported Java version.
+
 ## Database
 
-A supported relational database is required. See [IBM Cúram Social Program Management Supported Prerequisites](https://www.ibm.com/support/pages/ibm-c%C3%BAram-social-program-management-supported-prerequisites) for list of supported databases.
-
-You need either a Passport Advantage, or an Oracle account to download the relevant database software.
-
-* Download Db2 from [Passport Advantage](https://www.ibm.com/software/passportadvantage/index.html).
-  * See the [Db2 IBM Documentation](https://www.ibm.com/docs/en/db2/11.1?topic=fundamentals-installing) for detailed installation information.
-* Download Oracle Database from [Oracle Software Delivery Cloud](https://edelivery.oracle.com/osdc/faces/SoftwareDelivery).
-  * See the [Oracle Database Help Center](https://docs.oracle.com/en/database/oracle/oracle-database/12.2/index.html) for detailed installation information.
+A supported relational database is required. See [Cúram Supported Prerequisites](https://curam-spm-devops.github.io/wh-support-docs/) for list of supported databases.
 
 ## Apache Ant
 
-Ant 1.10.6 is required and can be downloaded from [Apache.org](https://archive.apache.org/dist/ant/binaries/):
+When using Java 8, Apache Ant `1.10.6` is required.
 
-* Download the Ant 1.10.6 zip file, for example:
+When using ModernJava, Apache Ant `1.10.15` is required.
 
-  ```shell
-  wget https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.6-bin.zip
-  ```
+<InlineNotification kind="warning">
+Please refer to the ModernJava Migration Guide for additional details.
+</InlineNotification>
 
-* Extract the Ant .zip file to your environment, for example:
+Create the following environment variables:
 
-  ```
-  unzip -x apache-ant-1.10.6-bin.zip
-  ```
+| Variable Name | Value | Notes |
+|--------------|-------|--------|
+| ANT_HOME | points to the installation directory | |
+| ANT_OPTS | -Xmx1400m -Dcmp.maxmemory=1400m | |
+| ANT_VERSION_VALUE | based on the Java version | `1` |
+| ANT_LIB_PATH | point to the `CuramSDEJ/lib/nashorn` path | `2` |
 
-* Create the following environment variables:
-  * `ANT_HOME` - points to the installation directory
-  * `ANT_OPTS=-Xmx1400m -Dcmp.maxmemory=1400m`
-* Add `$ANT_HOME/bin` to the `PATH` environment variable
+|Notes|
+|-|
+|`(1)` Based on the Cúram version you install.|
+|`(2)` This is only required for Java 21.|
 
-* Test Ant by running:
-
-  ```
-  ant -version
-  ```
+* Add $ANT_HOME/bin to the PATH environment variable
+* Include `ANT_LIB_PATH` in your `PATH`.

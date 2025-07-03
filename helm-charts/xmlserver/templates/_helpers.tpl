@@ -1,5 +1,5 @@
 {{/*
-© Merative US L.P. 2022
+© Merative US L.P. 2022,2025
 Copyright 2019,2022 IBM Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -83,11 +83,4 @@ image: {{ include "xmlserver.imageFullName" (dict "ImageConfig" .Values.global.i
 {{- include "initContainer.resources" . }}
 {{- include "sch.security.securityContext" (list . .sch.chart.containerSecurityContext) }}
 {{- end }}
-
-{{/*
-XML server JVM metrics Prometheus JMX Exporter JVM Config
-*/}}
-{{- define "jvmStats.configJvm" -}}
-{{- printf "-javaagent:/opt/ibm/Curam/xmlserver/jmx_prometheus_javaagent.jar=%d:/opt/ibm/Curam/xmlserver/config.yaml" ( .Values.jvmStats.port | default 8083 | int ) -}}
-{{- end -}}
 

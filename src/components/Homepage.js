@@ -4,7 +4,7 @@ import HomepageTemplate from 'gatsby-theme-carbon/src/templates/Homepage';
 
 import Carbon from '../images/carbon.jpg';
 
-const BannerText = () => <h1>Merative Social Program Management on Kubernetes Runbook</h1>;
+const BannerText = () => <h1>Cúram on Kubernetes Runbook</h1>;
 
 const customProps = {
   Banner: <HomepageBanner renderText={BannerText} image={Carbon} />,

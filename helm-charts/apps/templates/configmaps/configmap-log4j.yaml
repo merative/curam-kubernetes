@@ -1,7 +1,7 @@
 {{- include "sch.config.init" (list . "apps.sch.chart.config.values") -}}
 ---
 ###############################################################################
-# © Merative US L.P. 2022
+# © Merative US L.P. 2022,2025
 # Copyright 2019,2020 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,24 +27,15 @@ metadata:
 data:
   log4j-config.xml: |
     <?xml version="1.0" encoding="UTF-8"?>
-    <!-- Placed by Kubernetes Configmap. -->
-    <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
-
-    <log4j:configuration
-      xmlns:log4j="http://jakarta.apache.org/log4j/"
-      debug="false">
-
-      <appender name="Stdout" class="org.apache.log4j.ConsoleAppender">
-        <param name="Target" value="System.out"/>
-
-        <layout class="org.apache.log4j.PatternLayout">
-          <param name="ConversionPattern" value="[%-5p] [%X{user}] [%d{dd MMM yyyy HH:mm:ss}] [%c] - %m%n"/>
-        </layout>
-      </appender>
-
-      <root>
-        <level value="INFO"/>
-        <appender-ref ref="Stdout"/>
-      </root>
-
-    </log4j:configuration>
+    <Configuration status="INFO">
+      <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+          <PatternLayout pattern="[%-5level] [%X{user}] [%d{dd MMM yyyy HH:mm:ss}] [%logger{36}] - %msg%n"/>
+        </Console>
+      </Appenders>
+      <Loggers>
+        <Root level="INFO">
+          <AppenderRef ref="Console"/>
+        </Root>
+      </Loggers>
+    </Configuration>

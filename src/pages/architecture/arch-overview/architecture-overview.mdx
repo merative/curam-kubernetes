@@ -1,32 +1,34 @@
 ---
 title: Architecture Overview
 description: Architecture Overview
-tabs: ['Architecture Overview','SPM AKS Reference Architecture','SPM OpenShift Reference Architecture','Dev Workstation','Static Content']
+tabs: ['Architecture Overview','OpenShift','AKS','EKS','Dev Workstation','Static Content']
 ---
 
-Merative Social Program Management (SPM) is not a PaaS nor a SaaS offering on Cloud. SPM is a platform for Social Programs that customers configure and customize according to their own requirements.
-Then build, deploy, run and operate on environments according to their own Software Development Life Cycle (SDLC) requirements.
+Cúram is not offered as a Platform-as-a-Service (PaaS) or Software-as-a-Service (SaaS) solution in the cloud. Instead, it is a configurable platform for Social Program Management that customers tailor to meet their specific requirements. Customers are responsible for building, deploying, running, and operating Cúram in environments aligned with their own Software Development Life Cycle (SDLC) processes.
 
-SPM can either be deployed on traditional hosting architectures (i.e. virtual machines or bare metal) or on Kubernetes. This runbook only refers to the cloud native hosting on Kubernetes.
+Cúram can either be deployed on traditional hosting architectures (i.e. virtual machines or bare metal) or on Kubernetes. This runbook focuses exclusively on cloud-native hosting on Kubernetes.
 
-SPM can be deployed on two Kubernetes distributions:
+Cúram can be deployed on the following distributions:
 
-1. **Azure Kubernetes Services (AKS)**: only available on Microsoft Azure.
+1. **Azure Kubernetes Services (AKS)**
+2. **Amazon Elastic Kubernetes Service (EKS)**
 
   <InlineNotification kind="warning">
 
-  **Note:** Azure Kubernetes Services (AKS) is exclusively available for Development and Test purposes **only**.
+  **Note:** EKS is intended for Development and Test purposes only.
 
   </InlineNotification>
 
-2. **Red Hat OpenShift**: on any environment supported by Red Hat (e.g. on-premises, private cloud or public cloud).
+3. **Red Hat OpenShift\***
 
-The Figure 1 shows the essential nature of the SPM architecture on Kubernetes.
+\*OpenShift deployments are environment-agnostic and can be run on any infrastructure that supports OpenShift, including **on-premises**, **private cloud**, or **public cloud** environments.
+
+Figure 1 shows the essential nature of the Cúram architecture on Kubernetes.
 
 It conveys the governing ideas and major building blocks of the architecture.
-The **"Development & DevOps"**, **"Security"** and **"Governance"** components and processes described in the architecture diagram are just for reference and will likely be different, depending on your Deployment Architecture.
+The **"Development & DevOps"**, **"Security"**, and **"Governance"** components and processes described in the architecture diagram are just for reference. They will likely be different depending on your Deployment Architecture.
 
-SPM does not require nor impose these components in the architecture.
+Cúram does not require nor impose these components in the architecture.
 
 <InlineNotification>
 
@@ -37,37 +39,29 @@ SPM does not require nor impose these components in the architecture.
 ![architecture overview](../../../images/architecture-overview.png)
 <Caption>
 
-*Figure 1:* SPM on Kubernetes
+*Figure 1:* Cúram on Kubernetes
 
 </Caption>
 
-The Figure 2 shows how SPM is built as a containerized application by using WebSphere® Application Server Liberty, packaged as Docker®
+Figure 2 shows how Cúram is built as a containerized application by using WebSphere® Application Server Liberty, packaged as Docker®
 containers, orchestrated by Helm, and running on Red Hat OpenShift or Kubernetes Service.
 
-![spm on kubernetes](../../../images/spm_on_kubernetes.png)
+![Cúram on kubernetes](../../../images/curam_on_kubernetes.png)
 <Caption>
 
-*Figure 2:* SPM packaging for Kubernetes
+*Figure 2:* Cúram packaging for Kubernetes
 
 </Caption>
 
 <InlineNotification>
-
-**Note:** Database support remains on virtual machines (VMs) as part of the initial offering.
-
+**Note:** Database support remains on virtual machines (VMs) as the current deployment model.
 </InlineNotification>
 
-<InlineNotification>
-
-**Note:** IBM MQ running on Kubernetes is only supported on OpenShift. When deploying SPM on a Kubernetes Services (AKS), IBM MQ must be hosted on virtual machines or bare metal. More information about SPM and IBM MQ can be found [here](/supporting-infrastructure/mq/mq-overview).
-
-</InlineNotification>
-
-To support containerized architectures, a number of architectural changes were made. The changes are documented as follows and apply only to SPM running on
+To support containerized architectures, a number of architectural changes were made. The changes are documented as follows and apply only to Cúram running on
 Kubernetes.
 
 * **Message Architecture**
-  When Merative Social Program Management is containerized, IBM MQ Long Term Support (LTS) is used as the message engine to process internal application
+  When Cúram is containerized, IBM MQ Long Term Support (LTS) is used as the message engine to process internal application
   JMS-based deferred processing.
 * **Transaction Isolation**
   Client HTTP initiated transactions and JMS initiated transactions run on different WebSphere Application Server Liberty instances, integrated through
@@ -75,10 +69,10 @@ Kubernetes.
 * **Elasticity**
   Elasticity in Kubernetes Service is the ability to scale up or down pods and nodes to adjust to the load to meet the end user demand.
 
-For more information about SPM Kubernetes architecture changes, see **Kubernetes architecture** in the *Social Program Management SPM on Kubernetes Guide*.
+For more information about Cúram Kubernetes architecture changes, see **Kubernetes architecture** in the *Cúram on Kubernetes Guide*.
 
 <InlineNotification>
 
-The Social Program Management PDF documentation is available to download from [Merative Support Docs](https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/).
+Cúram PDF documentation, including guides on deployment, configuration, and troubleshooting, is available to download from [Cúram Support Docs](https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/).
 
 </InlineNotification>

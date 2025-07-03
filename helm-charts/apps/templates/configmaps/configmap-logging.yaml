@@ -1,7 +1,7 @@
 {{- include "sch.config.init" (list . "apps.sch.chart.config.values") -}}
 ---
 ###############################################################################
-# © Merative US L.P. 2022
+# © Merative US L.P. 2022,2025
 # Copyright 2019,2020 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,6 +36,5 @@ data:
         consoleLogLevel="DEBUG"
         traceSpecification="com.ibm.ws.security.*=all:com.ibm.ws.webcontainer.security.*=all:com.ibm.ws.session.*=all:com.ibm.wsspi.webcontainer*=all:RRA=all"
         />    -->
-      <logging consoleLogLevel="INFO" maxFiles="10" maxFileSize="50" traceFormat="BASIC"/>
-
+      <logging consoleLogLevel="INFO" maxFiles="10" maxFileSize="50" traceFormat="BASIC"/>   
     </server>

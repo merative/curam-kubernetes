@@ -1,39 +1,30 @@
 ---
 title: Static content deployment architecture
 description: Static content deployment architecture
-tabs: ['Architecture Overview','SPM AKS Reference Architecture','SPM OpenShift Reference Architecture','Dev Workstation','Static Content']
+tabs: ['Architecture Overview','AKS','OpenShift','EKS','Dev Workstation','Static Content']
 ---
 
-## Deploy SPM Static Content in Azure Kubernetes Services (AKS)
+## Deploy Cúram Static Content in Azure Kubernetes Services (AKS)
 
-The static content server feature allows static content to be hosted on a separate web server.
-This feature allows the web server that hosts the static content to be tuned for the static content and
-reduces the load on the main Merative Social Program Management (SPM) application servers.
+The static content server feature allows static content to be hosted on a separate web server. This enables the web server to be optimized specifically for serving static content, reducing the load on the main Cúram application servers.
 
 <InlineNotification>
-
-**Note:** For more information about SPM static content, see **Static Content Server** in the *Social Program Management Web Client Reference Manual*.
-
+**Note:** For more information about Cúram static content, see **Static Content Server** in the *Cúram Web Client Reference Manual*.
 </InlineNotification>
 
-![SPM on Kubernetes - Static Content](../../../images/spm_static_content_on_kubernetes.png)
+![Cúram on Kubernetes - Static Content](../../../images/curam_static_content_on_kubernetes.png)
 <Caption>
 
-*Figure 1:* SPM on Kubernetes - static content
+*Figure 1:* Cúram on Kubernetes - static content
 
 </Caption>
 
-As outlined in Figure 1, SPM static content runs in its own pod. By running SPM static content in its own pod, the pod can leverage the benefits of flexibility, elasticity, efficiency and the strategic value offered by cloud native architecture.
+As shown in Figure 1, Cúram static content runs in its own pod. By isolating static content in a dedicated pod, you can take advantage of the flexibility, elasticity, and efficiency offered by cloud-native architecture.
 
-While it is technically possible to have SPM static content on the ingress controllers (for example, ALBs), this is not a recommended approach. The ingress controller is not designed to serve static content.
+Serving static content is a fundamental part of the application. Therefore, static content should be served from a pod running on the application worker nodes.
 
-Application workloads should be isolated from ingress workloads.
-The ingress controller should have the unique role of handling the ingress rules that are defined in your cluster, and should be treated as part an infrastructure component of your cloud native architecture.
-
-Serving static content is a fundamental part of your application, and the static content should be served in a pod on your application worker nodes.
+While it is technically possible to serve Cúram static content from ingress controllers (such as ALBs), this is not recommended. Ingress controllers are not designed to serve static content. Application workloads should be isolated from ingress workloads. The ingress controller should be dedicated to handling ingress rules for the cluster and treated as part of the infrastructure layer of the cloud-native architecture.
 
 <InlineNotification>
-
-**Note:** For more infomation about how to create an SPM static content container to run on Kubernetes, see [Building the Docker® images](/build-images/build_images)
-
+**Note:** For more infomation about how to create an Cúram static content container to run on Kubernetes, see [Building the Docker® images](/build-images/build_images)
 </InlineNotification>

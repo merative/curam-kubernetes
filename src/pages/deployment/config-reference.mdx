@@ -3,7 +3,7 @@ title: Configuration Reference
 description: Helm Chart configuration reference for SPM
 ---
 
-This page contains all available configuration options built into the reference Helm Charts for Merative Social Program Management (SPM).
+This page contains all available configuration options built into the reference Helm Charts for Cúram.
 The published charts are intended to be a starting point for you to tailor the charts to your own environment and requirements.
 
 The following tables list the configurable parameters of the `spm` chart and their default values.
@@ -23,9 +23,9 @@ The following tables list the configurable parameters of the `spm` chart and the
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
 | `global.license` | Set to `accept` to accept the terms of the IBM license | `''` |
-| `global.images.imageLibrary` | Namespace in the image registry containing your SPM images | `''` |
-| `global.images.imageTag` | Image tag of all SPM images to be used for deployment | `latest` |
-| `global.images.registry` | Private image registry hosting your SPM images | `minikube.local:5000` |
+| `global.images.imageLibrary` | Namespace in the image registry containing your Cúram images | `''` |
+| `global.images.imageTag` | Image tag of all Cúram images to be used for deployment | `latest` |
+| `global.images.registry` | Private image registry hosting your Cúram images | `minikube.local:5000` |
 | `global.imagePullSecret.secretName` | Name of a pre-created secret containing the credentials for connecting to your private image registry - if left blank, will attempt unauthenticated connection | `''` |
 | `global.hubPullSecret.secretName` | Name of a pre-created secret containing the credentials for connecting to the docker hub - if left blank, will attempt unauthenticated connection | `''` |
 | `global.database.type` | Database type (Valid values: `DB2` or `ORA`) | `DB2` |
@@ -43,7 +43,7 @@ The following tables list the configurable parameters of the `spm` chart and the
 | `global.apps.common.persistence.storageCapacity` | Capacity of the storage to request | `''` |
 | `global.apps.common.persistence.properties` | Porperties to include in the creation of the `Persistent Volume` | `''` |
 | `global.apps.common.persistence.mountPoint` | Path, where the `Persistent Volume` should be mounted in pods | `''` |
-| `global.apps.config.<applicationID>.enabled` | Enable/disable SPM applications in the Helm release, where `applicationID` is the lower-cased name of the EAR file deployed | `true` for `curam`, `false` for all others |
+| `global.apps.config.<applicationID>.enabled` | Enable/disable Cúram applications in the Helm release, where `applicationID` is the lower-cased name of the EAR file deployed | `true` for `curam`, `false` for all others |
 | `global.ingress.enabled` | Toggle creation of Ingress/Route resources | `false` |
 | `global.ingress.generateCert` | Create a self-signed certificate for use in Ingress definitions | `false` |
 | `global.ingress.hostname` | Hostname for use in Ingress/Route definition | `''` |
@@ -59,7 +59,7 @@ The following tables list the configurable parameters of the `spm` chart and the
 
 ### Liberty runtime
 
-In the following properties, `<applicationID>` is a placeholder for the name of SPM applications in lower case (e.g. `curam`, `citizenportal`, `rest`, etc).
+In the following properties, `<applicationID>` is a placeholder for the name of Cúram applications in lower case (e.g. `curam`, `citizenportal`, `rest`, etc).
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
@@ -76,8 +76,11 @@ In the following properties, `<applicationID>` is a placeholder for the name of 
 | `global.apps.config.<applicationID>.replicaCount` | Number of replicas of the application to be deployed | `1` |
 | `global.apps.config.<applicationID>.resources` | Pod [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container) definition | Varies by application (see `values.yaml`) |
 | `apps.initialDelaySeconds` | Time in seconds before commencing application readiness probes | `150` |
-| ![SPM 8.0.0.0](https://img.shields.io/badge/-SPM_8.0.0.0-green) `apps.jwtConfig.issuerIdentifier` | JSON Web Token issuer identity, matching the `curam.watson.assistant.issuer` database property | `spm` |
-| ![SPM 8.0.0.0](https://img.shields.io/badge/-SPM_8.0.0.0-green) `apps.jwtConfig.secretName` | Name of a pre-created secret containing signing certificate for JSON Web Tokens (see [Handling Secrets](/deployment/secrets) topic for expected secret content) | `''` |
+| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.jwtConfig.issuerIdentifier` | JSON Web Token issuer identity, matching the `curam.watson.assistant.issuer` database property | `spm` |
+| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.jwtConfig.secretName` | Name of a pre-created secret containing signing certificate for JSON Web Tokens (see [Handling Secrets](/deployment/secrets) topic for expected secret content) | `''` |
+| ![Cúram 8.2.0.0](https://img.shields.io/badge/-Cúram_8.2.0.0-green) `apps.keycloakConfig.clientId` | Identifies the application authenticating with the Keycloak server and must match the client name configured in the Keycloak realm. | `` |
+| ![Cúram 8.2.0.0](https://img.shields.io/badge/-Cúram_8.2.0.0-green) `apps.keycloakConfig.realm` | The name of the Keycloak realm, which is a security domain managing users, roles, and clients. It allows for separation of independent authentication contexts | `''` |
+| ![Cúram 8.2.0.0](https://img.shields.io/badge/-Cúram_8.2.0.0-green) `apps.keycloakConfig.keycloakHost` | The URL or hostname of the Keycloak server, including the protocol. This is used by the application to communicate with the authentication server. | `''` |
 | `apps.loginConfig.identityOnly` | Use LDAP authentication in `Identity-Only` mode | `false` |
 | `apps.loginConfig.trace` | Debug authentication process by printing tracing information on invocation of the login module | `false` |
 | `apps.replicaCount` | Default number of replicas, if `global.apps.config.<applicationID>.replicaCount` is not specified | `1` |
@@ -110,12 +113,14 @@ In the following properties, `<applicationID>` is a placeholder for the name of 
 | `apps.wlpAdmin.secretName` | Name of a pre-created secret containing WebSphere Liberty administration credentials (see [Handling Secrets](/deployment/secrets) topic for expected secret content) | `''` |
 | `apps.wlpAdmin.enableAdminCenter` | Toggle whether the WebSphere Liberty Admin Center should be enabled | `false` |
 | `apps.podAnnotations` | Annotations to be applied during deployment | `{}` |
-| ![SPM 8.0.0.0](https://img.shields.io/badge/-SPM_8.0.0.0-green) `apps.persistenTimers.missedPersistentTimerAction` | How missed timer actions are handled when no server is available. (Valid values: `ONCE` or `ALL`) | `ONCE` |
-| ![SPM 8.0.0.0](https://img.shields.io/badge/-SPM_8.0.0.0-green) `apps.persistenTimers.lateTimerThreshold` | How long before a warning is logged by Liberty when a timer is missed. (Valid value range: `0` (off) - `90m`) | `5m` |
-| ![SPM 8.0.0.0](https://img.shields.io/badge/-SPM_8.0.0.0-green) `apps.persistenTimers.missedTaskThreshold` | Maximum amount of time to allow for successful completion of a timer execution. (Valid value range: `100s` - `9000s`) | `120s` |
-| ![SPM 8.0.0.0](https://img.shields.io/badge/-SPM_8.0.0.0-green) `apps.persistenTimers.pollInterval` | How often the database tables are checked for tasks. (Minimum valid value: `100s`) | `120s` |
-| ![SPM 8.0.0.0](https://img.shields.io/badge/-SPM_8.0.0.0-green) `apps.persistenTimers.initialPollDelay` | Delay before Liberty begins polling for timer tasks. (Valid values: `0` or positive integer followed by the unit of time, `s` (seconds)) | `0` |
-| ![SPM 8.0.0.0](https://img.shields.io/badge/-SPM_8.0.0.0-green) `apps.persistenTimers.pollSize` | Maximum number of task entries to find when polling the persistent store. (Valid values: no value (no limit), integer `1` or greater)  | `""` |
+| `apps.isam.enabled` | Set to true if you want to use ISAM for user login or access control | `false` |
+| `apps.oidc.enabled` | Set to true if using an OIDC-compliant identity provider | `false` |
+| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.missedPersistentTimerAction` | How missed timer actions are handled when no server is available. (Valid values: `ONCE` or `ALL`) | `ONCE` |
+| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.lateTimerThreshold` | How long before a warning is logged by Liberty when a timer is missed. (Valid value range: `0` (off) - `90m`) | `5m` |
+| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.missedTaskThreshold` | Maximum amount of time to allow for successful completion of a timer execution. (Valid value range: `100s` - `9000s`) | `120s` |
+| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.pollInterval` | How often the database tables are checked for tasks. (Minimum valid value: `100s`) | `120s` |
+| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.initialPollDelay` | Delay before Liberty begins polling for timer tasks. (Valid values: `0` or positive integer followed by the unit of time, `s` (seconds)) | `0` |
+| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.pollSize` | Maximum number of task entries to find when polling the persistent store. (Valid values: no value (no limit), integer `1` or greater)  | `""` |
 | `apps.properties` | Applications properties to be set during deployment | `{}` |
 
 ### Batch jobs
@@ -135,7 +140,7 @@ In the following properties, `<progID>` is a placeholder for the name of the bat
 | `batch.programs.<progID>.javaOptions` | Java options to be injected via `ANT_OPTS` | `''` |
 | `batch.programs.<progID>.parameters` | Parameters, if any, to be passed to the batch process (`-Dbatch.parameters=`) | `''` |
 | `batch.programs.<progID>.resources` | Pod [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container) definition | `''` |
-| `batch.programs.<progID>.username` | SPM username for the execution of the batch progress (`-Dbatch.username=`) | `''` |
+| `batch.programs.<progID>.username` | Cúram username for the execution of the batch progress (`-Dbatch.username=`) | `''` |
 | `batch.programs.<progID>.schedule` | Different schedules can be specified for different batch jobs. The default schedule applies to any jobs queued in the system. | `*/30 * * * *` |
 | --------- | ----------- | ------- |
 | `batch.streamed.<progID>.activeDeadlineSeconds` | Number of seconds within which the job is expected to complete. If this time is exceeded, the job is terminated. Blank value denoted no limit. | `''` |
@@ -145,24 +150,24 @@ In the following properties, `<progID>` is a placeholder for the name of the bat
 | `batch.streamed.<progID>.chunker.parameters` | Parameters, if any, to be passed to the batch chunker (`-Dbatch.parameters=`) | `''` |
 | `batch.streamed.<progID>.chunker.replicaCount` | Number of replicas of chunker to launch | `''` |
 | `batch.streamed.<progID>.chunker.resources` | Pod [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container) definition | `''` |
-| `batch.streamed.<progID>.chunker.username` | SPM username for the execution of the batch chunker (`-Dbatch.username=`) | `''` |
+| `batch.streamed.<progID>.chunker.username` | Cúram username for the execution of the batch chunker (`-Dbatch.username=`) | `''` |
 | --------- | ----------- | ------- |
 | `batch.streamed.<progID>.stream.className` | Java class for the batch stream (`-Dbatch.program=`) | `''` |
 | `batch.streamed.<progID>.stream.javaOptions` | Java options to be injected via `ANT_OPTS` | `''` |
 | `batch.streamed.<progID>.stream.parameters` | Parameters, if any, to be passed to the batch stream (`-Dbatch.parameters=`) | `''` |
 | `batch.streamed.<progID>.stream.replicaCount` | Number of replicas of stream to launch | `''` |
 | `batch.streamed.<progID>.stream.resources` | Pod [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container) definition | `''` |
-| `batch.streamed.<progID>.stream.username` | SPM username for the execution of the batch stream (`-Dbatch.username=`) | `''` |
+| `batch.streamed.<progID>.stream.username` | Cúram username for the execution of the batch stream (`-Dbatch.username=`) | `''` |
 
 The default batch configuration runs any queued jobs every 30 minutes (equivalent of running `build.sh runbatch` without any parameters).
 
 Additional batch jobs may be added with additional keys under `batch.programs`.
 
-For more information about batch examples, see **bulk reassessment of all open integrated cases** in the *Social Program Management Health Care Reform Developer Guide*.
+For more information about batch examples, see **bulk reassessment of all open integrated cases** in the *Cúram Health Care Reform Developer Guide*.
 
 <InlineNotification>
 
-The Social Program Management PDF documentation is available to download from [Merative Support Docs](https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/).
+Cúram PDF documentation is available to download from [Cúram Support Docs](https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/).
 
 </InlineNotification>
 
@@ -202,7 +207,7 @@ batch:
 
 <InlineNotification>
 
-**Note:** Kubernetes by default has limits set on resources such as memory and CPU usage. SPM containers require more resources than the default values that we have set.
+**Note:** Kubernetes by default has limits set on resources such as memory and CPU usage. Cúram containers require more resources than the default values that we have set.
 We have set the default resource values to the limits that we have found to work best during development.
 
 *The resource values are subject to change during further iterations.*
@@ -216,14 +221,14 @@ The resource values can be changed. However, for troubleshooting, we will reques
 <InlineNotification>
 
 **Note:** There are two deployment strategies for IBM MQ, with MQ installed on a virtual machine or within a container.
-Merative SPM supports MQ on a VM for both Openshift and Kubernetes Service.
+Cúram supports MQ on a VM for both Openshift and Kubernetes Service.
 We only support containerised MQ on Openshift.
 
 </InlineNotification>
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-| ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.version` | Version of [IBM MQ](https://hub.docker.com/r/ibmcom/mq) to deploy | `9.2.2.0-r1` |
+| ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.version` | Version of [IBM MQ](https://hub.docker.com/r/ibmcom/mq) to deploy | `9.3.5.1-r2` |
 | ![VM based only](https://img.shields.io/badge/-VM_only-blue) `global.mq.useConnectionNameList` | Indicator if IBM MQ is running in HA mode outside the cluster | `false` |
 | `global.mq.tlsSecretName` | Name of a pre-created Secret containing TLS certificates for IBM MQ (required if running MQ outside the cluster, optional for MQ containers - certificates are auto-generated if not provided) | `''` |
 | ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.queueManager.name` | Name of the queue manager to be created in the MQ container | `QM1` |
@@ -259,11 +264,12 @@ We only support containerised MQ on Openshift.
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-| `web.ingressPath` | Static content Ingress/Route path without a trailing forward slash (must match [what had been defined](/deploy-spm/build-spm#set-up-static-content) when the application was built) | `/CuramStatic` |
+| `web.ingressPath` | Static content Ingress/Route path without a trailing forward slash (must match [what had been defined](/deploy-curam/build-curam#set-up-static-content) when the application was built) | `/CuramStatic` |
 | `web.readinessProbe.path` | Path for the pod readiness probe (should be same as `ingressPath` except **with** the trailing forward slash) | `/CuramStatic/` |
 | `web.replicaCount` | Number of replicas to be deployed | `1` |
 | `web.resources` | Pod [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container) definition | Varies by application (see `values.yaml`) |
 | `web.tuning` | Tuning values for Apache HTTP server of web component. Multiple values can be configured, each in the form "key value" e.g "ThreadLimit 2"  | `''` |
+| `keycloak.ingressPath` | This is the HTTP path that your application uses to handle redirects from Keycloak after user authentication. | `/oidcclient/redirect/spm/` |
 
 ### XML Server
 
@@ -278,19 +284,14 @@ We only support containerised MQ on Openshift.
 | `xmlserver.config.threadPoolSize` | The XML server thread pool size | `5` |
 | `xmlserver.config.threadPoolQueueSize` | The XML server thread pool queue size | `200` |
 | `xmlserver.config.socketTimeout` | The XML server socket timeout (milliseconds) | `60000` |
-| ![SPM 8.0.1.0](https://img.shields.io/badge/-SPM_8.0.1.0-green) `xmlserver.metrics.enabled`| Enable sending XML server statistics (`stats/ThreadPoolWorker-*` file contents) to Prometheus | `false` |
-| ![SPM 8.0.1.0](https://img.shields.io/badge/-SPM_8.0.1.0-green) `xmlserver.metrics.port`| The port to monitor the XML server statistics | `8080` |
-| ![SPM 8.0.1.0](https://img.shields.io/badge/-SPM_8.0.1.0-green) `xmlserver.startOptions` | XML server start option; specifically for specifying `-forcestatswrite` | `''` |
-| `xmlserver.jvmStats.enabled`| Enable the Prometheus JMX Exporter for the XML server JVM metrics | `false` |
-| `xmlserver.jvmStats.port`| The port to monitor the XML server JVM metrics | `8083` |
-| `xmlserver.jvmStats.configYaml`| The Prometheus JMX Exporter configuration YAML string | `''` |
-| ![SPM 8.1.0.0](https://img.shields.io/badge/-SPM_8.1.0.0-green) `xmlserver.readinessProbe.enabled` | Enable XML server readinessProbe described in [XML server health checks](/monitoring/xmlserver-monitoring#xml-server-health-checks) | `false` |
-| ![SPM 8.1.0.0](https://img.shields.io/badge/-SPM_8.1.0.0-green) `xmlserver.readinessProbe.initialDelaySeconds` | Configure the number of seconds after container startup to initiate the probe | `15` |
-| ![SPM 8.1.0.0](https://img.shields.io/badge/-SPM_8.1.0.0-green) `xmlserver.readinessProbe.periodSeconds` | Configure the number of seconds between probe invocations | `60` |
-| ![SPM 8.1.0.0](https://img.shields.io/badge/-SPM_8.1.0.0-green) `xmlserver.livenessProbe.enabled` | Enable XML server livenessProbe described in [XML server health checks](/monitoring/xmlserver-monitoring#xml-server-health-checks) | `false` |
-| ![SPM 8.1.0.0](https://img.shields.io/badge/-SPM_8.1.0.0-green) `xmlserver.livenessProbe.initialDelaySeconds` | Configure the number of seconds after container startup to initiate the probe | `60` |
-| ![SPM 8.1.0.0](https://img.shields.io/badge/-SPM_8.1.0.0-green) `xmlserver.livenessProbe.periodSeconds` | Configure the number of seconds between probe invocations | `120` |
-| ![SPM 8.1.0.0](https://img.shields.io/badge/-SPM_8.1.0.0-green) `xmlserver.livenessProbe.timeoutSeconds` | Configure the number of seconds before the probe times out | `30` |
+| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.readinessProbe.enabled` | Enable XML server readinessProbe described in [XML server health checks](/monitoring/xmlserver-monitoring#xml-server-health-checks) | `false` |
+| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.readinessProbe.initialDelaySeconds` | Configure the number of seconds after container startup to initiate the probe | `15` |
+| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.readinessProbe.periodSeconds` | Configure the number of seconds between probe invocations | `60` |
+| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.enabled` | Enable XML server livenessProbe described in [XML server health checks](/monitoring/xmlserver-monitoring#xml-server-health-checks) | `false` |
+| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.initialDelaySeconds` | Configure the number of seconds after container startup to initiate the probe | `60` |
+| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.periodSeconds` | Configure the number of seconds between probe invocations | `120` |
+| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.timeoutSeconds` | Configure the number of seconds before the probe times out | `30` |
+| ![Cúram 8.2.0.0](https://img.shields.io/badge/-Cúram_8.2.0.0-green) `xmlserver.tlsSecretName` | Name of a pre-created secret containing TLS key and certificate files - certificates are auto-generated if not provided | `` |
 
 <InlineNotification>
 

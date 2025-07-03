@@ -3,10 +3,10 @@ title: Remote debugging
 description: Remote debugging
 ---
 
-## Remote debugging
+## Remote Debugging
 
 It might be necessary to use a remote debugger to step through code execution on the cluster, where log analysis does not provide sufficient information to resolve an issue.
-The following is an outline of the steps required to connect eclipse's remote debugger to the Merative Social Program Management (SPM) code running on the cluster.
+The following is an outline of the steps required to connect eclipse's remote debugger to the Cúram code running on the cluster.
 
 * Edit the Cúram producer deployment spec to pass debug arguments to the WebSphere® Liberty server.
 * Forward the debugging port from the port running the Cúram producer pod.
@@ -15,7 +15,7 @@ The following is an outline of the steps required to connect eclipse's remote de
 
 These steps are explained in more detail below.
 
-### Edit the Cúram producer deployment
+### Edit the Cúram Producer Deployment
 
 Edit the deployment spec for the Cúram producer deployment.
 
@@ -73,7 +73,7 @@ containers:
 
 </Tabs>
 
-Upon saving your deployment setting changes the Cúram producer deployment will terminate its pod and start a new one with the debug configuration.
+Upon saving deployment setting changes, the Cúram producer deployment will terminate its pod and start a new one with the debug configuration.
 
 <InlineNotification kind="info">
 
@@ -82,22 +82,22 @@ The probes are designed and configured for a typical environment and the delays 
 
 </InlineNotification>
 
-### Forward the debugging port
+### Forward the Debugging Port
 
-Once the restarted pod has completed initialization and started the Libery server `kubectl logs` command will indicate that the Liberty server is waiting on the debug port:
+Once the restarted pod has completed initialization and the Liberty server has started, the `kubectl logs` command will indicate that the Liberty server is waiting on the debug port:
 
 ```
 Listening for transport dt_socket at address: 7777
 ```
 
-At this point forward the WebSphere® Liberty server's debug port to make it available to the remote debugger. 7777 is the default debug port for WebSphere® Liberty.
+At this point forward the Liberty server's debug port to make it available to the remote debugger. 7777 is the default debug port for WebSphere® Liberty.
 
 ```kubectl port-forward release-apps-curam-producer-XXXX 7777:7777```
 
-### Create the remote debug configuration
+### Create the Remote Debug Configuration
 
-From the Eclipse debug view, create a Java Remote Application. Attach an appropriate source code project, and attach the Java Remote Application to the port you forwarded in [Forward the debugging port](#forward-the-debugging-port).
-The `Host` field in the debug configuration will be `localhost` even if you are using a remote cluster because the port forwarding
+From the Eclipse debug view, create a Java Remote Application. Attach an appropriate source code project, and attach the Java Remote Application to the port forwarded to in [Forward the debugging port](#forward-the-debugging-port).
+The `Host` field in the debug configuration will be `localhost` even if a remote cluster is being used, because the port forwarding
 relies on the local loopback device.
 
 ![Figure 1: Example Debugger Config](../../images/remote_debugger.png)
@@ -107,6 +107,6 @@ relies on the local loopback device.
 
 </Caption>
 
-### Connect the remote debugger to the listener
+### Connect the Remote Debugger to the Listener
 
 Launch the debugger and debug as usual.

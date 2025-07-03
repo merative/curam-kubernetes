@@ -1,0 +1,291 @@
+---
+title: MQ on Vms
+description: MQ on Vms
+tabs: ['MQ Overview','MQ on VMs', 'MQ on OpenShift','MQ Containers']
+---
+
+Cúram also supports **IBM MQ LTS on a VM** , when running on outside of openshift. The following steps outline how to do this. In this runbook we will outline the steps to create:
+
+* [Queues](https://www.ibm.com/docs/en/ibm-mq/9.1?topic=types-queues)
+* [Listeners](https://www.ibm.com/docs/en/ibm-mq/9.1?topic=types-listeners)
+* [Channels](https://www.ibm.com/docs/en/ibm-mq/9.1?topic=types-channels)
+* [Topics](https://www.ibm.com/docs/en/ibm-mq/9.1?topic=types-topic-objects)
+
+<InlineNotification>
+
+**Note:** The MQ version for this runbook verification is  9.3.5 LTS.
+
+</InlineNotification>
+
+For the runbook, two standalone VMs were used as MQ nodes.
+
+### Queue manager names
+
+For runbook configuration, the following naming conversion was used throughout the MQ setup: `NamingConvention_AppName`. This must be unique, but ensure you change the commands used on this page accordingly.
+
+**Queue Name:**
+
+* curam_qm
+
+**Channel Name:** This value should be all capitals
+
+`CHL_NamingConvention_AppName`
+
+* CHL_CURAM_QM
+
+**Listeners Name:** This value should be all capitals
+
+`LS_NamingConvention_AppName`
+
+* LS_CURAM_QM
+
+## MQ stages
+
+On both MQ nodes run the following command as root:
+
+```shell
+su - mqm # Changing user into mqm
+export PATH=/opt/mqm/inst1/bin:$PATH
+```
+
+<InlineNotification kind="warning">
+
+**Important!**
+
+Run the export PATH command on both MQ nodes, this command will be used in further commands in the runbook.
+
+</InlineNotification>
+
+## Shared storage
+
+Create the shared storage for our nodes.
+
+<InlineNotification>
+
+**Note:** Run the commands as root.
+
+</InlineNotification>
+
+On the shared node run the following commands:
+
+```shell
+mkdir -p /MQHA/logs
+mkdir -p /MQHA/qmgrs
+mkdir -p /MQHA/scratch
+useradd mqha -s /sbin/nologin
+chown -R mqha:mqha /MQHA/*
+```
+
+Verify that the UID and GUID match the owner ID by running the following command:
+
+```shell
+echo "/MQHA  MQ.FQDN(rw,sync,no_wdelay,fsid=0,anonuid=1001,anongid=1001)" >> /etc/exports
+```
+
+Start and enable both the nfs service and rpcbind service by running the following commands:
+
+```shell
+systemctl start nfs-server.service
+systemctl enable nfs-server.service
+systemctl start rpcbind
+systemctl enable rpcbind
+```
+
+On MQ nodes run the following commands:
+
+<InlineNotification>
+
+**Note:** Commands to be run as root.
+
+</InlineNotification>
+
+```shell
+echo "SHAREDNODEADDRESS:/MQHA  /MQHA  nfs  defaults  0 0" >> /etc/fstab
+systemctl start rpcbind
+systemctl enable rpcbind
+mkdir -p /MQHA
+chmod 1777 /MQHA #Check permissions
+mount /MQHA
+```
+
+## Create QMs
+
+When creating the queue, start on the secondary node first then move to the primary node.
+
+On the secondary MQ node, run the following commands:
+
+```shell
+crtmqm -ld /MQHA/logs -md /MQHA/qmgrs curam_qm
+dspmqinf -o command curam_qm
+```
+
+Save the output of the `dspmqinf -o command curam_qm` command, it should look like the following:
+
+```shell
+addmqinf -s QueueManager -v Name=curam_qm -v Directory=curam_qm -v Prefix=/var/mqm -v DataPath=/MQHA/qmgrs/curam_qm
+```
+
+Wait for /MQHA/qmgrs/curam_qm/qm.ini to appear on other node
+
+On the primary MQ node run the following commands:
+
+```shell
+addmqinf -s QueueManager -v Name=curam_qm -v Directory=curam_qm -v Prefix=/var/mqm -v DataPath=/MQHA/qmgrs/curam_qm
+strmqm -x curam_qm
+```
+
+On the secondary MQ node run the following command:
+
+```shell
+strmqm -x curam_qm
+```
+
+## Create queues
+
+On the primary MQ node run the following commands:
+
+```shell
+runmqsc curam_qm <<-EOS
+DEFINE QLOCAL(QN.CURAMDEADMESSAGEQUEUE) CLWLUSEQ (ANY) DEFBIND (NOTFIXED)
+DEFINE QLOCAL(QN.WORKFLOWERROR) BOTHRESH(5) BOQNAME(QN.CURAMDEADMESSAGEQUEUE) CLWLUSEQ (ANY) DEFBIND (NOTFIXED)
+DEFINE QLOCAL(QN.WORKFLOWENACTMENT) BOTHRESH(5) BOQNAME(QN.WORKFLOWERROR) CLWLUSEQ (ANY) DEFBIND (NOTFIXED)
+DEFINE QLOCAL(QN.WORKFLOWACTIVITY) BOTHRESH(5) BOQNAME(QN.WORKFLOWERROR) CLWLUSEQ (ANY) DEFBIND (NOTFIXED)
+DEFINE QLOCAL(QN.DPERROR) BOTHRESH(5) BOQNAME(QN.CURAMDEADMESSAGEQUEUE) CLWLUSEQ (ANY) DEFBIND (NOTFIXED)
+DEFINE QLOCAL(QN.DPENACTMENT) BOTHRESH(5) BOQNAME(QN.DPERROR) CLWLUSEQ (ANY) DEFBIND (NOTFIXED)
+ALTER QMGR CHLAUTH(DISABLED)
+ALTER QMGR DEADQ(QN.CURAMDEADMESSAGEQUEUE)
+EOS
+```
+
+## Create listeners
+
+On the primary MQ node run the following commands:
+
+```shell
+runmqsc curam_qm <<-EOS
+DEFINE LISTENER (LS_CURAM_QM) TRPTYPE (TCP) CONTROL (QMGR) PORT (1414)
+START LISTENER (LS_CURAM_QM)
+EOS
+```
+
+## Create channels
+
+On the primary MQ node run the following command:
+
+* Enter your MQ node names into the following commands:
+
+<InlineNotification>
+
+**Note:** CERTLABL expects the value to be lower case ibmwebspheremq + Queue Name
+For this example it will be ibmwebspheremqcuram_qm
+
+</InlineNotification>
+
+```shell
+runmqsc curam_qm <<-EOS
+DEFINE CHANNEL(CHL_CURAM_QM) CHLTYPE(SVRCONN)  TRPTYPE(TCP) MCAUSER('mqm') SSLCIPH (TLS_RSA_WITH_AES_128_CBC_SHA256)  CERTLABL ('ibmwebspheremqcuram_qm') SSLCAUTH (OPTIONAL) REPLACE
+DEFINE CHANNEL(CHL_CURAM_QM) CHLTYPE(CLNTCONN) TRPTYPE(TCP) CONNAME('Node1(1414),Node2(1414)') QMNAME(curam_qm) SSLCIPH (TLS_RSA_WITH_AES_128_CBC_SHA256) CERTLABL ('ibmwebspheremqcuram_qm') REPLACE
+EOS
+```
+
+## Create topics
+
+On the primary MQ node run the following command:
+
+```shell
+runmqsc curam_qm <<-EOS
+DEFINE TOPIC (CURAMCACHEINVALIDATIONTOPIC) TOPICSTR (CURAMCACHEINVALIDATIONTOPIC)
+ALTER QMGR CONNAUTH('CHECK.PWD')
+DEFINE AUTHINFO('CHECK.PWD') AUTHTYPE(IDPWOS) CHCKLOCL(OPTIONAL) CHCKCLNT(OPTIONAL)
+EOS
+```
+
+## Configure security
+
+The configuration of security is in four parts
+
+* Setting the object type.
+* Creating the keystore and certs.
+* Updating the certs on both nodes.
+* Refreshing security settings.
+
+<InlineNotification>
+
+**Note:**
+
+The application pods must connect to MQ using a non-privileged account. The example commands use `mqclient` as the non-privileged account.
+This username must be set in the secret referenced by the `global.mq.queueManager.secret.name` property. See the [Handling Secrets](/deployment/secrets) page for more information.
+
+</InlineNotification>
+
+On the secondary MQ node run the following command:
+
+```shell
+useradd -g 0 -M mqclient && usermod -L mqclient
+```
+
+On the primary MQ node run the following commands:
+
+```shell
+useradd -g 0 -M mqclient && usermod -L mqclient
+runmqsc curam_qm <<-EOS
+SET AUTHREC OBJTYPE(QMGR) PRINCIPAL('mqclient') AUTHADD(ALL)
+SET AUTHREC OBJTYPE(QUEUE) PROFILE('QN.DPENACTMENT') PRINCIPAL('mqclient') AUTHADD(ALL)
+SET AUTHREC OBJTYPE(QUEUE) PROFILE('QN.DPERROR') PRINCIPAL('mqclient') AUTHADD(ALL)
+SET AUTHREC OBJTYPE(QUEUE) PROFILE('QN.WORKFLOWACTIVITY') PRINCIPAL('mqclient') AUTHADD(ALL)
+SET AUTHREC OBJTYPE(QUEUE) PROFILE('QN.WORKFLOWENACTMENT') PRINCIPAL('mqclient') AUTHADD(ALL)
+SET AUTHREC OBJTYPE(QUEUE) PROFILE('QN.WORKFLOWERROR') PRINCIPAL('mqclient') AUTHADD(ALL)
+SET AUTHREC OBJTYPE(QUEUE) PROFILE('QN.CURAMDEADMESSAGEQUEUE') PRINCIPAL('mqclient') AUTHADD(ALL)
+SET AUTHREC OBJTYPE(LISTENER) PROFILE('LS_CURAM_QM') PRINCIPAL('mqclient') AUTHADD(ALL)
+SET AUTHREC OBJTYPE(CHANNEL) PROFILE('CHL_CURAM_QM') PRINCIPAL('mqclient') AUTHADD(ALL)
+SET AUTHREC OBJTYPE(CLNTCONN) PROFILE('CHL_CURAM_QM') PRINCIPAL('mqclient') AUTHADD(ALL)
+SET AUTHREC OBJTYPE(TOPIC) PROFILE('CURAMCACHEINVALIDATIONTOPIC') PRINCIPAL('mqclient') AUTHADD(ALL)
+EOS
+```
+
+```shell
+runmqckm -keydb -create -db /MQHA/qmgrs/curam_qm/ssl/key.kdb -type cms -pw Passw0rd -stash
+runmqakm -cert -create -db /MQHA/qmgrs/curam_qm/ssl/key.kdb -stashed -label ibmwebspheremqcuram_qm -size 2048 -dn "CN=curam_qm,O=IBM,C=US" -x509version 3 -expire 365 -sig_alg SHA256WithRSA
+runmqakm -cert -extract -db /MQHA/qmgrs/curam_qm/ssl/key.kdb -stashed -label ibmwebspheremqcuram_qm -target /MQHA/qmgrs/curam_qm/ssl/key_curam_qm.arm
+runmqakm -cert -export -db /MQHA/qmgrs/curam_qm/ssl/key.kdb -stashed -label ibmwebspheremqcuram_qm -target /MQHA/qmgrs/curam_qm/ssl/key_curam_qm.p12 -target_type pkcs12 -target_pw Passw0rd
+```
+
+```shell
+openssl pkcs12 -in /MQHA/qmgrs/curam_qm/ssl/key_curam_qm.p12 -passin pass:Passw0rd -nocerts -nodes | sed -ne '/-BEGIN PRIVATE KEY-/,/-END PRIVATE KEY-/p' > /MQHA/qmgrs/curam_qm/ssl/tls.key
+openssl pkcs12 -in /MQHA/qmgrs/curam_qm/ssl/key_curam_qm.p12 -passin pass:Passw0rd -clcerts -nokeys | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > /MQHA/qmgrs/curam_qm/ssl/tls.crt
+```
+
+```shell
+runmqsc curam_qm <<-EOS
+ALTER QMGR CONNAUTH('CHECK.PWD')
+DEFINE AUTHINFO('CHECK.PWD') AUTHTYPE(IDPWOS) CHCKLOCL(OPTIONAL) CHCKCLNT(OPTIONAL)
+REFRESH SECURITY TYPE(SSL)
+REFRESH SECURITY TYPE(AUTHSERV)
+REFRESH SECURITY TYPE(CONNAUTH)
+EOS
+```
+
+After these stages have been run MQ should be configured.
+
+## Clean up QMs/channels/listeners
+
+Used these steps if you are reconfiguring MQ or cleaning up MQ.
+
+On both MQ nodes run the following commands:
+
+```shell
+endmqm -w curam_qm
+dltmqm curam_qm
+rmvmqinf curam_qm
+```
+
+On either MQ node run the following commands:
+
+```shell
+rm -rf /MQHA/qmgrs/**
+rm -rf /MQHA/logs/**
+rm -rf /MQHA/scratch
+endmqm -w curam_qm
+dltmqm curam_qm
+rmvmqinf curam_qm
+```

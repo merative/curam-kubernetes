@@ -11,10 +11,10 @@ description: Preparing Helm Charts
 
 The [curam-kubernetes](https://github.com/merative/curam-kubernetes) repository provides the following Helm Charts:
 
-* *apps:* defines how to deploy the IBM® WebSphere® Liberty images with Merative Social Program Management (SPM).
+* *apps:* defines how to deploy the IBM® WebSphere® Liberty images with Cúram.
 * *batch:* defines the batch image configuration.
 * *uawebapp:* defines how to deploy the Universal Access (React) application.
-* *web:* defines how to deploy the static content image for SPM (`Curam` image only).
+* *web:* defines how to deploy the static content image for Cúram (`Curam` image only).
 * *mqserver:* defines the IBM WebSphere MQ image configuration.
 * *xmlserver:* defines the xmlserver container configuration.
 * *spm:* an umbrella chart to contain all the other charts.
@@ -31,7 +31,7 @@ Before you run the charts, you must configure the database, configure IBM MQ, re
 You may also optionally integrate your deployment with an ISAM server for SSO enablement,
 to do so complete the steps on the [Enabling ISAM](/supporting-infrastructure/ISAM) page under Supporting Infrastructure before returning here.
 
-Many of the Helm Charts that make up a deployment of SPM depend on the [IBM Shared Configuration Helpers](https://github.com/IBM/charts/tree/master/samples/ibm-sch) chart, so an extra Helm repository must be added using the following command:
+Many of the Helm Charts that make up a deployment of Cúram depend on the [IBM Shared Configuration Helpers](https://github.com/IBM/charts/tree/master/samples/ibm-sch) chart, so an extra Helm repository must be added using the following command:
 
 ```shell
 helm repo add sch https://raw.githubusercontent.com/IBM/charts/master/repo/samples
@@ -80,7 +80,7 @@ For each chart, its dependencies must be resolved before it can be loaded into a
 
 Due to a Helm [defect](https://github.com/helm/helm/issues/5780), conditional subchart enablement does not work in Helm 3.
 As a result of this, `uawebapp` needs to be packaged and pushed, irrespective of whether you are deploying it or not.
-It is possible to remove the dependency from the spm `chart.yaml`, if you do not wish to package and push it to the repo.
+It is possible to remove the dependency from the Cúram `chart.yaml`, if you do not wish to package and push it to the repo.
 
 </InlineNotification>
 
@@ -166,7 +166,7 @@ To publish the individual charts to the Chart museum repository, run the followi
 
 <InlineNotification kind="warning">
 
-In October 2021, Helm `v3.7.0` introduced a number of breaking changes, which required modifications of the tooling used in this runbook. For local development, SPM requires [chartmuseum/helm-push](https://github.com/chartmuseum/helm-push).
+In October 2021, Helm `v3.7.0` introduced a number of breaking changes, which required modifications of the tooling used in this runbook. For local development, Cúram requires [chartmuseum/helm-push](https://github.com/chartmuseum/helm-push).
 
 Due to the changes introduced as part of Helm `v3.7.0` and Chart museum `v0.10.0`, when using Chartmuseum the target `helm push` has changed to `helm cm-push`
 

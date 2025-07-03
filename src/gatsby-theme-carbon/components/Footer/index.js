@@ -9,20 +9,20 @@ import { useSiteMetadata } from "../../../hooks/use-site-metadata";
 
 const CustomFooter = () => {
   const { repository } = useSiteMetadata();
-  const issueUrl = `https://github.com/merative/spm-kubernetes/issues/new`;
+  const supportUrl = `https://www.merative.com/support/curam`;
   const currentYear = new Date().getFullYear();
 
   const Content = ({ buildTime }) => {
     return (
       <>
         <p>
-          Have questions or feedback?{" "}
-          <a href={issueUrl}>Submit an issue on GitHub</a>
+          Have questions or feedback? Browse our{" "}
+          <a href={supportUrl}>Product Support Resources</a>
         </p>
         <p>
           Last updated {buildTime}
           <br />
-          &copy; Merative US L.P. 2021, {currentYear}
+          &copy; Merative US L.P. 2021,{currentYear}
         </p>
       </>
     );
@@ -60,7 +60,7 @@ const CustomFooter = () => {
   );
 
   const links = {
-    firstCol: [{ href: repository.baseUrl, linkText: "View source on GitHub" }],
+    firstCol: [],
     secondCol: [],
   };
 

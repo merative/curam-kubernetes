@@ -1,5 +1,5 @@
 ###############################################################################
-# © Merative US L.P. 2022,2023
+# © Merative US L.P. 2022,2025
 # Copyright 2019,2021 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +29,7 @@ global:
     secretName: ''
     username: ''
   hubPullSecret:
-    registry: 'https://index.docker.io/v1/'
+    registry: 'https://cp.icr.io/v1/'
     secretName: ''
     username: ''
   timezone: 'UTC'
@@ -239,6 +239,8 @@ global:
           - "-Xmx512m"
   isam:
     enabled: false
+  oidc:
+    enabled: false
   mq:
     # Set to True if running MQ in HA mode
     useConnectionNameList: false
@@ -293,6 +295,12 @@ loginConfig:
 jwtConfig:
   issuerIdentifier: spm
   secretName: ''
+
+# keycloak oidc config
+keycloakConfig:
+  clientId: ''
+  realm: ''
+  keycloakHost: ''
 
 # Configure Session and Transactions
 sessionConfig:

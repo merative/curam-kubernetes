@@ -1,7 +1,7 @@
 {{- include "sch.config.init" (list . "xmlserver.sch.chart.config.values") -}}
 ---
 ###############################################################################
-# © Merative US L.P. 2022, 2023
+# © Merative US L.P. 2022,2025
 # Copyright 2019,2022 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,7 +40,7 @@ spec:
         {{- include "sch.metadata.annotations.metering" (list . .sch.chart.metering) | nindent 8 }}
         {{- with $.Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-        {{- end }}        
+        {{- end }}
     spec:
       {{- include "sch.security.securityContext" (list . .sch.chart.podSecurityContext) | nindent 6 }}
       affinity:
@@ -83,11 +83,6 @@ spec:
             secretName: {{ include "sch.names.fullName" (list .) }}
         - name: keystore-volume
           emptyDir: {}
-        {{- if and $.Values.global.useBetaFeatures $.Values.jvmStats.enabled }}
-        - name: jvm-jmx-exporter-config
-          configMap:
-            name: {{ $.Release.Name }}-jvm-jmx-exporter-config
-        {{- end }}
         {{- if .Values.global.apps.common.persistence.enabled }}
         - name: {{ .Release.Name }}-persistence-volume
           persistentVolumeClaim:
@@ -120,10 +115,6 @@ spec:
           imagePullPolicy: {{ .Values.global.images.pullPolicy }}
           ports:
             - containerPort: {{ .Values.serverPort | default 1800 }}
-            {{- if and $.Values.global.useBetaFeatures $.Values.jvmStats.enabled }}
-            - name: jvmmetrics
-              containerPort: {{ $.Values.jvmStats.port }}
-            {{- end }}
           {{- if $.Values.readinessProbe.enabled }}
           readinessProbe:
             exec:
@@ -161,10 +152,6 @@ spec:
               value: {{ .Values.jvm.jvmOptions | quote }}
             - name: XMLSERVER_OPTIONS
               value: {{ .Values.startOptions | quote }}
-            {{- if and $.Values.global.useBetaFeatures $.Values.jvmStats.enabled }}
-            - name: JVM_JMX_OPTIONS
-              value: {{ include "jvmStats.configJvm" $ }}
-            {{- end }}
             {{- if .Values.global.apps.common.persistence.enabled }}
             - name: MOUNT_POINT
               value: {{ include "persistence.mountPoint" $ }}
@@ -183,11 +170,6 @@ spec:
             - name: keystore-volume
               mountPath: /opt/ibm/Curam/xmlserver/keystore.p12
               subPath: keystore.p12
-            {{- if and $.Values.global.useBetaFeatures $.Values.jvmStats.enabled }}
-            - name: jvm-jmx-exporter-config
-              mountPath: /opt/ibm/Curam/xmlserver/config.yaml
-              subPath: config.yaml
-            {{- end }}
             {{- if .Values.global.apps.common.persistence.enabled }}
             - name: {{ .Release.Name }}-persistence-volume
               mountPath: {{ include "persistence.mountPoint" $ }}
@@ -199,43 +181,3 @@ spec:
                 - /bin/bash
                 - -c
                 - /opt/ibm/Curam/xmlserver/stop-xmlserver.sh
-        {{- if and .Values.global.apps.common.persistence.enabled $.Values.global.useBetaFeatures $.Values.metrics.enabled }}
-        - name: {{ .Chart.Name }}-metrics
-          image: {{ include "xmlserver.imageFullName" (dict "ImageConfig" .Values.global.images "ImageName" "xmlserver-metrics") }}
-          imagePullPolicy: {{ .Values.global.images.pullPolicy }}
-          ports:
-            - name: xmlmetrics
-              containerPort: {{ $.Values.metrics.port | default 8080 }}
-          {{- with .Values.resources }}
-          resources:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- include "sch.security.securityContext" (list . .sch.chart.containerSecurityContext) | nindent 10 }}
-          command:
-          - /bin/sh
-          - -c
-          - sed -i 's/Start the Java process for XML server statistics
-              data/Start the Java process for XML server statistics data\n touch
-              stats\/ThreadPoolWorker-1 stats\/ThreadPoolWorker-2
-              stats\/ThreadPoolWorker-3 stats\/ThreadPoolWorker-4
-              stats\/ThreadPoolWorker-5 tmp\/xmlserver.log/g'
-              start-prometheus_collector_exporter.sh;
-
-              /opt/ibm/Curam/xmlserver/start-prometheus_collector_exporter.sh
-          env:
-            - name: TZ
-              value: {{ .Values.global.timezone }}
-            - name: MOUNT_POINT
-              value: {{ include "persistence.mountPoint" $ }}
-          volumeMounts:
-            - name: {{ .Release.Name }}-persistence-volume
-              mountPath: {{ include "persistence.mountPoint" $ }}
-          lifecycle:
-            preStop:
-              exec:
-                command:
-                - /bin/bash
-                - -c
-                - /opt/ibm/Curam/xmlserver/stop-prometheus_collector_exporter.sh
-       {{- end }}
-

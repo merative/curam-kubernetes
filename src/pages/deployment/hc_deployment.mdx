@@ -3,12 +3,6 @@ title: Deploying Helm Charts
 description: Deploying Helm Charts
 ---
 
-<InlineNotification>
-
-**Note:** As of Release 20.7.0, the Helm version used to verify this runbook is 3.2. All the Helm commands that are used in this runbook are based on Helm v3.
-
-</InlineNotification>
-
 In the following `helm install` command, we are using `releasename` as the value for the `helm release name`. A release name is an arbitrary name that you choose for your
 deployment. It must be all lowercase. All kubernetes objects in your deployment will be prefixed with whatever value you provide.
 
@@ -28,7 +22,7 @@ The `helm install` command installs the Helm Charts in the order in which they w
 However, as described in [Setting up the Docker® context](/build-images/setup_docker_context), you can override the configuration value by running the following shell script:
 
 ```shell
-helm install releasename local-development/spm -f override-values.yaml
+helm install releasename local-development/Curam -f override-values.yaml
 ```
 
 ### Sample `override-values.yaml` files
@@ -41,17 +35,15 @@ are the registry, database, and ingress details.
 * [CodeReady Containers](/resources/crc-values.yaml)
 * [Azure Kubernetes Service](/resources/aks-values.yaml)
 * [Initial Tuning Settings](/resources/tuning-values.yaml)
-  * Can be used for AKS or OpenShift
+  * Can be used for AKS, EKS or OpenShift
 
 <InlineNotification>
 
-**Note on AKS overrides:**
+**Note on overrides:**
 
 * The full image name is based on the `registry`, `imageLibrary`, `imagePrefix`, and `imageTag` keys nested under `global.images` as follows:
   * `{registry}/{imageLibrary}/{imagePrefix}curam:{imageTag}`
   * With the given values, the resulting image name will look like this: `example.azurecr.io/foo-library/test_curam:latest`
-* IAM credentials for the [IBM Container Registry](https://cloud.ibm.com/docs/containers?topic=containers-registry) (`global.imagePullSecret`) must be provided.
-* The [Application Load Balancer IDs](https://cloud.ibm.com/docs/containers?topic=containers-ingress_annotation#alb-id) (`ingress.annotations."ingress.bluemix.net/ALB-ID"`) must be provided for the Ingress resource to be created correctly.
 
 </InlineNotification>
 
@@ -68,7 +60,7 @@ global:
         supplementalGroups: [888]
 ```
 
-This is due to a update in IBM MQ, the details of which can be found [here](https://github.com/IBM/charts/blob/master/stable/ibm-mqadvanced-server-dev/RELEASENOTES.md).
+This is due to a update in IBM MQ, the details of which can be found in [IBM MQ charts](https://github.com/IBM/charts/blob/master/stable/ibm-mqadvanced-server-dev/RELEASENOTES.md).
 
 </InlineNotification>
 
@@ -76,18 +68,43 @@ The license agreements for the IBM® WebSphere® Liberty and IBM WebSphere MQ im
 
 The respective license agreements can be reviewed by running the following commands:
 
-```shell
-# IBM WebSphere Liberty
-docker run --rm -e LICENSE=view ibmcom/websphere-liberty:24.0.0.6-full-java8-ibmjava-ubi
+<Tabs>
 
+<Tab label="ModernJava">
+<Row>
+<Column>
+
+```shell
+docker run --rm -e LICENSE=view ibmcom/websphere-liberty:25.0.0.3-full-java21-openj9-ubi-minimal
+```
+
+</Column>
+</Row>
+</Tab>
+
+<Tab label="Java8">
+<Row>
+<Column>
+
+```shell
+docker run --rm -e LICENSE=view ibmcom/websphere-liberty:25.0.0.3-full-java8-ibmjava-ubi
+```
+
+</Column>
+</Row>
+</Tab>
+
+</Tabs>
+
+```shell
 # IBM WebSphere MQ
-docker run --rm -e LICENSE=view ibmcom/mq:9.1.3.0
+docker run --rm -e LICENSE=view ibmcom/mq:9.3.5.1
 ```
 
 ## Status of the system
 
-The `helm install` command shows all the Kubernetes objects and also runs the Merative Social Program Management (SPM) containers.
-You can track the status of the SPM containers on real time by running the following command:
+The `helm install` command shows all the Kubernetes objects and also runs the Cúram containers.
+You can track the status of the Cúram containers on real time by running the following command:
 
 ```shell
 kubectl get pods -w
@@ -110,7 +127,7 @@ The command lists the pods and their status, where each status change is on a ne
 Some of the pods have initialization steps, so they are not shown until the steps are completed.
 
 The output of the `kubectl get pods` command provides the names of the pods that you can use to substitute for `podname` in the following example commands.
-For example, the Liberty pod that contains SPM code is a name that uses a pattern of: `releasename-apps-curam-`.
+For example, the Liberty pod that contains Cúram code is a name that uses a pattern of: `releasename-apps-curam-`.
 
 You can also describe a pod by running the following command:
 
@@ -126,46 +143,13 @@ kubectl logs -f pod/podname
 
 ## Accessing the application
 
-To access the application, a URL is provided to access the pod within the cluster. This access is provided using Ingress resources on Kubernetes, and Routes resources on OpenShift.
+Once Cúram is deployed, access to the application depends on the target environment:
 
-Example URLs:
+* **Local environments (Minikube or CodeReady Containers):**  
+  You can typically access the application via a localhost-based URL or a route generated automatically by the environment.
 
-<Tabs>
+* **OpenShift:**  
+  OpenShift provides a Route resource, which exposes a public URL for the application.
 
-<Tab label="Minikube">
-<Row>
-<Column>
-
-```shell
-https://minikube.local/Curam
-```
-
-</Column>
-</Row>
-</Tab>
-
-<Tab label="CRC">
-<Row>
-<Column>
-
-```shell
-https://spm-ocp.apps-crc.testing/Curam
-```
-
-</Column>
-</Row>
-</Tab>
-
-<Tab label="AKS">
-<Row>
-<Column>
-
-```shell
-https://spm.<cluster_name>-<hash>-0000.<region>.containers.appdomain.cloud/Curam
-```
-
-</Column>
-</Row>
-</Tab>
-
-</Tabs>
+* **Cloud environments (EKS or AKS):**  
+  Access requires additional configuration, such as exposing a LoadBalancer service, setting up an Ingress controller with DNS, or using port forwarding for temporary local access.
