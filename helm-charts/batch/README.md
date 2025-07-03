@@ -2,12 +2,12 @@
 
 ## Introduction
 
-* The Batch chart is a component of IBM Cúram Social Program Management (SPM) Platform responsible for running various batch (deferred) processes.
+* The Batch chart is a component of Cúram Platform responsible for running various batch (deferred) processes.
 
 ## Chart Details
 
 * Creates cron jobs for executing various batch programs
-* Starting from `spm-kubernetes` release `21.7.0`, chart versions have been updated to align with the release version.
+* Starting from `curam-kubernetes` release `21.7.0`, chart versions have been updated to align with the release version.
 
 ## Prerequisites
 
@@ -31,4 +31,4 @@ Not required as the underlying IHS server runs with the default restricted polic
 
 ## Configuration
 
-See [Configuration reference](https://merative.github.io/spm-kubernetes/deployment/config-reference) section of the runbook.
+See [Configuration reference](https://merative.github.io/curam-kubernetes/deployment/config-reference) section of the runbook.

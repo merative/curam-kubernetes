@@ -1,5 +1,5 @@
 ###############################################################################
-# © Merative US L.P. 2022,2023
+# © Merative US L.P. 2022,2025
 # Copyright 2019,2021 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,7 @@ global:
     secretName: ''
     username: ''
   hubPullSecret:
-    registry: 'https://index.docker.io/v1/'
+    registry: 'https://cp.icr.io/v1/'
     secretName: ''
     username: ''
   timezone: 'UTC'
@@ -217,6 +217,8 @@ global:
     generateCert: false
   isam:
     enabled: false
+  oidc:
+    enabled: false
 
 # Override values in 'apps' Chart
 apps:
@@ -229,6 +231,10 @@ apps:
   loginConfig:
     trace: false
     identityOnly: false
+  keycloakConfig:
+    clientId: ''
+    realm: ''
+    keycloakHost: ''
   jwtConfig:
     issuerIdentifier: spm
     secretName: ''
@@ -281,6 +287,10 @@ web:
   readinessProbe:
     path: /CuramStatic/
   ingressPath: /CuramStatic
+
+# Override values of 'keycloak'
+keycloak:
+  ingressPath: /oidcclient/redirect/spm
 
 # Override values in 'xmlserver' Chart
 xmlserver:

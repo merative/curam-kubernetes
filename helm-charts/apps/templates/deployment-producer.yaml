@@ -8,7 +8,7 @@
 
 ---
 ###############################################################################
-# © Merative US L.P. 2022
+# © Merative US L.P. 2022,2025
 # Copyright 2019,2021 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -105,6 +105,11 @@ spec:
         - name: endpoints-cm
           configMap:
             name: {{ $.Release.Name }}-endpoints-cm
+        {{- if $.Values.global.oidc.enabled }}
+        - name: openid-config-cm
+          configMap:
+            name: {{ $.Release.Name }}-openid-config-cm
+        {{- end }}
         - name: logging-cm
           configMap:
             name: {{ $.Release.Name }}-logging-cm
@@ -158,6 +163,11 @@ spec:
         - name: xmlserver-certs
           secret:
             secretName: {{ $.Release.Name }}-xmlserver
+        {{- if $.Values.global.oidc.enabled }}
+        - name: keycloak-certs
+          secret:
+            secretName: {{ $.Release.Name }}-keycloak-secret
+        {{- end }}
         {{- if and (eq ($.Values.global.database.type | upper) "DB2") $.Values.global.database.ssl.enabled $.Values.global.database.ssl.secretName }}
         - name: db2-cert
           secret:
@@ -270,6 +280,31 @@ spec:
               mountPath: /mnt/keystores
             - name: jwt-certs
               mountPath: /mnt/svcCertificates
+        {{- if $.Values.global.oidc.enabled }}
+        - name: import-keycloak-certs
+          {{- include "utilities.definition" $ | indent 10 }}
+          env:
+            - name: svcCrtFile
+              value: /mnt/keycloakCertificates/tls.crt
+            - name: truststore
+              value: /mnt/keystores/key.p12
+            - name: trustpassword
+              valueFrom:
+                secretKeyRef:
+                  name: {{ default (printf "%s-wlpadm" $.Release.Name) $.Values.wlpAdmin.secretName }}
+                  key: KeystorePassword
+          command:
+            - /bin/sh
+            - -c
+            - >
+              keytool -import -trustcacerts -noprompt -alias keycloakCertAlias -file $svcCrtFile -keystore $truststore -storepass $trustpassword -storetype pkcs12;
+              keytool -list -v -keystore $truststore -storepass $trustpassword -storetype pkcs12;
+          volumeMounts:
+            - name: keystore-volume
+              mountPath: /mnt/keystores  
+            - name: keycloak-certs
+              mountPath: /mnt/keycloakCertificates
+        {{- end }}
         - name: import-certs-for-mq
           {{- include "utilities.definition" $ | indent 10 }}
           env:
@@ -494,6 +529,11 @@ spec:
             - name: endpoints-cm
               mountPath: /config/adc_conf/server_endpoints.xml
               subPath: server_endpoints.xml
+            {{- if $.Values.global.oidc.enabled }}
+            - name: openid-config-cm
+              mountPath: /config/adc_conf/server_oidc.xml
+              subPath: server_oidc.xml
+            {{- end }}
             - name: logging-cm
               mountPath: /config/adc_conf/server_logging.xml
               subPath: server_logging.xml

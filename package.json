@@ -1,7 +1,7 @@
 {
   "name": "curam-kubernetes",
   "private": true,
-  "version": "24.11.0",
+  "version": "25.7.0",
   "license": "Apache 2.0",
   "scripts": {
     "dev": "gatsby develop -H 0.0.0.0",
@@ -14,13 +14,13 @@
     "serve:prefix": "gatsby serve --prefix-paths"
   },
   "dependencies": {
-    "@carbon/icons-react": "^11.51.0",
+    "@carbon/icons-react": "^11.36.0",
     "carbon-components": "^10.58.12",
     "carbon-components-react": "^8.51.0",
-    "gatsby": "^4.25.8",
+    "gatsby": "^4.25.9",
     "gatsby-cli": "4.25.0",
-    "gatsby-theme-carbon": "^3.4.21",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "gatsby-theme-carbon": "^3.4.13",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

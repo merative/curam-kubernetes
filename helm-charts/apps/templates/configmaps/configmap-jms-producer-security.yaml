@@ -1,7 +1,7 @@
 {{- include "sch.config.init" (list . "apps.sch.chart.config.values") -}}
 ---
 ###############################################################################
-# © Merative US L.P. 2022
+# © Merative US L.P. 2022,2025
 # Copyright 2019,2020 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -59,6 +59,7 @@ data:
           login_trace="{{ .Values.loginConfig.trace }}"
           check_identity_only="{{ .Values.loginConfig.identityOnly }}"
           enable_saml="{{ .Values.global.isam.enabled }}"
+          enable_oidc="{{ .Values.global.oidc.enabled }}"
         />
       </jaasLoginModule>
 

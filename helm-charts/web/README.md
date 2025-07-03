@@ -2,9 +2,9 @@
 
 ## Introduction
 
-* The `web` chart is a component of IBM Cúram Social Program Management (SPM) Platform responsible for providing the static content for the SPM application on Apache HTTP Server.
+* The `web` chart is a component of Cúram Platform responsible for providing the static content for the SPM application on Apache HTTP Server.
 * This component should not be deployed outside of the [`spm`](../spm) chart.
-* Starting from `spm-kubernetes` release `21.7.0`, chart versions have been updated to align with the release version.
+* Starting from `curam-kubernetes` release `21.7.0`, chart versions have been updated to align with the release version.
 
 ## Chart Details
 
@@ -33,4 +33,4 @@ Not required as web server runs with the default restricted policy
 
 ## Configuration
 
-See [Configuration reference](https://merative.github.io/spm-kubernetes/deployment/config-reference) section of the runbook.
+See [Configuration reference](https://merative.github.io/curam-kubernetes/deployment/config-reference) section of the runbook.

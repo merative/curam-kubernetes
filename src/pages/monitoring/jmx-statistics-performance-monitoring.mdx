@@ -4,14 +4,14 @@ description: Monitoring performance using JMX statistics
 ---
 ## What is Cúram JMX?
 
-Cúram JMX statistics provides operational data from a running Merative Social Program Management (SPM) application.
+Cúram JMX statistics provides operational data from a running Cúram application.
 JMX statistics for use with a traditional application server.
 
-For more information about JMX statistics, see the *Social Program Management Cúram JMX Configuration Guide*.
+For more information about JMX statistics, see the *Cúram JMX Configuration Guide*.
 
 <InlineNotification>
 
-The Social Program Management PDF documentation is available to download from [Merative Support Docs](https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/).
+Cúram PDF documentation is available to download from [Cúram Support Docs](https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/).
 
 </InlineNotification>
 
@@ -20,11 +20,11 @@ The Social Program Management PDF documentation is available to download from [M
 Cúram JMX statistics behave similarly in Kubernetes, but have the following limitations:
 Using the Administration Application
 
-* Access by using the SPM Administration Application is not supported because:
-  * Not all pods have the requisite SPM client installed, which means JMS performance is unavailable using this access mechanism.
+* Access by using the Cúram Administration Application is not supported because:
+  * Not all pods have the requisite Cúram client installed, which means JMS performance is unavailable using this access mechanism.
   * The reverse proxy nature of Kubernetes means that even for the pods with clients installed, identifying the correct target server would be difficult.
 
-Therefore, for Kubernetes you are restricted to using the timer-based access method. For more information about JMX statistics, see **Using the JMX timer** in the *Social Program Management Cúram JMX Configuration Guide*.
+Therefore, for Kubernetes you are restricted to using the timer-based access method. For more information about JMX statistics, see **Using the JMX timer** in the *Cúram JMX Configuration Guide*.
 
 ## Cúram JMX timer-based statistics on Kubernetes
 
@@ -32,7 +32,7 @@ This mechanism writes the JMX statistics periodically at a file system location.
 
 The primary properties used to configure timer-based statistics are integrated into the Helm Charts.
 
-A prerequisite for using timer-based SPM JMX statistics is to override `global.apps.common.persistence.enabled=true`.
+A prerequisite for using timer-based Cúram JMX statistics is to override `global.apps.common.persistence.enabled=true`.
 
 You must also consider the other persistence-related settings and configure them appropriately.
 
@@ -41,7 +41,7 @@ You must also consider the other persistence-related settings and configure them
 Persistence is required for timer-based statistics because the non-permanent nature of pods means that as they come and go, you might need statistics from an earlier execution.
 
 Enable timer-based JMX statistics with a `global.apps.common.persistence.jmxstats.enabled=true` override.
-Once configured, the following SPM properties are added to the Liberty pod jvm.options files with the defaults shown:
+Once configured, the following Cúram properties are added to the Liberty pod jvm.options files with the defaults shown:
 
 ```shell
 -Dcuram.jmx.output_statistics_timer_enabled=true

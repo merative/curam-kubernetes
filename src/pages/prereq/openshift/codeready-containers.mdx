@@ -11,7 +11,7 @@ For more information, see [CodeReady Containers](https://github.com/crc-org/crc)
 
 Similar to Minikube in concept, CRC provides a cloud like environment locally to create and deploy an OpenShift cluster for development and testing purposes.
 
-This page covers some common CRC operations, including deploying Merative Social Program Management (SPM) to the CRC environment. You will use the Helm Charts produced in [Preparing Helm Charts](/deployment/hc_deployment).
+This page covers some common CRC operations, including deploying Cúram to the CRC environment. You will use the Helm Charts produced in [Preparing Helm Charts](/deployment/hc_deployment).
 
 For a full getting started guide for CRC, see [Getting Started Guide CodeReady Containers](https://access.redhat.com/documentation/en-us/red_hat_codeready_containers/1.23/html/getting_started_guide/index)
 
@@ -21,7 +21,7 @@ CodeReady Containers system requirements can be found here: [CRC Minimum system 
 
 <InlineNotification>
 
-There is a known CRC [issue](https://github.com/crc-org/crc/issues/557) with respect to resource usage. When deploying SPM on CRC our experience has shown that a minimum of 16GB will improve performance, however 32GB is optimal.
+There is a known CRC [issue](https://github.com/crc-org/crc/issues/557) with respect to resource usage. When deploying Cúram on CRC our experience has shown that a minimum of 16GB will improve performance, however 32GB is optimal.
 
 </InlineNotification>
 
@@ -107,7 +107,7 @@ crc config set pull-secret-file $CRC_HOME/pull-secret.txt
 
 <InlineNotification>
 
-CRC's minimum memory allocation requirement is 8GB, only a single replica SPM deployment can be achieved using this.
+CRC's minimum memory allocation requirement is 8GB, only a single replica Cúram deployment can be achieved using this.
 
 You should allocate as many resources as are available.
 
@@ -197,7 +197,7 @@ crc delete
 
 ## Creating a CRC project
 
-Create a project for the SPM deployment, again use an environment variable for your convenience when following the guide.
+Create a project for the Cúram deployment, again use an environment variable for your convenience when following the guide.
 
 Create the environment variable, you can set to value to anything you like, but it should consist of lower case alphanumeric characters or `-`, and must start and end with an alphanumeric character (e.g. `my-name`,  or `123-abc`):
 

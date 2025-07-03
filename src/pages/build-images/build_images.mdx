@@ -8,7 +8,7 @@ description: Building the Docker images
 <InlineNotification>
 Universal Base Image (UBI) consists of enterprise-ready and OCI-compliant Linux containers that offer greater security with stricter defaults than general images.
 
-For more information, see Red Hat's [Universal Base Image](https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image) and [Red Hat Universal base image how it works](https://developers.redhat.com/blog/2019/07/29/red-hat-universal-base-image-how-it-works-in-3-minutes-or-less/)
+For more information, see:<br /> [RedHat Universal Base Image](https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image) and [Red Hat Universal base image how it works](https://developers.redhat.com/blog/2019/07/29/red-hat-universal-base-image-how-it-works-in-3-minutes-or-less/)
 
 </InlineNotification>
 
@@ -21,17 +21,6 @@ You must be logged in to the following registries:
 * `registry.connect.redhat.com`
   * For accessing `registry.connect.redhat.com/ibm/ibmjava8-sdk-ubi8-minimal`
   * Login using `docker login registry.connect.redhat.com`
-
-<InlineNotification>
-
-**Note:** As covered in [building Base images](/build-images/base_images), if you do not have an active RedHat subscription you will need to build your own base images from
-source following the steps there.
-
-Should you opt to build your own base images, the `BASE_REGISTRY` argument in the following commands may be omitted, if the base images are built in the same environment.
-
-If the images are stored in a private registry, set `BASE_REGISTRY` to the registry's hostname.
-
-</InlineNotification>
 
 For the `docker` commands that follow you must set a `DOCKER_REGISTRY` environment variable based on the container environment you are deploying:
 
@@ -84,18 +73,6 @@ See the [Minikube Handbook](https://minikube.sigs.k8s.io/docs/handbook/registry/
 </Row>
 </Tab>
 
-<Tab label="AKS">
-<Row>
-<Column>
-
-```shell
-export DOCKER_REGISTRY=us.icr.io
-```
-
-</Column>
-</Row>
-</Tab>
-
 </Tabs>
 
 Now that all the elements are in place, build the images as follows:
@@ -128,25 +105,10 @@ To build the XML server image, run the following commands:
 <Column>
 
 ```shell
-cd $SPM_HOME/dockerfiles/Liberty/
+cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/
 docker build \
      --tag $DOCKER_REGISTRY/$PROJECT/xmlserver:latest \
      --build-arg "BASE_REGISTRY=registry.connect.redhat.com/" \
-     --file XMLServer.Dockerfile .
-```
-
-</Column>
-</Row>
-</Tab>
-
-<Tab label="Unauthenticated / Local image">
-<Row>
-<Column>
-
-```shell
-cd $SPM_HOME/dockerfiles/Liberty/
-docker build \
-     --tag $DOCKER_REGISTRY/$PROJECT/xmlserver:latest \
      --file XMLServer.Dockerfile .
 ```
 
@@ -159,7 +121,7 @@ docker build \
 <Column>
 
 ```powershell
-cd $SPM_HOME/dockerfiles/Liberty/
+cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/
 docker build `
      --tag $env:DOCKER_REGISTRY/$env:PROJECT/xmlserver:latest `
      --build-arg "BASE_REGISTRY=registry.connect.redhat.com/" `
@@ -170,23 +132,9 @@ docker build `
 </Row>
 </Tab>
 
-<Tab label="Unauthenticated / Local image (Windows PS)">
-<Row>
-<Column>
-
-```powershell
-cd $env:SPM_HOME\dockerfiles\Liberty\
-docker build --tag $env:DOCKER_REGISTRY/$env:PROJECT/xmlserver:latest `
-     --file XMLServer.Dockerfile .
-```
-
-</Column>
-</Row>
-</Tab>
-
 </Tabs>
 
-![SPM 8.0.1.0](https://img.shields.io/badge/-SPM_8.0.1.0-green) For information on building an XML server sidecar performance monitoring image see [Monitoring XML servers](/monitoring/xmlserver-monitoring).
+![Cúram 8.0.1.0](https://img.shields.io/badge/-Cúram_8.0.1.0-green) For information on building an XML server sidecar performance monitoring image see [Monitoring XML servers](/monitoring/xmlserver-monitoring).
 
 ### Utilities image
 
@@ -201,25 +149,10 @@ To build the utilities image, run the following commands:
 <Column>
 
 ```shell
-cd $SPM_HOME/dockerfiles/Liberty/
+cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/
 docker build \
      --tag $DOCKER_REGISTRY/$PROJECT/utilities:latest \
      --build-arg "BASE_REGISTRY=registry.connect.redhat.com/" \
-     --file Utilities.Dockerfile .
-```
-
-</Column>
-</Row>
-</Tab>
-
-<Tab label="Unauthenticated / Local image">
-<Row>
-<Column>
-
-```shell
-cd $SPM_HOME/dockerfiles/Liberty/
-docker build \
-     --tag $DOCKER_REGISTRY/$PROJECT/utilities:latest \
      --file Utilities.Dockerfile .
 ```
 
@@ -232,25 +165,11 @@ docker build \
 <Column>
 
 ```powershell
-cd $env:SPM_HOME\dockerfiles\Liberty\
+cd $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\
 docker build `
      --tag $env:DOCKER_REGISTRY/$env:PROJECT/utilities:latest `
      --build-arg "BASE_REGISTRY=registry.connect.redhat.com/" `
      --file Utilities.Dockerfile .
-```
-
-</Column>
-</Row>
-</Tab>
-
-<Tab label="Unauthenticated / Local image (Windows PS)">
-<Row>
-<Column>
-
-```powershell
-cd $env:SPM_HOME\dockerfiles\Liberty\
-docker build --tag $env:DOCKER_REGISTRY/$env:PROJECT/utilities:latest `
-       --file Utilities.Dockerfile .
 ```
 
 </Column>
@@ -272,7 +191,7 @@ To build the batch image, run the following commands:
 <Column>
 
 ```shell
-cd $SPM_HOME/dockerfiles/Liberty/
+cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/
 echo -e 'content/release-stage/ear' > .dockerignore
 docker build \
      --tag $DOCKER_REGISTRY/$PROJECT/batch:latest \
@@ -289,7 +208,7 @@ rm -f .dockerignore
 <Column>
 
 ```powershell
-cd $env:SPM_HOME\dockerfiles\Liberty\
+cd $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\
 echo "content/release-stage/ear" | set-content .dockerignore -Encoding Ascii
 docker build `
      --tag $env:DOCKER_REGISTRY/$env:PROJECT/batch:latest `
@@ -314,7 +233,7 @@ To build the Server Code image, run the following commands:
 <Column>
 
 ```shell
-cd $SPM_HOME/dockerfiles/Liberty/
+cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/
 docker build \
      --tag $DOCKER_REGISTRY/$PROJECT/servercode:latest \
      --file ServerEAR.Dockerfile \
@@ -330,7 +249,7 @@ docker build \
 <Column>
 
 ```powershell
-cd $env:SPM_HOME\dockerfiles\Liberty\
+cd $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\
 docker build `
      --tag $env:DOCKER_REGISTRY/$env:PROJECT/servercode:latest `
      --file ServerEAR.Dockerfile `
@@ -356,7 +275,7 @@ To build the application images, run the following commands for each of the appl
 <Column>
 
 ```shell
-cd $SPM_HOME/dockerfiles/Liberty/
+cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/
 docker build \
      --tag $DOCKER_REGISTRY/$PROJECT/curam:latest \
      --file ClientEAR.Dockerfile \
@@ -373,7 +292,7 @@ docker build \
 <Column>
 
 ```powershell
-cd $env:SPM_HOME\dockerfiles\Liberty\
+cd $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\
 docker build `
      --tag $env:DOCKER_REGISTRY/$env:PROJECT/curam:latest `
      --file ClientEAR.Dockerfile \
@@ -389,7 +308,7 @@ docker build `
 <Row>
 <Column>
 
-For additional SPM applications (e.g. Rest, CitizenPortal), make the following changes to the command:
+For additional Cúram applications (e.g. Rest, CitizenPortal), make the following changes to the command:
 
 * the value of the `--tag` argument must be the application name in _lowercase_
 * the value of the `--build-arg EAR_NAME` argument must be the name of the EAR file _without_ the file extension (that is, for `Rest.ear`, use the value `Rest`)
@@ -410,7 +329,7 @@ docker build \
 <Row>
 <Column>
 
-For additional SPM applications (e.g. Rest, CitizenPortal), make the following changes to the command:
+For additional Cúram applications (e.g. Rest, CitizenPortal), make the following changes to the command:
 
 * the value of the `--tag` argument must be the application name in _lowercase_
 * the value of the `--build-arg EAR_NAME` argument must be the name of the EAR file _without_ the file extension (that is, for `Rest.ear`, use the value `Rest`)
@@ -452,22 +371,6 @@ docker build \
 </Row>
 </Tab>
 
-<Tab label="Unauthenticated / Local image">
-<Row>
-<Column>
-
-```shell
-cd $SPM_HOME/dockerfiles/HTTPServer/
-docker build \
-     --tag $DOCKER_REGISTRY/$PROJECT/httpd:latest \
-     --file StaticContent.Dockerfile \
-     --build-arg "CONTENT_DIR=/CuramStatic" .
-```
-
-</Column>
-</Row>
-</Tab>
-
 <Tab label="Using RedHat Registry (Windows PS)">
 <Row>
 <Column>
@@ -485,22 +388,6 @@ docker build `
 </Row>
 </Tab>
 
-<Tab label="Unauthenticated / Local image (Windows PS)">
-<Row>
-<Column>
-
-```powershell
-cd $env:SPM_HOME\dockerfiles\HTTPServer\
-docker build `
-     --tag $env:DOCKER_REGISTRY/$env:PROJECT/httpd:latest `
-     --file StaticContent.Dockerfile `
-     --build-arg "CONTENT_DIR=/CuramStatic" .
-```
-
-</Column>
-</Row>
-</Tab>
-
 </Tabs>
 
 <InlineNotification>
@@ -511,14 +398,14 @@ docker build `
 
 ### Universal Access image
 
-To build an SPM Docker image for your _built_ Universal Access application:
+To build an Cúram Docker image for your _built_ Universal Access application:
 
 * Copy the `build` directory from the React application to `$SPM_HOME/dockerfiles/HTTPServer`
 * Run the following commands:
 
 <InlineNotification>
 
-This is applicable only if you are licensed for SPM Universal Access.
+This is applicable only if you are licensed for Cúram Universal Access.
 
 **Note:** The `CONTENT_DIR` build argument must correspond to the value of the `PUBLIC_URL` variable set when creating the production build of the React app (`npm run build`).
 
@@ -543,22 +430,6 @@ docker build \
 </Row>
 </Tab>
 
-<Tab label="Unauthenticated / Local image">
-<Row>
-<Column>
-
-```shell
-cd $SPM_HOME/dockerfiles/HTTPServer/
-docker build \
-     --tag $DOCKER_REGISTRY/$PROJECT/uawebapp:latest \
-     --file UAWebApp.Dockerfile \
-     --build-arg "CONTENT_DIR=/universal" .
-```
-
-</Column>
-</Row>
-</Tab>
-
 <Tab label="Using RedHat Registry (Windows PS)">
 <Row>
 <Column>
@@ -576,28 +447,11 @@ docker build `
 </Row>
 </Tab>
 
-<Tab label="Unauthenticated / Local image (Windows PS)">
-<Row>
-<Column>
-
-```powershell
-cd $env:SPM_HOME\dockerfiles\HTTPServer\
-docker build `
-     --tag $env:DOCKER_REGISTRY/$env:PROJECT/uawebapp:latest `
-     --file UAWebApp.Dockerfile `
-     --build-arg "CONTENT_DIR=/universal" .
-```
-
-</Column>
-</Row>
-</Tab>
-
 </Tabs>
 
 ## Pushing the images to the registry
 
-When you set up Minikube by following the steps in [Minikube](/prereq/kubernetes/minikube), a registry was also created to store the Docker images.
-To push the new images that you created to the registry, run the following commands:
+A Container Registry is a repository or service for storing and distributing containers that can be used with Kubernetes. Most Cloud providers offer container registries but there are third party options such as JFrog Artifactory available also. If using Minikube a registry was created during setup to store the Docker images locally. Depending on the registry of choice, the commands to push generally use the following format:
 
 ```shell
 docker push $DOCKER_REGISTRY/$PROJECT/xmlserver:latest
@@ -610,7 +464,7 @@ docker push $DOCKER_REGISTRY/$PROJECT/httpd:latest
 
 <InlineNotification>
 
-If any additional images were built (for other SPM applications or for the React application), do not forget to push the images too. For example:
+If any additional images were built (for other Cúram applications or for the React application), do not forget to push the images too. For example:
 
 ```shell
 docker push $DOCKER_REGISTRY/$PROJECT/rest:latest
@@ -618,23 +472,6 @@ docker push $DOCKER_REGISTRY/$PROJECT/uawebapp:latest
 ```
 
 </InlineNotification>
-
-## Pushing the images to the a Container Registry
-
-A Container Registry is the service to distribute the containers across a Kubernetes service In order to configure it, some preparation steps are
-required to obtain the credentials and a namespace, globally unique between all the tenants of your cloud of choice.
-Refer to [Getting Started with Artifactory as a Docker Registry](https://jfrog.com/help/r/jfrog-artifactory-documentation/getting-started-with-artifactory-as-a-docker-registry) for more information on configuring the registry and obtaining the required credentials.
-
-```shell
-docker login ${server-name}.jfrog.io
-
-
-docker push ${server-name}.jfrog.io/{repo-name}/xmlserver:latest
-docker push ${server-name}.jfrog.io/{repo-name}/utilities:latest
-docker push ${server-name}.jfrog.io/{repo-name}/batch:latest
-docker push ${server-name}.jfrog.io/{repo-name}/curam:latest
-docker push ${server-name}.jfrog.io/{repo-name}/httpd:latest
-```
 
 ## View the artifacts in the repository
 

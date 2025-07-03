@@ -3,12 +3,14 @@
     - path: /Introduction/
 - title: Architecture
   pages:
-    - title: SPM on Kubernetes 101
-      path: /architecture/kubernetes/spm-on-kubernetes-101/
+    - title: Cúram on Kubernetes 101
+      path: /architecture/kubernetes/curam-on-kubernetes-101/  
     - title: Architecture Overview
       path: /architecture/arch-overview/architecture-overview/
     - title: AKS Consideration
       path: /architecture/aks-consideration/security/
+    - title: EKS Consideration
+      path: /architecture/eks-consideration/security/
     - title: OpenShift Consideration
       path: /architecture/openshift-consideration/security/
   hasDivider: true
@@ -24,24 +26,24 @@
       path: /prereq/kubernetes/kubernetes-overview/
     - title: OpenShift
       path: /prereq/openshift/openshift-overview/
+    - title: MQ Overview and Configuration
+      path: /prereq/mq/mq-overview/
     - title: ChartMuseum
       path: /prereq/chartmuseum/
     - title: GitHub repo
       path: /prereq/git/
-- title: Merative Social Program Management application
+- title: Cúram application
   pages:
-    - title: Installing SPM software
-      path: /deploy-spm/install-spm/
-    - title: Creating the SPM database
-      path: /deploy-spm/create_spm_db/
-    - title: Building the SPM application
-      path: /deploy-spm/build-spm/
+    - title: Installing Cúram software
+      path: /deploy-curam/install-curam/
+    - title: Creating the Cúram database
+      path: /deploy-curam/create_curam_db/
+    - title: Building the Cúram application
+      path: /deploy-curam/build-curam/
 - title: Building Docker images
   pages:
     - title: Setting up the Docker context
       path: /build-images/setup_docker_context/
-    - title: Building base images
-      path: /build-images/base_images/
     - title: Building the Docker images
       path: /build-images/build_images/
 - title: Deploying with Helm Charts
@@ -58,7 +60,7 @@
   pages:
     - title: Updating tools
       path: /operations/updating_tools/
-    - title: Updating SPM deployment
+    - title: Updating Cúram deployment
       path: /operations/updating_curam/
   hasDivider: true
 - title: Supporting infrastructure
@@ -69,8 +71,10 @@
       path: /supporting-infrastructure/Persistence/
     - title: Enabling ISAM
       path: /supporting-infrastructure/ISAM/
-    - title: LogDNA
-      path: /supporting-infrastructure/LogDNA/
+    - title: Enabling Keycloak
+      path: /supporting-infrastructure/keycloak/
+    - title: Logging
+      path: /supporting-infrastructure/logging/
     - title: MQ Overview and Configuration
       path: /supporting-infrastructure/mq/mq-overview/
     - title: Persistent Timers

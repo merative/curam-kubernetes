@@ -3,23 +3,25 @@ title: Setting up the Docker® context
 description: Setting up the Docker context
 ---
 
+**Note:** Dockerfiles are now separated by folder based on the java version. Please ensure you have the correct `CURAM_JAVA_MODE` environment variable set as described in [Java Requirement](/prereq/3rdparty-sw).
+
 To build the required Docker images, the context for building them must be established as described in the [Docker build](https://docs.docker.com/engine/reference/commandline/build/) command description.
 
 The following components provide this context:
 
 * The artifacts that you downloaded by following the steps that are described in [GitHub repo](/prereq/git).
-* The `release.zip` and `StaticContent.zip` files that you built in [Building the SPM application](/deploy-spm/build-spm).
+* The `release.zip` and `StaticContent.zip` files that you built in [Building the Cúram application](/deploy-curam/build-curam).
 
-## Building IBM® Social Program Management (SPM) resources
+## Building Cúram resources
 
-Some of the Docker images that you build rely on the `release.zip` and `StaticContent.zip` files that you built in [Building the SPM application](/deploy-spm/build-spm).
+Some of the Docker images that you build rely on the `release.zip` and `StaticContent.zip` files that you built in [Building the Cúram application](/deploy-curam/build-curam).
 
 If you built `release.zip` and `StaticContent.zip` on a different computer to the one where container environment will be deployed, you must transfer the files to the computer you're currently working on.
 For simplicity, it is assumed that these files are copied to `/tmp/`.
 
-## Preparing the SPM environment
+## Preparing the Cúram environment
 
-Prepare the SPM Docker environment by using the `release.zip` file.
+Prepare the Cúram Docker environment by using the `release.zip` file.
 
 For the following steps, use the `$SPM_HOME` folder that you created in [GitHub repo](/prereq/git).
 
@@ -32,7 +34,7 @@ For the following steps, use the `$SPM_HOME` folder that you created in [GitHub 
 <Column>
 
 ```shell
-mkdir $SPM_HOME/dockerfiles/Liberty/content/release-stage
+mkdir $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage
 ```
 
 </Column>
@@ -44,7 +46,7 @@ mkdir $SPM_HOME/dockerfiles/Liberty/content/release-stage
 <Column>
 
 ```powershell
-mkdir $env:SPM_HOME\dockerfiles\Liberty\content\release-stage
+mkdir $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\content\release-stage
 ```
 
 </Column>
@@ -62,8 +64,8 @@ mkdir $env:SPM_HOME\dockerfiles\Liberty\content\release-stage
 <Column>
 
 ```shell
-unzip -qd $SPM_HOME/dockerfiles/Liberty/content/release-stage /tmp/release.zip
-chmod +x $SPM_HOME/dockerfiles/Liberty/content/release-stage/*.sh
+unzip -qd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage /tmp/release.zip
+chmod +x $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage/*.sh
 ```
 
 </Column>
@@ -75,7 +77,7 @@ chmod +x $SPM_HOME/dockerfiles/Liberty/content/release-stage/*.sh
 <Column>
 
 ```powershell
-unzip -qd $env:SPM_HOME\dockerfiles\Liberty\content\release-stage $env:TMP\release.zip
+unzip -qd $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\content\release-stage $env:TMP\release.zip
 ```
 
 </Column>
@@ -86,10 +88,10 @@ unzip -qd $env:SPM_HOME\dockerfiles\Liberty\content\release-stage $env:TMP\relea
 
   Where `/tmp/release.zip` (or for Windows: `$env:TMP\release.zip`) is the absolute path where the `release.zip` is saved.
 
-## Modifying SPM properties
+## Modifying Cúram properties
 
 `Bootstrap.properties` and `AppServer.properties` are required to configure WebSphere® Liberty.
-However the relevant properties in `Bootstrap.properties` that you modify in the on-premise implementation of SPM are no longer relevant because Kubernetes configmaps provide the necessary values for the database configuration.
+However the relevant properties in `Bootstrap.properties` that you modify in the on-premise implementation of Cúram are no longer relevant because Kubernetes configmaps provide the necessary values for the database configuration.
 
 The only properties that you must modify in `AppServer.properties` are `security.username` and `security.password`.
 These properties contain the WebSphere Liberty administrator credentials.
@@ -133,7 +135,7 @@ Copy the property files by using the following command:
 <Column>
 
 ```shell
-cd $SPM_HOME/dockerfiles/Liberty/content
+cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content
 cp -vf *.properties release-stage/project/properties/
 ```
 
@@ -146,7 +148,7 @@ cp -vf *.properties release-stage/project/properties/
 <Column>
 
 ```powershell
-cd  $env:SPM_HOME\dockerfiles\Liberty\content\
+cd  $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\content\
 copy *.properties .\release-stage\project\properties\ -Force
 ```
 
@@ -198,7 +200,7 @@ In addition to `release.zip` and `StaticContent.zip`, download and install the f
 
 ### Add the Ant zip file to the Docker environment
 
-Copy `apache-ant-1.10.6-bin.zip` to `$SPM_HOME/dockerfiles/Liberty/content`. If Ant is not already available on the computer, run the following commands:
+Copy `apache-ant-$ANT_VERSION_VALUE-bin.zip` to `$SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content`. If Ant is not already available on the computer, run the following commands:
 
 <Tabs>
 
@@ -207,8 +209,8 @@ Copy `apache-ant-1.10.6-bin.zip` to `$SPM_HOME/dockerfiles/Liberty/content`. If 
 <Column>
 
 ```shell
-cd $SPM_HOME/dockerfiles/Liberty/content
-wget https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.6-bin.zip
+cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content
+wget https://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION_VALUE-bin.zip
 ```
 
 </Column>
@@ -220,8 +222,8 @@ wget https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.6-bin.zip
 <Column>
 
 ```powershell
-cd $env:SPM_HOME\dockerfiles\Liberty\content
-wget https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.6-bin.zip
+cd $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\content
+wget https://archive.apache.org/dist/ant/binaries/apache-ant-$env:ANT_VERSION_VALUE-bin.zip
 ```
 
 </Column>
@@ -232,20 +234,26 @@ wget https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.6-bin.zip
 
 ### CryptoConfig.jar
 
-`CryptoConfig.jar` is required for SPM cryptography to function correctly. This jar is automatically created in the following locations when you run the
+`CryptoConfig.jar` is required for Cúram cryptography to function correctly. This jar is automatically created in the following locations when you run the
  `build.sh configtest` target:
 
 * `$SERVER_DIR/build/CryptoConfig.jar`
-* `$JAVA_HOME/jre/lib/ext/CryptoConfig.jar`
+* `$JAVA_HOME/jre/lib/ext/CryptoConfig.jar` as a location of the CryptoConfig jar only if  using Java 8
 
 However, the `release.zip` does not include this jar file, so the jar file must be copied separately from the environment where the `release.zip` was built.
 
-Place the `CryptoConfig.jar` file in `$SPM_HOME/dockerfiles/Liberty/content/release-stage/build`.
+Place the `CryptoConfig.jar` file in `$SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage/build`.
 
 <InlineNotification>
 
-Cryptography keystores for SPM vary based on the JVM vendor, so the vendor in the build environment must correspond to that used in the Docker images.
-The `websphere-liberty` images from [Docker Hub](https://hub.docker.com/_/websphere-liberty) use IBM Java SDK 8.
+Please see [Setting the Cúram credentials](testLink) for keystore creation.
+
+Cryptography keystores for Cúram vary based on the JVM vendor, so the vendor in the build environment must correspond to that used in the Docker images.
+
+For ModernJava create a new folder `content/release-stage/project/properties/sun`
+For Java8 create a new folder `content/release-stage/project/properties/ibm`
+
+Copy the keystore from your build environment to the respective folder based on your Java version.
 
 </InlineNotification>
 
@@ -261,8 +269,8 @@ If you do not have a copy of Ant locally you can extract it from `$SPM_HOME` usi
 <Column>
 
 ```shell
-unzip -qd /tmp/ $SPM_HOME/dockerfiles/Liberty/content/apache-ant-1.10.6-bin.zip
-export ANT_HOME=/tmp/apache-ant-1.10.6
+unzip -qd /tmp/ $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/apache-ant-$ANT_VERSION_VALUE-bin.zip
+export ANT_HOME=/tmp/apache-ant-$ANT_VERSION_VALUE
 ```
 
 </Column>
@@ -274,8 +282,8 @@ export ANT_HOME=/tmp/apache-ant-1.10.6
 <Column>
 
 ```powershell
-unzip -qd $env:TMP $env:SPM_HOME\dockerfiles\Liberty\content\apache-ant-1.10.6-bin.zip
-$env:ANT_HOME = "$env:TMP\apache-ant-1.10.6"
+unzip -qd $env:TMP $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\content\apache-ant-$env:ANT_VERSION_VALUE-bin.zip
+$env:ANT_HOME = "$env:TMP\apache-ant-$env:ANT_VERSION_VALUE"
 ```
 
 </Column>
@@ -286,20 +294,41 @@ $env:ANT_HOME = "$env:TMP\apache-ant-1.10.6"
 
 <Tabs>
 
-<Tab label="Mac/Linux">
+<Tab label="Mac/Linux ModernJava">
 <Row>
 <Column>
 
 ```shell
 docker run --rm \
     -v $ANT_HOME:/tmp/ant \
-    -v $SPM_HOME/dockerfiles/Liberty/content/release-stage:/work/dir \
-    -v $SPM_HOME/dockerfiles/Liberty/content/release-stage/SetEnvironment.sh:/work/SetEnvironment.sh \
+    -v $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage:/work/dir \
+    -v $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage/SetEnvironment.sh:/work/SetEnvironment.sh \
     -w /work/dir \
     -u root \
     -e ANT_HOME=/tmp/ant \
     -e WLP_HOME=/opt/ibm/wlp \
-    ibmcom/websphere-liberty:24.0.0.6-full-java8-ibmjava-ubi \
+    ibmcom/websphere-liberty:25.0.0.3-full-java21-openj9-ubi-minimal \
+    bash -c 'export ANT_LIB_PATH ; export PATH=$ANT_HOME/bin:$PATH:.; tmp/ant/bin/ant -Dnashorn.args="--language=es6" $ANT_LIB_PATH -f /work/dir/build.xml -Dprp.noninternedstrings=true installcryptojar init_passwords 
+```
+
+</Column>
+</Row>
+</Tab>
+
+<Tab label="Mac/Linux Java 8">
+<Row>
+<Column>
+
+```shell
+docker run --rm \
+    -v $ANT_HOME:/tmp/ant \
+    -v $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage:/work/dir \
+    -v $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage/SetEnvironment.sh:/work/SetEnvironment.sh \
+    -w /work/dir \
+    -u root \
+    -e ANT_HOME=/tmp/ant \
+    -e WLP_HOME=/opt/ibm/wlp \
+    ibmcom/websphere-liberty:25.0.0.3-full-java8-ibmjava-ubi \
     bash -c 'export PATH=$ANT_HOME/bin:$PATH:.; build.sh internal.update.crypto.jar'
 ```
 
@@ -307,20 +336,41 @@ docker run --rm \
 </Row>
 </Tab>
 
-<Tab label="Windows PS">
+<Tab label="Windows PS ModernJava">
 <Row>
 <Column>
 
 ```powershell
 docker run --rm `
     -v $env:ANT_HOME\:/tmp/ant `
-    -v $env:SPM_HOME\dockerfiles\Liberty\content\release-stage\:/work/dir `
-    -v $env:SPM_HOME\dockerfiles\Liberty\content\release-stage\SetEnvironment.sh:/work/SetEnvironment.sh `
+    -v $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\content\release-stage\:/work/dir `
+    -v $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\content\release-stage\SetEnvironment.sh:/work/SetEnvironment.sh `
     -w /work/dir `
     -u root `
     -e ANT_HOME=/tmp/ant `
     -e WLP_HOME=/opt/ibm/wlp `
-    ibmcom/websphere-liberty:24.0.0.6-full-java8-ibmjava-ubi `
+    ibmcom/websphere-liberty:25.0.0.3-full-java21-openj9-ubi-minimal `
+    bash -c 'export ANT_LIB_PATH ; export PATH=$ANT_HOME/bin:$PATH:.; tmp/ant/bin/ant -Dnashorn.args="--language=es6" $ANT_LIB_PATH -f /work/dir/build.xml -Dprp.noninternedstrings=true installcryptojar init_passwords 
+```
+
+</Column>
+</Row>
+</Tab>
+
+<Tab label="Windows PS Java 8">
+<Row>
+<Column>
+
+```powershell
+docker run --rm `
+    -v $env:ANT_HOME\:/tmp/ant `
+    -v $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\content\release-stage\:/work/dir `
+    -v $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\content\release-stage\SetEnvironment.sh:/work/SetEnvironment.sh `
+    -w /work/dir `
+    -u root `
+    -e ANT_HOME=/tmp/ant `
+    -e WLP_HOME=/opt/ibm/wlp `
+    ibmcom/websphere-liberty:25.0.0.3-full-java8-ibmjava-ubi `
     bash -c 'export PATH=$ANT_HOME/bin:$PATH:.; build.sh internal.update.crypto.jar'
 ```
 
@@ -332,10 +382,10 @@ docker run --rm `
 
 ### Installing javax.mail.jar and activation.jar files
 
-Java Mail is an external dependency for SPM and is represented by the JAR files `activation.jar` and `javax.mail.jar`.
-Place these files in the folder `$SPM_HOME/dockerfiles/Liberty/content/dependencies` (filenames must be exact, that is, have no version numbers).
+Java Mail is an external dependency for Cúram and is represented by the JAR files `activation.jar` and `javax.mail.jar`.
+Place these files in the folder `$SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/dependencies` (filenames must be exact, that is, have no version numbers).
 
-If you do not have the jar files available, you can use the `getJavaMail.xml` Ant file that is located in the `$SPM_HOME/dockerfiles/Liberty/content` folder to download the files:
+If you do not have the jar files available, you can use the `getJavaMail.xml` Ant file that is located in the `$SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content` folder to download the files:
 
 <Tabs>
 
@@ -344,7 +394,7 @@ If you do not have the jar files available, you can use the `getJavaMail.xml` An
 <Column>
 
 ```shell
-cd $SPM_HOME/dockerfiles/Liberty/content
+cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content
 $ANT_HOME/bin/ant -f getJavaMail.xml
 ```
 
@@ -358,7 +408,7 @@ $ANT_HOME/bin/ant -f getJavaMail.xml
 
 ```bat
 cd $env:ANT_HOME\bin
-.\ant.bat -f $env:SPM_HOME\dockerfiles\Liberty\content\getJavaMail.xml
+.\ant.bat -f $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\content\getJavaMail.xml
 ```
 
 </Column>
@@ -369,29 +419,29 @@ cd $env:ANT_HOME\bin
 
 Confirm the availability of the JAR files by running the following command:
 
-`ls $SPM_HOME/dockerfiles/Liberty/content/dependencies`
+`ls $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/dependencies`
 
 ### Downloading IBM MQ Resource Adapter
 
 <InlineNotification>
 
-**Note:** As of Release 22.1.0, the IBM MQ Resource Adapter version used to verify this runbook is 9.2.4.0.
+**Note:** As of Release 25.X.0, the IBM MQ Resource Adapter version used to verify this runbook is 9.3.5.1.
 <p>&nbsp;</p>
 An IBM MQ Resources Adapter of a supported version level can connect to any IBM MQ Queue Manager of supported version level,
 but the feature set available will be based on whichever is of the lower level.
-For more information, see the [related version compatibility documentation](https://www.ibm.com/docs/en/ibm-mq/9.2?topic=cci-compatibility-between-different-versions-mq-mqi-client-queue-manager).
+For more information, see the [related version compatibility documentation](https://www.ibm.com/docs/en/ibm-mq/9.3?topic=cci-compatibility-between-different-versions-mq-mqi-client-queue-manager).
 </InlineNotification>
 
 IBM MQ is required for WebSphere Liberty JMS support, therefore you must install the MQ Resource Adapter.
 
 1. Download the IBM MQ resource adapter from Fix Central.
    * Click this link:
-   [IBM MQ Resource Adapter](https://www.ibm.com/support/fixcentral/swg/selectFixes?parent=ibm~WebSphere&product=ibm/WebSphere/WebSphere+MQ&release=9.2.0.0&platform=All&function=fixid&fixids=*IBM-MQ-Java-InstallRA*)
+   [IBM MQ Resource Adapter](https://www.ibm.com/support/fixcentral/swg/selectFixes?parent=ibm~WebSphere&product=ibm/WebSphere/WebSphere+MQ&release=9.3.5.1&platform=All&function=fixid&fixids=*IBM-MQ-Java-InstallRA*)
    * Find the resource adapter for your version of IBM MQ in the displayed list of available fixes. For example:
 
     ```
-    release level: 9.2.4.0-IBM-MQ-Java-InstallRA
-    Continuous Delivery: 9.2.4 IBM MQ Resource Adapter for use with Application Servers
+    release level: 9.3.5.1-IBM-MQ-Java-InstallRA
+    Continuous Delivery: 9.3.5.1 IBM MQ Resource Adapter for use with Application Servers
     ```
 
    * Then click the resource adapter file name and follow the download process.

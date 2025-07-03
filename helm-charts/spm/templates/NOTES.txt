@@ -1,5 +1,5 @@
 {{- include "sch.config.init" (list . "spm.sch.chart.config.values") -}}
-Thank you for choosing IBM Cúram Social Program Management (SPM) Platform!
+Thank you for choosing Cúram Platform!
 
 {{- if .Values.global.ingress.enabled }}
 Your deployment of SPM will be available shortly at https://{{ .Values.global.ingress.hostname }}

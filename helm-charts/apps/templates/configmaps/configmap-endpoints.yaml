@@ -1,7 +1,7 @@
 {{- include "sch.config.init" (list . "apps.sch.chart.config.values") -}}
 ---
 ###############################################################################
-# © Merative US L.P. 2022
+# © Merative US L.P. 2022,2025
 # Copyright 2019,2020 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,5 +29,5 @@ data:
     <?xml version="1.0" encoding="UTF-8"?>
     <!-- Placed by Kubernetes Configmap. -->
     <server description="Server host configuration">
-      <httpEndpoint id="defaultHttpEndpoint" httpsPort="{{ .Values.httpsPort }}" httpPort="-1" host="*"/>
+      <httpEndpoint id="defaultHttpEndpoint" httpsPort="{{ .Values.httpsPort }}" httpPort="-1" enabled="true" host="*"/>
     </server>

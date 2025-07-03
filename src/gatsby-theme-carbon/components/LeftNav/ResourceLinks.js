@@ -3,10 +3,6 @@ import ResourceLinks from 'gatsby-theme-carbon/src/components/LeftNav/ResourceLi
 
 const links = [
   {
-    title: 'SPM Documentation',
-    href: 'https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/',
-  },
-  {
     title: 'GitHub',
     href: 'https://github.com/merative/curam-kubernetes',
   },

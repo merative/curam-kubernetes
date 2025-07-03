@@ -1,5 +1,5 @@
 ###############################################################################
-# © Merative US L.P. 2022,2023
+# © Merative US L.P. 2022,2025
 # Copyright 2019,2022 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -84,17 +84,6 @@ config:
 # XML server start options
 startOptions:
 
-# Collecting of XML server metrics (requires global.useBetaFeatures)
-metrics:
-  enabled: true
-  port: 8080
-
-# JMX Exporter configuration for collecting JVM metrics from the XML server (requires global.useBetaFeatures)
-jvmStats:
-  enabled: false
-  port: 8083
-  configYaml: ''
-
 # XML server probes
 readinessProbe:
   enabled: false 
@@ -105,3 +94,6 @@ livenessProbe:
   initialDelaySeconds: 60
   periodSeconds: 120
   timeoutSeconds: 30
+
+# XML Secret configuration
+tlsSecretName: ''

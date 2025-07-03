@@ -1,7 +1,7 @@
 {{- include "sch.config.init" (list . "apps.sch.chart.config.values") -}}
 ---
 ###############################################################################
-# © Merative US L.P. 2022
+# © Merative US L.P. 2022,2025
 # Copyright 2019,2021 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -76,6 +76,11 @@ data:
 
       <!-- Sessions Management -->
       <include location="adc_conf/sessions_management.xml"/>
+
+      {{- if $.Values.global.oidc.enabled  }}
+      <!-- OIDC Management -->
+      <include location="adc_conf/server_oidc.xml"/>
+      {{- end }}
 
       <applicationMonitor dropinsEnabled="false" updateTrigger="disabled"/>
       <config updateTrigger="disabled"/>

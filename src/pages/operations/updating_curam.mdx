@@ -1,9 +1,9 @@
 ---
-title: Updating SPM deployment
-description: Updating SPM deployment
+title: Updating Cúram deployment
+description: Updating Cúram deployment
 ---
 
-One of the benefits of Merative Social Program Management (SPM) on Kubernetes is the reduced time required to roll out a new version of your application from development all the way to production.
+One of the benefits of Cúram on Kubernetes is the reduced time required to roll out a new version of your application from development all the way to production.
 
 Depending on the type of change that needs to be made, there are multiple options for rolling out the change. The different options are visualized in figure 1.
 
@@ -37,7 +37,7 @@ kubectl set image deployment/myRelease-apps-rest-producer apps-producer-rest=min
 
 The status of this change can be monitored using `kubectl get pods --watch` or `kubectl rollout status deployment/myRelease-apps-rest-producer`
 
-If the rollout is not successful (for example, becasue of a typo), the last update can be rolled back:
+If the rollout is not successful (for example, because of a typo), the last update can be rolled back:
 
 ```bash
 kubectl rollout undo deployment/<deploymentName>

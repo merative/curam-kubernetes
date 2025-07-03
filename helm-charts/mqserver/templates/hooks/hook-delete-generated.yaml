@@ -1,0 +1,49 @@
+{{- include "sch.config.init" (list . "mqserver.sch.chart.config.values") -}}
+---
+###############################################################################
+# © Merative US L.P. 2025
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "sch.names.fullCompName" (list . "delete-generated") }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "sch.metadata.labels.standard" (list . "delete-generated-hook") | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-weight": "3"
+    "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
+spec:
+  backoffLimit: 1
+  template:
+    metadata:
+      labels:
+        {{- include "sch.metadata.labels.standard" (list . "delete-generated-hook") | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      serviceAccountName: {{ default (include "sch.names.fullCompName" (list . "secret-manager")) .Values.hookServiceAccountName }}
+      containers:
+        - name: delete-generated
+          image: bitnami/kubectl:{{ .Capabilities.KubeVersion.Major }}.{{ trunc 2 .Capabilities.KubeVersion.Minor }}
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - |
+              /opt/bitnami/kubectl/bin/kubectl delete job create-mq-cert-{{ .Release.Name }} --ignore-not-found;
+              /opt/bitnami/kubectl/bin/kubectl delete configmap mq-cert-config-{{ .Release.Name }} --ignore-not-found;
+              /opt/bitnami/kubectl/bin/kubectl delete secret {{ .Release.Name }}-mq-secret --ignore-not-found;

@@ -1,0 +1,15 @@
+---
+title: Logging
+description: Logging
+---
+
+### Logging in Cloud
+
+Application logs can help you understand what is happening inside your application. The logs are particularly useful for debugging problems and monitoring cluster activity. Most modern applications have some kind of logging mechanism. Likewise, container engines are designed to support logging. An example of this would be `kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER]`.
+More information on cloud logging can be found about [Logging Architecture](https://kubernetes.io/docs/concepts/cluster-administration/logging/) and [kubectl logs](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/)
+
+### Cloud Logging Tools
+
+Most Cloud providers offer cloud logging tools but there are third party options such as Grafana Loki. Grafana Loki is an open-source log aggregation system. It is built for efficiency, indexing only metadata instead of the full log content. Loki integrates with Grafana, allowing users to view logs in dashboard.
+
+For more information, see [Grafana Loki](https://grafana.com/docs/loki/latest/).

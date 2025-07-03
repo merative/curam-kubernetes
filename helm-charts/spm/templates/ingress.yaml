@@ -2,7 +2,7 @@
 {{- if and .Values.global.ingress.enabled (not (.Capabilities.APIVersions.Has "route.openshift.io/v1")) }}
 ---
 ###############################################################################
-# © Merative US L.P. 2022
+# © Merative US L.P. 2022,2025
 # Copyright 2019,2020 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,6 +37,7 @@ metadata:
     nginx.ingress.kubernetes.io/server-snippet: |
       gzip on;
       gzip_types application/atom+xml application/javascript application/x-javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/plain text/x-component text/html text/xml image/vnd.microsoft.icon;
+
   {{- with .Values.global.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -45,7 +46,7 @@ spec:
   {{- if or .Values.global.ingress.tlsSecretName .Values.global.ingress.generateCert }}
   tls:
     - hosts:
-        -  {{ required "When ingress is enabled, you must provide a value for ingress.hostname" .Values.global.ingress.hostname }}
+        - {{ required "When ingress is enabled, you must provide a value for ingress.hostname" .Values.global.ingress.hostname }}
       {{- if .Values.global.ingress.generateCert }}
       secretName: {{ .Release.Name }}-tls
       {{- else }}
@@ -68,4 +69,7 @@ spec:
            {{- include "spm.ingress.item" (dict "caps" .Capabilities "path" "/ibm" "name" (printf "%s-apps-curam" .Release.Name) "port" "https") | nindent 10 -}}
           {{- end }}
           {{- include "spm.ingress.item" (dict "caps" .Capabilities "path" (.Values.web.ingressPath | default "/CuramStatic") "name" (printf "%s-web" .Release.Name) "port" "https") | nindent 10 -}}
+          {{- if .Values.global.oidc.enabled }}
+          {{- include "spm.ingress.item" (dict "caps" .Capabilities "path" (.Values.keycloak.ingressPath | default "/oidcclient/redirect/spm") "name" (printf "%s-apps-curam" .Release.Name) "port" "https") | nindent 10 -}}
+          {{- end }}
 {{- end }}

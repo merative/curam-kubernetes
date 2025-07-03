@@ -1,5 +1,5 @@
 {{/*
-© Merative US L.P. 2022
+© Merative US L.P. 2022,2025
 Copyright 2020 IBM Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,7 +42,7 @@ sch:
       securityContext:
         runAsNonRoot: true
     metering:
-      productName: "IBM Curam Social Program Management Platform"
+      productName: "Curam Platform"
       productVersion: "8.0"
       productID: "1bba719a1b4744a9901f85563744c0d1"
     containerSecurityContext:
