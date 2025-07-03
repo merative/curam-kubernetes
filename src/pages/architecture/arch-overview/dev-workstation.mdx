@@ -1,64 +1,60 @@
 ---
 title: Dev Workstation
 description: Dev Workstation
-tabs: ['Architecture Overview','SPM AKS Reference Architecture','SPM OpenShift Reference Architecture','Dev Workstation','Static Content']
+tabs: ['Architecture Overview','OpenShift','AKS','EKS','Dev Workstation','Static Content']
 ---
 
-This runbook is designed for first-time users of Helm, Minikube, and Kubernetes.
+This runbook is intended for first-time users of Helm, Minikube, and Kubernetes who want to deploy Cúram in a local development environment.
 
-Minikube is a variant of Kubernetes that runs a single-node cluster inside a virtual machine (VM) on your laptop.
+Minikube is a lightweight Kubernetes implementation that runs a single-node cluster inside a virtual machine (VM) on your laptop. This setup provides a minimal architecture to help you become familiar with the main artifacts needed to run Cúram on Kubernetes.
 
-The procedure that is described uses a minimal architecture, where the intent is to get you familiar with using the main artifacts needed to run Merative Social Program Management (SPM)
- on Kubernetes. Figure 1 describes the example architecture:
+### Development Workstation Architecture
+
+Figure 1 shows the example architecture:
 
 ![Development Workstation Architecture](../../../images/dev_workstation_architecture.png)
 <Caption>
-
 *Figure 1:* Example dev workstation architecture
-
 </Caption>
 
-The architecture is defined by a Kubernetes environment (contained in a virtual machine) that is composed of the following elements:
+The architecture consists of a Kubernetes environment (within a VM) containing the following components:
 
-* An IBM® WebSphere® Liberty based pod that contains the Cúram EAR file.
-* A pod with an IBM MQ Server configured as the message engine to support JMS-based deferred processing in SPM.
-* A pod that contains the XML server.
-* A pod that runs batch processes.
+- An IBM® WebSphere® Liberty-based pod that contains the Cúram EAR file.
+- A pod with an IBM MQ Server configured as the message engine to support JMS-based deferred processing in Cúram.
+- A pod that contains the XML server.
+- A pod that runs batch processes.
 
-This environment is linked to an external IBM Db2 or Oracle database.
+This environment connects to an external IBM Db2 or Oracle database.
 
 For a Kubernetes cluster in a development environment this runbook uses [Minikube](/prereq/kubernetes/minikube).
 Minikube can easily run on a developer computer, which is convenient for describing the application flow.
 [CodeReady Containers](/prereq/openshift/codeready-containers) (CRC) can also be used to run a Kubernetes environment in a development environment.
 
-Figure 2 describes the following development path.
+### Development Workflow
 
-* Create a build and deployment environment for SPM.
-* Build SPM to deploy on Kubernetes on Minikube or CRC.
-* Create the Docker® images for SPM.
-* Deploy SPM Docker images to Kubernetes on Minikube or CRC.
-* Troubleshoot SPM when deployed in Kubernetes.
+Figure 2 outlines the development workflow:
+
+- Create a build and deployment environment for Cúram.
+- Build Cúram for deployment on Kubernetes using Minikube or CRC.
+- Create Docker® images for Cúram.
+- Deploy Cúram Docker images to Kubernetes on Minikube or CRC.
+- Troubleshoot Cúram when deployed in Kubernetes.
 
 ![Process summary](../../../images/summary_process.png)
 <Caption>
-
 *Figure 2:* Process summary
-
 </Caption>
 
 <InlineNotification>
+**Note:** The implementation of Cúram that is described in this runbook uses only the following .ear files:
+- Curam.ear
+- CuramServerCode.ear
 
-**Note:** The implementation of SPM that is described in this runbook uses only the following .ear files:
-
-* Curam.ear
-* CuramServerCode.ear
-
-The scripts can be easily extended to include the other SPM applications, such as Rest or Citizen Portal.
-
+The scripts can be easily extended to include the other Cúram applications, such as Rest or Citizen Portal.
 </InlineNotification>
 
 The runbook makes the following assumptions:
 
-* Steps to build the SPM containers and run Minikube or CRC are done on a Red Hat or OSX development machine.
-* Steps related to [Building the Merative Cúram Social Program Management application](/deploy-spm/build-spm) can be executed on a separate machine.
-* Base knowledge of the Linux command line for navigating folders.
+- Steps to build the Cúram containers and run Minikube or CRC are performed on a Red Hat or macOS development machine.
+- Steps related to [Building the Cúram application](/deploy-curam/build-curam) can be executed on a separate machine.
+- You have basic knowledge of the Linux command line for navigating folders.

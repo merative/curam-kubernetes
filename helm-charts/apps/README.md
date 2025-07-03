@@ -2,13 +2,13 @@
 
 ## Introduction
 
-* The Apps chart is a component of IBM Cúram Social Program Management (SPM) Platform responsible for providing the Liberty runtime of the application.
+* The Apps chart is a component of Cúram Platform responsible for providing the Liberty runtime of the application.
 
 ## Chart Details
 
 * Deployment of a single pod listening on port 8443
 * Exposed to the cluster using a service for potential load balancing
-* Starting from `spm-kubernetes` release `21.7.0`, chart versions have been updated to align with the release version.
+* Starting from `curam-kubernetes` release `21.7.0`, chart versions have been updated to align with the release version.
 
 ## Prerequisites
 
@@ -33,4 +33,4 @@ Not required as the underlying WebSphere Liberty server runs with the default re
 
 ## Configuration
 
-See [Configuration reference](https://merative.github.io/spm-kubernetes/deployment/config-reference) section of the runbook.
+See [Configuration reference](https://merative.github.io/curam-kubernetes/deployment/config-reference) section of the runbook.

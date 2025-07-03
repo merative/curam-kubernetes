@@ -2,11 +2,90 @@
 
 All notable changes to this project will be documented in this file
 
+## v25.7.0
+
+### Breaking Changes
+
+#### Repository Rebranding and Folder Structure
+
+* The repository has been rebranded from `spm-kubernetes` to `curam-kubernetes`.
+* As part of the Cúram rollout of Java 21, a new folder structure has been introduced:
+  * `dockerfiles/Liberty/ModernJava` (currently supporting Java 21)
+  * `dockerfiles/Liberty/Java8`
+* `dockerfiles/Liberty/ModernJava` will serve as the main line, with new folders created upon release.
+
+#### Chart Breaking Changes
+
+* The IBM-MQ-InstallRA version must be greater than or equal to 9.3.
+* MQ server images are now pulled from the IBM Container Registry. The following files are affected:
+  * `helm-charts/apps/values.yaml`
+  * `helm-charts/mqserver/templates/_sch-chart-config.tpl`
+  * `helm-charts/mqserver/templates/deployment.yaml`
+  * `helm-charts/spm/values.yaml`
+* The environment variable `LOG_FORMAT` has been renamed to `MQ_LOGGING_CONSOLE_FORMAT` in `helm-charts/mqserver/templates/deployment.yaml` (see [IBM MQ 9.3.2 changes](https://www.ibm.com/docs/en/ibm-mq/9.3?topic=932-whats-changed-in-mq)).
+
+#### Note
+
+* During this release, it was observed that [IBM MQ object names are limited to a maximum of 48 characters](https://www.ibm.com/docs/en/ibm-mq/9.3?topic=objects-naming-mq). This limitation caused issues for applications with longer names, such as `curambirtviewer` and `curamwebservices`. If your application or queue manager names exceed this limit, you may encounter deployment or runtime errors. Please ensure that all IBM MQ object names conform to the 48-character maximum to avoid related issues.
+
+### Added
+
+* Added `SPM 8.2.0.0` Prerequisite software details
+* Addition of Development/Test Support for Amazon Elastic Kubernetes Service (EKS)
+* Addition of Production Support for Azure Kubernetes Service (AKS)
+
+### Changed
+
+* The following Helm charts have been updated to chart version `25.7.0`: `apps`, `batch`, `mqserver`, `spm`, `uawebapp`, `web`, `xmlserver`.
+* `appVersion` updated to `8.2.0.0`.
+* Updated persistence documentation for Amazon EFS.
+* Upgraded IBM JDK to version 21.0.4.1.
+* Updated WebSphere Liberty to version `25.0.0.3`.
+* Updated MQ documentation for version changes from `9.2` to `9.3.5.1`.
+* Set `JAVA_HOME` to `/opt/java/openjdk` in `Batch.Dockerfile`.
+* Changed base image in `Utilities.Dockerfile` to `ibm/ibm-semeru-runtime-certified-jdk-21-ubi:21.0.4.1`.
+* Changed base image in `XMLServer.Dockerfile` Dockerfile` to `ibm/ibm-semeru-runtime-certified-jdk-21-ubi:21.0.4.1`.
+* Set `JAVA_HOME` to `/opt/java/openjdk` in `xmlserver-metrics/XMLServer.Dockerfile`.
+* Copied `CryptoConfig.jar` to `/opt/ibm/wlp/usr/shared/resources`.
+* Required `db2jcc4.jar` version is now greater than 4.32.
+* Updated JMX Prometheus Java agent from `jmx_prometheus_javaagent-0.14.0` to `jmx_prometheus_javaagent-1.3.0`.
+* Added new hooks to `xmlserver` and `mqserver` charts to support Liberty upgrades related to [hostname verification](https://www.ibm.com/support/pages/hostname-verification-liberty) and secret creation.
+* Added/updated `tlsSecretName` value in `xmlserver` and `mqserver` values files for secret creation.
+* Removed references to IBM Cloud Object Storage (affects documentation and/or deployment).
+* Refined runbook content: removed outdated references, added information about currently supported tools, and fixed broken links.
+
+## v24.11.6
+
+### Breaking Change
+
+* Updated `helm-charts/apps/templates/configmaps/configmap-log4j.yaml` to adhere to log4j v2 standard tags
+
+* Keycloak Client Configuration: Updates were made to enable OIDC (OpenID Connect) integration with Liberty. This includes the following:
+  * The apps chart was updated to include the required Keycloak client configuration properties for OIDC
+  * The spm chart was updated to include the required Keycloak redirects
+  * Updated `helm-charts/spm/values.yaml` to parameterize the coordinates for the keycloak server
+
+### Added
+
+* Created `helm-charts/keycloak/templates/configmaps/configmap-oidc.yaml` to manage Keycloak client configurations dynamically for Liberty
+* Update `config-reference` to include new settings for enabling/disabling OIDC and specifying the Keycloak server endpoint and client ID/secret
+* Added `routes-apps-liberty-oidc` to manage Keycloak redirects and callback URLs required for OIDC flows.
+
+### Changed
+
+* Updated WebSphere Liberty version to include `24.0.0.12`
+* Updated `helm-charts/apps/templates/configmap-endpoints.yaml`
+* Updated `helm-charts/apps/templates/configmap-jms-producer-security.yaml` for OIDC
+* Updated `helm-charts/apps/templates/configmap-server.yaml` to enable OIDC in Liberty server
+* Updated `helm-charts/apps/deployment-producer.yaml` for adding the keycloak cert in the liberty keystore
+* Updated `helm-charts/spm/ingress.yaml` to include keycloak when is needed
+
 ## v24.11.0
 
 ### Breaking Change
 
 * To enable persistence and the capturing of metrics on the batch pods Batch.Dockerfile has been updated with the following
+  * The Batch.Dockerfile was updated to pull `jmx_prometheus_javaagent-0.14.0.jar` from `repo1.maven.org`
   * The Batch.Dockerfile was updated to copy `docker-server.sh` to allow scripts for persistence
   * Updated `helm-charts/batch/templates/cronjob-program.yaml` command and args to run `docker-server.sh` not updating charts for this Batch.Dockerfile will cause charts to fail
   * Helm charts updated kubeVersion from `">=1.20"` to `">=1.20 || >=1.30.0-eks-a737599"`
@@ -239,7 +318,7 @@ All notable changes to this project will be documented in this file
 ### Changed
 
 * The following helm-charts have been updated to chart version `22.1.0`: `apps`, `batch`, `mqserver`, `spm`, `uawebapp`, `web`, `xmlserver`
-* Changed the liveness and readiness probes on producer and consumer pods to use the WebSphere Liberty health check feature. For more information, see [here](https://www.openliberty.io/docs/22.0.0.1/health-check-microservices.html)
+* Changed the liveness and readiness probes on producer and consumer pods to use the WebSphere Liberty health check feature. For more information, see [health check](https://www.openliberty.io/docs/25.0.0.1/health-check-microservices.html)
 * Updated IBM MQ Resource Adapter to `9.2.4.0`
 * Updated the Runbook Minikube deployment steps for Windows, mainly around specifying the Minikube driver (changing to use `hyperv`) and insecure registry (adopting the steps in the [Minikube Handbook](https://minikube.sigs.k8s.io/docs/handbook/registry/#enabling-insecure-registries)))
 * Changes to the `xmlserver-metrics` image:
@@ -536,8 +615,7 @@ All notable changes to this project will be documented in this file
 * Activate SAML when using single sign-on (SSO)
 * Add a route in OpenShift to allow connections to SSO, when enabled
 * Updated the `ServerEAR.Dockerfile` to reduce layers
-* Added note with fix needed for an update in IBM MQ, the details of which can be found
-[here](https://github.com/IBM/charts/blob/master/stable/ibm-mqadvanced-server-dev/RELEASENOTES.md)
+* Added note with fix needed for an update in IBM MQ, the details of which can be found in the [IBM MQ charts](https://github.com/IBM/charts/blob/master/stable/ibm-mqadvanced-server-dev/RELEASENOTES.md)
 * Added links to Architecture and Troubleshooting sections from within the flow of the document
 
 ### Changed

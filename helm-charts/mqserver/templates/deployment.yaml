@@ -6,7 +6,7 @@
 {{- $tuningParams := $app.mqTuning }}
 ---
 ###############################################################################
-# © Merative US L.P. 2022
+# © Merative US L.P. 2022,2025
 # Copyright 2019,2021 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -69,6 +69,8 @@ spec:
                   - mqserver
               topologyKey: kubernetes.io/hostname
       restartPolicy: {{ .restartPolicy | default "Always" }}
+      imagePullSecrets:
+        - name: {{ default (printf "%s-hook-hubsecret" $.Release.Name) }}
       volumes:
         - name: mqsc-cmds
           configMap:
@@ -78,14 +80,14 @@ spec:
             secretName: {{ $.Values.global.mq.tlsSecretName | default (printf "%s-mq-secret" $.Release.Name) }}
       containers:
         - name: {{ $.Chart.Name }}-{{ $name }}
-          image: ibmcom/mq:{{ $.Values.global.mq.version }}
+          image: cp.icr.io/ibm-messaging/mq:{{ $.Values.global.mq.version }}
           imagePullPolicy: {{ $.Values.global.pullPolicy }}
           env:
             - name: LICENSE
               value: {{ $.Values.global.license }}
             - name: MQ_QMGR_NAME
               value: {{ $.Values.global.mq.queueManager.name }}
-            - name: LOG_FORMAT
+            - name: MQ_LOGGING_CONSOLE_FORMAT
               value: {{ $.Values.log.format | default "basic" }}
             - name: MQ_ENABLE_METRICS
               value: {{ $.Values.global.mq.metrics.enabled | default false | quote }}

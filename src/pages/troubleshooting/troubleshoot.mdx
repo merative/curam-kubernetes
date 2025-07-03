@@ -2,7 +2,7 @@
 title: Troubleshooting problems
 description: Troubleshooting problems
 ---
-## Log collection
+## Log Collection
 
 To copy logs from container to the host, enter the following command:
 
@@ -10,20 +10,20 @@ To copy logs from container to the host, enter the following command:
 docker cp <containerId>:/file/path/within/container /host/path/target
 ```
 
-If you want to navigate the Docker® container to find log files, enter the following command:
+If it is necessary to navigate the Docker® container to find log files, enter the following command:
 
 ```shell
 docker exec -it [container-id] bash
 ```
 
-## Errors in the Docker registry
+## Errors in the Docker Registry
 
-The Docker registry can be a source of errors, which might occur when you run `docker push` commands. You might see errors like the following:
+The Docker registry can be a source of errors, which might occur when `docker push` commands are run. Errors like the following may be seen:
 
 * `Get https://minikube.local:5000/v2/: http: server gave HTTP response to HTTPS client`
 * `Get http://minikube.local:5000/v2/: dial tcp 192.168.39.112:5000: connect: no route to host`
 
-The errors can occur if the registry is not properly configured.  Some ways to investigate the errors are as follows as per your platform:
+The errors can occur if the registry is not properly configured. Some platform-dependent ways to investigate the errors are as follows:
 
 <Tabs>
 
@@ -34,8 +34,8 @@ The errors can occur if the registry is not properly configured.  Some ways to i
 Ensure that the IP reflected by the `minikube ip` command is specified in the following locations:
 
 * `/etc/hosts` - Ensure that there is a `minikube.local` entry that matches the Minikube IP address. If necessary, modify the file.
-* `/etc/docker/daemon.json` -  Ensure that the specified subnet matches the Minikube IP address. If necessary, edit the file and restart the Docker service. You must also restart ChartMuseum.
-* `minikube start` command `--insecure-registry` option - When you use this command, ensure that the specified subnet matches the Minikube IP.
+* `/etc/docker/daemon.json` -  Ensure that the specified subnet matches the Minikube IP address. If necessary, edit the file and restart the Docker service. ChartMuseum must also be restarted.
+* `minikube start` command `--insecure-registry` option - When this command is used, ensure that the specified subnet matches the Minikube IP.
 
 </Column>
 </Row>
@@ -47,11 +47,11 @@ Ensure that the IP reflected by the `minikube ip` command is specified in the fo
 
 For the Minikube insecure registry the following is covered in the [Minikube](/prereq/kubernetes/minikube) topic:
 
-* Ensure that if Minikube has been stopped (e.g., from a reboot) that you have restarted and redeployed using a "fresh" Minikube VM (`minikube delete` first).
+* Ensure that if Minikube has been stopped (e.g., from a reboot), it has been restarted and redeployed using a "fresh" Minikube VM (`minikube delete` first).
 * Ensure the `--insecure-registry` option on the `minikube start` command reflects the appropriate value as indicated in the
   [Minikube handbook](https://minikube.sigs.k8s.io/docs/handbook/registry/#enabling-insecure-registries): `--insecure-registry "10.0.0.0/24"`.
-* Only if not using Docker inside the Minikube VM (`minikube docker-env`): Confirm the location of your Docker `daemon.json` file
-  (`C:\ProgramData\Docker\config\daemon.json` or `$env:USERPROFILE\.docker\daemon.json`, depending on your installation) and ensure it specifies a matching `insecure-registries` setting.
+* If not using Docker inside the Minikube VM (`minikube docker-env`): Confirm the location of the Docker `daemon.json` file
+  (`C:\ProgramData\Docker\config\daemon.json` or `$env:USERPROFILE\.docker\daemon.json`, depending on the installation) and ensure it specifies a matching `insecure-registries` setting.
 
 </Column>
 </Row>

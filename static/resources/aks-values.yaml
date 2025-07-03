@@ -65,7 +65,9 @@ global:
 
   ## Set to use xmlserver monitoring
   useBetaFeatures: false
-
+  ## Set to use oidc protocol
+  oidc:
+    enabled: false
 # Override values in 'apps' Chart
 apps: {}
 #   replicaCount: 1
@@ -82,6 +84,12 @@ apps: {}
 #     limits:
 #       cpu: 0.75
 #       memory: 1Gi
+
+# optional keycloak oidc config
+keycloakConfig: {}
+#  clientId: '' the name of the client registered in Keycloak
+#  realm: '' the name of the realm where the client is defined
+#  keycloakHost: '' the base URL of the Keycloak server 
 
 # Override values in 'batch' Chart
 batch: {}
@@ -121,7 +129,3 @@ xmlserver: {}
 #   metrics:
 #     enabled: false
 #     port: 8080
-#   jvmStats:
-#     enabled: false
-#     port: 8083
-#     configYaml: ''

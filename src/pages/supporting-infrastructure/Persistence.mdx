@@ -14,13 +14,12 @@ This ensures that information such as files, logs, and generated content, remain
 
 For more information about persistent storage, see [Persistent storage for Kubernetes](https://aws.amazon.com/blogs/storage/persistent-storage-for-kubernetes/).
 
-### Using Persistent Storage in SPM
+### Using Persistent Storage in Cúram
 
-There is a wide range of choices provided by various Cloud providers for utilising persistent storage in order to store and access information using Merative SPM on Kubernetes.
-
+There is a wide range of choices provided by various Cloud providers for utilising persistent storage in order to store and access information using Cúram on Kubernetes.
 The common types of storage are Block Storage which controls data on devices, [File Storage](https://docs.oracle.com/en-us/iaas/Content/File/Concepts/filestorageoverview.htm) which is using the NFS and SMB protocols, or [Object Storage](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm) for unstructured data such as COS, AWS S3, and Azure Blob.
 
-Choosing the appropriate method for enabling persistent storage in the SPM application on Kubernetes depends on number of factors:
+Choosing the appropriate method for enabling persistent storage in the Cúram application on Kubernetes depends on number of factors:
 
 * the availability of services offered by the Cloud provider
 * the version of the Kubernetes or OpenShift cluster
@@ -38,11 +37,11 @@ Some notable implementations of File Storage include IBM Cloud File Storage (CFS
 
 Object Storage enables the storage of vast amounts of data in a straightforward and cost-effective manner.
 In Azure, you can utilize Azure Blob Storage to access object storage, which is configured within a Premium Storage Account.
-While Azure Blob Storage shares similarities with IBM Cloud Object Storage (COS) and Amazon S3 (S3), it does not offer support for the S3FS protocol interface.
+While Azure Blob Storage shares similarities with Cloud Object Storage (COS) and Amazon S3 (S3), it does not offer support for the S3FS protocol interface.
 
 ### Usage
 
-The following sample configurations are examples showing how to create Persistence Volume dynamically during the deployment of SPM on Kubernetes.
+The following sample configurations are examples showing how to create Persistence Volume dynamically during the deployment of Cúram on Kubernetes.
 
 <Tabs>
 
@@ -146,6 +145,58 @@ global:
             nodeStageSecretRef:
               name: "spm-persistence-secret"
               namespace: "my-namespace"
+        jmxstats:
+          ## Parameters of the JMX Stats to be persisted on the PVC
+          # The property timerPeriod sets the value curam.jmx.output_statistics_timer_period in milliseconds
+          enabled: false
+          timerPeriod: 60000
+```
+
+</Column>
+</Row>
+</Tab>
+
+<Tab label="Elastic File System">
+<Row>
+<Column>
+
+To archive data persistently through [Amazon Elastic File System](https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html), prepare the following prerequisites in the Kubernetes cluster and in your AWS subscription:
+
+* Within the EKS Cluster add the addon for EFS
+* On Amazon, create an Elastic File System and take note of the name as "File system ID".
+* Within the Elastic File System, create an Access point, and take note of the name as "Access point ID"
+* For the Access point set the following;
+  * Root directory path to "/tmp"
+  * POSIX; user User ID "1001"
+  * POSIX; user Group ID "0"
+  * Root directory creation permissions; Owner user ID "1001"
+  * Root directory creation permissions; Owner group ID "0
+"
+  * Root directory creation permissions; Permissions "755"
+
+```yaml path=override-values.yaml
+---
+global:
+  apps:
+    common:
+      persistence:
+        ## Persistence volume to store data (such as non-log files)
+        enabled: false
+        ## If enabled, connects to a persistence storage service
+        credentials:
+        storageClassName: "efs-sc",
+        storageCapacity: "10Gi"
+        volumeMode: "Filesystem",
+        properties:
+          persistentVolumeReclaimPolicy: "Delete",
+          mountOptions: [
+          ],
+          csi: [
+            driver: "efs.csi.aws.com",
+            ## Values from EFS that has been setup
+            volumeHandle: "File system ID::Access point ID",
+          ]
+        mountPoint: '/tmp/persistence'
         jmxstats:
           ## Parameters of the JMX Stats to be persisted on the PVC
           # The property timerPeriod sets the value curam.jmx.output_statistics_timer_period in milliseconds

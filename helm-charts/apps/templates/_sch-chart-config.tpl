@@ -18,7 +18,7 @@ sch:
           weight: 100
     labelType: "prefixed"
     metering:
-      productName: "Merative Curam Social Program Management"
+      productName: "Curam"
       productVersion: "8.1"
       productID: "1bba719a1b4744a9901f85563744c0d1"
     podSecurityContext:

@@ -1,7 +1,7 @@
 ---
 title: Minikube
 description: Minikube
-tabs: ['Kubernetes Overview','Minikube','Azure Kubernetes Service']
+tabs: ['Kubernetes Overview','Minikube','AKS','EKS']
 ---
 
 Minikube runs a single-node Kubernetes cluster inside a virtual machine (VM) on your laptop, for users who want to try out Kubernetes or develop with it.
@@ -23,7 +23,7 @@ Minikube installation steps are described in the official documentation for your
 
 ## Starting Minikube
 
-Minikube can be started with a command as simple as `minikube start` without any additional parameters. However, the resulting VM will be too small to deploy an instance of Merative Social Program Management (SPM),
+Minikube can be started with a command as simple as `minikube start` without any additional parameters. However, the resulting VM will be too small to deploy an instance of Cúram,
 so several other parameters are required as described in the following sections.
 
 ### Specifying the resource allocation
@@ -364,7 +364,7 @@ minikube addons enable ingress
 
 ## Create a namespace
 
-Create a namespace for the SPM deployment, again use an environment variable for your convenience when following the guide.
+Create a namespace for the Cúram deployment, again use an environment variable for your convenience when following the guide.
 
 Create the environment variable, you can set to value to anything you like, but it should consist of lower case alphanumeric characters or `-`, and must start and end with an alphanumeric character (e.g. `my-name`,  or `123-abc`):
 

@@ -1,0 +1,17 @@
+---
+title: EKS Networking
+description: EKS Networking
+tabs: ['Security','Networking','Authentication','Container Registry','Storage']
+---
+<InlineNotification kind="warning">
+
+**Note:** Amazon Elastic Kubernetes Service (EKS) is intended for Development and Test purposes only.
+
+</InlineNotification>
+
+## Networking
+
+[Network Policies](https://docs.aws.amazon.com/eks/latest/userguide/eks-networking.html) in Kubernetes in EKS are used to determine object communication.
+They can be implemented using [Kubernetes network policies](https://docs.aws.amazon.com/eks/latest/userguide/cni-network-policy.html), [Ingress](https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html) and [Restrict traffic between pods](https://docs.aws.amazon.com/eks/latest/userguide/cni-network-policy-configure.html).
+
+Ingress works by exposing services internal to the cluster via external endpoints. Traffic routing is controlled by rules defined on the Ingress resource.

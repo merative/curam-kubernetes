@@ -1,5 +1,5 @@
 ###############################################################################
-# © Merative US L.P. 2022
+# © Merative US L.P. 2022,2025
 # Copyright 2019,2021 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,7 @@
 
 apiVersion: v2
 kubeVersion: ">=1.20 || >=1.30.0-eks-a737599"
-appVersion: "8.1.0.0"
+appVersion: "8.2.0.0"
 name: mqserver
 description: |-
   Helm Chart for Deployment of MQ server for SPM within a Kubernetes Cluster
@@ -31,13 +31,13 @@ description: |-
   You may obtain a copy of the License at
 
   http://www.apache.org/licenses/LICENSE-2.0
-version: 24.11.0
+version: 25.7.0
 maintainers:
-  - name: IBM
-  - name: Cúram SPM Dev Team
-    url: https://github.com/merative/spm-kubernetes
+  - name: Cúram
+  - name: Cúram Dev Team
+    url: https://github.com/merative/curam-kubernetes
 sources:
-  - https://github.com/merative/spm-kubernetes
+  - https://github.com/merative/curam-kubernetes
 keywords:
   - Liberty
   - Minikube

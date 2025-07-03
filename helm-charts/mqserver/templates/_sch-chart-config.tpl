@@ -21,7 +21,7 @@ sch:
     metering:
       productName: "IBM MQ Advanced for Developers"
       productID: "2f886a3eefbe4ccb89b2adb97c78b9cb"
-      productVersion: "9.2.2"
+      productVersion: "9.3.5.1-r2"
     podSecurityContext:
       securityContext:
         runAsNonRoot: true

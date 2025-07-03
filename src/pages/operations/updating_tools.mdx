@@ -15,9 +15,11 @@ Find out more about the Kubernetes project release cycle in [Kubernetes version 
 
 Find out more about the Azure Kubernetes Service release and support cycle in [Azure Kubernetes Services Docs](https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions?tabs=azure-cli).
 
+Find out more about the Amazon Elastic Kubernetes Service release and support cycle in [Amazon Elastic Kubernetes Service Docs](https://docs.aws.amazon.com/eks/).
+
 </InlineNotification>
 
-Managed Kubernetes services like AKS have a hands-off upgrade process, whereby the upgrade is performed with the click of a button.
+Managed Kubernetes services like AKS and EKS have a hands-off upgrade process, whereby the upgrade is performed with the click of a button.
 Before upgrading, review all the release notes between the source and target versions because Kubernetes features can change over time.
 
 <InlineNotification kind='warning'>
@@ -36,4 +38,4 @@ As with any software, make sure to review the Helm [Release Notes](https://githu
 ## Middleware components
 
 Because of the immutable nature of containers, when the application middleware (for example, IBM® WebSphere® Liberty) needs to be updated, new application images must be built upon a new base image.
-The new images should then be promoted throughout the software development lifecycle using the methods outlined in [Updating SPM Deployment](/operations/updating_curam).
+The new images should then be promoted throughout the software development lifecycle using the methods outlined in [Updating Cúram Deployment](/operations/updating_curam).
