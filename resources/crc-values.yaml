@@ -1,0 +1,130 @@
+---
+###############################################################################
+# The tuning values listed are for demonstration purposes only. 
+# These values are a suggested starting point and are not definitive. 
+# Customers should perform their own testing, to validate and verify their own
+# settings, in order to meet their system needs.
+###############################################################################
+global:
+  license: '' # Set to 'accept' after reviewing all license agreements
+  images:
+    registry: &imageRegistry image-registry.openshift-image-registry.svc:5000
+    imageLibrary: 'ocp'
+    imagePrefix: ''
+    imageTag: latest
+    pullPolicy: Always
+  database:
+    ## Database connection properties
+    type: DB2
+    dbName: DATABASE
+    hostname: ''
+    port: 50000
+    username: db2admin
+    # Name of pre-created secret containing database credentals
+    credsSecretName: ''
+    # The XOR-encrypted DB User's password injected into Liberty configuration - see Liberty/bin/securityUtility to encrypt your value
+    wlp_psw: "{xor}Oz1tPjsyNjE="
+    # The SPM-encrypted password injected into Bootstrap.properties
+    spm_psw: "5itAmT5UzH7wR6kvkYqkTw=="
+    # Oracle Service name, where applicable
+    serviceName: ''
+    ssl:
+      enabled: false
+      # Name of the secret containing the database TLS certificate
+      secretName: ''
+      # Key in the above secret with the certificate
+      secretKey: db2admin.arm
+  ingress:
+    enabled: true
+    tlsSecretName: testkube-tls
+    generateCert: true
+    hostname: spm-ocp.apps-crc.testing
+  isam:
+    enabled: false
+  apps: {}
+  #   config:
+  #     curam:
+  #       enabled: true
+  #       resources:
+  #         limits:
+  #           cpu: 2
+  #           memory: 4Gi
+  #         requests:
+  #           cpu: 1
+  #           memory: 2Gi
+  #     rest:
+  #       enabled: false
+  #     citizenportal:
+  #       enabled: false
+  #     curamwebservices:
+  #       enabled: false
+  #     curambirtviewer:
+  #       enabled: false
+
+  ## Set to use xmlserver monitoring
+  useBetaFeatures: false
+  ## Set to use oidc protocol
+  oidc:
+    enabled: false
+
+# Override values in 'apps' Chart
+apps: {}
+#   replicaCount: 1
+#   initialDelaySeconds: 60
+#   loginConfig:
+#     trace: true
+#   sessionConfig:
+#     sessionTimeout: 30m
+#     transactionTimeout: 3m
+#   defaultResources:
+#     requests:
+#       cpu: 0.5
+#       memory: 768Mi
+#     limits:
+#       cpu: 0.75
+#       memory: 1Gi
+
+# optional keycloak oidc config
+keycloakConfig: {}
+#  clientId: '' the name of the client registered in Keycloak
+#  realm: '' the name of the realm where the client is defined
+#  keycloakHost: '' the base URL of the Keycloak server 
+
+# Override values in 'batch' Chart
+batch: {}
+#   programs:
+#     queued:
+#       schedule: "*/30 * * * *"
+
+# Override values in 'uawebapp' Chart
+uawebapp: {}
+#   replicaCount: 1
+#   imageConfig:
+#     library: ''
+#     name: ''
+#     tag: latest
+#   readinessProbe:
+#     path: /universal/
+#   ingressPath: /universal
+
+# Override values in 'web' Chart
+web: {}
+#   replicaCount: 1
+#   readinessProbe:
+#     path: /CuramStatic/
+#   ingressPath: /CuramStatic
+
+# Override values in 'xmlserver' Chart
+xmlserver: {}
+#   replicaCount: 1
+#   jvm:
+#      maxMemory: '768m'
+#      threadStackSize: '-Xss4m'
+#      jvmOptions: ''
+#   config:
+#      socketTimeout: 60000
+#      threadPoolQueueSize: 200
+#      threadPoolSize: 5
+#   metrics:
+#     enabled: false
+#     port: 8080

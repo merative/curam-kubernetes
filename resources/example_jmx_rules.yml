@@ -1,0 +1,197 @@
+whitelistObjectNames:
+  - "com.curamsoftware:name=curam.util.internal.mbean.CuramServerCoreStatsMBean,*"
+  - "WebSphere:*"
+
+lowercaseOutputName: false
+lowercaseOutputLabelNames: true
+
+rules:
+  - pattern: 'WebSphere.*'
+
+  ### CuramServerCoreStatsMBean ###
+  ## CuramServerCoreStatsMBean - BPOMethodStats - Elapsed Time Average ##
+  - pattern: 'com\.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), BPO Method=(.*)><BPOMethodStats>Elapsed Time\(ms\): (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_BPOMethodStats_Elapsed_Time_seconds
+    value: $3
+    # Convert milliseconds to seconds
+    valueFactor: 0.001
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      method: $2
+      statistic: "Avg"
+    help: "- BPO Methods Statistics: Elapsed time."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - BPOMethodStats - Elapsed Time Min, Max, Std ##
+  - pattern: 'com\.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), BPO Method=(.*)><BPOMethodStats>(Min|Max|Std)\s(?:Deviation\s)?Elapsed Time\(ms\): (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_BPOMethodStats_Elapsed_Time_seconds
+    value: $4
+    # Convert milliseconds to seconds
+    valueFactor: 0.001
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      method: $2
+      statistic: $3
+    help: "- BPO Methods Statistics: Elapsed time."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - BPOMethodStats - Invocations and Errors ##
+  - pattern: 'com.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), BPO Method=(.*)><BPOMethodStats>(Errors|Invocations): (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_BPOMethodStats_$3
+    value: $4
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      method: $2
+    help: "- BPO Methods Statistics: $3."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - SQLStats - Elapsed Time Average ##
+  - pattern: 'com\.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), SQL Text=(.*)><SQLStats>Elapsed Time\(ms\): (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_SQLStats_Elapsed_Time_seconds
+    value: $3
+    # Convert milliseconds to seconds
+    valueFactor: 0.001
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      statistic: "Avg"
+      sql_text: $2
+    help: "- SQL Statistics: Elapsed time."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - SQLStats - Elapsed Time Min, Max, Std ##
+  - pattern: 'com\.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), SQL Text=(.*)><SQLStats>(Min|Max|Std)\s(?:Deviation\s)?Elapsed Time\(ms\): (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_SQLStats_Elapsed_Time_seconds
+    value: $4
+    # Convert milliseconds to seconds
+    valueFactor: 0.001
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      sql_text: $2
+      statistic: $3
+    help: "- SQL Statistics: Elapsed time."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - SQLStats - Executions ##
+  - pattern: 'com\.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), SQL Text=(.*)><SQLStats>Executions: (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_SQLStats_Executions
+    value: $3
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      sql_text: $2
+    help: "- SQL Statistics: Executions."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - SQLStats - Rows Returned Average ##
+  - pattern: 'com\.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), SQL Text=(.*)><SQLStats>Rows Returned: (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_SQLStats_Rows_Returned
+    value: $3
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      sql_text: $2
+      statistic: "Avg"
+    help: "- SQL Statistics: Rows Returned."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - SQLStats - Rows Returned Min, Max, Std ##
+  - pattern: 'com\.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), SQL Text=(.*)><SQLStats>(Min|Max|Std)\s(?:Deviation\s)?Rows Returned: (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_SQLStats_Rows_Returned
+    value: $4
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      sql_text: $2
+      statistic: $3
+    help: "- SQL Statistics: Rows Returned."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - SQLStats - Query Cache Hit Ratio ##
+  - pattern: 'com\.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), SQL Text=(.*)><SQLStats>Query Cache Hit Ratio: (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_SQLStats_Query_Cache_Hit_Ratio
+    value: $3
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      sql_text: $2
+    help: "- SQL Statistics: Query Cache Hit Ratio."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - SQLBatchStats - Elapsed Time Average ##
+  - pattern: 'com\.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), Batch Name=(.*)><SQLBatchStats>Elapsed Time\(ms\): (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_SQLBatchStats_Elapsed_Time_seconds
+    value: $3
+    # Convert milliseconds to seconds
+    valueFactor: 0.001
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      batch_name: $2
+      statistic: "Avg"
+    help: "- SQLBatch Statistics: Elapsed time."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - SQLBatchStats - Elapsed Time Min, Max, Std ##
+  - pattern: 'com\.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), Batch Name=(.*)><SQLBatchStats>(Min|Max|Std)\s(?:Deviation\s)?Elapsed Time\(ms\): (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_SQLBatchStats_Elapsed_Time_seconds
+    value: $4
+    # Convert milliseconds to seconds
+    valueFactor: 0.001
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      batch_name: $2
+      statistic: $3
+    help: "- SQLBatch Statistics: Elapsed time."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - SQLBatchStats - Executions ##
+  - pattern: 'com\.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), Batch Name=(.*)><SQLBatchStats>Executions: (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_SQLBatchStats_Executions
+    value: $3
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      batch_name: $2
+    help: "- SQLBatch Statistics: Executions."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - SQLBatchStats - Statements Average ##
+  - pattern: 'com\.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), Batch Name=(.*)><SQLBatchStats>Statements: (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_SQLBatchStats_Statements
+    value: $3
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      batch_name: $2
+      statistic: "Avg"
+    help: "- SQLBatch Statistics: Statements."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - SQLBatchStats - Statements Min, Max, Std ##
+  - pattern: 'com\.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*), Username=(.*), Batch Name=(.*)><SQLBatchStats>(Min|Max|Std)\s(?:Deviation\s)?Statements: (\d+)'
+    name: curam_jmx_CuramServerCoreStatsMBean_SQLBatchStats_Statements
+    value: $4
+    labels:
+      attr_type: "javax.management.openmbean.TabularData"
+      username: $1
+      batch_name: $2
+      statistic: $3
+    help: "- SQLBatch Statistics: Statements."
+    type: GAUGE
+
+  ## CuramServerCoreStatsMBean - TracingDataAsXML ##
+  - pattern: 'com.curamsoftware<name=curam\.util\.internal\.mbean\.CuramServerCoreStatsMBean, type=statistics, classLoader=(?:.*)><>TracingDataAsXML: (.*)'
+    name: curam_jmx_CuramServerCoreStatsMBean_TracingDataAsXML
+    # Prometheus only holds a float64 sample value so we need to move the captured string to a label and sed the value to nominal 1
+    value: 1
+    labels:
+      attr_type: "java.lang.String"
+      string: $1
+    help: "- TracingDataAsXML."
+    type: UNTYPED
