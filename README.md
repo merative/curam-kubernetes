@@ -1,10 +1,12 @@
 # Cúram on Kubernetes – Containerization Assets & Runbook
 
 Welcome to the repository for containerizing Cúram for deployment on Kubernetes.
+The runbook is intended as a starter framework and not as a rigid prerequisite.
 
 This repository contains:
-- Automation assets and configurations to support Cúram containerization
+- Automation assets and configuration examples to support Cúram containerization
 - A runbook to guide you through the setup and deployment process
+
 
 📘 **Runbook Documentation:**  
 You can view the full step-by-step runbook here:  
@@ -14,7 +16,7 @@ You can view the full step-by-step runbook here:
 
 ## 🔧 What’s Included
 
-- Kubernetes deployment templates
+- Reference Architecture
 - Helm charts and configuration examples
 - Scripts for image building, tagging, and pushing
 - Notes on environment setup and common pitfalls
@@ -29,8 +31,6 @@ This repository is intended for:
 - Developers testing Cúram on modern container platforms
 
 ---
-
-## 📬 Feedback & Support
 
 ## 📬 Feedback & Support
 
