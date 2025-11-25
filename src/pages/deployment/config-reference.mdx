@@ -49,7 +49,7 @@ The following tables list the configurable parameters of the `spm` chart and the
 | `global.ingress.hostname` | Hostname for use in Ingress/Route definition | `''` |
 | `global.ingress.tlsSecretName` | Name of a pre-created secret containing TLS key and certificate files | `''` |
 | `global.timezone` | Timezone* to be set in all deployed pods - this should be aligned with the underlying infrastructure | `UTC` |
-| `global.useBetaFeatures` | Use Beta features | `false`|
+| `global.useBetaFeatures` | Use Beta features | `false` |
 
 <InlineNotification>
 
@@ -120,27 +120,28 @@ In the following properties, `<applicationID>` is a placeholder for the name of 
 | ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.missedTaskThreshold` | Maximum amount of time to allow for successful completion of a timer execution. (Valid value range: `100s` - `9000s`) | `120s` |
 | ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.pollInterval` | How often the database tables are checked for tasks. (Minimum valid value: `100s`) | `120s` |
 | ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.initialPollDelay` | Delay before Liberty begins polling for timer tasks. (Valid values: `0` or positive integer followed by the unit of time, `s` (seconds)) | `0` |
-| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.pollSize` | Maximum number of task entries to find when polling the persistent store. (Valid values: no value (no limit), integer `1` or greater)  | `""` |
+| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.pollSize` | Maximum number of task entries to find when polling the persistent store. (Valid values: no value (no limit), integer `1` or greater) | `""` |
 | `apps.properties` | Applications properties to be set during deployment | `{}` |
 
 ### Batch jobs
 
-In the following properties, `<progID>` is a placeholder for the name of the batch program - this must be a valid YAML term (lower case, alphanumerical plus hypens, must begin with a letter), but does not need to match the Batch process class.
+In the following properties, `<progID>` is a placeholder for the name of the batch program - this must be a valid YAML term (lower case, alphanumerical plus hyphens, must begin with a letter), but does not need to match the Batch process class.
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-| `batch.backoffLimit` | Number of retries for failed Batch executions | `1` |
-| `batch.javaOptions` | Default Java Heap options for all programs | `-Xms1g -Xmx1g` |
+| `batch.backoffLimit` | Number of retries for failed batch executions | `1` |
+| `batch.javaOptions` | Default Java Heap options for all programs | `-Xms1024m -Xmx1024m` |
+| `batch.maxMemory` | The maximum Java heap for the batch pods | `1024m` |
 | `batch.successfulJobsHistoryLimit` | Number of successful batch executions to keep | `3` |
-| `batch.jmxExporter.enabled`| Enable the Prometheus JMX Exporter for the Batch server metrics | `false` |
-| `batch.jmxExporter.port`| The port to monitor the XML server JVM metrics | `8080` |
+| `batch.jmxExporter.enabled` | Enable the Prometheus JMX Exporter for the Batch server metrics | `false` |
+| `batch.jmxExporter.port` | The port to monitor the XML server JVM metrics | `8080` |
 | --------- | ----------- | ------- |
 | `batch.programs.<progID>.activeDeadlineSeconds` | Number of seconds within which the job is expected to complete. If this time is exceeded, the job is terminated. Blank value denoted no limit. | `''` |
 | `batch.programs.<progID>.className` | Java class for the batch process (`-Dbatch.program=`) | `''` |
 | `batch.programs.<progID>.javaOptions` | Java options to be injected via `ANT_OPTS` | `''` |
 | `batch.programs.<progID>.parameters` | Parameters, if any, to be passed to the batch process (`-Dbatch.parameters=`) | `''` |
 | `batch.programs.<progID>.resources` | Pod [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container) definition | `''` |
-| `batch.programs.<progID>.username` | Cúram username for the execution of the batch progress (`-Dbatch.username=`) | `''` |
+| `batch.programs.<progID>.username` | Cúram username for the execution of the batch process (`-Dbatch.username=`) | `''` |
 | `batch.programs.<progID>.schedule` | Different schedules can be specified for different batch jobs. The default schedule applies to any jobs queued in the system. | `*/30 * * * *` |
 | --------- | ----------- | ------- |
 | `batch.streamed.<progID>.activeDeadlineSeconds` | Number of seconds within which the job is expected to complete. If this time is exceeded, the job is terminated. Blank value denoted no limit. | `''` |
@@ -228,7 +229,7 @@ We only support containerised MQ on Openshift.
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-| ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.version` | Version of [IBM MQ](https://hub.docker.com/r/ibmcom/mq) to deploy | `9.3.5.1-r2` |
+| ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.version` | Version of [IBM MQ](https://hub.docker.com/r/ibmcom/mq) to deploy | `9.4.3.0-r2` |
 | ![VM based only](https://img.shields.io/badge/-VM_only-blue) `global.mq.useConnectionNameList` | Indicator if IBM MQ is running in HA mode outside the cluster | `false` |
 | `global.mq.tlsSecretName` | Name of a pre-created Secret containing TLS certificates for IBM MQ (required if running MQ outside the cluster, optional for MQ containers - certificates are auto-generated if not provided) | `''` |
 | ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.queueManager.name` | Name of the queue manager to be created in the MQ container | `QM1` |
@@ -248,11 +249,11 @@ We only support containerised MQ on Openshift.
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-|  `global.mq.metrics.enabled` | Enable/disable the MQ metrics | `false` |
-|  `global.mq.metrics.additionalMetrics` | Enable/disable the IBM MQ Queue Depth Events metrics (only valid if `global.mq.metrics.enabled` is set to `true`) | `false` |
-|  `mqserver.metricsImage.library` | Namespace in the image registry containing your IBM MQ Queue Depth Events image | `{}` |
-|  `mqserver.metricsImage.name` | Name of your IBM MQ Queue Depth Events image to be used | `{}` |
-|  `mqserver.metricsImage.tag` | Image tag of your IBM MQ Queue Depth Events image to be used | `{}` |
+| `global.mq.metrics.enabled` | Enable/disable the MQ metrics | `false` |
+| `global.mq.metrics.additionalMetrics` | Enable/disable the IBM MQ Queue Depth Events metrics (only valid if `global.mq.metrics.enabled` is set to `true`) | `false` |
+| `mqserver.metricsImage.library` | Namespace in the image registry containing your IBM MQ Queue Depth Events image | `{}` |
+| `mqserver.metricsImage.name` | Name of your IBM MQ Queue Depth Events image to be used | `{}` |
+| `mqserver.metricsImage.tag` | Image tag of your IBM MQ Queue Depth Events image to be used | `{}` |
 
 ### MQ tuning (optional)
 
@@ -268,7 +269,7 @@ We only support containerised MQ on Openshift.
 | `web.readinessProbe.path` | Path for the pod readiness probe (should be same as `ingressPath` except **with** the trailing forward slash) | `/CuramStatic/` |
 | `web.replicaCount` | Number of replicas to be deployed | `1` |
 | `web.resources` | Pod [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container) definition | Varies by application (see `values.yaml`) |
-| `web.tuning` | Tuning values for Apache HTTP server of web component. Multiple values can be configured, each in the form "key value" e.g "ThreadLimit 2"  | `''` |
+| `web.tuning` | Tuning values for Apache HTTP server of web component. Multiple values can be configured, each in the form "key value" e.g "ThreadLimit 2" | `''` |
 | `keycloak.ingressPath` | This is the HTTP path that your application uses to handle redirects from Keycloak after user authentication. | `/oidcclient/redirect/spm/` |
 
 ### XML Server
@@ -278,24 +279,24 @@ We only support containerised MQ on Openshift.
 | `xmlserver.replicaCount` | Number of replicas to be deployed | `1` |
 | `xmlserver.resources` | Pod [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container) definition | Varies by application (see `values.yaml`) |
 | `xmlserver.serverPort` | The port that the XML server (its service) listens on (see note below) | `1800` |
-| `xmlserver.jvm.maxMemory` | The maximum Java heap for the XML server | `768m` |
-| `xmlserver.jvm.threadStackSize` | The Java thread stack size for the XML server | `-Xss4m` |
-| `xmlserver.jvm.jvmOptions` | Options to be passed to the JVM; for example, the minimum heap size: `-Xms1024m` | `''` |
-| `xmlserver.config.threadPoolSize` | The XML server thread pool size | `5` |
-| `xmlserver.config.threadPoolQueueSize` | The XML server thread pool queue size | `200` |
-| `xmlserver.config.socketTimeout` | The XML server socket timeout (milliseconds) | `60000` |
+| `xmlserver.jvm.maxMemory` | Maximum Java heap for the XML server | `768m` |
+| `xmlserver.jvm.threadStackSize` | Java thread stack size for the XML server | `-Xss4m` |
+| `xmlserver.jvm.jvmOptions` | Options to be passed to the JVM, e.g., minimum heap size `-Xms1024m` | `''` |
+| `xmlserver.config.threadPoolSize` | XML server thread pool size | `5` |
+| `xmlserver.config.threadPoolQueueSize` | XML server thread pool queue size | `200` |
+| `xmlserver.config.socketTimeout` | XML server socket timeout (milliseconds) | `60000` |
 | ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.readinessProbe.enabled` | Enable XML server readinessProbe described in [XML server health checks](/monitoring/xmlserver-monitoring#xml-server-health-checks) | `false` |
-| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.readinessProbe.initialDelaySeconds` | Configure the number of seconds after container startup to initiate the probe | `15` |
-| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.readinessProbe.periodSeconds` | Configure the number of seconds between probe invocations | `60` |
+| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.readinessProbe.initialDelaySeconds` | Seconds after container startup to initiate readiness probe | `15` |
+| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.readinessProbe.periodSeconds` | Seconds between probe invocations | `60` |
 | ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.enabled` | Enable XML server livenessProbe described in [XML server health checks](/monitoring/xmlserver-monitoring#xml-server-health-checks) | `false` |
-| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.initialDelaySeconds` | Configure the number of seconds after container startup to initiate the probe | `60` |
-| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.periodSeconds` | Configure the number of seconds between probe invocations | `120` |
-| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.timeoutSeconds` | Configure the number of seconds before the probe times out | `30` |
+| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.initialDelaySeconds` | Seconds after container startup to initiate liveness probe | `60` |
+| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.periodSeconds` | Seconds between liveness probe invocations | `120` |
+| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.timeoutSeconds` | Number of seconds before the probe times out | `30` |
 | ![Cúram 8.2.0.0](https://img.shields.io/badge/-Cúram_8.2.0.0-green) `xmlserver.tlsSecretName` | Name of a pre-created secret containing TLS key and certificate files - certificates are auto-generated if not provided | `` |
 
 <InlineNotification>
 
-In a Kubernetes environment the XML server replicas are abstracted to the single `xmlserver.serverPort` by a Kubernetes service that handles the load balancing between multiple replicas.
+In Kubernetes, XML server replicas are abstracted to the single `xmlserver.serverPort` by a Kubernetes service that handles load balancing between multiple replicas.
 
 </InlineNotification>
 
@@ -303,11 +304,11 @@ In a Kubernetes environment the XML server replicas are abstracted to the single
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-| `uawebapp.imageConfig.library` | Namespace in the image registry containing your Univeral Access image | `''` |
-| `uawebapp.imageConfig.name` | Name of your Univeral Access image to be used | `''` |
-| `uawebapp.imageConfig.tag` | Image tag of your Univeral Access image to be used | `latest` |
-| `uawebapp.ingressPath` | Static content Ingress/Route path without a trailing forward slash (must match the [PUBLIC_URL](https://curam-spm-devops.github.io/wh-support-docs/pdf/CE/UniversalAccess_6_1_3.pdf) variable when the application was built) | `/universal` |
-| `uawebapp.readinessProbe.path` | Path for the pod readiness probe (should be same as `ingressPath` except **with** the trailing forward slash) | `/universal/` |
+| `uawebapp.imageConfig.library` | Namespace in the image registry containing your Universal Access image | `''` |
+| `uawebapp.imageConfig.name` | Name of your Universal Access image to be used | `''` |
+| `uawebapp.imageConfig.tag` | Image tag of your Universal Access image to be used | `latest` |
+| `uawebapp.ingressPath` | Static content Ingress/Route path without a trailing forward slash (must match the [PUBLIC_URL](https://curam-spm-devops.github.io/wh-support-docs/pdf/CE/UniversalAccess_6_1_3.pdf) variable used when the application was built) | `/universal` |
+| `uawebapp.readinessProbe.path` | Path for pod readiness probe (should match `ingressPath` but with trailing slash) | `/universal/` |
 | `uawebapp.replicaCount` | Number of replicas to be deployed | `1` |
 | `uawebapp.resources` | Pod [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container) definition | Varies by application (see `values.yaml`) |
-| `uawebapp.tuning` | Tuning values for Apache HTTP server of UAWebApp component. Multiple values can be configured, each in the form "key value" e.g "ThreadLimit 2"  | `''` |
+| `uawebapp.tuning` | Tuning values for Apache HTTP server of UAWebApp component. Multiple values can be configured, each in the form "key value" e.g "ThreadLimit 2" | `''` |

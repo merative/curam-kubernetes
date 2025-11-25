@@ -77,9 +77,9 @@ global:
 serviceAccountName: ""
 
 # Default Java Options for batch jobs
-javaOptions: ' -Xms728m -Xmx728m'
+javaOptions: '-Xms1024m -Xmx1024m'
 
-# Default Max JVM memmory 
+# Default Max JVM memory 
 maxMemory: '1024m'
 
 # Resource limits for Batch jobs (can be overridden per job)

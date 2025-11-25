@@ -1,8 +1,20 @@
 ---
 title: MQ Overview and Configuration
 description: MQ Overview
-tabs: ['MQ Overview','MQ on VMs', 'MQ on OpenShift','MQ Containers']
+tabs: ['MQ Overview','MQ on VMs','MQ Containers']
 ---
+
+<InlineNotification>
+
+IBM MQ has been updated to version 9.4.3.0-r2
+
+</InlineNotification>
+
+<InlineNotification>
+
+IBM MQ containers are now fully production-ready across multiple Kubernetes platforms. In addition to Red Hat OpenShift (OCP), organizations can now confidently deploy MQ certified containers on Amazon Web Services (AWS) and Amazon Elastic Kubernetes Service (EKS) for production workloads.
+
+</InlineNotification>
 
 IBM MQ is a queue managing service from the IBM stack. To support Kubernetes, changes to Cúram were required.
 
@@ -19,10 +31,4 @@ When Cúram is containerized on Kubernetes, it uses IBM MQ to manage JMS message
 If MQ fails, certain functionality will be unusable. This includes and is not limited to, creation of a case and creation of an application. In order to reduce the likelihood
 of this, MQ can be configured to be a multi-instance deployment. This results in a stateful set being created, with one active/primary queue manager, and one standby/secondary queue manager.
 
-Currently, MQ can be configured on [VMs](/prereq/mq/mq-on-vms), EKS or [OpenShift](/prereq/mq/mq-on-openshift).
-
-<InlineNotification>
-
-**Note**: Non-Openshift environments must use standalone VMs in production. Please refer to [IBM MQ support statement](https://www.ibm.com/docs/en/ibm-mq/9.3?topic=integration-planning-mq-in-containers) for more information.
-
-</InlineNotification>
+Currently, MQ can be configured on [VMs](/prereq/mq/mq-on-vms) or [Container](/prereq/mq/mq-containers).

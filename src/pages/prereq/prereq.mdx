@@ -2,6 +2,8 @@
 title: Prerequisite software
 description: Prerequisite software
 ---
+import { OkIcon, NoIcon } from "../../components/Icons";
+import "../../styles/prereq.css";
 
 <InlineNotification kind="warning">
 
@@ -23,140 +25,52 @@ To build and run Cúram for Kubernetes, install the following software component
 * [Kubernetes](/prereq/kubernetes/kubernetes-overview)
   * [minikube](/prereq/kubernetes/minikube)
   * [ChartMuseum](/prereq/chartmuseum)
-* [OpenShift](/prereq/openshift/openshift-overview)
+* [Red Hat OpenShift](/prereq/openshift/openshift-overview)
   * [CodeReady Containers](/prereq/openshift/codeready-containers)
 * [GitHub repo](/prereq/git)
 
 In order to be hosted on Kubernetes, Cúram has been enhanced to support the following technologies:
 
-<Accordion>
-<AccordionItem title="Cúram 8.2.0.0" open='true'>
+<div class="curam-prereq-table-container">
+<br />
 
-<InlineNotification kind="info">
-  <div style={{ fontSize: "0.8em" }}>
-    <div style={{ margin: "0.8em 0" }}>
-      • <strong>OpenShift</strong> is supported for <strong>Development</strong>, <strong>Test</strong> and <strong>Production</strong> environments for both <strong>Java 8</strong> and <strong>Java 21</strong>.
-    </div>
-    <div style={{ margin: "0.8em 0" }}>
-      • <strong>Azure Kubernetes Service (AKS)</strong> is supported for <strong>Development</strong> and <strong>Test</strong> environments for both <strong>Java 8</strong> and <strong>Java 21</strong>.
-    </div>
-    <div style={{ margin: "0.8em 0" }}>
-      • <strong>Azure Kubernetes Service (AKS)</strong> is supported for <strong>Production</strong> use with <strong>Java 21</strong> only.
-    </div>
-    <div style={{ margin: "0.8em 0" }}>
-      • <strong>Amazon Elastic Kubernetes Service (EKS)</strong> is supported exclusively for <strong>Development</strong> and <strong>Test</strong> environments with <strong>Java 21</strong> only.
-    </div>
-  </div>
-</InlineNotification>
+| Supported<br />Software                 | Latest<br />Tested | Minimum<br />Tested | v8.2.x     | v8.1.x     | v8.0.x     | Notes       |
+|-----------------------------------------|--------------------|---------------------|------------|------------|------------|-------------|
+| Azure Kubernetes Service (AKS)          | 1.33               | 1.31                | <OkIcon /> | <OkIcon /> | <NoIcon /> | 1,2,5,6,8   |
+| Amazon Elastic Kubernetes Service (EKS) | 1.33               | 1.31                | <OkIcon /> | <NoIcon /> | <NoIcon /> | 1,2,6,8,20  |
+| Red Hat OpenShift                       | 4.19               | 4.16                | <OkIcon /> | <OkIcon /> | <OkIcon /> | 3,4,5,6,7,8 |
+| WebSphere Liberty                       | 25.0.0.9           | 23.0.0.12           | <OkIcon /> | <OkIcon /> | <OkIcon /> | 9,10,11,14  |
+| IBM MQ CD                               | 9.4.3.0            | 9.4.3.0             | <OkIcon /> | <NoIcon /> | <NoIcon /> | 12,14       |
+| IBM MQ CD                               | 9.3.5.1            | 9.3.5.0             | <OkIcon /> | <OkIcon /> | <OkIcon /> | 13,14       |
+| IBM MQ                                  | 9.2                | 9.2.5.8             | <NoIcon /> | <NoIcon /> | <NoIcon /> | 13,14       |
+| Helm                                    | v3                 | v3                  | <OkIcon /> | <OkIcon /> | <OkIcon /> | 15,16       |
+| Docker Engine                           | v28                | 25.12               | <OkIcon /> | <OkIcon /> | <OkIcon /> | 17          |
+| Ant                                     | 1.10.15            | 1.10.6              | <OkIcon /> | <NoIcon /> | <NoIcon /> | 21          |
+| Java                                    | 8                  | 8                   | <OkIcon /> | <OkIcon /> | <OkIcon /> | 18          |
+| Modern Java                             | 21                 | 21                  | <OkIcon /> | <NoIcon /> | <NoIcon /> | 19          |
 
-| Supported Software | Version | Notes |
-|--------------------|---------|-------|
-| Kubernetes        | 1.31 and future releases    | 1,2 |
-| OpenShift         | 4.15 and future releases    | 3,4 |
-| WebSphere Liberty | 25.0.0 and future fix packs | 5   |
-| IBM MQ            | 9.3 and future fix packs    |     |
-| Docker Engine     | v28 and all future fixes    | 6   |
-| Helm              | v3 and future releases      | 7,8 |
+</div>
 
 |Notes|
 |-|
-|`(1)` &#124; Cúram currently supports Azure Kubernetes Service (AKS) and Amazon Elastic Kubernetes Service (EKS). See info box above for more specific support scenarios.|
-|`(2)` &#124; Kubernetes releases a new version quarterly. When a new version is released `n-2` is deprecated, and `n-3` is unsupported.|
-|`(3)` &#124; OpenShift releases a new version quarterly. When a new version is released `n-1` and `n-2` is in  *Maintenance Support*, and `n-3` is *unsupported*. For more information please see [Red Hat OpenShift Container Platform Life Cycle Policy](https://access.redhat.com/support/policy/updates/openshift)|
-|`(4)` Cúram supports Red Hat OpenShift Extended Update Support (EUS). For more information please see [Red Hat OpenShift Extended Update Support (EUS) Overview](https://access.redhat.com/support/policy/updates/openshift-eus).|
-|`(5)` &#124; Cúram only supports IBM WebSphere Liberty when containerized as Docker containers and deployed on Kubernetes Services. |
-|`(6)` &#124; Only Linux-based containers are supported by Cúram.|
-|`(7)` &#124; Cúram only supports Helm version 3.x for deploying Cúram on Azure Kubernetes Services (AKS). or OpenShift|
-|`(8)` &#124; From Helm release `v3.7.0`, the ChartMuseum Push plugin to be used with Cúram must be version `0.10.0` or greater|
-
-</AccordionItem>
-
-<AccordionItem title="Cúram 8.1.2.0">
-
-| Supported Software            | Version                   | Prerequisite Minimum  | Notes    |
-| ----------------------------- | ------------------------- | --------------------- | -------- |
-| Kubernetes ![AKS only](https://img.shields.io/badge/-AKS_only-blue)             | 1.29 and future releases      | 1.29                  | 1,2    |
-| OpenShift  ![OpenShift only](https://img.shields.io/badge/-OpenShift_only-red)  | 4.13 and future releases      | 4.13                  | 3,4    |
-| WebSphere Liberty                                                               | 24.0.0.6 and future fix packs | 22.0.0.9              | 5      |
-| IBM MQ LTS                                                                      | 9.2 and future fix packs      | 9.2.0.2               | 6      |
-| IBM MQ CD ![OpenShift only](https://img.shields.io/badge/-OpenShift_only-red)   | 9.2 and future fix packs      | 9.2.2.0               | 7      |
-| Docker                                                                          | 24                            | 24.0.2                | 8,9,10 |
-| Helm                                                                            | v3 and future releases        | v3.3.4                | 11,12  |
-
-|Notes|
-|-|
-|`(1)` &#124; Cúram only supports Azure Kubernetes Services (AKS) distribution of Kubernetes, for Development and Test purposes **only**.|
-|`(2)` &#124; Kubernetes releases a new version quarterly. When a new version is released `n-2` is deprecated, and `n-3` is unsupported. For more information please see [Supported Kubernetes versions in Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions?tabs=azure-cli#aks-kubernetes-release-calendar)|
-|`(3)` &#124; OpenShift releases a new version quarterly. When a new version is released `n-1` and `n-2` is in  *Maintenance Support*, and `n-3` is *unsupported*. For more information please see [Red Hat OpenShift Container Platform Life Cycle Policy](https://access.redhat.com/support/policy/updates/openshift)|
-|`(4)` Cúram supports Red Hat OpenShift Extended Update Support (EUS). For more information please see [Red Hat OpenShift Extended Update Support (EUS) Overview](https://access.redhat.com/support/policy/updates/openshift-eus).|
-|`(5)` &#124; Cúram only supports IBM WebSphere Liberty when containerized as Docker containers and deployed on Kubernetes Services. |
-|`(6)` &#124; Cúram only supports IBM MQ Long Term Support (LTS) when Cúram is containerized and deployed on Azure Kubernetes Services (AKS).|
-|`(7)` &#124; Cúram only supports IBM MQ CD when Cúram is containerized and deployed on OpenShift only.|
-|`(8)` &#124; Cúram only supports Docker for packaging Cúram into containers for deployment on Azure Kubernetes Services (AKS).|
-|`(9)` &#124; Only Linux-based containers are supported by Cúram.|
-|`(10)` &#124; Cúram does not support Docker containers hosted outside Azure Kubernetes Services.|
-|`(11)` &#124; Cúram only supports Helm version 3.x for deploying Cúram on Azure Kubernetes Services (AKS). or OpenShift|
-|`(12)` &#124; From Helm release `v3.7.0`, the ChartMuseum Push plugin to be used with Cúram must be version `0.10.0` or greater|
-
-</AccordionItem>
-
-<AccordionItem title="Cúram 8.1.0.0">
-
-<InlineNotification kind="warning">Azure Kubernetes Services (AKS) is exclusively available for Development and Test purposes **only**.</InlineNotification>
-
-| Supported Software            | Version                   | Prerequisite Minimum  | Notes    |
-| ----------------------------- | ------------------------- | --------------------- | -------- |
-| Kubernetes ![AKS only](https://img.shields.io/badge/-AKS_only-blue)             | 1.25 and future releases      | 1.25                  | 1,2    |
-| OpenShift  ![OpenShift only](https://img.shields.io/badge/-OpenShift_only-red)  | 4.12 and future releases      | 4.11                  | 3,4    |
-| WebSphere Liberty                                                               | 23.0.0.12 and future fix packs | 22.0.0.9              | 5      |
-| IBM MQ LTS                                                                      | 9.2 and future fix packs      | 9.2.0.2               | 6      |
-| IBM MQ CD ![OpenShift only](https://img.shields.io/badge/-OpenShift_only-red)   | 9.2 and future fix packs      | 9.2.2.0               | 7      |
-| Docker                                                                          | 24                            | 24.0.2                | 8,9,10 |
-| Helm                                                                            | v3 and future releases        | v3.3.4                | 11,12  |
-
-|Notes|
-|-|
-|`(1)` &#124; Cúram only supports Azure Kubernetes Services (AKS) distribution of Kubernetes, for Development and Test purposes **only**.|
-|`(2)` &#124; Kubernetes releases a new version quarterly. When a new version is released `n-2` is deprecated, and `n-3` is unsupported. For more information please see [Supported Kubernetes versions in Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/supported-kubernetes-versions?tabs=azure-cli#aks-kubernetes-release-calendar)|
-|`(3)` &#124; OpenShift releases a new version quarterly. When a new version is released `n-1` and `n-2` is in  *Maintenance Support*, and `n-3` is *unsupported*. For more information please see [Red Hat OpenShift Container Platform Life Cycle Policy](https://access.redhat.com/support/policy/updates/openshift)|
-|`(4)` Cúram supports Red Hat OpenShift Extended Update Support (EUS). For more information please see [Red Hat OpenShift Extended Update Support (EUS) Overview](https://access.redhat.com/support/policy/updates/openshift-eus).|
-|`(5)` &#124; Cúram only supports IBM WebSphere Liberty when containerized as Docker containers and deployed on Kubernetes Services. |
-|`(6)` &#124; Cúram only supports IBM MQ Long Term Support (LTS) when Cúram is containerized and deployed on Azure Kubernetes Services (AKS).|
-|`(7)` &#124; Cúram only supports IBM MQ CD when Cúram is containerized and deployed on OpenShift only.|
-|`(8)` &#124; Cúram only supports Docker for packaging Cúram into containers for deployment on Azure Kubernetes Services (AKS).|
-|`(9)` &#124; Only Linux-based containers are supported by Cúram.|
-|`(10)` &#124; Cúram does not support Docker containers hosted outside Azure Kubernetes Services.|
-|`(11)` &#124; Cúram only supports Helm version 3.x for deploying Cúram on Azure Kubernetes Services (AKS). or OpenShift|
-|`(12)` &#124; From Helm release `v3.7.0`, the ChartMuseum Push plugin to be used with Cúram must be version `0.10.0` or greater|
-
-</AccordionItem>
-
-<AccordionItem title="Cúram 8.0.0.0">
-
-| Supported Software                                                              | Version                             | Prerequisite Minimum  | Notes       |
-| ------------------------------------------------------------------------------- | ----------------------------------- | --------------------- | ------------|
-| WebSphere Liberty                                                               | 23.0.0.12 and future fix packs      | 21.0.0.12             | 1           |
-| OpenShift ![OpenShift only](https://img.shields.io/badge/-OpenShift_only-red)   | 4.6 and future releases             | 4.6 <br/> 4.6 EUS     | 2,4,5         |
-| IBM MQ LTS                                                                      | 9.2 and future fix packs<br/> 9.1 and future fix packs | 9.2.0.2  <br/> 9.1.0.5 | 6           |
-| IBM MQ CD ![OpenShift only](https://img.shields.io/badge/-OpenShift_only-red)   | 9.2 and future fix packs            | 9.2.2.0               | 7           |
-| Docker                                                                          | 20.10                               | 20.10.2               | 8,9,10,11   |
-| Helm                                                                            | v3 and future releases              | v3.3.4                | 12,13       |
-
-|Notes|
-|-|
-|`(1)` &#124; Cúram only supports IBM WebSphere Liberty when containerized as Docker containers and deployed on OpenShift. |
-|`(2)` &#124; Cúram supports Red Hat OpenShift distributions of Kubernetes.|
-|`(4)` &#124; OpenShift releases a new version quarterly. When a new version is released `n-1` and `n-2` is in  *Maintenance Support*, and `n-3` is *unsupported*. For more information please see [Red Hat OpenShift Container Platform Life Cycle Policy](https://access.redhat.com/support/policy/updates/openshift)|
-|`(5)` Cúram supports Red Hat OpenShift Extended Update Support (EUS). For more information please see [Red Hat OpenShift Extended Update Support (EUS) Overview](https://access.redhat.com/support/policy/updates/openshift-eus).|
-|`(6)` &#124; Cúram only supports IBM MQ Long Term Support (LTS) when Cúram is containerized and deployed on OpenShift.|
-|`(7)` &#124; Cúram only supports IBM MQ CD when Cúram is containerized and deployed on OpenShift only.|
-|`(8)` &#124; Cúram only supports Docker for packaging Cúram into containers for deployment on OpenShift.|
-|`(9)` &#124; Cúram does not support Docker containers hosted outside IBM Cloud Kubernetes Services, or OpenShift.|
-|`(10)` &#124; Only Linux-based containers are supported by Cúram.|
-|`(11)` &#124; Cúram *only requires* Docker to build container images, Cúram *does not require* Docker as a container runtime engine.|
-|`(12))` &#124; Cúram only supports Helm version 3.x for deploying Cúram on OpenShift.|
-|`(13)` &#124; From Helm release `v3.7.0`, the ChartMuseum Push plugin to be used with Cúram must be version `0.10.0` or greater|
-
-</AccordionItem>
-
-</Accordion>
+|`(1)` &#124; Kubernetes releases at a 4 month cadence. When a new version is released `n-2` is deprecated, and `n-3` is unsupported.|
+|`(2)` &#124; Production Support introduced in 8.2. Prior to 8.2 only Dev/Test deployments are supported.|
+|`(3)` &#124; Red Hat OpenShift releases at a 4 month cadence. When a new version is released `n-1` and `n-2` is in *Maintenance Support*, and `n-3` is *unsupported*. For more information please see [Red Hat OpenShift Container Platform Life Cycle Policy](https://access.redhat.com/support/policy/updates/openshift).|
+|`(4)` &#124; Cúram supports Red Hat OpenShift Extended Update Support (EUS). For more information please see [Red Hat OpenShift Extended Update Support (EUS) Overview](https://access.redhat.com/support/policy/updates/openshift-eus).|
+|`(5)` &#124; Supported for Development and Test environments with Java 8.|
+|`(6)` &#124; Supported for Development and Test environments with Java 21.|
+|`(7)` &#124; Supported for Production environments with Java 8.|
+|`(8)` &#124; Supported for Production environments with Java 21.|
+|`(9)` &#124; Cúram only supports IBM WebSphere Liberty when containerized as Docker containers and deployed on Kubernetes or OpenShift.|
+|`(10)` &#124; WebSphere Liberty LTS lines are updated every 3 months. As such the minimum tested version is updated on a quarterly basis.|
+|`(11)` &#124; Only Linux-based containers are supported by Cúram.|
+|`(12)` &#124; IBM MQ CD 9.4.x is supported when Cúram is containerized and deployed on Red Hat OpenShift, AKS and EKS.|
+|`(13)` &#124; IBM MQ CD 9.3.x is supported when Cúram is containerized and deployed on Red Hat OpenShift only.|
+|`(14)` &#124; Only containerized deployments on supported cloud platforms are supported.|
+|`(15)` &#124; Cúram only supports Helm version 3.x.|
+|`(16)` &#124; From Helm release `v3.7.0` or greater, the ChartMuseum Push plugin to be used with Cúram must be version `0.10.0` or greater.|
+|`(17)` &#124; Docker is only supported for building container images, not as a runtime engine.|
+|`(18)` &#124; For information on supported version of Java 8 please refer to [8.2.0.0 Java8 CD](https://curam-spm-devops.github.io/wh-support-docs/spm/prerequisites/820_java8).|
+|`(19)` &#124; For information on supported version of Modern Java please refer to [8.2.0.0 ModernJava CD](https://curam-spm-devops.github.io/wh-support-docs/spm/prerequisites/820_modernjava).|
+|`(20)` &#124; EKS support introduced in 8.2.1.0 for Production.|
+|`(21)` &#124; Ant version `1.10.15` is only supported from Cúram v8.2.1.0 onwards using Java8. Older versions of Cúram use Ant `1.10.6`. Modern Java uses only Ant `1.10.15` since it was introduced in Cúram v8.2.0.0|

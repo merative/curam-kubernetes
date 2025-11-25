@@ -35,8 +35,8 @@ data:
 
     ALTER QMGR CHLAUTH(DISABLED) DEADQ(QN.CURAMDEADMESSAGEQUEUE)
 
-    DEFINE CHANNEL(MQ_CHN_PROD) CHLTYPE(SVRCONN) TRPTYPE(TCP) SSLCIPH (TLS_RSA_WITH_AES_128_CBC_SHA256) CERTLABL ('ibmwebspheremq{{ .Values.global.mq.queueManager.name | lower }}') SSLCAUTH (OPTIONAL) REPLACE
-    DEFINE CHANNEL(MQ_CHN_CONS) CHLTYPE(SVRCONN) TRPTYPE(TCP) SSLCIPH (TLS_RSA_WITH_AES_128_CBC_SHA256) CERTLABL ('ibmwebspheremq{{ .Values.global.mq.queueManager.name | lower }}') SSLCAUTH (OPTIONAL) REPLACE
+    DEFINE CHANNEL(MQ_CHN_PROD) CHLTYPE(SVRCONN) TRPTYPE(TCP) SSLCIPH (ECDHE_RSA_AES_128_CBC_SHA256) CERTLABL ('ibmwebspheremq{{ .Values.global.mq.queueManager.name | lower }}') SSLCAUTH(OPTIONAL) REPLACE
+    DEFINE CHANNEL(MQ_CHN_CONS) CHLTYPE(SVRCONN) TRPTYPE(TCP) SSLCIPH (ECDHE_RSA_AES_128_CBC_SHA256) CERTLABL ('ibmwebspheremq{{ .Values.global.mq.queueManager.name | lower }}') SSLCAUTH(OPTIONAL) REPLACE
 
     SET AUTHREC OBJTYPE(QMGR) PRINCIPAL('app') AUTHADD(ALL)
     SET AUTHREC OBJTYPE(QUEUE) PROFILE('QN.DPENACTMENT') PRINCIPAL('app') AUTHADD(ALL)
@@ -75,8 +75,8 @@ data:
 {{- range $name, $app := $apps }}
 {{- if and ($app.enabled) (not (hasKey $app "mqConnectionNameList")) }}
   channel_{{$name}}.mqsc: |
-    DEFINE CHANNEL(MQ_CHN_PROD) CHLTYPE(CLNTCONN) TRPTYPE(TCP) CONNAME('{{ $.Release.Name }}-mqserver-{{ $name }}') QMNAME({{ $.Values.global.mq.queueManager.name }}) SSLCIPH (TLS_RSA_WITH_AES_128_CBC_SHA256) CERTLABL ('ibmwebspheremq{{ $.Values.global.mq.queueManager.name | lower }}') REPLACE
-    DEFINE CHANNEL(MQ_CHN_CONS) CHLTYPE(CLNTCONN) TRPTYPE(TCP) CONNAME('{{ $.Release.Name }}-mqserver-{{ $name }}') QMNAME({{ $.Values.global.mq.queueManager.name }}) SSLCIPH (TLS_RSA_WITH_AES_128_CBC_SHA256) CERTLABL ('ibmwebspheremq{{ $.Values.global.mq.queueManager.name | lower }}') REPLACE
+    DEFINE CHANNEL(MQ_CHN_PROD) CHLTYPE(CLNTCONN) TRPTYPE(TCP) CONNAME('{{ $.Release.Name }}-mqserver-{{ $name }}') QMNAME({{ $.Values.global.mq.queueManager.name }}) SSLCIPH(ECDHE_RSA_AES_128_CBC_SHA256) CERTLABL ('ibmwebspheremq{{ $.Values.global.mq.queueManager.name | lower }}') REPLACE
+    DEFINE CHANNEL(MQ_CHN_CONS) CHLTYPE(CLNTCONN) TRPTYPE(TCP) CONNAME('{{ $.Release.Name }}-mqserver-{{ $name }}') QMNAME({{ $.Values.global.mq.queueManager.name }}) SSLCIPH(ECDHE_RSA_AES_128_CBC_SHA256) CERTLABL ('ibmwebspheremq{{ $.Values.global.mq.queueManager.name | lower }}') REPLACE
     {{- if eq $name "curam" }}
     DEFINE TOPIC (CURAMCACHEINVALIDATIONTOPIC) TOPICSTR (CURAMCACHEINVALIDATIONTOPIC) REPLACE
     SET AUTHREC OBJTYPE(TOPIC) PROFILE('CURAMCACHEINVALIDATIONTOPIC') PRINCIPAL('app') AUTHADD(ALL)

@@ -32,6 +32,8 @@
       path: /prereq/chartmuseum/
     - title: GitHub repo
       path: /prereq/git/
+    - title: Bitnami Secure
+      path: /prereq/bitnami/
 - title: Cúram application
   pages:
     - title: Installing Cúram software

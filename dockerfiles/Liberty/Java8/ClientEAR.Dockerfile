@@ -17,7 +17,7 @@
 
 ARG EAR_NAME
 ARG SERVERCODE_IMAGE=servercode:latest
-ARG WLP_VERSION=25.0.0.3-full-java8-ibmjava-ubi
+ARG WLP_VERSION=25.0.0.6-full-java8-ibmjava-ubi
 
 # Explode EAR in a disposable environment
 FROM alpine AS ExplodedEAR

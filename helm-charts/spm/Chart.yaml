@@ -31,7 +31,7 @@ description: |-
   You may obtain a copy of the License at
 
   http://www.apache.org/licenses/LICENSE-2.0
-version: 25.7.0
+version: 25.11.0
 maintainers:
   - name: Cúram
   - name: Cúram Dev Team
@@ -57,22 +57,22 @@ icon: https://avatars2.githubusercontent.com/u/1459110
 
 dependencies:
   - name: apps
-    version: "~25.7.0"
+    version: "~25.11.0"
     repository: "@local-development"
   - name: batch
-    version: "~25.7.0"
+    version: "~25.11.0"
     repository: "@local-development"
   - name: uawebapp
-    version: "~25.7.0"
+    version: "~25.11.0"
     repository: "@local-development"
   - name: web
-    version: "~25.7.0"
+    version: "~25.11.0"
     repository: "@local-development"
   - name: mqserver
-    version: "~25.7.0"
+    version: "~25.11.0"
     repository: "@local-development"
   - name: xmlserver
-    version: "~25.7.0"
+    version: "~25.11.0"
     repository: "@local-development"
   - name: ibm-sch
     repository: "@sch"

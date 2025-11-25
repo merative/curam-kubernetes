@@ -15,8 +15,8 @@
 # limitations under the License.
 ###############################################################################
 
-ARG WLP_VERSION=25.0.0.3-full-java8-ibmjava-ubi
-ARG ANT_VERSION=1.10.6
+ARG WLP_VERSION=25.0.0.6-full-java8-ibmjava-ubi
+ARG ANT_VERSION=1.10.15
 ARG JMX_EXPORTER_URL=https://github.com/prometheus/jmx_exporter/releases/download/1.3.0/jmx_prometheus_javaagent-1.3.0.jar
 
 

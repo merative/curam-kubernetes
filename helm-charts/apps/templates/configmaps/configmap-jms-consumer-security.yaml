@@ -30,7 +30,7 @@ data:
     <!-- Placed by Kubernetes Configmap. -->
     <server description="Server security configuration">
 
-      <ssl clientAuthentication="false" clientAuthenticationSupported="false" id="defaultSSLConfig" keyStoreRef="defaultKeyStore"
+      <ssl clientAuthentication="false" id="defaultSSLConfig" keyStoreRef="defaultKeyStore"
           securityLevel="HIGH" sslProtocol="TLSv1.2" />
       <keyStore id="defaultKeyStore" location="key.p12" password="${env.XORKeystorePassword}" />
       <ltpa keysPassword="${env.LTPA_KEYS_PASS}" keysFileName="${server.output.dir}/resources/security/{{ .Values.ltpaKeys.secretKey }}" />

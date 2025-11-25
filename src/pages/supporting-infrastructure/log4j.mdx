@@ -1,0 +1,16 @@
+---
+title: Log4j Config
+description: Log4j Config
+tabs: ['Logging on Cloud', 'Log4j Config']
+
+---
+
+### Log4j on Cúram Cloud
+
+Log4j is handled by one config map nested within `helm-charts/apps/templates/configmaps` called `configmap-log4j.yaml`.
+This creates a file named `log4j-config.xml` on pods at the location `/opt/log4j/`.
+Please note updating this file will have affects for all pods that use log4j.
+
+To enable log4j please update the `curam.trace.configfile.location` system configuration.
+
+For more information on log4j see [Apache Log4j](https://logging.apache.org/log4j/2.x/index.html)

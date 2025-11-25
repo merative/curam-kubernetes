@@ -120,7 +120,7 @@ JMS Queue Connection Factory properties
   queueManager="${mqName}"
   channel="${channel}"
   userName="${userName}"
-  sslCipherSuite="SSL_RSA_WITH_AES_128_CBC_SHA256"
+  sslCipherSuite="TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256"
 />
 {{- end }}
 
@@ -144,7 +144,7 @@ JMS Topic Connection Factory properties
   channel="${channel}"
   {{- end }}
   userName="${userName}"
-  sslCipherSuite="SSL_RSA_WITH_AES_128_CBC_SHA256"
+  sslCipherSuite="TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256"
 />
 {{- end }}
 
@@ -167,7 +167,7 @@ JMS Queue Activation Spec properties
   queueManager="${mqName}"
   channel="${channel}"
   userName="${userName}"
-  sslCipherSuite="SSL_RSA_WITH_AES_128_CBC_SHA256"
+  sslCipherSuite="TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256"
   subscriptionDurability="Durable"
 />
 {{- end }}
@@ -194,7 +194,7 @@ JMS Topic Activation Spec properties
   channel="${channel}"
   {{- end }}
   userName="${userName}"
-  sslCipherSuite="SSL_RSA_WITH_AES_128_CBC_SHA256"
+  sslCipherSuite="TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256"
   subscriptionDurability="Durable"
 />
 {{- end }}

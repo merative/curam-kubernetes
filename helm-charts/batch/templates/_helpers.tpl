@@ -35,9 +35,9 @@ Build up full image path
 Build up Ant Options for general and JMX Stats configuration
 */}}
 {{- define "batch.antOpts" }}
-{{- printf "-Djava.extra.jvmargs=\"-Dcuram.db.username=$SPM_DB_USR -Dcuram.db.password=$SPM_DB_PSW -Xverbosegclog:/tmp/gc/verbosegc.log\" " -}}
+{{- printf "-Djava.extra.jvmargs=\"-Dcuram.db.username=$SPM_DB_USR -Dcuram.db.password=$SPM_DB_PSW -Xverbosegclog:/tmp/gc/verbosegc.log -Xmn768m \" " -}}
 {{- if and .PersistenceConfig.enabled .PersistenceConfig.jmxstats.enabled -}}
-{{- printf " -Dcuram.jmx.output_statistics_timer_enabled=true -Dcuram.jmx.output_statistics_timer_folder=/tmp/jmx/ -Dcuram.jmx.output_statistics_timer_period=%d" (default 60000 .PersistenceConfig.jmxstats.timerPeriod | int) -}}
+{{- printf " -Dcuram.jmx.output_statistics_timer_enabled=true -Dcuram.jmx.output_statistics_timer_folder=/tmp/jmx/ -Dcuram.jmx.output_statistics_timer_period=%d" (default 300000 .PersistenceConfig.jmxstats.timerPeriod | int) -}}
 {{- end }}
 {{- if .MaxMemory -}}
 {{- printf " -Djava.maxmemory=%s" .MaxMemory -}}

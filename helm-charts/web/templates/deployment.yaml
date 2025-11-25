@@ -96,7 +96,8 @@ spec:
       containers:
         {{- if .Values.httpMetricsEnabled }}
         - name: httpd-exporter
-          image: bitnami/apache-exporter
+          image: bitnamisecure/apache-exporter
+          imagePullPolicy: Always
           ports:
             - name: podmonitorport
               containerPort: 9117
