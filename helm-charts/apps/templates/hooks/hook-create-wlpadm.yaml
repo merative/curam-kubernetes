@@ -64,7 +64,8 @@ spec:
               mountPath: /xor
       containers:
         - name: patch-secret
-          image: bitnami/kubectl:{{ .Capabilities.KubeVersion.Major }}.{{ trunc 2 .Capabilities.KubeVersion.Minor }}
+          image: bitnamisecure/kubectl@sha256:5df7de31ece99cc40aa34d627a61b1bb4d17d1a3341e2f63a63b46b1136080cd
+          imagePullPolicy: Always
           command:
             - /bin/sh
             - -c

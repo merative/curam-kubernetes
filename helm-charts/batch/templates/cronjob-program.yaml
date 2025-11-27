@@ -50,6 +50,9 @@ spec:
             {{- include "sch.affinity.nodeAffinity" (list $ $.sch.chart.nodeAffinity) | nindent 12 }}
           serviceAccountName: {{ default (include "sch.names.fullName" (list $)) $.Values.serviceAccountName }}
           volumes:
+            - name: log4j-cm
+              configMap:
+                name: {{ $.Release.Name }}-log4j-cm
             - name: bootstrap-file
               configMap:
                 name: {{ $.Release.Name }}-bootstrap-cm
@@ -58,6 +61,9 @@ spec:
               configMap:
                 name: {{ $.Release.Name }}-jmx-batch-config
             {{- end }}
+            - name: jvm-batch-options-cm
+              configMap:
+                name: jvm-batch-options-cm
             {{- if and (eq ($.Values.global.database.type | upper) "DB2") $.Values.global.database.ssl.enabled $.Values.global.database.ssl.secretName }}
             - name: keystore-volume
               emptyDir: {}
@@ -80,7 +86,7 @@ spec:
             command:
               - /bin/sh
               - -c
-              - keytool -import -trustcacerts -noprompt -file $certfile -keystore $keystore_jks -storepass changeit -storetype jks  
+              - keytool -import -trustcacerts -noprompt -file $certfile -keystore $keystore_jks -storepass changeit -storetype jks
             volumeMounts:
             - name: keystore-volume
               mountPath: /mnt/keystores
@@ -129,9 +135,14 @@ spec:
             {{- end }}
             {{- include "sch.security.securityContext" (list $ $.sch.chart.containerSecurityContext) | nindent 12 }}
             volumeMounts:
+              - name: log4j-cm
+                mountPath: /opt/log4j
               - name: bootstrap-file
                 mountPath: /opt/ibm/Curam/release/project/properties/Bootstrap.properties
                 subPath: Bootstrap.properties
+              - name: jvm-batch-options-cm
+                mountPath: /config/configDropins/defaults/jvm.options
+                subPath: jvm.options
               {{- if and (eq ($.Values.global.database.type | upper) "DB2") $.Values.global.database.ssl.enabled $.Values.global.database.ssl.secretName }}
               - name: keystore-volume
                 mountPath: /mnt/keystores

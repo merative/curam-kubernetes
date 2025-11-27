@@ -1,0 +1,69 @@
+/* ---- Full-bleed: let the table escape Gatsby's max-width ---- */
+.curam-prereq-table-container {
+  /* bleed to viewport edges */
+  width: 100vw;
+  /* margin-left: calc(50% - 20vw); */
+  left: 50%;
+  margin-left: -20vw;
+  margin-right: calc(50% - 50vw);
+  max-width: 75vw;
+
+  /* optional: small gutter so content doesn’t touch the edges */
+  padding-inline: 16px;
+  box-sizing: border-box;
+
+  /* prevent stray 1–2px overflow */
+  overflow-x: hidden;
+}
+
+/* Prefer dynamic viewport units when available (avoids scrollbar-width issues) */
+@supports (width: 100dvw) {
+  .curam-prereq-table-container {
+      width: 100dvw;
+      margin-left: -2vw;
+      margin-right: calc(50% - 50dvw);
+  }
+}
+
+/* Make the table fill the space without forcing a scrollbar */
+.curam-prereq-table-container table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.curam-prereq-table-container th,
+.curam-prereq-table-container td {
+  overflow-wrap: anywhere; /* wrap long strings instead of expanding width */
+}
+
+/* If your page uses the Carbon grid, ensure this spans the whole row */
+.bx--grid .curam-prereq-table-container { grid-column: 1 / -1; }
+
+.curam-prereq-table-container .status { font-weight:700; line-height:1; }
+.curam-prereq-table-container .status.ok { color:#16a34a; }
+.curam-prereq-table-container .status.no { color:#dc2626; }
+
+/* Carbon v11 uses cds--, v10 uses bx-- — support both */
+.supportNote.cds--inline-notification,
+.supportNote.bx--inline-notification {
+  width: 100%;
+  max-width: none;                /* remove default ~30rem cap */
+}
+
+/* Some builds cap the inner details too */
+.supportNote .cds--inline-notification__details,
+.supportNote .bx--inline-notification__details {
+  max-width: none;
+}
+
+/* If your page uses a CSS grid/layout that narrows content, span full grid */
+.supportNote {
+  grid-column: 1 / -1;            /* full-bleed inside grid-based layouts */
+}
+
+/* Optional: nicer bullets */
+.supportNote .notif-list { margin: .5rem 0 0; padding-left: 1rem; }
+.supportNote .notif-list li { margin: .4rem 0; }
+

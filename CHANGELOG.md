@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file
 
+## v25.11.0
+
+### Breaking Changes
+
+Due to [bitnami updates](https://github.com/bitnami/charts/issues/35164) we have moved images to [bitnamisecure](https://hub.docker.com/u/bitnamisecure/) and hardcoded the bitnamisecure/kubectl version. Please find more details in our pre requisite pages.
+`bitnamisecure/kubectl` updated to `sha256:5df7de31ece99cc40aa34d627a61b1bb4d17d1a3341e2f63a63b46b1136080cd`
+These files and pods are `helm-charts/apps/templates/hooks/hook-create-ltpa-keys.yaml`, `helm-charts/apps/templates/hooks/hook-create-wlpadm.yaml`, `helm-charts/apps/templates/hooks/hook-delete-generated.yaml`, `helm-charts/mqserver/templates/hooks/hook-delete-generated.yaml`, `helm-charts/uawebapp/templates/deployment.yaml`, `helm-charts/web/templates/deployment.yaml`, `helm-charts/xmlserver/templates/hooks/hook-delete-generated.yaml`.
+These changes are not for production and can only be used for Development and Testing.
+
+#### IBM MQ Server
+
+* Switched to ECDHE-based cipher suites for TLS/SSL connections.
+  * Updated CipherSpec in alignment with changes introduced by IBM MQ `9.4`. See [IBM MQ 9.4 TLS CipherSpecs and CipherSuites in IBM MQ classes for JMS](https://www.ibm.com/docs/en/ibm-mq/9.4.x?topic=jms-tls-cipherspecs-ciphersuites-in-mq-classes) for more details.
+* Disabled `MQSNOAUT` to enable user authentication and authorization checks at the queue manager level.
+
+### Added
+
+* Introduced IBM MQ server and adapter to version `9.4.3.0`.
+* Created a new configuration YAML map for JVM options: `helm-charts/batch/templates/configmaps/configmap-jvm-options.yaml`.
+* Added log4j logging format to batch chart `cronjob-program.yaml` in line with the Apps chart.
+* Updated missing batch options within the `config-reference.mdx`.
+* Added new documation `supporting-infrastructure/log4j.mdx`.
+* Addition of Production Support for Amazon Elastic Kubernetes Service (EKS).
+
+### Changed
+
+* Update Prerequisite software page to simplify the supported software page: see [Prerequisite software](https://merative.github.io/curam-kubernetes/prereq/prereq/) for more details.
+* Updated WebSphere Liberty version to include `25.0.0.6`.
+* Updated ANT to version 1.10.15 for all Docker and compose files.
+* Updated `helm-charts/batch/templates/cronjob-program.yaml` to take on new configmap.
+* Updated `batch.javaOptions` to new values of `-Xms1024m -Xmx1024m`.
+* The following Helm charts have been updated to chart version `25.11.0`: `apps`, `batch`, `db2`, `dbbuild`, `mqserver`, `spm`, `uawebapp`, `web`, `xmlserver`.
+
+
 ## v25.7.0
 
 ### Breaking Changes

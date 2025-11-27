@@ -1,7 +1,7 @@
 ---
 title: Architecture Overview
 description: Architecture Overview
-tabs: ['Architecture Overview','OpenShift','AKS','EKS','Dev Workstation','Static Content']
+tabs: ['Architecture Overview','Reference Architecture','Dev Workstation','Static Content']
 ---
 
 Cúram is not offered as a Platform-as-a-Service (PaaS) or Software-as-a-Service (SaaS) solution in the cloud. Instead, it is a configurable platform for Social Program Management that customers tailor to meet their specific requirements. Customers are responsible for building, deploying, running, and operating Cúram in environments aligned with their own Software Development Life Cycle (SDLC) processes.
@@ -11,17 +11,38 @@ Cúram can either be deployed on traditional hosting architectures (i.e. virtual
 Cúram can be deployed on the following distributions:
 
 1. **Azure Kubernetes Services (AKS)**
-2. **Amazon Elastic Kubernetes Service (EKS)**
 
-  <InlineNotification kind="warning">
-
-  **Note:** EKS is intended for Development and Test purposes only.
-
+  <InlineNotification kind="info">
+    <div style={{ fontSize: "0.8em" }}>
+      <div style={{ margin: "0.8em 0" }}>
+        • <strong>Azure Kubernetes Service (AKS)</strong> is supported for <strong>Development</strong> and <strong>Test</strong> environments for both <strong>Java 8</strong> and <strong>Java 21</strong>.
+      </div>
+      <div style={{ margin: "0.8em 0" }}>
+        • <strong>Azure Kubernetes Service (AKS)</strong> is supported for <strong>Production</strong> use with <strong>Java 21</strong> only.
+      </div>
+    </div>
   </InlineNotification>
 
-3. **Red Hat OpenShift\***
+2. **Amazon Elastic Kubernetes Service (EKS)**
 
-\*OpenShift deployments are environment-agnostic and can be run on any infrastructure that supports OpenShift, including **on-premises**, **private cloud**, or **public cloud** environments.
+  <InlineNotification kind="info">
+    <div style={{ fontSize: "0.8em" }}>
+      <div style={{ margin: "0.8em 0" }}>
+        • <strong>Amazon Elastic Kubernetes Service (EKS)</strong> is supported exclusively for <strong>Production</strong>, <strong>Development</strong> and <strong>Test</strong> environments with <strong>Java 21</strong> only.
+      </div>
+    </div>
+  </InlineNotification>
+
+3. **Red Hat OpenShift**
+
+  <InlineNotification kind="info">
+    <div style={{ fontSize: "0.8em" }}>
+      <div style={{ margin: "0.8em 0" }}>
+        • <strong>OpenShift</strong> is supported for <strong>Development</strong>, <strong>Test</strong> and <strong>Production</strong> environments for both <strong>Java 8</strong> and <strong>Java 21</strong>.
+        • OpenShift deployments are environment-agnostic and can be run on any infrastructure that supports OpenShift, including <strong>on-premises</strong>, <strong>private cloud</strong> or <strong>public cloud</strong> environments.
+      </div>
+    </div>
+  </InlineNotification>
 
 Figure 1 shows the essential nature of the Cúram architecture on Kubernetes.
 

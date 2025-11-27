@@ -97,6 +97,8 @@ spec:
               value: /run/mqm
             - name: MQ_DEV
               value: "false"
+            - name: MQSNOAUT
+              value: "yes"
             - name: MQ_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:

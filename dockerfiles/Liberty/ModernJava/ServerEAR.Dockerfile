@@ -14,8 +14,8 @@
 # limitations under the License.
 ###############################################################################
 
-ARG WLP_VERSION=25.0.0.3-full-java21-openj9-ubi-minimal
-ARG MQ_ADAPTER_VERSION=9.2.4.0
+ARG WLP_VERSION=25.0.0.6-full-java21-openj9-ubi-minimal
+ARG MQ_ADAPTER_VERSION=9.4.3.0
 ARG MQ_RA_LICENSE
 ARG JMX_EXPORTER_URL=https://github.com/prometheus/jmx_exporter/releases/download/1.3.0/jmx_prometheus_javaagent-1.3.0.jar
 

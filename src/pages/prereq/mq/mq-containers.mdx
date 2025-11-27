@@ -1,7 +1,7 @@
 ---
 title: MQ Containers
 description: MQ Containers
-tabs: ['MQ Overview','MQ on VMs', 'MQ on OpenShift','MQ Containers']
+tabs: ['MQ Overview','MQ on VMs','MQ Containers']
 ---
 
 Use the following steps to verify and test your entitlement to pull IBM MQ certified containers from the IBM Cloud Container Registry.
@@ -24,16 +24,16 @@ If you do not have an Entitlement key or if it fails to pull the IBM MQ docker i
 5. Pull the IBM MQ docker image.
 
     ```
-    docker pull cp.icr.io/cp/ibm-mqadvanced-server:9.3.5.1-r2
+    docker pull cp.icr.io/cp/ibm-mqadvanced-server:9.4.3.0-r2
     ```
 
     The following output should be displayed:
 
     ```
-    9.3.5.1-r1: Pulling from cp/ibm-mqadvanced-server
+    9.4.3.0-r2: Pulling from cp/ibm-mqadvanced-server
     (...)
-    Status: Downloaded newer image for cp.icr.io/cp/ibm-mqadvanced-server:9.3.5.1-r2
-    cp.icr.io/cp/ibm-mqadvanced-server:9.3.5.1-r2
+    Status: Downloaded newer image for cp.icr.io/cp/ibm-mqadvanced-server:9.4.3.0-r2
+    cp.icr.io/cp/ibm-mqadvanced-server:9.4.3.0-r2
     ```
 
 6. Verify the IBM MQ image. The image must be listed.
@@ -41,3 +41,42 @@ If you do not have an Entitlement key or if it fails to pull the IBM MQ docker i
     ```
     docker images cp.icr.io/cp/ibm-mqadvanced-server
     ```
+
+## IBM MQ containers on AKS and EKS
+
+IBM MQ containers are not limited to OpenShift deployments.  
+They are also fully supported and production-ready on **Amazon Elastic Kubernetes Service (EKS)** and **Azure Kubernetes Service (AKS)**.
+
+This extended support allows organizations to deploy IBM MQ in a broader range of managed Kubernetes environments, enabling greater flexibility when designing cloud-native architectures.  
+The same operational capabilities, container images, and configuration principles apply across OCP, EKS, and AKS, ensuring consistent behaviour regardless of the chosen platform.
+
+## IBM MQ containers on OpenShift
+
+Cúram does not require or support the use of any IBM MQ Advanced features available in the IBM MQ certified containers.
+
+IBM MQ certified container is supported only from Cúram Version 7.0.11 and later versions.
+
+<InlineNotification>
+
+**Note**: The IBM MQ charts found in the Runbook Github repository are sample charts based on the IBM MQ public charts published in the [IBM MQ charts](https://github.com/IBM/charts/tree/master/stable/ibm-mqadvanced-server-dev).
+
+</InlineNotification>
+
+## Operators
+
+MQ can also be deployed via Operators. Operators are a method of packaging and deploying Kubernetes applications that take human operational knowledge of managing the application and encode it into the package itself,
+which can then be shared with users. Operator deployment can be used to create a single-instance or a multi-instance deployment, as desired.
+The [IBM MQ Operator](https://www.ibm.com/docs/en/ibm-mq/9.3?topic=containers-support-mq-operator) can be installed using the Operator Hub. More information on  installing the IBM Operator using the OpenShift CLI
+can be found in the [OpenShift Cli](https://www.ibm.com/docs/en/ibm-mq/9.1?topic=openshift-installing-mq-operator-using-cli) documentation.
+When deploying in this way, a **Queue Manager** object is created.
+
+MQ Operators used in Cúram requires the values for `availabilityType`, `storageType`, and `storageClassName` to be configured prior to deployment.
+These values are those located under the MQ `global.mq` section within the relevant values file.
+
+### MQ File Systems Consideration
+
+IBM MQ provides guidance on the functional capabilities for a file system and the testing a user should complete in their own environment.
+
+For more information, please see the following documentation on [IBM MQ multi-instance queue manager file systems](https://www.ibm.com/support/pages/testing-statement-ibm-mq-multi-instance-queue-manager-file-systems),
+[IBM MQ considerations for EFS on AWS](https://www.ibm.com/support/pages/ibm-mq-considerations-efs-aws) and
+[Red Hat OpenShift support for AWS EFS](https://access.redhat.com/solutions/4591701).

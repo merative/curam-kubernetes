@@ -307,7 +307,7 @@ docker run --rm \
     -u root \
     -e ANT_HOME=/tmp/ant \
     -e WLP_HOME=/opt/ibm/wlp \
-    ibmcom/websphere-liberty:25.0.0.3-full-java21-openj9-ubi-minimal \
+    ibmcom/websphere-liberty:25.0.0.6-full-java21-openj9-ubi-minimal \
     bash -c 'export ANT_LIB_PATH ; export PATH=$ANT_HOME/bin:$PATH:.; tmp/ant/bin/ant -Dnashorn.args="--language=es6" $ANT_LIB_PATH -f /work/dir/build.xml -Dprp.noninternedstrings=true installcryptojar init_passwords 
 ```
 
@@ -328,7 +328,7 @@ docker run --rm \
     -u root \
     -e ANT_HOME=/tmp/ant \
     -e WLP_HOME=/opt/ibm/wlp \
-    ibmcom/websphere-liberty:25.0.0.3-full-java8-ibmjava-ubi \
+    ibmcom/websphere-liberty:25.0.0.6-full-java8-ibmjava-ubi \
     bash -c 'export PATH=$ANT_HOME/bin:$PATH:.; build.sh internal.update.crypto.jar'
 ```
 
@@ -349,7 +349,7 @@ docker run --rm `
     -u root `
     -e ANT_HOME=/tmp/ant `
     -e WLP_HOME=/opt/ibm/wlp `
-    ibmcom/websphere-liberty:25.0.0.3-full-java21-openj9-ubi-minimal `
+    ibmcom/websphere-liberty:25.0.0.6-full-java21-openj9-ubi-minimal `
     bash -c 'export ANT_LIB_PATH ; export PATH=$ANT_HOME/bin:$PATH:.; tmp/ant/bin/ant -Dnashorn.args="--language=es6" $ANT_LIB_PATH -f /work/dir/build.xml -Dprp.noninternedstrings=true installcryptojar init_passwords 
 ```
 
@@ -370,7 +370,7 @@ docker run --rm `
     -u root `
     -e ANT_HOME=/tmp/ant `
     -e WLP_HOME=/opt/ibm/wlp `
-    ibmcom/websphere-liberty:25.0.0.3-full-java8-ibmjava-ubi `
+    ibmcom/websphere-liberty:25.0.0.6-full-java8-ibmjava-ubi `
     bash -c 'export PATH=$ANT_HOME/bin:$PATH:.; build.sh internal.update.crypto.jar'
 ```
 
@@ -425,7 +425,7 @@ Confirm the availability of the JAR files by running the following command:
 
 <InlineNotification>
 
-**Note:** As of Release 25.X.0, the IBM MQ Resource Adapter version used to verify this runbook is 9.3.5.1.
+**Note:** As of Release 25.X.0, the IBM MQ Resource Adapter version used to verify this runbook is 9.4.3.0.
 <p>&nbsp;</p>
 An IBM MQ Resources Adapter of a supported version level can connect to any IBM MQ Queue Manager of supported version level,
 but the feature set available will be based on whichever is of the lower level.
@@ -436,12 +436,12 @@ IBM MQ is required for WebSphere Liberty JMS support, therefore you must install
 
 1. Download the IBM MQ resource adapter from Fix Central.
    * Click this link:
-   [IBM MQ Resource Adapter](https://www.ibm.com/support/fixcentral/swg/selectFixes?parent=ibm~WebSphere&product=ibm/WebSphere/WebSphere+MQ&release=9.3.5.1&platform=All&function=fixid&fixids=*IBM-MQ-Java-InstallRA*)
+   [IBM MQ Resource Adapter](https://www.ibm.com/support/fixcentral/swg/selectFixes?parent=ibm~WebSphere&product=ibm/WebSphere/WebSphere+MQ&release=9.4.3.0&platform=All&function=fixid&fixids=*IBM-MQ-Java-InstallRA*)
    * Find the resource adapter for your version of IBM MQ in the displayed list of available fixes. For example:
 
     ```
-    release level: 9.3.5.1-IBM-MQ-Java-InstallRA
-    Continuous Delivery: 9.3.5.1 IBM MQ Resource Adapter for use with Application Servers
+    release level: 9.4.3.0-IBM-MQ-Java-InstallRA
+    Continuous Delivery: 9.4.3.0 IBM MQ Resource Adapter for use with Application Servers
     ```
 
    * Then click the resource adapter file name and follow the download process.
