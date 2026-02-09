@@ -17,9 +17,9 @@
     "@carbon/icons-react": "^11.36.0",
     "carbon-components": "^10.58.12",
     "carbon-components-react": "^8.51.0",
-    "gatsby": "^4.25.9",
+    "gatsby": "^5.16.0",
     "gatsby-cli": "4.25.0",
-    "gatsby-theme-carbon": "^3.4.13",
+    "gatsby-theme-carbon": "^4.3.36",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
