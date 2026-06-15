@@ -80,7 +80,7 @@ spec:
             secretName: {{ $.Values.global.mq.tlsSecretName | default (printf "%s-mq-secret" $.Release.Name) }}
       containers:
         - name: {{ $.Chart.Name }}-{{ $name }}
-          image: cp.icr.io/ibm-messaging/mq:{{ $.Values.global.mq.version }}
+          image: icr.io/ibm-messaging/mq:{{ $.Values.global.mq.version }}
           imagePullPolicy: {{ $.Values.global.pullPolicy }}
           env:
             - name: LICENSE

@@ -15,10 +15,11 @@
 # limitations under the License.
 ###############################################################################
 
-ARG WLP_VERSION=25.0.0.6-full-java8-ibmjava-ubi
+ARG WLP_VERSION=26.0.0.3-full-java8-ibmjava-ubi
+ARG WLP_REGISTRY
 ARG MQ_ADAPTER_VERSION=9.4.3.0
 ARG MQ_RA_LICENSE
-ARG JMX_EXPORTER_URL=https://github.com/prometheus/jmx_exporter/releases/download/1.3.0/jmx_prometheus_javaagent-1.3.0.jar
+ARG JMX_EXPORTER_URL=https://github.com/prometheus/jmx_exporter/releases/download/1.5.0/jmx_prometheus_javaagent-1.5.0.jar
 
 # Explode EAR in a disposable environment
 FROM alpine AS ExplodedEAR
@@ -39,7 +40,7 @@ COPY content/${MQ_ADAPTER_VERSION}-IBM-MQ-Java-InstallRA.jar /tmp/
 RUN java -jar /tmp/${MQ_ADAPTER_VERSION}-IBM-MQ-Java-InstallRA.jar ${MQ_RA_LICENSE} /opt
 
 # Create final image
-FROM ibmcom/websphere-liberty:${WLP_VERSION} AS servercode
+FROM ${WLP_REGISTRY}/websphere-liberty/${WLP_VERSION} AS servercode
 ARG JMX_EXPORTER_URL
 
 ENV IBM_JAVA_OPTIONS='-Xshareclasses:none -XX:+UseContainerSupport'

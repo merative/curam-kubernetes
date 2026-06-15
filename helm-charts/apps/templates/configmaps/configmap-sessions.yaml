@@ -43,14 +43,18 @@ data:
         id="SessionDB"
         dataSourceRef="curamsessdb"
         tableName="WLP_SESSION"
-        skipIndexCreation="false"
+        skipIndexCreation="true"
+        {{- if eq (.Values.global.database.type | upper) "DB2" }}
+        db2RowSize="32KB"
+        {{- end }}
         writeFrequency="TIME_BASED_WRITE"
         writeInterval="2m"
+        useInvalidatedId="false"
       />
       <httpSession
         storageRef="SessionDB"
         cloneId="${env.HOSTNAME}"
-        idReuse="true"
+        idReuse="false"
         maxInMemorySessionCount="{{ .Values.sessionConfig.maxInMemorySessionCount | default 1000 }}"
         cookieSecure="true"
       />

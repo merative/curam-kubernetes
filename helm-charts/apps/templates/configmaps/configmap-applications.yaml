@@ -33,7 +33,7 @@ data:
       <webContainer skipMetaInfResourcesProcessing="true"/>
 
       <httpSession
-        invalidateOnUnauthorizedSessionRequestException="false" idLength="28"
+        invalidateOnUnauthorizedSessionRequestException="true" idLength="28"
         invalidationTimeout="{{ .Values.sessionConfig.sessionTimeout }}" securityIntegrationEnabled="false"
         cookieName="${env.SESSION_COOKIE_NAME}" cookieSecure="{{ .Values.sessionConfig.cookie.secure }}"
         cookieHttpOnly="{{ .Values.sessionConfig.cookie.httpOnly }}" cookiePath="/"

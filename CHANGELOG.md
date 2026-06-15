@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file
 
+## v26.6.0
+
+### Breaking Changes
+
+* **Ingress controller migrated from community `ingress-nginx` to F5 NGINX Ingress Controller (`f5-nginx-ingress`):** Ingress annotations must be updated before deployment; see the [Ingress Controller](/prereq/ingress/) prerequisite page for details.
+  * For EKS with F5 NGINX, ingress handling was updated to support the TLS secret `wh-spm-dev-tls`.
+  * F5 NGINX ingress annotations were added (commented out) to `helm-charts/spm/templates/ingress.yaml`: `nginx.org/ssl-services` and `nginx.org/sticky-cookie-services` must be uncommented and configured with your release name and enabled services before deploying with the F5 NGINX Ingress Controller.
+* **Enable real-time monitoring for all Queue Manager queues**
+  * Topic-based async receiving was disabled, and the exporter now directly queries the Queue Manager every 10 seconds to update metrics.
+* The WebSphere Liberty Profile (WLP) image repository in use has been sunset: https://hub.docker.com/r/ibmcom/websphere-liberty. Dockerfiles using `ibmcom/websphere-liberty` have been updated to use the wildcard `${WLP_REGISTRY}` instead. The image is currently available on IBM Container Registry (ICR): `icr.io/appcafe/websphere-liberty`. This value can be set in the `docker-compose.yml` files.
+
+### Added
+
+* **DB2 32K row size for session persistence table:** Added `db2RowSize="32KB"` to `<httpSessionDatabase>` in `helm-charts/apps/templates/configmaps/configmap-sessions.yaml`, rendered conditionally when `global.database.type` is `DB2`. The attribute is omitted for non-DB2 databases.
+* **Prevent reuse of invalidated session IDs at database layer:** Added `useInvalidatedId="false"` to `<httpSessionDatabase>` in `helm-charts/apps/templates/configmaps/configmap-sessions.yaml`. Ensures invalidated session IDs in `WLP_SESSION` are never recycled for new sessions.
+
+### Changed
+
+* **JVM file encoding made unconditional:** Moved `-Dfile.encoding=UTF-8` outside the persistence-enabled conditional block in `helm-charts/apps/templates/configmaps/configmap-jvm-options.yaml`. All Liberty pods now run with UTF-8 encoding regardless of whether persistence is enabled, preventing potential character corruption for non-ASCII data.
+* **Invalidate sessions on unauthorized request exceptions:** updated `invalidateOnUnauthorizedSessionRequestException` from `false` to `true` on `<httpSession>` in `helm-charts/apps/templates/configmaps/configmap-applications.yaml`. Sessions are now destroyed when an `UnauthorizedSessionRequestException` occurs, preventing stale or hijacked sessions from persisting after an authorization failure.
+* **Session fixation protection — `idReuse` set to `false`:** Updated `idReuse` from `true` to `false` on `<httpSession>` in `helm-charts/apps/templates/configmaps/configmap-sessions.yaml`. Liberty now generates a new JSESSIONID when a session is invalidated (e.g. on logout) instead of reusing the old cookie value.
+* WebSphere Liberty Profile (WLP) image updated to use version 26.0.0.3 (previously 25.0.0.6), for both Java8 and Java21 (ModernJava) Dockerfiles.
+* The instructions in `setup_docker_context.mdx` and `hc_deployment.mdx` changed to reflect the WLP changes.
+* JMX Exporter version updated to 1.5.0 (previously 1.3.0) for both Java8 and Java21 (ModernJava) Dockerfiles.
+* `ibm-semeru-runtime-certified-jdk-21-ubi:21.0.4.1` updated to `ibm-semeru-runtime-certified-jdk-21-ubi:21.0.9.0` for Java21: `dockerfiles/Liberty/ModernJava/XMLServer.Dockerfile` to be consistent with the rest of the codebase.
+* **Java 8 base image replaced:** Updated Java8 Dockerfiles (`Utilities.Dockerfile`, `XMLServer.Dockerfile`) to use `ibm-semeru-runtime-open-jdk-8-ubi:8u482-b08.1-amd64` (previously `ibmjava8-sdk-ubi8-minimal:8.0.8.55`). Updated `JAVA_HOME` to `/opt/java/openjdk` and replaced `microdnf` with `dnf` to match the UBI full image package manager.
+* The following Helm charts have been updated to chart version `26.6.0`: `apps`, `batch`, `db2`, `dbbuild`, `mqserver`, `spm`, `uawebapp`, `web`, `xmlserver`.
+
 ## v25.11.0
 
 ### Breaking Changes

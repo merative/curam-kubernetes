@@ -99,3 +99,7 @@ yarn-error.log
 .yarn-integrity
 !package-lock.json
 buildlogs
+Playwright/node_modules/
+Playwright/playwright-report/
+Playwright/test-results/
+Playwright/tests/results

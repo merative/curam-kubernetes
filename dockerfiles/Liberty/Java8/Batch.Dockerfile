@@ -15,10 +15,10 @@
 # limitations under the License.
 ###############################################################################
 
-ARG WLP_VERSION=25.0.0.6-full-java8-ibmjava-ubi
+ARG WLP_VERSION=26.0.0.3-full-java8-openj9-ubi
+ARG WLP_REGISTRY
 ARG ANT_VERSION=1.10.15
-ARG JMX_EXPORTER_URL=https://github.com/prometheus/jmx_exporter/releases/download/1.3.0/jmx_prometheus_javaagent-1.3.0.jar
-
+ARG JMX_EXPORTER_URL=https://github.com/prometheus/jmx_exporter/releases/download/1.5.0/jmx_prometheus_javaagent-1.5.0.jar
 
 # Intermediate image: extract Ant
 FROM alpine AS PrepStage
@@ -32,7 +32,7 @@ COPY content/release-stage/SetEnvironment.sh /opt/ibm/Curam/
 COPY content/release-stage /opt/ibm/Curam/release
 RUN chmod -R g=u /opt/ibm/Curam
 
-FROM ibmcom/websphere-liberty:${WLP_VERSION}
+FROM ${WLP_REGISTRY}/websphere-liberty/${WLP_VERSION}
 
 WORKDIR /opt/ibm/Curam/release
 ENTRYPOINT ["/opt/ibm/Curam/release/build.sh"]

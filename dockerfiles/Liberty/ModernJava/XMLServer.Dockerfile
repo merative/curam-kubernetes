@@ -17,7 +17,7 @@
 ARG ANT_VERSION=1.10.15
 
 # Note: This public JMX Exporter is for getting JVM metrics
-ARG JMX_EXPORTER_URL=https://github.com/prometheus/jmx_exporter/releases/download/1.3.0/jmx_prometheus_javaagent-1.3.0.jar
+ARG JMX_EXPORTER_URL=https://github.com/prometheus/jmx_exporter/releases/download/1.5.0/jmx_prometheus_javaagent-1.5.0.jar
 
 # If set, must end with a forward slash, e.g. "registry.connect.redhat.com/"
 ARG BASE_REGISTRY
@@ -43,7 +43,7 @@ RUN unzip -qo /tmp/apache-ant.zip -d /opt/ \
     && chmod -c +x /opt/ibm/Curam/xmlserver/*.sh
 
 # Final image
-FROM ${BASE_REGISTRY}ibm/ibm-semeru-runtime-certified-jdk-21-ubi:21.0.4.1
+FROM ${BASE_REGISTRY}ibm/ibm-semeru-runtime-certified-jdk-21-ubi:21.0.9.0
 
 EXPOSE 1800
 WORKDIR /opt/ibm/Curam/xmlserver

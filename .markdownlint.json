@@ -10,5 +10,6 @@
   "MD036": false,
   "MD040": false,
   "no-trailing-spaces": true,
-  "MD024": { "siblings_only": true}
+  "MD024": { "siblings_only": true},
+  "MD060": false
 }

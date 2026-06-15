@@ -307,7 +307,7 @@ docker run --rm \
     -u root \
     -e ANT_HOME=/tmp/ant \
     -e WLP_HOME=/opt/ibm/wlp \
-    ibmcom/websphere-liberty:25.0.0.6-full-java21-openj9-ubi-minimal \
+    icr.io/appcafe/websphere-liberty/26.0.0.3-full-java21-openj9-ubi-minimal \
     bash -c 'export ANT_LIB_PATH ; export PATH=$ANT_HOME/bin:$PATH:.; tmp/ant/bin/ant -Dnashorn.args="--language=es6" $ANT_LIB_PATH -f /work/dir/build.xml -Dprp.noninternedstrings=true installcryptojar init_passwords 
 ```
 
@@ -328,7 +328,7 @@ docker run --rm \
     -u root \
     -e ANT_HOME=/tmp/ant \
     -e WLP_HOME=/opt/ibm/wlp \
-    ibmcom/websphere-liberty:25.0.0.6-full-java8-ibmjava-ubi \
+    icr.io/appcafe/websphere-liberty/26.0.0.3-full-java8-ibmjava-ubi \
     bash -c 'export PATH=$ANT_HOME/bin:$PATH:.; build.sh internal.update.crypto.jar'
 ```
 
@@ -349,7 +349,7 @@ docker run --rm `
     -u root `
     -e ANT_HOME=/tmp/ant `
     -e WLP_HOME=/opt/ibm/wlp `
-    ibmcom/websphere-liberty:25.0.0.6-full-java21-openj9-ubi-minimal `
+    icr.io/appcafe/websphere-liberty/26.0.0.3-full-java21-openj9-ubi-minimal `
     bash -c 'export ANT_LIB_PATH ; export PATH=$ANT_HOME/bin:$PATH:.; tmp/ant/bin/ant -Dnashorn.args="--language=es6" $ANT_LIB_PATH -f /work/dir/build.xml -Dprp.noninternedstrings=true installcryptojar init_passwords 
 ```
 
@@ -370,7 +370,7 @@ docker run --rm `
     -u root `
     -e ANT_HOME=/tmp/ant `
     -e WLP_HOME=/opt/ibm/wlp `
-    ibmcom/websphere-liberty:25.0.0.6-full-java8-ibmjava-ubi `
+    icr.io/appcafe/websphere-liberty/26.0.0.3-full-java8-ibmjava-ubi `
     bash -c 'export PATH=$ANT_HOME/bin:$PATH:.; build.sh internal.update.crypto.jar'
 ```
 
