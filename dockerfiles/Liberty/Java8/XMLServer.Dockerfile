@@ -18,7 +18,7 @@
 ARG ANT_VERSION=1.10.15
 
 # Note: This public JMX Exporter is for getting JVM metrics
-ARG JMX_EXPORTER_URL=https://github.com/prometheus/jmx_exporter/releases/download/1.3.0/jmx_prometheus_javaagent-1.3.0.jar
+ARG JMX_EXPORTER_URL=https://github.com/prometheus/jmx_exporter/releases/download/1.5.0/jmx_prometheus_javaagent-1.5.0.jar
 
 
 # If set, must end with a forward slash, e.g. "registry.connect.redhat.com/"
@@ -45,7 +45,7 @@ RUN unzip -qo /tmp/apache-ant.zip -d /opt/ \
     && chmod -c +x /opt/ibm/Curam/xmlserver/*.sh
 
 # Final image
-FROM ${BASE_REGISTRY}ibm/ibmjava8-sdk-ubi8-minimal:8.0.8.30
+FROM ${BASE_REGISTRY}ibm/ibm-semeru-runtime-open-jdk-8-ubi:8u482-b08.1-amd64
 
 EXPOSE 1800
 WORKDIR /opt/ibm/Curam/xmlserver
@@ -54,15 +54,14 @@ ENTRYPOINT ["/opt/ibm/Curam/xmlserver/start-xmlserver.sh"]
 ARG ANT_VERSION
 ENV ANT_HOME=/opt/apache-ant-${ANT_VERSION} \
     ANT_OPTS='-Xmx1400m -Dcmp.maxmemory=1400m' \
-    JAVA_HOME=/opt/ibm/java
+    JAVA_HOME=/opt/java/openjdk
 ENV PATH=$ANT_HOME/bin:$JAVA_HOME/bin:$PATH:.
 
 USER root
 RUN rpm -e --nodeps tzdata \
-    && microdnf install -y tzdata \
-    && microdnf install -y hostname \
-    && microdnf clean all \
-    && rm -rf /var/cache/yum
+    && dnf install -y tzdata hostname \
+    && dnf clean all \
+    && rm -rf /var/cache/dnf /var/cache/yum
 RUN mkdir -p /opt/ibm/Curam/xmlserver \
     && chmod -c g+w /etc/passwd $JAVA_HOME/jre/lib/security/cacerts
 

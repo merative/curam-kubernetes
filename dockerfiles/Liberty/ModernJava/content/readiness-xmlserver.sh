@@ -38,4 +38,4 @@ grep 'XML Server awaiting connections on port' $XMLSERVER_LOG
 LASTRC=$?
 
 set +x
-exit $?
+exit $LASTRC

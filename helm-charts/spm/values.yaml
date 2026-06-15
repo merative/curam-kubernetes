@@ -28,7 +28,7 @@ global:
     secretName: ''
     username: ''
   hubPullSecret:
-    registry: 'https://cp.icr.io/v1/'
+    registry: 'https://icr.io/v1/'
     secretName: ''
     username: ''
   timezone: 'UTC'
@@ -213,6 +213,7 @@ global:
   ingress:
     enabled: false
     hostname: ''
+    tls: true
     tlsSecretName: ''
     generateCert: false
   isam:

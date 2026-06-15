@@ -36,16 +36,17 @@ In order to be hosted on Kubernetes, Cúram has been enhanced to support the fol
 
 | Supported<br />Software                 | Latest<br />Tested | Minimum<br />Tested | v8.2.x     | v8.1.x     | v8.0.x     | Notes       |
 |-----------------------------------------|--------------------|---------------------|------------|------------|------------|-------------|
-| Azure Kubernetes Service (AKS)          | 1.33               | 1.31                | <OkIcon /> | <OkIcon /> | <NoIcon /> | 1,2,5,6,8   |
-| Amazon Elastic Kubernetes Service (EKS) | 1.33               | 1.31                | <OkIcon /> | <NoIcon /> | <NoIcon /> | 1,2,6,8,20  |
-| Red Hat OpenShift                       | 4.19               | 4.16                | <OkIcon /> | <OkIcon /> | <OkIcon /> | 3,4,5,6,7,8 |
-| WebSphere Liberty                       | 25.0.0.9           | 23.0.0.12           | <OkIcon /> | <OkIcon /> | <OkIcon /> | 9,10,11,14  |
+| Azure Kubernetes Service (AKS)          | 1.35               | 1.33                | <OkIcon /> | <OkIcon /> | <NoIcon /> | 1,2,5,6,8   |
+| Amazon Elastic Kubernetes Service (EKS) | 1.35               | 1.33                | <OkIcon /> | <NoIcon /> | <NoIcon /> | 1,2,6,8,20  |
+| Red Hat OpenShift                       | 4.21               | 4.16                | <OkIcon /> | <OkIcon /> | <OkIcon /> | 3,4,5,6,7,8 |
+| WebSphere Liberty                       | 26.0.0.6           | 24.0.0.3            | <OkIcon /> | <OkIcon /> | <OkIcon /> | 9,10,11,14  |
 | IBM MQ CD                               | 9.4.3.0            | 9.4.3.0             | <OkIcon /> | <NoIcon /> | <NoIcon /> | 12,14       |
 | IBM MQ CD                               | 9.3.5.1            | 9.3.5.0             | <OkIcon /> | <OkIcon /> | <OkIcon /> | 13,14       |
 | IBM MQ                                  | 9.2                | 9.2.5.8             | <NoIcon /> | <NoIcon /> | <NoIcon /> | 13,14       |
 | Helm                                    | v3                 | v3                  | <OkIcon /> | <OkIcon /> | <OkIcon /> | 15,16       |
-| Docker Engine                           | v28                | 25.12               | <OkIcon /> | <OkIcon /> | <OkIcon /> | 17          |
-| Ant                                     | 1.10.15            | 1.10.6              | <OkIcon /> | <NoIcon /> | <NoIcon /> | 21          |
+| Docker Engine                           | v29                | 28                  | <OkIcon /> | <OkIcon /> | <OkIcon /> | 17          |
+| Ant                                     | 1.10.15            | 1.10.15             | <OkIcon /> | <NoIcon /> | <NoIcon /> | 21          |
+| Ant                                     | 1.10.6             | 1.10.6              | <NoIcon /> | <OkIcon /> | <OkIcon /> | 22          |
 | Java                                    | 8                  | 8                   | <OkIcon /> | <OkIcon /> | <OkIcon /> | 18          |
 | Modern Java                             | 21                 | 21                  | <OkIcon /> | <NoIcon /> | <NoIcon /> | 19          |
 
@@ -73,4 +74,5 @@ In order to be hosted on Kubernetes, Cúram has been enhanced to support the fol
 |`(18)` &#124; For information on supported version of Java 8 please refer to [8.2.0.0 Java8 CD](https://curam-spm-devops.github.io/wh-support-docs/spm/prerequisites/820_java8).|
 |`(19)` &#124; For information on supported version of Modern Java please refer to [8.2.0.0 ModernJava CD](https://curam-spm-devops.github.io/wh-support-docs/spm/prerequisites/820_modernjava).|
 |`(20)` &#124; EKS support introduced in 8.2.1.0 for Production.|
-|`(21)` &#124; Ant version `1.10.15` is only supported from Cúram v8.2.1.0 onwards using Java8. Older versions of Cúram use Ant `1.10.6`. Modern Java uses only Ant `1.10.15` since it was introduced in Cúram v8.2.0.0|
+|`(21)` &#124; Ant version `1.10.15` is supported for Java8 from Cúram v8.2.1.0 onward. For Modern Java, only Ant `1.10.15` is supported from Cúram v8.2.0.0 onward.|
+|`(22)` &#124; Ant version `1.10.6` is supported only for earlier Cúram releases (up to v8.2.0.0).|

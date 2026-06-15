@@ -2,7 +2,7 @@
 {{- if and .Values.global.ingress.enabled (not (.Capabilities.APIVersions.Has "route.openshift.io/v1")) }}
 ---
 ###############################################################################
-# © Merative US L.P. 2022,2025
+# © Merative US L.P. 2022,2026
 # Copyright 2019,2020 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,20 +30,18 @@ metadata:
   labels:
     {{- include "sch.metadata.labels.standard" (list . "") | nindent 4 }}
   annotations:
-    nginx.ingress.kubernetes.io/affinity: cookie
-    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-    nginx.ingress.kubernetes.io/session-cookie-path: /
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "150"
-    nginx.ingress.kubernetes.io/server-snippet: |
+    nginx.org/proxy-read-timeout: "150"
+    nginx.org/server-snippets: |
       gzip on;
       gzip_types application/atom+xml application/javascript application/x-javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/plain text/x-component text/html text/xml image/vnd.microsoft.icon;
-
+  # nginx.org/ssl-services: "{release-name}-apps-curam,{release-name}-apps-rest,{release-name}-apps-citizenportal,{release-name}-apps-curamwebservices,{release-name}-apps-curambirtviewer,{release-name}-apps-cpmexternalns,{release-name}-apps-cpmexternals,{release-name}-apps-navigatorns,{release-name}-apps-navigators,{release-name}-apps-mdtworkspace,{release-name}-apps-samplepublicaccess,{release-name}-uawebapp,{release-name}-web"
+  # nginx.org/sticky-cookie-services: "serviceName={release-name}-apps-curam srv_id expires=1h path=/;serviceName={release-name}-apps-rest srv_id expires=1h path=/;serviceName={release-name}-apps-citizenportal srv_id expires=1h path=/;serviceName={release-name}-apps-curamwebservices srv_id expires=1h path=/;serviceName={release-name}-apps-curambirtviewer srv_id expires=1h path=/;serviceName={release-name}-apps-cpmexternalns srv_id expires=1h path=/;serviceName={release-name}-apps-cpmexternals srv_id expires=1h path=/;serviceName={release-name}-apps-navigatorns srv_id expires=1h path=/;serviceName={release-name}-apps-navigators srv_id expires=1h path=/;serviceName={release-name}-apps-mdtworkspace srv_id expires=1h path=/;serviceName={release-name}-apps-samplepublicaccess srv_id expires=1h path=/"
   {{- with .Values.global.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  ingressClassName: nginx
-  {{- if or .Values.global.ingress.tlsSecretName .Values.global.ingress.generateCert }}
+  ingressClassName: f5-nginx
+  {{- if and .Values.global.ingress.tls (or .Values.global.ingress.tlsSecretName .Values.global.ingress.generateCert) }}
   tls:
     - hosts:
         - {{ required "When ingress is enabled, you must provide a value for ingress.hostname" .Values.global.ingress.hostname }}

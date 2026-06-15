@@ -28,9 +28,9 @@ data:
   jvm.options: |
     # Placed by Kubernetes Configmap
     -Dcom.ibm.websphere.ejbcontainer.rmicCompatible=all
+    -Dfile.encoding=UTF-8
     # Enable verbose garbage collection logs.
     {{- if $.Values.global.apps.common.persistence.enabled }}
-    -Dfile.encoding=UTF-8
     -verbose:gc
     -Xverbosegclog:/tmp/gc/verbosegc.log
     -Xdump:directory=/tmp/dump

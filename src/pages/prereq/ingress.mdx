@@ -1,0 +1,128 @@
+---
+title: Ingress Controller
+description: Ingress controller prerequisite for Cúram on Kubernetes
+---
+
+## Ingress Controller
+
+An ingress controller is required to manage external HTTP/HTTPS access to Cúram services running in the Kubernetes cluster.
+
+Cúram on Kubernetes uses the **F5 NGINX Ingress Controller** (`f5-nginx-ingress`).
+
+<InlineNotification kind="warning">
+
+**Migrating from `ingress-nginx`:** If you are upgrading from a previous deployment that used the community `ingress-nginx` controller, you must update your ingress annotations before deploying. See the [Annotation Migration](#annotation-migration) section below.
+
+</InlineNotification>
+
+## Installation
+
+Refer to the [F5 NGINX Ingress Controller documentation](https://docs.nginx.com/nginx-ingress-controller/) for installation instructions appropriate to your target platform.
+
+Ensure the ingress controller is running and healthy in your cluster before deploying the Cúram Helm charts:
+
+```shell
+kubectl get pods -n nginx-ingress
+```
+
+## SSL Services
+
+The F5 NGINX Ingress Controller uses the `nginx.com/ssl-services` annotation to identify which backend services communicate over HTTPS.
+
+See the [F5 NGINX ssl-services example](https://github.com/nginx/kubernetes-ingress/tree/v5.4.1/examples/ingress-resources/ssl-services) for further details.
+
+The Helm chart (`helm-charts/spm/templates/ingress.yaml`) includes a commented-out `nginx.com/ssl-services` annotation listing all Cúram backend services. Before deploying, uncomment this annotation and replace `{release-name}` with your Helm release name, including only the services you have enabled:
+
+```yaml
+nginx.com/ssl-services: "spm-apps-curam,spm-apps-rest,spm-uawebapp,spm-web"
+```
+
+The full list of possible services is:
+
+| Service | Enabled by default |
+|---|---|
+| `{release-name}-apps-curam` | Yes |
+| `{release-name}-apps-rest` | No |
+| `{release-name}-apps-citizenportal` | No |
+| `{release-name}-apps-curamwebservices` | No |
+| `{release-name}-apps-curambirtviewer` | No |
+| `{release-name}-apps-cpmexternalns` | No |
+| `{release-name}-apps-cpmexternals` | No |
+| `{release-name}-apps-navigatorns` | No |
+| `{release-name}-apps-navigators` | No |
+| `{release-name}-apps-mdtworkspace` | No |
+| `{release-name}-apps-samplepublicaccess` | No |
+| `{release-name}-uawebapp` | No |
+| `{release-name}-web` | Yes |
+
+## Sticky Cookie Services
+
+The F5 NGINX Ingress Controller uses the `nginx.com/sticky-cookie-services` annotation to enable session affinity per service. Only stateful Liberty app services require sticky sessions — the `web` and `uawebapp` services serve static content and do not need to be included.
+
+See the [F5 NGINX session-persistence example](https://github.com/nginx/kubernetes-ingress/tree/v5.4.1/examples/ingress-resources/session-persistence) for further details. The cookie parameters (`cookieName`, `expires`, `domain`, `httponly`, `secure`, `path`) follow the same syntax as the [NGINX sticky directive](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#sticky).
+
+The Helm chart (`helm-charts/spm/templates/ingress.yaml`) includes a commented-out `nginx.com/sticky-cookie-services` annotation. Before deploying, uncomment it and replace `{release-name}` with your Helm release name, including only the `apps` services you have enabled:
+
+```yaml
+nginx.com/sticky-cookie-services: "serviceName=spm-apps-curam srv_id expires=1h path=/Curam"
+```
+
+Multiple services are separated by `;`. The full list of possible `apps` services is:
+
+| Service | Enabled by default |
+|---|---|
+| `{release-name}-apps-curam` | Yes |
+| `{release-name}-apps-rest` | No |
+| `{release-name}-apps-citizenportal` | No |
+| `{release-name}-apps-curamwebservices` | No |
+| `{release-name}-apps-curambirtviewer` | No |
+| `{release-name}-apps-cpmexternalns` | No |
+| `{release-name}-apps-cpmexternals` | No |
+| `{release-name}-apps-navigatorns` | No |
+| `{release-name}-apps-navigators` | No |
+| `{release-name}-apps-mdtworkspace` | No |
+| `{release-name}-apps-samplepublicaccess` | No |
+
+## Annotation Migration
+
+This section is for clients migrating from the community `ingress-nginx` controller to the F5 NGINX Ingress Controller.
+
+The Helm chart retains the community `ingress-nginx` annotations for backwards compatibility and includes the F5 equivalents commented out. When you are ready to migrate, replace the community annotations with the F5 equivalents as shown below.
+
+<InlineNotification>
+
+**Note:** F5 NGINX uses two annotation namespaces. `nginx.com/` is used for F5-specific features such as SSL services and session persistence. `nginx.org/` is used for standard NGINX configuration such as timeouts and server snippets. Both are required as part of a full migration.
+
+</InlineNotification>
+
+**Before (community `ingress-nginx`)**
+
+```yaml
+annotations:
+  nginx.ingress.kubernetes.io/affinity: cookie
+  nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+  nginx.ingress.kubernetes.io/session-cookie-path: /
+  nginx.ingress.kubernetes.io/proxy-read-timeout: "150"
+  nginx.ingress.kubernetes.io/server-snippet: |
+    gzip on;
+    gzip_types application/atom+xml application/javascript ...;
+```
+
+**After (F5 NGINX Ingress Controller)**
+
+```yaml
+annotations:
+  nginx.com/ssl-services: "spm-apps-curam,spm-apps-rest,spm-uawebapp,spm-web"
+  nginx.com/sticky-cookie-services: "serviceName=spm-apps-curam srv_id expires=1h path=/;serviceName=spm-apps-rest srv_id expires=1h path=/"
+  nginx.org/proxy-read-timeout: "150s"
+  nginx.org/server-snippets: |
+    gzip on;
+    gzip_types application/atom+xml application/javascript ...;
+```
+
+Key differences:
+
+- **HTTPS backends** — replace `nginx.ingress.kubernetes.io/backend-protocol: HTTPS` with `nginx.com/ssl-services` listing each backend service by name.
+- **Session affinity** — replace `nginx.ingress.kubernetes.io/affinity: cookie` and `session-cookie-path` with `nginx.com/sticky-cookie-services`, which combines affinity and cookie configuration per service in a single annotation.
+- **Read timeout** — replace `nginx.ingress.kubernetes.io/proxy-read-timeout: "150"` with `nginx.org/proxy-read-timeout: "150s"`. Note the unit suffix is required by F5 NGINX.
+- **Server config** — replace `nginx.ingress.kubernetes.io/server-snippet` with `nginx.org/server-snippets`. Multi-line blocks are supported in both.

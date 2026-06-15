@@ -34,6 +34,8 @@
       path: /prereq/git/
     - title: Bitnami Secure
       path: /prereq/bitnami/
+    - title: Ingress Controller
+      path: /prereq/ingress/
 - title: Cúram application
   pages:
     - title: Installing Cúram software
