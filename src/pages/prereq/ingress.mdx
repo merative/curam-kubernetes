@@ -89,12 +89,6 @@ This section is for clients migrating from the community `ingress-nginx` control
 
 The Helm chart retains the community `ingress-nginx` annotations for backwards compatibility and includes the F5 equivalents commented out. When you are ready to migrate, replace the community annotations with the F5 equivalents as shown below.
 
-<InlineNotification>
-
-**Note:** F5 NGINX uses two annotation namespaces. `nginx.org/` is used for F5-specific features such as SSL services and session persistence. `nginx.org/` is used for standard NGINX configuration such as timeouts and server snippets. Both are required as part of a full migration.
-
-</InlineNotification>
-
 **Before (community `ingress-nginx`)**
 
 ```yaml
