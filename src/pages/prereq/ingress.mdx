@@ -27,14 +27,14 @@ kubectl get pods -n nginx-ingress
 
 ## SSL Services
 
-The F5 NGINX Ingress Controller uses the `nginx.com/ssl-services` annotation to identify which backend services communicate over HTTPS.
+The F5 NGINX Ingress Controller uses the `nginx.org/ssl-services` annotation to identify which backend services communicate over HTTPS.
 
 See the [F5 NGINX ssl-services example](https://github.com/nginx/kubernetes-ingress/tree/v5.4.1/examples/ingress-resources/ssl-services) for further details.
 
-The Helm chart (`helm-charts/spm/templates/ingress.yaml`) includes a commented-out `nginx.com/ssl-services` annotation listing all Cúram backend services. Before deploying, uncomment this annotation and replace `{release-name}` with your Helm release name, including only the services you have enabled:
+The Helm chart (`helm-charts/spm/templates/ingress.yaml`) includes a commented-out `nginx.org/ssl-services` annotation listing all Cúram backend services. Before deploying, uncomment this annotation and replace `{release-name}` with your Helm release name, including only the services you have enabled:
 
 ```yaml
-nginx.com/ssl-services: "spm-apps-curam,spm-apps-rest,spm-uawebapp,spm-web"
+nginx.org/ssl-services: "spm-apps-curam,spm-apps-rest,spm-uawebapp,spm-web"
 ```
 
 The full list of possible services is:
@@ -57,14 +57,14 @@ The full list of possible services is:
 
 ## Sticky Cookie Services
 
-The F5 NGINX Ingress Controller uses the `nginx.com/sticky-cookie-services` annotation to enable session affinity per service. Only stateful Liberty app services require sticky sessions — the `web` and `uawebapp` services serve static content and do not need to be included.
+The F5 NGINX Ingress Controller uses the `nginx.org/sticky-cookie-services` annotation to enable session affinity per service. Only stateful Liberty app services require sticky sessions — the `web` and `uawebapp` services serve static content and do not need to be included.
 
 See the [F5 NGINX session-persistence example](https://github.com/nginx/kubernetes-ingress/tree/v5.4.1/examples/ingress-resources/session-persistence) for further details. The cookie parameters (`cookieName`, `expires`, `domain`, `httponly`, `secure`, `path`) follow the same syntax as the [NGINX sticky directive](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#sticky).
 
-The Helm chart (`helm-charts/spm/templates/ingress.yaml`) includes a commented-out `nginx.com/sticky-cookie-services` annotation. Before deploying, uncomment it and replace `{release-name}` with your Helm release name, including only the `apps` services you have enabled:
+The Helm chart (`helm-charts/spm/templates/ingress.yaml`) includes a commented-out `nginx.org/sticky-cookie-services` annotation. Before deploying, uncomment it and replace `{release-name}` with your Helm release name, including only the `apps` services you have enabled:
 
 ```yaml
-nginx.com/sticky-cookie-services: "serviceName=spm-apps-curam srv_id expires=1h path=/Curam"
+nginx.org/sticky-cookie-services: "serviceName=spm-apps-curam srv_id expires=1h path=/Curam"
 ```
 
 Multiple services are separated by `;`. The full list of possible `apps` services is:
@@ -91,7 +91,7 @@ The Helm chart retains the community `ingress-nginx` annotations for backwards c
 
 <InlineNotification>
 
-**Note:** F5 NGINX uses two annotation namespaces. `nginx.com/` is used for F5-specific features such as SSL services and session persistence. `nginx.org/` is used for standard NGINX configuration such as timeouts and server snippets. Both are required as part of a full migration.
+**Note:** F5 NGINX uses two annotation namespaces. `nginx.org/` is used for F5-specific features such as SSL services and session persistence. `nginx.org/` is used for standard NGINX configuration such as timeouts and server snippets. Both are required as part of a full migration.
 
 </InlineNotification>
 
@@ -112,8 +112,8 @@ annotations:
 
 ```yaml
 annotations:
-  nginx.com/ssl-services: "spm-apps-curam,spm-apps-rest,spm-uawebapp,spm-web"
-  nginx.com/sticky-cookie-services: "serviceName=spm-apps-curam srv_id expires=1h path=/;serviceName=spm-apps-rest srv_id expires=1h path=/"
+  nginx.org/ssl-services: "spm-apps-curam,spm-apps-rest,spm-uawebapp,spm-web"
+  nginx.org/sticky-cookie-services: "serviceName=spm-apps-curam srv_id expires=1h path=/;serviceName=spm-apps-rest srv_id expires=1h path=/"
   nginx.org/proxy-read-timeout: "150s"
   nginx.org/server-snippets: |
     gzip on;
@@ -122,7 +122,7 @@ annotations:
 
 Key differences:
 
-- **HTTPS backends** — replace `nginx.ingress.kubernetes.io/backend-protocol: HTTPS` with `nginx.com/ssl-services` listing each backend service by name.
-- **Session affinity** — replace `nginx.ingress.kubernetes.io/affinity: cookie` and `session-cookie-path` with `nginx.com/sticky-cookie-services`, which combines affinity and cookie configuration per service in a single annotation.
+- **HTTPS backends** — replace `nginx.ingress.kubernetes.io/backend-protocol: HTTPS` with `nginx.org/ssl-services` listing each backend service by name.
+- **Session affinity** — replace `nginx.ingress.kubernetes.io/affinity: cookie` and `session-cookie-path` with `nginx.org/sticky-cookie-services`, which combines affinity and cookie configuration per service in a single annotation.
 - **Read timeout** — replace `nginx.ingress.kubernetes.io/proxy-read-timeout: "150"` with `nginx.org/proxy-read-timeout: "150s"`. Note the unit suffix is required by F5 NGINX.
 - **Server config** — replace `nginx.ingress.kubernetes.io/server-snippet` with `nginx.org/server-snippets`. Multi-line blocks are supported in both.
