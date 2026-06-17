@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file
 
+## v26.6.1
+
+### Fixed
+
+* **MQ deployment exclusion for BirtViewer:** Added `mqEnabled: false` flag for `curambirtviewer` application to prevent unnecessary MQ queue manager and pod deployment. BirtViewer is a read-only reporting application and does not require message queue infrastructure. Updated all `mqserver` chart templates to check the `mqEnabled` flag (defaults to `true` for other applications). Removed `curambirtviewer` DNS entry from MQ certificate configuration and renumbered DNS entries sequentially.
+
+### Changed
+
+* The following Helm charts have been updated to chart version `26.6.1`: `apps`, `batch`, `db2`, `dbbuild`, `mqserver`, `spm`, `uawebapp`, `web`, `xmlserver`.
+
 ## v26.6.0
 
 ### Breaking Changes

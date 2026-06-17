@@ -2,10 +2,10 @@
 {{- if and .Values.global.mq.metrics.enabled .Values.global.mq.metrics.additionalMetrics }}
 {{- if .Capabilities.APIVersions.Has "monitoring.coreos.com/v1" }}
 {{- range $name, $app := .Values.global.apps.config }}
-{{- if and ($app.enabled) (not (hasKey $app "mqConnectionNameList")) }}
+{{- if and ($app.enabled) (ne ($app.mqEnabled | default true) false) (not (hasKey $app "mqConnectionNameList")) }}
 ---
 ###############################################################################
-# © Merative US L.P. 2022,2025
+# © Merative US L.P. 2022,2026
 # Copyright 2021 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
