@@ -1,10 +1,10 @@
 {{- include "sch.config.init" (list . "mqserver.sch.chart.config.values") -}}
 {{- if not (.Capabilities.APIVersions.Has "mq.ibm.com/v1beta1") }}
 {{- range $name, $app := .Values.global.apps.config }}
-{{- if and ($app.enabled) (not (hasKey $app "mqConnectionNameList")) }}
+{{- if and ($app.enabled) (ne ($app.mqEnabled | default true) false) (not (hasKey $app "mqConnectionNameList")) }}
 ---
 ###############################################################################
-# © Merative US L.P. 2022,2025
+# © Merative US L.P. 2022,2026
 # Copyright 2019,2021 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");

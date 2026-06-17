@@ -1,5 +1,5 @@
 ###############################################################################
-# © Merative US L.P. 2022,2025
+# © Merative US L.P. 2022,2026
 # Copyright 2019,2021 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -140,6 +140,7 @@ global:
           - "-Xmx512m"
       curambirtviewer:
         enabled: false
+        mqEnabled: false
         replicaCount: 1
         readinessTCPProbe: true
         ingressPath: /CuramBIRTViewer/

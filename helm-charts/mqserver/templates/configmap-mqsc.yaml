@@ -1,7 +1,7 @@
 {{- include "sch.config.init" (list . "mqserver.sch.chart.config.values") -}}
 ---
 ###############################################################################
-# © Merative US L.P. 2022,2025
+# © Merative US L.P. 2022,2026
 # Copyright 2019,2021 IBM Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -74,7 +74,7 @@ data:
 
 {{ $apps := .Values.global.apps.config }}
 {{- range $name, $app := $apps }}
-{{- if and ($app.enabled) (not (hasKey $app "mqConnectionNameList")) }}
+{{- if and ($app.enabled) (ne ($app.mqEnabled | default true) false) (not (hasKey $app "mqConnectionNameList")) }}
   channel_{{$name}}.mqsc: |
     DEFINE CHANNEL(MQ_CHN_PROD) CHLTYPE(CLNTCONN) TRPTYPE(TCP) CONNAME('{{ $.Release.Name }}-mqserver-{{ $name }}') QMNAME({{ $.Values.global.mq.queueManager.name }}) SSLCIPH(ECDHE_RSA_AES_128_CBC_SHA256) CERTLABL ('ibmwebspheremq{{ $.Values.global.mq.queueManager.name | lower }}') REPLACE
     DEFINE CHANNEL(MQ_CHN_CONS) CHLTYPE(CLNTCONN) TRPTYPE(TCP) CONNAME('{{ $.Release.Name }}-mqserver-{{ $name }}') QMNAME({{ $.Values.global.mq.queueManager.name }}) SSLCIPH(ECDHE_RSA_AES_128_CBC_SHA256) CERTLABL ('ibmwebspheremq{{ $.Values.global.mq.queueManager.name | lower }}') REPLACE

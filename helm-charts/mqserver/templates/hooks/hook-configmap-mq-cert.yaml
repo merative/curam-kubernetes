@@ -2,7 +2,7 @@
 {{- include "sch.config.init" (list . "mqserver.sch.chart.config.values") -}}
 ---
 ###############################################################################
-# © Merative US L.P. 2025
+# © Merative US L.P. 2026
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -44,13 +44,12 @@ data:
     [ alt_names ]
     DNS.1 = {{ .Release.Name }}-mqserver-curam
     DNS.2 = {{ .Release.Name }}-mqserver-rest
-    DNS.3 = {{ .Release.Name }}-mqserver-curambirtviewer
-    DNS.4 = {{ .Release.Name }}-mqserver-citizenportal
-    DNS.5 = {{ .Release.Name }}-mqserver-curamwebservices
-    DNS.6 = {{ .Release.Name }}-mqserver-cpmexternalns
-    DNS.7 = {{ .Release.Name }}-mqserver-cpmexternals
-    DNS.8 = {{ .Release.Name }}-mqserver-navigatorns
-    DNS.9 = {{ .Release.Name }}-mqserver-navigators
-    DNS.10 = {{ .Release.Name }}-mqserver-mdtworkspace
-    DNS.11 = {{ .Release.Name }}-mqserver-samplepublicaccess
+    DNS.3 = {{ .Release.Name }}-mqserver-citizenportal
+    DNS.4 = {{ .Release.Name }}-mqserver-curamwebservices
+    DNS.5 = {{ .Release.Name }}-mqserver-cpmexternalns
+    DNS.6 = {{ .Release.Name }}-mqserver-cpmexternals
+    DNS.7 = {{ .Release.Name }}-mqserver-navigatorns
+    DNS.8 = {{ .Release.Name }}-mqserver-navigators
+    DNS.9 = {{ .Release.Name }}-mqserver-mdtworkspace
+    DNS.10 = {{ .Release.Name }}-mqserver-samplepublicaccess
 {{- end }}

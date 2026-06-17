@@ -194,6 +194,7 @@ global:
     #     enabled: false
     #   curambirtviewer:
     #     enabled: false
+    #     mqEnabled: false
 
   ## Set to use xmlserver monitoring
   useBetaFeatures: false
