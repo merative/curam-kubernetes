@@ -13,6 +13,9 @@
     "build:prefix": "gatsby build --prefix-paths",
     "serve:prefix": "gatsby serve --prefix-paths"
   },
+  "engines": {
+    "node": ">=24.22.2"
+  },
   "dependencies": {
     "@carbon/icons-react": "^11.36.0",
     "carbon-components": "^10.58.12",
