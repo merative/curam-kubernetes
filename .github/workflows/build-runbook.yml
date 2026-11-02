@@ -20,11 +20,11 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: 18
-      - uses: actions/setup-python@v2.2.2
+          node-version: '24.22.2'
+      - uses: actions/setup-python@v7
         with:
           python-version: 3.x
 
@@ -47,7 +47,7 @@ jobs:
           linkchecker http://$(hostname -f):8888$SITE_PREFIX --config=./linkcheckerrc
 
       - name: Deploy Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         if: ${{ github.ref == 'refs/heads/main' }}
         with:
           github_token: ${{ secrets.GIT_DEPLOY_GH_PAGES_TOKEN }}
