@@ -3,7 +3,7 @@ title: Persistence Storage
 description: Persistence Storage of the Applications Logs
 ---
 
-### What is Persistence Storage?
+## What is Persistence Storage?
 
 In Kubernetes, any data stored within the application pods is typically lost when the container terminates.
 
@@ -14,7 +14,7 @@ This ensures that information such as files, logs, and generated content, remain
 
 For more information about persistent storage, see [Persistent storage for Kubernetes](https://aws.amazon.com/blogs/storage/persistent-storage-for-kubernetes/).
 
-### Using Persistent Storage in Cúram
+## Using Persistent Storage in Cúram
 
 There is a wide range of choices provided by various Cloud providers for utilising persistent storage in order to store and access information using Cúram on Kubernetes.
 The common types of storage are Block Storage which controls data on devices, [File Storage](https://docs.oracle.com/en-us/iaas/Content/File/Concepts/filestorageoverview.htm) which is using the NFS and SMB protocols, or [Object Storage](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm) for unstructured data such as COS, AWS S3, and Azure Blob.
@@ -27,19 +27,19 @@ Choosing the appropriate method for enabling persistent storage in the Cúram ap
 
 Typically, the primary options for achieving persistence are File Storage and Object Storage.
 
-#### File Storage
+### File Storage
 
 File Storage is a storage method that stores data in a hierarchical structure, within folders as a single unit of information.
 It is widely accessible and offers relatively fast performance. File storage is typically leveraging protocols such as Network File System (NFS) and Server Message Block (SMB).
 Some notable implementations of File Storage include IBM Cloud File Storage (CFS), Amazon Elastic File System (EFS), and Azure File Service (AFS).
 
-#### Object Storage
+### Object Storage
 
 Object Storage enables the storage of vast amounts of data in a straightforward and cost-effective manner.
 In Azure, you can utilize Azure Blob Storage to access object storage, which is configured within a Premium Storage Account.
 While Azure Blob Storage shares similarities with Cloud Object Storage (COS) and Amazon S3 (S3), it does not offer support for the S3FS protocol interface.
 
-### Usage
+## Usage
 
 The following sample configurations are examples showing how to create Persistence Volume dynamically during the deployment of Cúram on Kubernetes.
 

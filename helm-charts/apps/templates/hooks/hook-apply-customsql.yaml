@@ -79,12 +79,6 @@ spec:
         - name: apply-customsql
           {{- include "customSQL.definition" . | indent 10 }}
           imagePullPolicy: {{ .Values.global.images.pullPolicy }}
-          envFrom:
-            - secretRef:
-                name: {{ default (include "sch.names.fullCompName" (list . "hook-dbcreds")) .Values.global.database.credsSecretName }}
-          env:
-            - name: ANT_OPTS
-              value: "-Djava.extra.jvmargs=\"-Dcuram.db.username=$SPM_DB_USR -Dcuram.db.password=$SPM_DB_PSW\""
           args:
             - -f
             - /opt/ibm/Curam/release/CuramSDEJ/util/loadsql.xml

@@ -14,7 +14,7 @@
 # limitations under the License.
 ###############################################################################
 
-ARG WLP_VERSION=26.0.0.3-full-java21-openj9-ubi-minimal
+ARG WLP_VERSION=26.0.0.9-full-java21-openj9-ubi-minimal
 ARG WLP_REGISTRY
 ARG ANT_VERSION=1.10.15
 ARG JMX_EXPORTER_URL=https://github.com/prometheus/jmx_exporter/releases/download/1.5.0/jmx_prometheus_javaagent-1.5.0.jar
@@ -50,7 +50,7 @@ RUN rpm -e --nodeps tzdata \
     && if command -v yum >/dev/null 2>&1; then \
       echo "Yum detected, use yum" && \
       yum install -y tzdata which && \
-      yum clean all && rm -rf /var/cache/yum; \
+      yum clean all; \
     elif command -v microdnf >/dev/null 2>&1; then \
       echo "microdnf detected, use microdnf" && \
       microdnf install -y tzdata which && \

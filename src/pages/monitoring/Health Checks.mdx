@@ -23,8 +23,8 @@ A readiness probe determines if a container is ready to start accepting traffic.
 A liveness probe determines if a container is still running. If the liveness probe fails the pod then responds based on its restart policy.
 
 More details about the Startup, Readiness and Liveness Probes can be found in [readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/) on Kubernetes
-site and [application health](https://docs.openshift.com/container-platform/4.6/applications/application-health.html) on OpenShift site.
+site and [application health](https://docs.redhat.com/en/documentation/openshift_container_platform/4.22/html/building_applications/application-health) on OpenShift site.
 
 The checks employed in the WebSphere Liberty applications for Cúram are provided by the mpHealth feature (version 3.1) in WebSphere Liberty. The mpHealth
 feature creates endpoints that the health check probes can query for application readiness and general health.
-Full details can be found in [health check](https://www.openliberty.io/docs/26.0.0.3/health-check-microservices.html)
+Full details can be found in [health check](https://www.openliberty.io/docs/26.0.0.6/health-check-microservices.html)

@@ -1,2 +1,64 @@
-import HomepageTemplate from '../components/Homepage';
-export default HomepageTemplate;
+---
+title: Cúram on Kubernetes Runbook
+description: Deploying Cúram Social Program Management on Kubernetes and Red Hat OpenShift
+eyebrow: Deployment guide
+hero: true
+---
+
+This runbook describes how to build, configure, deploy, and operate
+[Cúram Social Program Management](https://www.merative.com/curam) on Kubernetes.
+It covers Minikube, Red Hat OpenShift, Azure Kubernetes Service (AKS), and
+Amazon Elastic Kubernetes Service (EKS).
+
+<Cards>
+
+### [Architecture](/architecture/kubernetes/curam-on-kubernetes-101/)
+
+How Cúram maps onto containers, Kubernetes, and Helm, plus the reference
+architecture and platform-specific considerations.
+
+### [Prerequisites](/prereq/prereq/)
+
+The software, clusters, registries, and supporting services you need in place
+before you deploy.
+
+### [Cúram application](/deploy-curam/install-curam/)
+
+Installing the Cúram software, creating the database, and building the
+application ready for packaging.
+
+### [Building Docker images](/build-images/setup_docker_context/)
+
+Setting up the Docker build context and building the Liberty, batch, XML
+server, and utility images.
+
+### [Deploying with Helm](/deployment/hc_preparation/)
+
+Preparing and deploying the Helm charts, handling secrets, and the full
+configuration reference.
+
+### [Operations](/operations/updating_tools/)
+
+Updating tooling and rolling out new versions of the Cúram deployment.
+
+### [Monitoring](/monitoring/interrogate_runtime/)
+
+Cluster status, health checks, JMX statistics, MQ queue depth events, and
+Apache HTTP server metrics.
+
+### [Troubleshooting](/troubleshooting/troubleshoot/)
+
+Diagnosing common problems, remote debugging, tracing, and collecting
+MustGather data.
+
+</Cards>
+
+## New to Cúram on Kubernetes?
+
+Start with [Cúram on Kubernetes 101](/architecture/kubernetes/curam-on-kubernetes-101/)
+for an introduction to containerization, Kubernetes, OpenShift, and Helm, then
+work through the [prerequisites](/prereq/prereq/).
+
+If you are looking for a specific setting, the
+[configuration reference](/deployment/config-reference/) lists every supported
+Helm value.

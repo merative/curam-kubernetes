@@ -1,0 +1,57 @@
+---
+title: Migrating to v26.11.0
+description: Deployment changes and migration steps for Cúram 8.3 using the v26.11.0 Helm charts
+---
+
+This guidance applies to **Cúram 8.3** deployments using the **v26.11.0 Helm charts**.
+The version `26.11.0` identifies the Helm chart release, not the Cúram product version.
+
+Review these changes before upgrading an existing deployment or installing the v26.11.0 charts for Cúram 8.3 with values from an earlier chart release.
+Merge the examples below into your existing override file; they are not complete deployment configurations.
+
+## Supply credentials for the custom SQL install hook
+
+The `apps` chart's `apply-customsql` hook now reads the database username and SPM-encrypted password from Helm values, rather than from `global.database.credsSecretName`.
+Customers using an external credentials secret must supply matching values explicitly; Helm does not copy them from the secret.
+The chart's non-empty sample defaults are not a substitute for your database credentials.
+
+**Before**, an override file could refer only to an existing credentials secret:
+
+```yaml
+global:
+  database:
+    credsSecretName: spm-db-credentials
+```
+
+**After**, keep the secret reference and add the credentials used by the install hook:
+
+```yaml
+global:
+  database:
+    credsSecretName: spm-db-credentials
+    username: curamdbuser
+    spm_psw: "<SPM-encrypted password for curamdbuser>"
+```
+
+1. Set `username` to the database user represented by the secret's `SPM_DB_USR` key; do not assume the default `db2admin` is correct.
+2. Set `spm_psw` to that user's SPM-encrypted password, matching the secret's `SPM_DB_PSW` value. Replace the placeholder; do not use plaintext or the Liberty XOR-encoded password. When reading from a Kubernetes Secret's `data` field, decode the outer Kubernetes base64 layer first, leaving the SPM-encrypted value intact.
+3. Retain `credsSecretName`: application pods and batch jobs still use that secret. This change only removes the custom SQL hook's use of it.
+4. Use the updated values for subsequent deployments. During an installation, Helm waits for the `apply-customsql` job to succeed. If it fails, inspect the job status and pod logs before proceeding. Successful hook jobs are automatically deleted, so their absence after a successful install is expected.
+
+<InlineNotification>
+
+**Install versus upgrade:** `apply-customsql` is a `pre-install` hook, not a `pre-upgrade` hook.
+A normal `helm upgrade` does not execute this job, although Helm still renders its templates and the credential values must be valid.
+New installations, or reinstallations that execute install hooks, use the new credential source.
+Do not uninstall an existing release just to run this hook.
+
+</InlineNotification>
+
+<InlineNotification kind="warning">
+
+**Protect the credentials:** Values supplied to Helm become part of the Helm release data.
+The hook also renders these credentials into a ConfigMap as `Bootstrap.properties`; SPM encryption does not make the ConfigMap a Kubernetes Secret.
+Keep credential override files out of source control, restrict file and cluster access, and avoid exposing rendered manifests or credentials in logs.
+See [Handling Secrets](/deployment/secrets/) for password formats and secret management.
+
+</InlineNotification>

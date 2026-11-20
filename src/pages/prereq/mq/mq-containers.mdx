@@ -44,11 +44,9 @@ If you do not have an Entitlement key or if it fails to pull the IBM MQ docker i
 
 ## IBM MQ containers on AKS and EKS
 
-IBM MQ containers are not limited to OpenShift deployments.  
-They are also fully supported and production-ready on **Amazon Elastic Kubernetes Service (EKS)** and **Azure Kubernetes Service (AKS)**.
+IBM MQ CD 9.4.x containers are supported with Cúram on **Azure Kubernetes Service (AKS)** and **Amazon Elastic Kubernetes Service (EKS)**, as well as Red Hat OpenShift. MQ CD 9.3.x containers are supported on OpenShift only.
 
-This extended support allows organizations to deploy IBM MQ in a broader range of managed Kubernetes environments, enabling greater flexibility when designing cloud-native architectures.  
-The same operational capabilities, container images, and configuration principles apply across OCP, EKS, and AKS, ensuring consistent behaviour regardless of the chosen platform.
+See [deployment options and support](/prereq/mq/mq-overview/#deployment-options-and-support) for the platform comparison and Cúram production release requirements. Select the tested MQ level and supported Cúram, Java, and platform combination from the [prerequisite software matrix](/prereq/prereq/).
 
 ## IBM MQ containers on OpenShift
 
@@ -63,6 +61,8 @@ IBM MQ certified container is supported only from Cúram Version 7.0.11 and late
 </InlineNotification>
 
 ## Operators
+
+The runbook's `mqserver` Helm chart requires the `mq.ibm.com/v1beta1` API to create `QueueManager` resources. If that API is absent, the chart does not deploy a queue manager.
 
 MQ can also be deployed via Operators. Operators are a method of packaging and deploying Kubernetes applications that take human operational knowledge of managing the application and encode it into the package itself,
 which can then be shared with users. Operator deployment can be used to create a single-instance or a multi-instance deployment, as desired.

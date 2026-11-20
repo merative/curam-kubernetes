@@ -1,29 +1,21 @@
 {
   "name": "curam-kubernetes",
   "private": true,
-  "version": "26.6.1",
+  "version": "26.11.0",
   "license": "Apache 2.0",
   "scripts": {
-    "dev": "gatsby develop -H 0.0.0.0",
-    "dev:clean": "gatsby clean && gatsby develop -H 0.0.0.0",
-    "build": "gatsby build --prefix-paths",
-    "build:clean": "gatsby clean && gatsby build --prefix-paths",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean",
-    "build:prefix": "gatsby build --prefix-paths",
-    "serve:prefix": "gatsby serve --prefix-paths"
-  },
-  "engines": {
-    "node": ">=24.22.2"
+    "dev": "node scripts/build-docs.mjs --serve",
+    "build": "node scripts/build-docs.mjs",
+    "serve": "node scripts/build-docs.mjs --serve --no-build",
+    "clean": "node -e \"fs.rmSync('public',{recursive:true,force:true})\"",
+    "check": "node scripts/build-docs.mjs --check",
+    "test": "node --test scripts/*.test.mjs",
+    "check:accessibility": "npm --prefix Playwright run check:accessibility"
   },
   "dependencies": {
-    "@carbon/icons-react": "^11.36.0",
-    "carbon-components": "^10.58.12",
-    "carbon-components-react": "^8.51.0",
-    "gatsby": "^4.25.9",
-    "gatsby-cli": "4.25.0",
-    "gatsby-theme-carbon": "^3.4.13",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "highlight.js": "^11.12.0",
+    "js-yaml": "^5.5.0",
+    "markdown-it": "^15.0.3",
+    "markdown-it-anchor": "^10.1.0"
   }
 }
