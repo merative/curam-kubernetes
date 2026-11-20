@@ -1,11 +1,16 @@
 [filtering]
+# Redirects are not broken links: a 301/302 to the current location of a page is
+# a normal outcome for external documentation that vendors reorganise. Ignoring
+# this warning keeps the report focused on links that genuinely need fixing.
+ignorewarnings=http-redirected
+
 ignore=^http://localhost
        ^https://www.ibm.com/support
        ^https://ibm.biz/
        ^https://cloud.redhat.com/openshift/install/crc/installer-provisioned
 
 
-internlinks=^http://TRAVIS_HOST:8888/
+internlinks=^https?://[^/]+:8888/
 checkextern=1
 
 [checking]

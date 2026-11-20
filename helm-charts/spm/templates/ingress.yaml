@@ -31,6 +31,7 @@ metadata:
     {{- include "sch.metadata.labels.standard" (list . "") | nindent 4 }}
   annotations:
     nginx.org/proxy-read-timeout: "150"
+    nginx.org/redirect-to-https: "true"
     nginx.org/server-snippets: |
       gzip on;
       gzip_types application/atom+xml application/javascript application/x-javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/plain text/x-component text/html text/xml image/vnd.microsoft.icon;
