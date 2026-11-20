@@ -18,7 +18,7 @@ The following tables list the configurable parameters of the `spm` chart and the
   <AnchorLink>Universal Access React App - optional</AnchorLink>
 </AnchorLinks>
 
-### Global properties
+## Global properties
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
@@ -29,7 +29,9 @@ The following tables list the configurable parameters of the `spm` chart and the
 | `global.imagePullSecret.secretName` | Name of a pre-created secret containing the credentials for connecting to your private image registry - if left blank, will attempt unauthenticated connection | `''` |
 | `global.hubPullSecret.secretName` | Name of a pre-created secret containing the credentials for connecting to the docker hub - if left blank, will attempt unauthenticated connection | `''` |
 | `global.database.type` | Database type (Valid values: `DB2` or `ORA`) | `DB2` |
-| `global.database.credsSecretName` | Name of a pre-created secret containing the database credentials (see [Handling Secrets](/deployment/secrets) topic for expected secret content) | `''` |
+| <Badge kind="version">Cúram 8.3.0.0</Badge> `global.database.credsSecretName` | Name of a pre-created secret containing the database credentials (see [Handling Secrets](/deployment/secrets/) for expected content). The `apps` custom SQL install hook does not read this secret; see [Migrating to v26.11.0](/deployment/migrating-to-v26-11-0/). | `''` |
+| <Badge kind="version">Cúram 8.3.0.0</Badge> `global.database.username` | Database username used when generating credentials and by the `apps` custom SQL install hook. Set explicitly to match the external credentials secret when one is used. | `db2admin` |
+| <Badge kind="version">Cúram 8.3.0.0</Badge> `global.database.spm_psw` | SPM-encrypted database password used when generating credentials and by the `apps` custom SQL install hook. Use the SPM-encrypted value, not plaintext, Liberty XOR encoding, or the Kubernetes base64 representation. | Chart sample value; replace with your SPM-encrypted password |
 | `global.database.dbName` | Database name | `DATABASE` |
 | `global.database.serviceName` | The Oracle database service name | `''` |
 | `global.database.hostname` | Database server hostname (required) | `''` |
@@ -57,14 +59,14 @@ The following tables list the configurable parameters of the `spm` chart and the
 
 </InlineNotification>
 
-### Liberty runtime
+## Liberty runtime
 
 In the following properties, `<applicationID>` is a placeholder for the name of Cúram applications in lower case (e.g. `curam`, `citizenportal`, `rest`, etc).
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
 | `global.apps.config.<applicationID>.jvm` | Array of JVM options to be passed to Liberty | Varies by application (see `values.yaml`) |
-| ![AKS only](https://img.shields.io/badge/-AKS_only-blue) `global.apps.config.<applicationID>.mqConnectionNameList` | Connection list when IBM MQ is running in HA mode outside Kubernets (e.g. `mqHost1(1414),mqHost2(1414)`) | `''` |
+| <Badge kind="platform">AKS only</Badge> `global.apps.config.<applicationID>.mqConnectionNameList` | Connection list when IBM MQ is running in HA mode outside Kubernets (e.g. `mqHost1(1414),mqHost2(1414)`) | `''` |
 | `global.apps.config.<applicationID>.consumerTuning` | Dictionary of tuning values specific to the consumer pods (valid keys: `jvm`, `replicaCount`, `resources`, any keys from `apps.tuningDefaults`) | `{}` |
 | `global.apps.config.<applicationID>.producerTuning` | Dictionary of tuning values specific to the producer pods (valid keys: `jvm`, `replicaCount`, `resources`, any keys from `apps.tuningDefaults`) | `{}` |
 | `global.apps.config.<applicationID>.producerTuning.maxEndPoints_DPEnactmentAS` | Sets maximum concurrent endpoints for the DPEnactment JMS queue in the producer | `Default derived from maxThreads` |
@@ -76,11 +78,11 @@ In the following properties, `<applicationID>` is a placeholder for the name of 
 | `global.apps.config.<applicationID>.replicaCount` | Number of replicas of the application to be deployed | `1` |
 | `global.apps.config.<applicationID>.resources` | Pod [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container) definition | Varies by application (see `values.yaml`) |
 | `apps.initialDelaySeconds` | Time in seconds before commencing application readiness probes | `150` |
-| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.jwtConfig.issuerIdentifier` | JSON Web Token issuer identity, matching the `curam.watson.assistant.issuer` database property | `spm` |
-| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.jwtConfig.secretName` | Name of a pre-created secret containing signing certificate for JSON Web Tokens (see [Handling Secrets](/deployment/secrets) topic for expected secret content) | `''` |
-| ![Cúram 8.2.0.0](https://img.shields.io/badge/-Cúram_8.2.0.0-green) `apps.keycloakConfig.clientId` | Identifies the application authenticating with the Keycloak server and must match the client name configured in the Keycloak realm. | `` |
-| ![Cúram 8.2.0.0](https://img.shields.io/badge/-Cúram_8.2.0.0-green) `apps.keycloakConfig.realm` | The name of the Keycloak realm, which is a security domain managing users, roles, and clients. It allows for separation of independent authentication contexts | `''` |
-| ![Cúram 8.2.0.0](https://img.shields.io/badge/-Cúram_8.2.0.0-green) `apps.keycloakConfig.keycloakHost` | The URL or hostname of the Keycloak server, including the protocol. This is used by the application to communicate with the authentication server. | `''` |
+| <Badge kind="version">Cúram 8.0.0.0</Badge> `apps.jwtConfig.issuerIdentifier` | JSON Web Token issuer identity, matching the `curam.watson.assistant.issuer` database property | `spm` |
+| <Badge kind="version">Cúram 8.0.0.0</Badge> `apps.jwtConfig.secretName` | Name of a pre-created secret containing signing certificate for JSON Web Tokens (see [Handling Secrets](/deployment/secrets) topic for expected secret content) | `''` |
+| <Badge kind="version">Cúram 8.2.0.0</Badge> `apps.keycloakConfig.clientId` | Identifies the application authenticating with the Keycloak server and must match the client name configured in the Keycloak realm. | `` |
+| <Badge kind="version">Cúram 8.2.0.0</Badge> `apps.keycloakConfig.realm` | The name of the Keycloak realm, which is a security domain managing users, roles, and clients. It allows for separation of independent authentication contexts | `''` |
+| <Badge kind="version">Cúram 8.2.0.0</Badge> `apps.keycloakConfig.keycloakHost` | The URL or hostname of the Keycloak server, including the protocol. This is used by the application to communicate with the authentication server. | `''` |
 | `apps.loginConfig.identityOnly` | Use LDAP authentication in `Identity-Only` mode | `false` |
 | `apps.loginConfig.trace` | Debug authentication process by printing tracing information on invocation of the login module | `false` |
 | `apps.replicaCount` | Default number of replicas, if `global.apps.config.<applicationID>.replicaCount` is not specified | `1` |
@@ -115,15 +117,15 @@ In the following properties, `<applicationID>` is a placeholder for the name of 
 | `apps.podAnnotations` | Annotations to be applied during deployment | `{}` |
 | `apps.isam.enabled` | Set to true if you want to use ISAM for user login or access control | `false` |
 | `apps.oidc.enabled` | Set to true if using an OIDC-compliant identity provider | `false` |
-| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.missedPersistentTimerAction` | How missed timer actions are handled when no server is available. (Valid values: `ONCE` or `ALL`) | `ONCE` |
-| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.lateTimerThreshold` | How long before a warning is logged by Liberty when a timer is missed. (Valid value range: `0` (off) - `90m`) | `5m` |
-| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.missedTaskThreshold` | Maximum amount of time to allow for successful completion of a timer execution. (Valid value range: `100s` - `9000s`) | `120s` |
-| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.pollInterval` | How often the database tables are checked for tasks. (Minimum valid value: `100s`) | `120s` |
-| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.initialPollDelay` | Delay before Liberty begins polling for timer tasks. (Valid values: `0` or positive integer followed by the unit of time, `s` (seconds)) | `0` |
-| ![Cúram 8.0.0.0](https://img.shields.io/badge/-Cúram_8.0.0.0-green) `apps.persistenTimers.pollSize` | Maximum number of task entries to find when polling the persistent store. (Valid values: no value (no limit), integer `1` or greater) | `""` |
+| <Badge kind="version">Cúram 8.0.0.0</Badge> `apps.persistenTimers.missedPersistentTimerAction` | How missed timer actions are handled when no server is available. (Valid values: `ONCE` or `ALL`) | `ONCE` |
+| <Badge kind="version">Cúram 8.0.0.0</Badge> `apps.persistenTimers.lateTimerThreshold` | How long before a warning is logged by Liberty when a timer is missed. (Valid value range: `0` (off) - `90m`) | `5m` |
+| <Badge kind="version">Cúram 8.0.0.0</Badge> `apps.persistenTimers.missedTaskThreshold` | Maximum amount of time to allow for successful completion of a timer execution. (Valid value range: `100s` - `9000s`) | `120s` |
+| <Badge kind="version">Cúram 8.0.0.0</Badge> `apps.persistenTimers.pollInterval` | How often the database tables are checked for tasks. (Minimum valid value: `100s`) | `120s` |
+| <Badge kind="version">Cúram 8.0.0.0</Badge> `apps.persistenTimers.initialPollDelay` | Delay before Liberty begins polling for timer tasks. (Valid values: `0` or positive integer followed by the unit of time, `s` (seconds)) | `0` |
+| <Badge kind="version">Cúram 8.0.0.0</Badge> `apps.persistenTimers.pollSize` | Maximum number of task entries to find when polling the persistent store. (Valid values: no value (no limit), integer `1` or greater) | `""` |
 | `apps.properties` | Applications properties to be set during deployment | `{}` |
 
-### Batch jobs
+## Batch jobs
 
 In the following properties, `<progID>` is a placeholder for the name of the batch program - this must be a valid YAML term (lower case, alphanumerical plus hyphens, must begin with a letter), but does not need to match the Batch process class.
 
@@ -217,35 +219,37 @@ The resource values can be changed. However, for troubleshooting, we will reques
 
 </InlineNotification>
 
-### IBM MQ
+## IBM MQ
 
 <InlineNotification>
 
-**Note:** There are two deployment strategies for IBM MQ, with MQ installed on a virtual machine or within a container.
-Cúram supports MQ on a VM for both Openshift and Kubernetes Service.
-We only support containerised MQ on Openshift.
+**Note:** Cúram supports IBM MQ LTS on VMs outside the cluster for Red Hat OpenShift, AKS, and EKS.
+IBM MQ CD 9.4.x containers are supported on all three platforms; MQ CD 9.3.x containers are supported on OpenShift only.
+See [MQ deployment options and support](/prereq/mq/mq-overview/#deployment-options-and-support) and the [prerequisite software matrix](/prereq/prereq/) for the applicable Cúram, Java, MQ, and platform versions.
 
 </InlineNotification>
 
+The `mqserver` chart creates `QueueManager` resources only when the `mq.ibm.com/v1beta1` API is available; see [MQ containers](/prereq/mq/mq-containers/).
+
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
-| ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.version` | Version of [IBM MQ](https://hub.docker.com/r/ibmcom/mq) to deploy | `9.4.3.0-r2` |
-| ![VM based only](https://img.shields.io/badge/-VM_only-blue) `global.mq.useConnectionNameList` | Indicator if IBM MQ is running in HA mode outside the cluster | `false` |
+| <Badge kind="restriction">Container only</Badge> `global.mq.version` | Version of [IBM MQ](https://hub.docker.com/r/ibmcom/mq) to deploy | `9.4.3.0-r2` |
+| <Badge kind="platform">VM only</Badge> `global.mq.useConnectionNameList` | Indicator if IBM MQ is running in HA mode outside the cluster | `false` |
 | `global.mq.tlsSecretName` | Name of a pre-created Secret containing TLS certificates for IBM MQ (required if running MQ outside the cluster, optional for MQ containers - certificates are auto-generated if not provided) | `''` |
-| ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.queueManager.name` | Name of the queue manager to be created in the MQ container | `QM1` |
+| <Badge kind="restriction">Container only</Badge> `global.mq.queueManager.name` | Name of the queue manager to be created in the MQ container | `QM1` |
 | `global.mq.queueManager.secret.name` | Name of a pre-created secret containing credentials of the MQ client and admin users (see [Handling Secrets](/deployment/secrets) topic) | `''` |
-| ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.queueManager.secret.adminPasswordKey` | The key in the Kubernetes Secret containing the password for the MQ admin user | `adminPasswordKey` |
+| <Badge kind="restriction">Container only</Badge> `global.mq.queueManager.secret.adminPasswordKey` | The key in the Kubernetes Secret containing the password for the MQ admin user | `adminPasswordKey` |
 | `global.mq.queueManager.secret.appUsernameKey` | The key in the Kubernetes Secret containing the username for the MQ client user | `appUsername` |
 | `global.mq.queueManager.secret.appPasswordKey` | The key in the Kubernetes Secret containing the password for the MQ client user | `appPasswordKey` |
-| ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.availabilityType` | Availability type to be used for deployments (alternatives: `SingleInstance` or `MultiInstance`). Only available with stateful MQ Operators | `SingleInstance` |
-| ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.storageType` | Storage type to be used (alternatives: `ephemeral` or `persistent-claim`) | `ephemeral` |
-| ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.storageClassName` | Storage class used for dynamic provisioning by the provisioner | `''` |
-| ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.security.context.fsGroup` | Primary user group for any filesystem mounts, if required by the storage provisioner | `''` |
-| ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.security.context.supplementalGroups` | Supplemental user groups for any filesystem mounts, if required by the storage provisioner | `[]` |
-| ![Container only](https://img.shields.io/badge/-Container_only-red) `global.mq.security.initVolumeAsRoot` | Initialise storage volume as `root` user | `false` |
-| ![Container only](https://img.shields.io/badge/-Container_only-red) `mqserver.podAnnotations` | Annotations to be applied during deployment | `{}` |
+| <Badge kind="restriction">Container only</Badge> `global.mq.availabilityType` | Availability type to be used for deployments (alternatives: `SingleInstance` or `MultiInstance`). Only available with stateful MQ Operators | `SingleInstance` |
+| <Badge kind="restriction">Container only</Badge> `global.mq.storageType` | Storage type to be used (alternatives: `ephemeral` or `persistent-claim`) | `ephemeral` |
+| <Badge kind="restriction">Container only</Badge> `global.mq.storageClassName` | Storage class used for dynamic provisioning by the provisioner | `''` |
+| <Badge kind="restriction">Container only</Badge> `global.mq.security.context.fsGroup` | Primary user group for any filesystem mounts, if required by the storage provisioner | `''` |
+| <Badge kind="restriction">Container only</Badge> `global.mq.security.context.supplementalGroups` | Supplemental user groups for any filesystem mounts, if required by the storage provisioner | `[]` |
+| <Badge kind="restriction">Container only</Badge> `global.mq.security.initVolumeAsRoot` | Initialise storage volume as `root` user | `false` |
+| <Badge kind="restriction">Container only</Badge> `mqserver.podAnnotations` | Annotations to be applied during deployment | `{}` |
 
-### MQ Metrics (optional)
+## MQ Metrics (optional)
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
@@ -255,13 +259,13 @@ We only support containerised MQ on Openshift.
 | `mqserver.metricsImage.name` | Name of your IBM MQ Queue Depth Events image to be used | `{}` |
 | `mqserver.metricsImage.tag` | Image tag of your IBM MQ Queue Depth Events image to be used | `{}` |
 
-### MQ tuning (optional)
+## MQ tuning (optional)
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
 | `global.apps.config.<applicationID>.mqTuning` | MQ Pod [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container) definition per application | Varies by application (see `values.yaml`) |
 
-### Static Content Server
+## Static Content Server
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
@@ -272,7 +276,7 @@ We only support containerised MQ on Openshift.
 | `web.tuning` | Tuning values for Apache HTTP server of web component. Multiple values can be configured, each in the form "key value" e.g "ThreadLimit 2" | `''` |
 | `keycloak.ingressPath` | This is the HTTP path that your application uses to handle redirects from Keycloak after user authentication. | `/oidcclient/redirect/spm/` |
 
-### XML Server
+## XML Server
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
@@ -285,14 +289,14 @@ We only support containerised MQ on Openshift.
 | `xmlserver.config.threadPoolSize` | XML server thread pool size | `5` |
 | `xmlserver.config.threadPoolQueueSize` | XML server thread pool queue size | `200` |
 | `xmlserver.config.socketTimeout` | XML server socket timeout (milliseconds) | `60000` |
-| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.readinessProbe.enabled` | Enable XML server readinessProbe described in [XML server health checks](/monitoring/xmlserver-monitoring#xml-server-health-checks) | `false` |
-| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.readinessProbe.initialDelaySeconds` | Seconds after container startup to initiate readiness probe | `15` |
-| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.readinessProbe.periodSeconds` | Seconds between probe invocations | `60` |
-| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.enabled` | Enable XML server livenessProbe described in [XML server health checks](/monitoring/xmlserver-monitoring#xml-server-health-checks) | `false` |
-| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.initialDelaySeconds` | Seconds after container startup to initiate liveness probe | `60` |
-| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.periodSeconds` | Seconds between liveness probe invocations | `120` |
-| ![Cúram 8.1.0.0](https://img.shields.io/badge/-Cúram_8.1.0.0-green) `xmlserver.livenessProbe.timeoutSeconds` | Number of seconds before the probe times out | `30` |
-| ![Cúram 8.2.0.0](https://img.shields.io/badge/-Cúram_8.2.0.0-green) `xmlserver.tlsSecretName` | Name of a pre-created secret containing TLS key and certificate files - certificates are auto-generated if not provided | `` |
+| <Badge kind="version">Cúram 8.1.0.0</Badge> `xmlserver.readinessProbe.enabled` | Enable XML server readinessProbe described in [XML server health checks](/monitoring/xmlserver-monitoring#xml-server-health-checks) | `false` |
+| <Badge kind="version">Cúram 8.1.0.0</Badge> `xmlserver.readinessProbe.initialDelaySeconds` | Seconds after container startup to initiate readiness probe | `15` |
+| <Badge kind="version">Cúram 8.1.0.0</Badge> `xmlserver.readinessProbe.periodSeconds` | Seconds between probe invocations | `60` |
+| <Badge kind="version">Cúram 8.1.0.0</Badge> `xmlserver.livenessProbe.enabled` | Enable XML server livenessProbe described in [XML server health checks](/monitoring/xmlserver-monitoring#xml-server-health-checks) | `false` |
+| <Badge kind="version">Cúram 8.1.0.0</Badge> `xmlserver.livenessProbe.initialDelaySeconds` | Seconds after container startup to initiate liveness probe | `60` |
+| <Badge kind="version">Cúram 8.1.0.0</Badge> `xmlserver.livenessProbe.periodSeconds` | Seconds between liveness probe invocations | `120` |
+| <Badge kind="version">Cúram 8.1.0.0</Badge> `xmlserver.livenessProbe.timeoutSeconds` | Number of seconds before the probe times out | `30` |
+| <Badge kind="version">Cúram 8.2.0.0</Badge> `xmlserver.tlsSecretName` | Name of a pre-created secret containing TLS key and certificate files - certificates are auto-generated if not provided | `` |
 
 <InlineNotification>
 
@@ -300,14 +304,14 @@ In Kubernetes, XML server replicas are abstracted to the single `xmlserver.serve
 
 </InlineNotification>
 
-### Universal Access React App - optional
+## Universal Access React App - optional
 
 | Parameter | Description | Default |
 | --------- | ----------- | ------- |
 | `uawebapp.imageConfig.library` | Namespace in the image registry containing your Universal Access image | `''` |
 | `uawebapp.imageConfig.name` | Name of your Universal Access image to be used | `''` |
 | `uawebapp.imageConfig.tag` | Image tag of your Universal Access image to be used | `latest` |
-| `uawebapp.ingressPath` | Static content Ingress/Route path without a trailing forward slash (must match the [PUBLIC_URL](https://curam-spm-devops.github.io/wh-support-docs/pdf/CE/UniversalAccess_6_1_3.pdf) variable used when the application was built) | `/universal` |
+| `uawebapp.ingressPath` | Static content Ingress/Route path without a trailing forward slash (must match the [PUBLIC_URL](https://www.merative.com/support/curam) variable used when the application was built) | `/universal` |
 | `uawebapp.readinessProbe.path` | Path for pod readiness probe (should match `ingressPath` but with trailing slash) | `/universal/` |
 | `uawebapp.replicaCount` | Number of replicas to be deployed | `1` |
 | `uawebapp.resources` | Pod [resources](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container) definition | Varies by application (see `values.yaml`) |

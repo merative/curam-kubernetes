@@ -3,6 +3,8 @@ title: Deploying Helm Charts
 description: Deploying Helm Charts
 ---
 
+When moving from an earlier release, review [Migrating to v26.11.0](/deployment/migrating-to-v26-11-0/) before deploying.
+
 In the following `helm install` command, we are using `releasename` as the value for the `helm release name`. A release name is an arbitrary name that you choose for your
 deployment. It must be all lowercase. All kubernetes objects in your deployment will be prefixed with whatever value you provide.
 
@@ -25,7 +27,7 @@ However, as described in [Setting up the Docker® context](/build-images/setup_d
 helm install releasename local-development/Curam -f override-values.yaml
 ```
 
-### Sample `override-values.yaml` files
+## Sample `override-values.yaml` files
 
 The following three override files for Minikube, AKS, and CRC are intended to be used with the config options listed in the
 [Configuration Reference](/deployment/config-reference) topic. The minimum details that need to be filled out for a successful deployment
@@ -75,7 +77,8 @@ The respective license agreements can be reviewed by running the following comma
 <Column>
 
 ```shell
-docker run --rm -e LICENSE=view icr.io/appcafe/websphere-liberty/26.0.0.3-full-java21-openj9-ubi-minimal```
+docker run --rm -e LICENSE=view icr.io/appcafe/websphere-liberty/26.0.0.9-full-java21-openj9-ubi-minimal
+```
 
 </Column>
 </Row>
@@ -86,7 +89,7 @@ docker run --rm -e LICENSE=view icr.io/appcafe/websphere-liberty/26.0.0.3-full-j
 <Column>
 
 ```shell
-docker run --rm -e LICENSE=view icr.io/appcafe/websphere-liberty/26.0.0.3-full-java8-ibmjava-ubi
+docker run --rm -e LICENSE=view icr.io/appcafe/websphere-liberty/26.0.0.9-full-java8-ibmjava-ubi
 ```
 
 </Column>

@@ -12,7 +12,7 @@ IBM MQ has been updated to version 9.4.3.0-r2
 
 <InlineNotification>
 
-IBM MQ containers are now fully production-ready across multiple Kubernetes platforms. In addition to Red Hat OpenShift (OCP), organizations can now confidently deploy MQ certified containers on Amazon Web Services (AWS) and Amazon Elastic Kubernetes Service (EKS) for production workloads.
+IBM MQ CD 9.4.x containers are supported with Cúram on Red Hat OpenShift, Azure Kubernetes Service (AKS), and Amazon Elastic Kubernetes Service (EKS), subject to the Cúram release and platform requirements in the [prerequisite software matrix](/prereq/prereq/). MQ CD 9.3.x containers remain supported on OpenShift only.
 
 </InlineNotification>
 
@@ -31,4 +31,18 @@ When Cúram is containerized on Kubernetes, it uses IBM MQ to manage JMS message
 If MQ fails, certain functionality will be unusable. This includes and is not limited to, creation of a case and creation of an application. In order to reduce the likelihood
 of this, MQ can be configured to be a multi-instance deployment. This results in a stateful set being created, with one active/primary queue manager, and one standby/secondary queue manager.
 
-Currently, MQ can be configured on [VMs](/prereq/mq/mq-on-vms) or [Container](/prereq/mq/mq-containers).
+## Deployment options and support
+
+Cúram supports IBM MQ deployed outside the cluster on [VMs](/prereq/mq/mq-on-vms/) or within the cluster as [containers](/prereq/mq/mq-containers/). The MQ release stream and version determine the supported deployment option.
+
+| MQ deployment | Red Hat OpenShift | AKS | EKS |
+| ------------- | ----------------- | --- | --- |
+| IBM MQ CD 9.4.x containers | Supported | Supported | Supported |
+| IBM MQ CD 9.3.x containers | Supported | Not supported | Not supported |
+| IBM MQ LTS on VMs outside the cluster | Supported | Supported | Supported |
+
+Use the [prerequisite software matrix](/prereq/prereq/) to select the tested MQ level and a supported Cúram, Java, and platform combination. The current matrix lists MQ CD 9.4.3.0 for Cúram 8.2.x; this does not extend AKS or EKS support to older MQ CD releases. AKS production support starts with Cúram 8.2, and EKS production support starts with Cúram 8.2.1.0.
+
+The runbook's `mqserver` chart creates a `QueueManager` resource only when the `mq.ibm.com/v1beta1` API is available. Without that API, it does not deploy a queue manager.
+
+For production, plan persistent storage, recovery, and availability for MQ alongside the application tier. Use the [MQ file system guidance](/prereq/mq/mq-containers/#mq-file-systems-consideration) when selecting storage for a multi-instance deployment. Choose between containers and external VMs according to the supported software combination and your operational requirements.

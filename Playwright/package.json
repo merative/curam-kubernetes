@@ -1,0 +1,17 @@
+{
+  "name": "playwright-folder",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "check:accessibility": "node scripts/check-accessibility.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^26.6.6"
+  }
+}

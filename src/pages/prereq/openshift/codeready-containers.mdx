@@ -13,11 +13,11 @@ Similar to Minikube in concept, CRC provides a cloud like environment locally to
 
 This page covers some common CRC operations, including deploying Cúram to the CRC environment. You will use the Helm Charts produced in [Preparing Helm Charts](/deployment/hc_deployment).
 
-For a full getting started guide for CRC, see [Getting Started Guide CodeReady Containers](https://access.redhat.com/documentation/en-us/red_hat_codeready_containers/1.23/html/getting_started_guide/index)
+For a full getting started guide for CRC, see [Getting Started Guide CodeReady Containers](https://crc.dev/docs/getting-started/)
 
 ### Minimum System requirements
 
-CodeReady Containers system requirements can be found here: [CRC Minimum system requirements](https://crc-org.github.io/crc/#minimum-system-requirements_gsg).
+CodeReady Containers system requirements can be found here: [CRC Minimum system requirements](https://crc.dev/docs/installing/#minimum-system-requirements).
 
 <InlineNotification>
 
@@ -234,7 +234,7 @@ The public URL uses a certificate signed by the OpenShift internal CA, which Doc
 
 Docker loads all `*.crt` files under `/etc/docker/certs.d/<registryHost[:port]>` directories and uses them for verifying any self-signed certificates.
 
-More information can be found in the Docker Documentation [Use self-signed certificates](https://docs.docker.com/registry/insecure/#use-self-signed-certificates).
+More information can be found in the Docker documentation [Verify repository client with certificates](https://docs.docker.com/engine/security/certificates/#understand-the-configuration).
 
 Enable Docker trust certificate:
 

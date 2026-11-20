@@ -14,7 +14,7 @@
 # limitations under the License.
 ###############################################################################
 
-ARG WLP_VERSION=26.0.0.3-full-java21-openj9-ubi-minimal
+ARG WLP_VERSION=26.0.0.9-full-java21-openj9-ubi-minimal
 ARG WLP_REGISTRY
 ARG MQ_ADAPTER_VERSION=9.4.3.0
 ARG MQ_RA_LICENSE
@@ -53,7 +53,7 @@ RUN rpm -e --nodeps tzdata \
       echo "Yum detected, use yum" \
       && yum install -y tzdata which \
       && yum install -y wget \
-      && yum clean all && rm -rf /var/cache/yum; \
+      && yum clean all; \
     elif command -v microdnf >/dev/null 2>&1; then \
       echo "microdnf detected, use microdnf" \
       && microdnf install -y tzdata which \
@@ -78,7 +78,7 @@ USER 1001
 COPY --chown=1001:0 content/*.sh /opt/ibm/helpers/runtime/
 COPY --from=MQAdapter --chown=1001:0 /opt/wmq /opt/wmq
 COPY --chown=1001:0 content/release-stage/CuramSDEJ/drivers/db2jcc*.jar /shared_resources/drivers/
-COPY --chown=1001:0 content/release-stage/CuramSDEJ/drivers/ojdbc*.jar /shared_resources/drivers/
+COPY --chown=1001:0 content/release-stage/CuramSDEJ/drivers/ojdbc17.jar /shared_resources/drivers/
 COPY --chown=1001:0 content/release-stage/CuramSDEJ/lib/WLPRegistry.jar /shared_resources/
 COPY --chown=1001:0 content/release-stage/CuramSDEJ/lib/coreinf-ejb-interfaces.jar /shared_resources/
 COPY --chown=1001:0 content/release-stage/build/CryptoConfig.jar /opt/ibm/java/jre/lib/ext/

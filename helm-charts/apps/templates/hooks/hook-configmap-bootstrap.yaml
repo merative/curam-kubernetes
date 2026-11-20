@@ -37,8 +37,8 @@ data:
     curam.db.type={{ .Values.global.database.type | upper }}
     curam.db.servername={{ .Values.global.database.hostname }}
     curam.db.serverport={{ required "Database server port is required (global.database.port)." .Values.global.database.port }}
-    curam.db.username=${sysenv.SPM_DB_USR}
-    curam.db.password=${sysenv.SPM_DB_PSW}
+    curam.db.username={{ required "Database username is required (global.database.username)." .Values.global.database.username }}
+    curam.db.password={{ required "SPM-encrypted password is required (global.database.spm_psw)." .Values.global.database.spm_psw }}
     curam.db.name={{ .Values.global.database.dbName }}
     {{- if eq (.Values.global.database.type | upper) "ORA" }}
     {{- if .Values.global.database.serviceName }}

@@ -1,54 +1,79 @@
 name: CI
 
-# Controls when the workflow will run
 on:
   push:
   pull_request:
-    branches: [ main, release/v7 ]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [main, release/v7]
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+permissions:
+  contents: read
+
 jobs:
   build-runbook:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
     env:
       SITE_PREFIX: /curam-kubernetes/
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '24.22.2'
-      - uses: actions/setup-python@v7
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            Playwright/package-lock.json
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
-          python-version: 3.x
+          python-version: '3.x'
 
-      - name: Prepare environment
+      - name: Install dependencies
         run: |
-          node --version
-          npm install -g markdownlint-cli
-          npm install --legacy-peer-deps
-          #npm ci
-          pip install --user linkchecker
+          npm ci
+          npm ci --prefix Playwright
+          npm install -g 'github:igorshubovych/markdownlint-cli#cbcdc463be5464e25e3e955a511599a67b9b987f'
+          pip install --user 'git+https://github.com/linkchecker/linkchecker.git@c6322b4b798e94f49ba6915704a86db16f83a402'
 
-      - name: Build docs
-        run: |
-          markdownlint **/*.mdx
-          npm run build
+      - name: Install Chromium
+        run: ./node_modules/.bin/playwright install --with-deps chromium
+        working-directory: Playwright
 
-      - name: Validate docs
+      - name: Lint markdown
+        run: markdownlint "src/pages/**/*.mdx"
+
+      - name: Test runbook build and navigation
+        run: npm test
+
+      - name: Check internal links
+        run: node scripts/build-docs.mjs --no-build --check
+
+      - name: Check accessibility and external links
         run: |
-          docker run --rm -d --name gatsby -p 8888:80 -v $(pwd)/public:/usr/local/apache2/htdocs$SITE_PREFIX httpd:2.4
-          linkchecker http://$(hostname -f):8888$SITE_PREFIX --config=./linkcheckerrc
+          PORT=8888 node scripts/build-docs.mjs --no-build --serve > /tmp/docs-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          ready=false
+          for i in $(seq 1 30); do
+            if curl --fail --silent "http://localhost:8888${SITE_PREFIX}" > /dev/null; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          if [ "$ready" != true ]; then
+            cat /tmp/docs-server.log
+            exit 1
+          fi
+          ACCESSIBILITY_BASE_URL="http://127.0.0.1:8888${SITE_PREFIX}" npm run check:accessibility
+          linkchecker "http://$(hostname -f):8888${SITE_PREFIX}" --config=./linkcheckerrc
 
       - name: Deploy Pages
-        uses: peaceiris/actions-gh-pages@v4
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
         with:
           github_token: ${{ secrets.GIT_DEPLOY_GH_PAGES_TOKEN }}
           publish_dir: ./public

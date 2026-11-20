@@ -73,7 +73,7 @@ It is also important to remember that AWS EKS is not a container management serv
 </AccordionItem>
 
 <AccordionItem title="Can we host Cúram containers outside Kubernetes?">
-No, Cúram is supported only on Kubernetes-based platforms and cannot be deployed using alternative container orchestration solutions such as Apache Mesos, AWS Elastic Container Service (ECS), or directly on virtual machines or bare metal. For currently supported architecture refer to the [Architecture Overview](/arch-overview/architecture-overview) page.
+No, Cúram is supported only on Kubernetes-based platforms and cannot be deployed using alternative container orchestration solutions such as Apache Mesos, AWS Elastic Container Service (ECS), or directly on virtual machines or bare metal. For currently supported architecture refer to the [Architecture Overview](/architecture/arch-overview/architecture-overview) page.
 
 Cúram only supports hosting on containerized architectures of Cúram on Azure Kubernetes Services, Amazon Elastic Kubernetes Services or OpenShift.
 
@@ -88,12 +88,12 @@ Although WebSphere Liberty provides support to Collectives, Cúram does not supp
 </AccordionItem>
 
 <AccordionItem title="Can we use WebSphere Liberty outside Kubernetes? For example, on a virtual machine?">
-No. Cúram only supports WebSphere Liberty when containerized as Docker images with Cúram EAR packages and deployed on Azure Kubernetes Services or OpenShift.
+No. Cúram only supports WebSphere Liberty when containerized as Docker images with Cúram EAR packages and deployed on Azure Kubernetes Service (AKS), Amazon Elastic Kubernetes Service (EKS) with Java 21 from Cúram 8.2.1.0, or OpenShift.
 
 <InlineNotification kind="warning">
 
 **Important**:
-Cúram does not support WebSphere Liberty hosted directly on a virtual machine or bare metal, outside of Kubernetes or OpenShift.
+Cúram does not support WebSphere Liberty hosted directly on a virtual machine or bare metal, outside Kubernetes (including OpenShift).
 
 </InlineNotification>
 <br/>
