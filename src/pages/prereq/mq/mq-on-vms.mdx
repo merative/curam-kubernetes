@@ -4,7 +4,7 @@ description: MQ on Vms
 tabs: ['MQ Overview','MQ on VMs','MQ Containers']
 ---
 
-Cúram also supports **IBM MQ LTS on a VM** , when running on outside of openshift. The following steps outline how to do this. In this runbook we will outline the steps to create:
+Cúram also supports **IBM MQ LTS on VMs outside the cluster** when Cúram runs on Red Hat OpenShift, AKS, or EKS. See [MQ deployment options and support](/prereq/mq/mq-overview/#deployment-options-and-support) for the platform comparison. The following steps outline how to create:
 
 * [Queues](https://www.ibm.com/docs/en/ibm-mq/9.1?topic=types-queues)
 * [Listeners](https://www.ibm.com/docs/en/ibm-mq/9.1?topic=types-listeners)
@@ -19,7 +19,7 @@ Cúram also supports **IBM MQ LTS on a VM** , when running on outside of openshi
 
 For the runbook, two standalone VMs were used as MQ nodes.
 
-### Queue manager names
+## Queue manager names
 
 For runbook configuration, the following naming conversion was used throughout the MQ setup: `NamingConvention_AppName`. This must be unique, but ensure you change the commands used on this page accordingly.
 

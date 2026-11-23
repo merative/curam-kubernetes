@@ -58,6 +58,8 @@
       path: /deployment/config-reference/
     - title: Handling Secrets
       path: /deployment/secrets/
+    - title: Migrating to v26.11.0
+      path: /deployment/migrating-to-v26-11-0/
     - title: Deploying Helm Charts
       path: /deployment/hc_deployment/
 - title: Operations

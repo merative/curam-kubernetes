@@ -35,7 +35,13 @@ data:
 
     echo "---> Disabling default logging directives in favor of ConfigMap directives ..."
     sed -ri 's!^(\s*)CustomLog!\1#CustomLog!g; s!^ErrorLog!#ErrorLog!g; s!^TransferLog!#TransferLog!g;' /etc/httpd/conf/httpd.conf
-    perl -pi -e 's!^CustomLog\s*(.*)\s+\\\n!#CustomLog \1!g; s!^ErrorLog!#ErrorLog!g; s!^TransferLog!#TransferLog!g;' /etc/httpd/conf.d/ssl.conf
+
+    # Replace perl command with sed-based equivalent for ssl.conf
+    # 1) Comment single-line directives
+    sed -ri 's!^(\s*)CustomLog(.*)$!\1#CustomLog\2!g; s!^(\s*)ErrorLog(.*)$!\1#ErrorLog\2!g; s!^(\s*)TransferLog(.*)$!\1#TransferLog\2!g' /etc/httpd/conf.d/ssl.conf
+
+    # 2) Handle continued CustomLog lines ending with backslash
+    sed -ri ':a;N;$!ba;s!^(\s*)CustomLog([^\n]*)\\\n!\1#CustomLog\2 !gm' /etc/httpd/conf.d/ssl.conf
 
   20-rewriteRules.sh: |
     #!/bin/sh

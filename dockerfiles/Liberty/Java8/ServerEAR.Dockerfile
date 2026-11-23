@@ -15,7 +15,7 @@
 # limitations under the License.
 ###############################################################################
 
-ARG WLP_VERSION=26.0.0.3-full-java8-ibmjava-ubi
+ARG WLP_VERSION=26.0.0.9-full-java8-ibmjava-ubi
 ARG WLP_REGISTRY
 ARG MQ_ADAPTER_VERSION=9.4.3.0
 ARG MQ_RA_LICENSE
@@ -68,7 +68,7 @@ USER 1001
 COPY --chown=1001:0 content/*.sh /opt/ibm/helpers/runtime/
 COPY --from=MQAdapter --chown=1001:0 /opt/wmq /opt/wmq
 COPY --chown=1001:0 content/release-stage/CuramSDEJ/drivers/db2jcc*.jar /shared_resources/drivers/
-COPY --chown=1001:0 content/release-stage/CuramSDEJ/drivers/ojdbc*.jar /shared_resources/drivers/
+COPY --chown=1001:0 content/release-stage/CuramSDEJ/drivers/ojdbc8.jar /shared_resources/drivers/
 COPY --chown=1001:0 content/release-stage/CuramSDEJ/lib/WLPRegistry.jar /shared_resources/
 COPY --chown=1001:0 content/release-stage/CuramSDEJ/lib/coreinf-ejb-interfaces.jar /shared_resources/
 COPY --chown=1001:0 content/release-stage/build/CryptoConfig.jar /opt/ibm/java/jre/lib/ext/

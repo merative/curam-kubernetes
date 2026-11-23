@@ -1,0 +1,677 @@
+/*
+ * Cúram on Kubernetes Runbook theme.
+ *
+ * Palette sampled from the Cúram product pages
+ * (https://www.merative.com/curam/integrated-eligibility-enrollment), not
+ * from the Merative corporate brand. The two differ: Merative corporate
+ * leans on a purple -> red gradient, whereas Cúram is a peach product bar
+ * (#ffe4d5) over a warm canvas, with flat purple (#9900ff) as the single
+ * action colour and coral (#ff8241) from the Cúram mark as the accent.
+ *
+ *   peach   #ffe4d5   product bar / soft surfaces
+ *   coral   #ff8241   Cúram mark, accent details
+ *   purple  #9900ff   links, buttons, active state (hover #7e00d3)
+ *   ink     #20201f   text
+ *   canvas  #faf8f6   page background
+ *   panel   #f3f1ed   chips, table headers
+ *   hairline #e7e2da  rules and borders
+ *
+ * Headings use Source Serif Pro at weight 300, matching the product site.
+ * Merative's brand face ("Alliance No.1") is licensed and cannot be
+ * redistributed, so the sans stack falls back to system UI fonts.
+ */
+
+:root {
+  --brand-purple: #9900ff;
+  --brand-purple-hover: #7e00d3;
+  --brand-purple-dark: #6400a6;
+  --brand-peach: #ffe4d5;
+  --brand-peach-deep: #ffd2ba;
+  --brand-coral: #ff8241;
+
+  --ink: #20201f;
+  --ink-soft: #5c5a57;
+  --muted: #6b6762;
+  --canvas: #faf8f6;
+  --surface: #ffffff;
+  --panel: #f3f1ed;
+  --hairline: #e7e2da;
+
+  --danger: #d21313;
+  --accent-blue: #1385e2;
+
+  --masthead-h: 56px;
+  --sidebar-w: 286px;
+  --toc-w: 232px;
+  --measure: 46rem;
+
+  --radius: 6px;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --sans: "Alliance No.1", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --serif: "Source Serif Pro", Georgia, Cambria, "Times New Roman", serif;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--masthead-h) + 16px); }
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--brand-purple); text-underline-offset: 2px; }
+a:hover { color: var(--brand-purple-hover); }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 100;
+  padding: 8px 16px;
+  background: var(--ink);
+  color: #fff;
+}
+.skip-link:focus { left: 8px; top: 8px; }
+
+:focus-visible { outline: 2px solid var(--brand-purple); outline-offset: 2px; }
+
+/* ------------------------------------------------------------- masthead */
+
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: var(--masthead-h);
+  padding: 0 20px;
+  background: var(--brand-peach);
+  color: var(--ink);
+}
+
+/* Cúram's product bar sits on a plain hairline, not a gradient. */
+.masthead::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: var(--brand-peach-deep);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* Stand-in removed: the real roundel is rendered as an <img>. */
+
+/* The Cúram roundel, reused from the favicon asset. */
+.brand-logo { flex: none; display: block; }
+
+.brand-mark {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.brand-title {
+  padding-left: 12px;
+  border-left: 1px solid var(--brand-peach-deep);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.masthead-actions { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+
+.nav-search {
+  width: 200px;
+  padding: 5px 10px;
+  border: 1px solid var(--brand-peach-deep);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.85rem;
+}
+.nav-search::placeholder { color: var(--muted); }
+.nav-search:focus { border-color: var(--brand-purple); outline: none; }
+
+.gh-link { color: var(--ink-soft); font-size: 0.85rem; text-decoration: none; }
+.gh-link:hover { color: var(--brand-purple); }
+
+.nav-toggle {
+  display: none;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.nav-toggle::before {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--ink);
+  box-shadow: 0 -6px 0 var(--ink), 0 6px 0 var(--ink);
+}
+
+/* ---------------------------------------------------------------- shell */
+
+.shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr) var(--toc-w);
+  align-items: start;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* -------------------------------------------------------------- sidebar */
+
+.sidebar {
+  position: sticky;
+  top: var(--masthead-h);
+  max-height: calc(100vh - var(--masthead-h));
+  overflow-y: auto;
+  padding: 20px 8px 48px 20px;
+  border-right: 1px solid var(--hairline);
+  font-size: 0.875rem;
+}
+
+.sidebar ul { list-style: none; margin: 0; padding: 0; }
+
+.sidebar summary {
+  padding: 7px 10px;
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.sidebar summary::-webkit-details-marker { display: none; }
+.sidebar summary::before {
+  content: "\203A";
+  display: inline-block;
+  width: 14px;
+  color: var(--muted);
+  transition: transform 0.15s ease;
+}
+.sidebar details[open] > summary::before { transform: rotate(90deg); }
+.sidebar summary:hover { background: var(--panel); }
+
+.sidebar details ul { margin: 2px 0 8px; padding-left: 14px; border-left: 1px solid var(--hairline); }
+
+.sidebar a {
+  display: block;
+  padding: 5px 10px;
+  border-radius: var(--radius);
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.sidebar a:hover { background: var(--panel); color: var(--ink); }
+
+.sidebar a.active {
+  background: var(--brand-peach);
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--brand-purple);
+}
+
+.nav-solo > a { font-weight: 600; color: var(--ink); }
+.nav-divider { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--hairline); }
+
+/* Hidden by the search filter in site.js. */
+.sidebar .is-filtered { display: none; }
+
+/* -------------------------------------------------------------- content */
+
+.content { min-width: 0; padding: 28px 40px 64px; }
+
+.page-header { margin-bottom: 28px; padding-bottom: 18px; border-bottom: 1px solid var(--hairline); }
+
+.page-header h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* Sibling-page tab bar (the old `tabs:` frontmatter). */
+.page-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 18px; }
+.page-tabs a {
+  padding: 7px 14px;
+  border-bottom: 2px solid transparent;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+.page-tabs a:hover { color: var(--ink); border-bottom-color: var(--hairline); }
+.page-tabs a.active { color: var(--ink); border-bottom-color: var(--brand-purple); font-weight: 600; }
+
+.markdown { max-width: var(--measure); }
+
+/* ------------------------------------------------------- home page hero */
+
+/*
+ * Cúram's leadspace is light: an ink serif headline over a warm surface,
+ * with a small uppercase eyebrow above it. The flat purple panel on the
+ * product site is a mid-page feature band, not the hero, so it is not used
+ * here. On the home page the hero picks up the peach of the product bar so
+ * the two read as one continuous band (see .is-home .masthead::after).
+ */
+.hero {
+  margin: -28px -40px 32px;
+  padding: 56px 40px;
+  background: var(--brand-peach);
+  border-bottom: 1px solid var(--brand-peach-deep);
+}
+.hero-eyebrow {
+  margin: 0 0 18px;
+  color: var(--ink);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.hero h1 {
+  max-width: 22ch;
+  margin: 0 0 20px;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(2.1rem, 4.6vw, 3.3rem);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+.hero-lede { max-width: 56ch; margin: 0; color: var(--ink-soft); font-size: 1.1rem; }
+
+/* Let the masthead flow straight into the peach hero without a seam. */
+.is-home .masthead::after { display: none; }
+
+.is-home .markdown { max-width: 62rem; }
+/* No right-hand rail on the home page, so let the hero span the full width. */
+.is-home .shell { grid-template-columns: var(--sidebar-w) minmax(0, 1fr); }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+  gap: 16px;
+  margin: 2rem 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.12s ease, transform 0.12s ease;
+}
+.card:hover { border-color: var(--brand-purple); transform: translateY(-2px); color: var(--ink); }
+
+.card-title { font-size: 1.05rem; font-weight: 600; }
+.card-title::after { content: " \2192"; color: var(--brand-purple); }
+.card-body { color: var(--ink-soft); font-size: 0.9rem; line-height: 1.5; }
+
+@media (max-width: 900px) {
+  .hero { margin: -20px -20px 24px; padding: 40px 20px; }
+}
+
+.markdown h2,
+.markdown h3,
+.markdown h4 {
+  margin: 2em 0 0.6em;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  scroll-margin-top: calc(var(--masthead-h) + 16px);
+}
+.markdown h2 {
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--hairline);
+  font-family: var(--serif);
+  font-size: 1.65rem;
+  font-weight: 400;
+}
+.markdown h3 { font-size: 1.2rem; }
+.markdown h4 { font-size: 1.02rem; }
+
+.heading-anchor {
+  margin-left: 8px;
+  color: var(--muted);
+  font-weight: 400;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+h2:hover .heading-anchor,
+h3:hover .heading-anchor,
+h4:hover .heading-anchor,
+.heading-anchor:focus { opacity: 1; }
+
+.markdown p { margin: 0 0 1rem; }
+.markdown ul,
+.markdown ol { margin: 0 0 1rem; padding-left: 1.4rem; }
+.markdown li { margin: 0.3rem 0; }
+.markdown img { max-width: 100%; height: auto; border: 1px solid var(--hairline); border-radius: var(--radius); }
+
+.markdown blockquote {
+  margin: 1.2rem 0;
+  padding: 2px 18px;
+  border-left: 3px solid var(--brand-coral);
+  color: var(--ink-soft);
+}
+
+.markdown hr { height: 1px; margin: 2rem 0; border: 0; background: var(--hairline); }
+
+/* ------------------------------------------------------------------ code */
+
+.markdown code {
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  background: var(--panel);
+  font-family: var(--mono);
+  font-size: 0.86em;
+}
+
+.markdown pre {
+  position: relative;
+  margin: 0 0 1.2rem;
+  padding: 16px 18px;
+  overflow-x: auto;
+  border: 1px solid #33322f;
+  border-radius: var(--radius);
+  background: #1c1b1a;
+  color: var(--panel);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.markdown pre code { display: block; width: max-content; min-width: 100%; padding: 0; background: none; color: inherit; font-size: inherit; }
+
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 3px 9px;
+  border: 1px solid #45443f;
+  border-radius: 4px;
+  background: #2c2b29;
+  color: #d8d5d1;
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+.markdown pre:hover .copy-btn,
+.copy-btn:focus { opacity: 1; }
+.copy-btn:hover { border-color: var(--brand-purple); color: #fff; }
+
+/* highlight.js tokens, tuned to the dark code surface. */
+.hljs-comment, .hljs-quote { color: #8b8883; font-style: italic; }
+.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-type { color: #d59bff; }
+.hljs-string, .hljs-attr, .hljs-addition { color: #9be8a8; }
+.hljs-number, .hljs-symbol, .hljs-bullet { color: #ffb38a; }
+.hljs-title, .hljs-section, .hljs-name { color: #7cc4ff; }
+.hljs-variable, .hljs-template-variable { color: #ff9db1; }
+.hljs-built_in, .hljs-meta { color: #ffd479; }
+.hljs-deletion { color: #ff8a95; }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 700; }
+
+/* ---------------------------------------------------------------- tables */
+
+.table-wrap { margin: 0 0 1.4rem; overflow-x: auto; border: 1px solid var(--hairline); border-radius: var(--radius); }
+.table-wrap table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+.table-wrap th,
+.table-wrap td { padding: 10px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--hairline); overflow-wrap: anywhere; }
+.table-wrap th { background: var(--panel); font-weight: 600; white-space: nowrap; }
+.table-wrap tbody tr:last-child td { border-bottom: 0; }
+.table-wrap tbody tr:hover { background: #faf8f6; }
+
+/*
+ * The prerequisites support matrix is much wider than the reading measure.
+ * Where the right-hand rail exists it is allowed to bleed into it; otherwise
+ * it stays inside the content column and scrolls.
+ * (Replaces the viewport hacks that were in src/styles/prereq.css.)
+ */
+.curam-prereq-table-container { max-width: 100%; }
+.curam-prereq-table-container table { table-layout: fixed; }
+
+@media (min-width: 1201px) {
+  .curam-prereq-table-container { width: calc(100% + var(--toc-w)); max-width: none; }
+}
+
+/* Support-matrix ticks and crosses (was src/components/Icons.tsx). */
+.status { font-weight: 700; line-height: 1; }
+.status--ok { color: #16a34a; }
+.status--no { color: var(--danger); }
+
+/*
+ * Inline availability markers. These replaced remote shields.io images, so
+ * the site no longer makes third-party requests to render a page and the
+ * markers work offline and in air-gapped environments.
+ */
+.badge {
+  display: inline-block;
+  margin-right: 0.35em;
+  padding: 0.15em 0.6em;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.675em;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+/* "Cúram 8.1.0.0" — available from this release onwards. */
+.badge--version { border-color: #d9b8ef; background: #f6ebfd; color: var(--brand-purple-dark); }
+
+/* "AKS only", "VM only" — applies to one platform. */
+.badge--platform { border-color: #b6d8f5; background: #eaf4fd; color: #0f5f9e; }
+
+/* "Container only" — not available in this deployment model. */
+.badge--restriction { border-color: #f0c2c2; background: #fdefef; color: var(--danger); }
+
+/* In a table cell the badge sits on its own line above the value it marks. */
+.table-wrap td .badge { margin-bottom: 0.25em; }
+
+@media print {
+  .badge { border-color: var(--hairline) !important; background: none !important; color: var(--ink) !important; }
+}
+
+/* --------------------------------------------------------------- notices */
+
+.note {
+  margin: 1.2rem 0;
+  padding: 14px 18px;
+  border-left: 3px solid var(--accent-blue);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: #f1f7fd;
+  font-size: 0.92rem;
+}
+.note > :last-child { margin-bottom: 0; }
+.note--warning { border-left-color: #d98324; background: #fdf5ec; }
+.note--error { border-left-color: var(--danger); background: #fdeff0; }
+.note--success { border-left-color: #16a34a; background: #eff8f1; }
+
+.page-description {
+  margin-bottom: 1.6rem;
+  color: var(--ink-soft);
+  font-family: var(--serif);
+  font-size: 1.16rem;
+  line-height: 1.5;
+}
+
+.caption { margin: -0.6rem 0 1.4rem; color: var(--muted); font-size: 0.82rem; }
+.caption p { margin: 0; }
+
+/* ----------------------------------------------------------- anchor links */
+
+.anchor-links {
+  margin: 0 0 1.6rem;
+  padding: 14px 18px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.anchor-links ul { margin: 0; padding-left: 1.1rem; }
+.anchor-links li { margin: 0.25rem 0; font-size: 0.9rem; }
+
+/* ------------------------------------------------------------------ tabs */
+
+.tabs { margin: 0 0 1.4rem; }
+
+.tab-list { display: flex; flex-wrap: wrap; gap: 2px; border-bottom: 1px solid var(--hairline); }
+.tab-list button {
+  padding: 8px 16px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.tab-list button:hover { color: var(--ink); }
+.tab-list button[aria-selected="true"] { color: var(--brand-purple-dark); border-bottom-color: var(--brand-purple); font-weight: 600; }
+
+.tab-panel { padding-top: 18px; }
+/* Without JS every panel stays visible, so no content is ever lost. */
+.tabs.js-tabs .tab-panel[hidden] { display: none; }
+.tabs:not(.js-tabs) .tab-panel::before {
+  content: attr(data-label);
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------- accordion */
+
+.accordion { margin: 1.2rem 0; border: 1px solid var(--hairline); border-radius: var(--radius); background: var(--surface); }
+.accordion-item { border-bottom: 1px solid var(--hairline); }
+.accordion-item:last-child { border-bottom: 0; }
+.accordion-item summary { padding: 12px 18px; font-weight: 600; cursor: pointer; }
+.accordion-item summary:hover { background: var(--canvas); }
+.accordion-item[open] summary { border-bottom: 1px solid var(--hairline); }
+.accordion-item > :not(summary) { padding-right: 18px; padding-left: 18px; }
+.accordion-item > :nth-child(2) { padding-top: 12px; }
+
+/* ----------------------------------------------------------------- video */
+
+.video { position: relative; margin: 1.4rem 0; padding-top: 56.25%; border-radius: var(--radius); overflow: hidden; background: #000; }
+.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+/* ----------------------------------------------------------------- pager */
+
+.pager { display: flex; justify-content: space-between; gap: 16px; margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--hairline); }
+.pager a {
+  flex: 0 1 46%;
+  padding: 12px 16px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.pager a:hover { border-color: var(--brand-purple); color: var(--brand-purple-dark); }
+.pager a span { display: block; color: var(--muted); font-size: 0.74rem; font-weight: 400; text-transform: uppercase; }
+.pager-next { text-align: right; }
+
+/* ------------------------------------------------------------------- toc */
+
+.toc {
+  position: sticky;
+  top: var(--masthead-h);
+  max-height: calc(100vh - var(--masthead-h));
+  overflow-y: auto;
+  padding: 28px 20px 48px 0;
+  font-size: 0.82rem;
+}
+.toc h2 { margin: 0 0 10px; color: var(--muted); font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.toc ul { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--hairline); }
+.toc li { margin: 0; }
+.toc a { display: block; padding: 4px 12px; margin-left: -1px; border-left: 2px solid transparent; color: var(--ink-soft); text-decoration: none; }
+.toc a:hover { color: var(--ink); }
+.toc a.active { border-left-color: var(--brand-purple); color: var(--brand-purple-dark); font-weight: 600; }
+.toc-l3 a { padding-left: 24px; font-size: 0.95em; }
+
+/* ---------------------------------------------------------------- footer */
+
+.site-footer {
+  padding: 28px 40px;
+  border-top: 1px solid var(--hairline);
+  background: var(--ink);
+  color: #b6b3ae;
+  font-size: 0.82rem;
+}
+.site-footer p { margin: 0 0 6px; }
+.site-footer a { color: #d8d5d1; }
+.site-footer a:hover { color: #fff; }
+
+/* ----------------------------------------------------------- responsive */
+
+@media (max-width: 1200px) {
+  .shell { grid-template-columns: var(--sidebar-w) minmax(0, 1fr); }
+  .toc { display: none; }
+}
+
+@media (max-width: 900px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .nav-toggle { display: block; }
+  .nav-search { display: none; }
+  .brand-title { display: none; }
+  .content { padding: 20px 20px 48px; }
+
+  .sidebar {
+    display: none;
+    position: fixed;
+    inset: var(--masthead-h) 0 0 0;
+    z-index: 20;
+    max-height: none;
+    padding: 16px 20px 48px;
+    border-right: 0;
+    background: var(--canvas);
+  }
+  .sidebar.open { display: block; }
+}
+
+/* ------------------------------------------------------------------ print */
+
+@media print {
+  .masthead, .sidebar, .toc, .pager, .site-footer, .copy-btn, .skip-link { display: none !important; }
+  .shell { display: block; }
+  .content { padding: 0; }
+  .markdown { max-width: none; }
+  .markdown pre { border: 1px solid #ccc; background: #f6f6f6; color: #000; }
+  .tabs.js-tabs .tab-panel[hidden] { display: block !important; }
+}

@@ -7,7 +7,7 @@ This is a guide for contributing to the Cúram DevOps runbook.
 
 | Branch | Status |
 | :-: | :-: |
-| _Main_ | [![Build Status](https://github.com/merative/curam-kubernetes/actions/workflows/build-runbook.yml/badge.svg?branch=main)](https://github.com/merative/curam-kubernetes/actions?query=branch%3Amain) |
+| _Main_ | [![Documentation workflow](https://github.com/merative/curam-kubernetes/actions/workflows/build-runbook.yml/badge.svg?branch=main)](https://github.com/merative/curam-kubernetes/actions/workflows/build-runbook.yml?query=branch%3Amain) |
 
 ## House Rules
 
@@ -20,32 +20,32 @@ This is a guide for contributing to the Cúram DevOps runbook.
 
 ### Don'ts
 
-* **Do not** creates branches from `gh-pages` branch.
+* **Do not** create branches from the `gh-pages` branch.
 * **Do not** commit directly to `main` or `gh-pages` branches.
 
 ## Prerequisites
 
 * Node.js 24.22.2 or later
+* npm
 * Markdown-compatible editor
 
 ## Setting up
 
-* Install Gatsby and MarkdownLint CLI tools:
-  * `npm install -g gatsby markdownlint-cli`
-  * [Install and Setup GitHub Desktop](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/installing-and-authenticating-to-github-desktop/installing-github-desktop) on your laptop
+* Clone this repository from the GitHub UI or [with GitHub Desktop](https://docs.github.com/en/desktop/adding-and-cloning-repositories/cloning-and-forking-repositories-from-github-desktop), then install its dependencies from the repository root:
+  * `npm ci`
+* Install [MarkdownLint CLI](https://github.com/igorshubovych/markdownlint-cli) if you want to run the Markdown lint check locally:
+  * `npm install -g markdownlint-cli`
+* [Install and set up GitHub Desktop](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/installing-and-authenticating-to-github-desktop/installing-github-desktop) on your laptop, if desired.
 * [Sign into GitHub from GitHub Desktop](https://help.github.com/desktop/guides/getting-started-with-github-desktop/authenticating-to-github/)
 * Learn [Markdown Syntax](https://guides.github.com/features/mastering-markdown/) and notice the formatting standards in the existing docs for examples of how we want you to construct a page
 
-* [Clone this repository](https://github.com/merative/curam-kubernetes) to your local workstation from the GitHub UI or
-  [use GitHub Desktop](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/adding-and-cloning-repositories/cloning-and-forking-repositories-from-github-desktop)
 * Create a branch from the [main branch](https://github.com/merative/curam-kubernetes/tree/main)
 
 ## Authoring
 
-* Make the changes locally, and build the static content for previewing:
-  * run `gatsby build` OR,
-  * run `gatsby develop` to view your changes in your [browser](http://localhost:8000) as soon as you save.
-* Check your code and validate the formatting
-  * run `markdownlint **/*.mdx`
+* Make the changes locally, then run `npm run dev` from the repository root to build and preview the site at <http://localhost:8000>. The command builds once and does not watch for changes; rerun it after editing.
+* Validate the site and Markdown formatting:
+  * `npm run check` builds the site and checks internal links and heading anchors.
+  * `markdownlint "src/pages/**/*.mdx"` checks Markdown formatting.
 * Add and push local commits with GitHub Desktop or the `git` command.
 * Open a Pull Request when you are ready to merge your changes.
