@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitHub repo | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="GitHub repo">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="GitHub repo">
+<meta property="og:description" content="GitHub repo">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/" class="active" aria-current="page">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>GitHub repo</h1>
+      
+    </div>
+    <article class="markdown"><p>This runbook and its associated artifacts are provisioned through GitHub.</p>
+<p>Download the <a href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">curam-kubernetes</a>
+repository on your development system. Take the following steps:</p>
+<h2 id="install-git">Install Git <a class="heading-anchor" href="#install-git">#</a></h2>
+<p>Git is the distributed version control system on which GitHub is built. Usually Git is already included on development systems, but if it is missing, you can get it from <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git" target="_blank" rel="noopener noreferrer">Getting Started - Installing Git</a>.</p>
+<h2 id="clone-the-curam-kubernetes-repo">Clone the curam-kubernetes repo <a class="heading-anchor" href="#clone-the-curam-kubernetes-repo">#</a></h2>
+<p>Clone the repository locally by using the following command:</p>
+<pre><code class="language-shell">git clone https://github.com/merative/curam-kubernetes
+</code></pre>
+<p>The Git clone command creates a folder that is named <code>curam-kubernetes</code> in your current path. This folder is referred to by <code>$SPM_HOME</code> (or <code>$env:SPM_HOME</code> for Windows) for the remainder of this runbook. The <code>$SPM_HOME</code> folder contains three subfolders:</p>
+<ul>
+<li><em>src/pages:</em> Contains the source files for this runbook. Do not modify the source files.</li>
+<li><em>dockerfiles:</em> Contains the Docker® files and other artifacts that are used to generate the Cúram containers. For more information, see <a href="/curam-kubernetes/build-images/setup_docker_context">Setting up the Docker context</a>.</li>
+<li><em>helm-charts:</em> Contains the charts that are used to deploy the Cúram containers on Kubernetes. For more information, see <a href="/curam-kubernetes/deployment/hc_preparation">Preparing Helm Charts</a>.</li>
+</ul>
+<p>You must create a local branch if you want to make local modifications to any of these files,
+so you can continue to pull the latest code from the <code>main</code> branch without accidentally overriding any local change.
+However, Cúram does not currently support any external contributions to this repo, such as pull requests and forks.</p>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/prereq/chartmuseum/"><span>Previous</span>ChartMuseum</a><a class="pager-next" href="/curam-kubernetes/prereq/bitnami/"><span>Next</span>Bitnami Secure</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#install-git">Install Git</a></li><li class="toc-l2"><a href="#clone-the-curam-kubernetes-repo">Clone the curam-kubernetes repo</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

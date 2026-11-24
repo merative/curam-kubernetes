@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monitoring the status of the Kubernetes cluster | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Monitoring the status of the Kubernetes cluster">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Monitoring the status of the Kubernetes cluster">
+<meta property="og:description" content="Monitoring the status of the Kubernetes cluster">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/" class="active" aria-current="page">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Monitoring the status of the Kubernetes cluster</h1>
+      
+    </div>
+    <article class="markdown"><p>You can interrogate a Kubernetes system to debug or verify its status in the following ways:</p>
+<ul>
+<li>View the Minikube dashboard or the CodeReady Containers console</li>
+<li>View pod status and logs</li>
+<li>Log in to a pod to investigate its status</li>
+<li>Modify a Kubernetes object</li>
+</ul>
+<h2 id="minikube-dashboard">Minikube dashboard <a class="heading-anchor" href="#minikube-dashboard">#</a></h2>
+<p>The dashboard add-on is enabled by default in Minikube and is used to verify the health of the system.
+Because Minikube is a minimal environment, the dashboard add-on doesn't have the full capability of the dashboard in a fully deployed Kubernetes cluster. However, the dashboard shows the most important data.</p>
+<p>Use the dashboard to list the Kubernetes objects, including the status and names of the pods, and more information such as how long the pods are running.</p>
+<p>Start the dashboard by running the following command:</p>
+<pre><code class="language-shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">Minikube Dashboard</span>
+minikube dashboard
+</code></pre>
+<p>Figure 1 shows an example of the Minikube dashboard:</p>
+<p><img src="../../images/Minikube-dashboard.png" alt="Minikube dashboard"></p>
+<div class="caption">
+<p><em>Figure 1:</em> Minikube dashboard:</p>
+</div>
+<h2 id="codeready-containers-console">CodeReady Containers Console <a class="heading-anchor" href="#codeready-containers-console">#</a></h2>
+<p>The console is a user interface accessible from a web browser. Developers can use the web console to visualize, browse, and manage the contents of projects.</p>
+<p>Launch the console by running the following command:</p>
+<pre><code class="language-shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">CodeReady Containers Consoles</span>
+crc console
+</code></pre>
+<p>To view the credentials for <code>kube:admin</code> or <code>developer</code> run the following command:</p>
+<pre><code class="language-shell">crc console --credentials
+</code></pre>
+<p>Figure 2 shows an example of the CodeReady Containers console:</p>
+<p><img src="../../images/crc_console.png" alt="CodeReady Container console"></p>
+<div class="caption">
+<p><em>Figure 2:</em> CodeReady Containers console:</p>
+</div>
+<h2 id="pods-status-and-logs">Pods status and logs <a class="heading-anchor" href="#pods-status-and-logs">#</a></h2>
+<p>All Kubernetes objects can also be accessed by running the <code>kubectl</code> command-line tool. To list the objects, run the <code>kubectl get</code> command followed by the types of object to retrieve, for example: pods, services, cron jobs, or other objects.
+A useful option is the <code>-w</code> (watch) option. The watch option keeps the command in a pending state, showing how the pods change over time. It also follows the pods through the initialization, waiting, and running phases.</p>
+<p>An example of <code>kubectl</code> is as follows:</p>
+<pre><code class="language-shell">kubectl get pods -w
+</code></pre>
+<p>This command lists the names of all the pods and their status.</p>
+<p>When a pod is running, you can read the log of that pod by running the following command:</p>
+<pre><code class="language-shell">kubectl logs pod-name
+</code></pre>
+<p>Where <code>pod-name</code> is the name of the pod you want to query. The <code>kubectl logs</code> command behaves in the same way as the Docker® <code>logs</code> command, so you can use the <code>-f</code> option to leave the command open and show the log updating in real time.</p>
+<p>When the pod is not running but is in another state such as pending, initializing, or failed, you can <code>describe</code> it for debugging purposes if there is a problem.</p>
+<p>Run <code>describe</code> on any Kubernetes object to show its configuration, for example:</p>
+<pre><code class="language-shell">kubectl describe pod/pod-name
+</code></pre>
+<h2 id="log-in-to-a-pod">Log in to a pod <a class="heading-anchor" href="#log-in-to-a-pod">#</a></h2>
+<p>Like any other Docker container when a pod is in running status, you can log in to it to conduct a more detailed investigation.
+The commands that you use depend on the pod, but the following command should work because <code>bash</code> is generally available:</p>
+<pre><code class="language-shell">kubectl exec -ti pod-name bash
+</code></pre>
+<p>The command opens a <code>bash</code> session within the pod.</p>
+<h2 id="modify-a-kubernetes-object">Modify a Kubernetes object <a class="heading-anchor" href="#modify-a-kubernetes-object">#</a></h2>
+<p>You can also modify Kubernetes objects at run time by running the <code>edit</code> command. Use this command carefully because it might modify the health of the system.
+For example, to modify a deployment object called <code>deploymentname</code>, run the following command:</p>
+<pre><code class="language-shell">kubectl edit deployment/deploymentname
+</code></pre>
+<p>The configuration opens in the default editor, but you can specify a different editor by setting the <code>KUBE_EDITOR</code> environment variable.</p>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/"><span>Previous</span>XML server service</a><a class="pager-next" href="/curam-kubernetes/monitoring/Health Checks/"><span>Next</span>Health checks</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#minikube-dashboard">Minikube dashboard</a></li><li class="toc-l2"><a href="#codeready-containers-console">CodeReady Containers Console</a></li><li class="toc-l2"><a href="#pods-status-and-logs">Pods status and logs</a></li><li class="toc-l2"><a href="#log-in-to-a-pod">Log in to a pod</a></li><li class="toc-l2"><a href="#modify-a-kubernetes-object">Modify a Kubernetes object</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

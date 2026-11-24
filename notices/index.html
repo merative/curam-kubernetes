@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notices | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Notices">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Notices">
+<meta property="og:description" content="Notices">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/" class="active" aria-current="page">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Notices</h1>
+      
+    </div>
+    <article class="markdown"><p>Permissions for the use of these publications are granted subject to the following terms and conditions.</p>
+<p><strong>Applicability</strong></p>
+<p>These terms and conditions are in addition to any terms of use for the Cúram website.</p>
+<p><strong>Personal use</strong>
+You may reproduce these publications for your personal, noncommercial use provided that all proprietary notices are preserved. You may not distribute, display or make derivative work of these publications, or any portion thereof, without the express consent of Cúram</p>
+<p><strong>Commercial use</strong></p>
+<p>You may reproduce, distribute and display these publications solely within your enterprise provided that all proprietary notices are preserved. You may not make derivative works of these publications, or reproduce, distribute or display these publications or any portion thereof outside your enterprise, without the express consent of Cúram.</p>
+<p><strong>Rights</strong></p>
+<p>Except as expressly granted in this permission, no other permissions, licenses or rights are granted, either express or implied, to the publications or any information, data, software or other intellectual property contained therein.</p>
+<p>Cúram reserves the right to withdraw the permissions granted herein whenever, in its discretion, the use of the publications is detrimental to its interest or, as determined by Cúram, the above instructions are not being properly followed.</p>
+<p>You may not download, export or re-export this information except in full compliance with all applicable laws and regulations, including all United States export laws and regulations.</p>
+<p>Cúram MAKES NO GUARANTEE ABOUT THE CONTENT OF THESE PUBLICATIONS. THE PUBLICATIONS ARE PROVIDED &quot;AS-IS&quot; AND WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, NON-INFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE.</p>
+<p>Cúram or its licensors may have patents or pending patent applications covering subject matter described in this document. The furnishing of this documentation does not grant you any license to these patents.</p>
+<p>Information concerning non-Cúram products was obtained from the suppliers of those products, their published announcements or other publicly available sources. Cúram has not tested those products and cannot confirm the accuracy of performance,
+compatibility or any other claims related to non-Cúram products. Questions on the capabilities of non-Cúram products should be addressed to the suppliers of those products.</p>
+<p>Any references in this information to non-Cúram websites are provided for convenience only and do not in any manner serve as an endorsement of those websites. The materials at those websites are not part of the materials for this Cúram product and use of those websites is at your own risk.</p>
+<p>This information contains examples of data and reports used in daily business operations. To illustrate them as completely as possible, the examples include the names of individuals, companies, brands, and products. All of these names are fictitious and any similarity to actual people or business enterprises is entirely coincidental.</p>
+<p>The licensed program described in this document and all licensed material available for it are provided by Cúram under terms of the Cúram Client Agreement.</p>
+<p>COPYRIGHT LICENSE:</p>
+<p>This information contains sample application programs in source language, which illustrate programming techniques on various operating platforms. You may copy, modify, and distribute these sample programs in any form without payment to Cúram, for the purposes of developing, using, marketing or distributing application programs conforming to the application programming interface for the
+operating platform for which the sample programs are written. These examples have not been thoroughly tested under all conditions. Cúram, therefore, cannot guarantee or imply reliability, serviceability, or function of these programs. The sample programs are provided &quot;AS IS&quot;, without warranty of any kind. Cúram shall not be liable for any damages arising out of your use of the sample programs.</p>
+<h2 id="privacy-policy">Privacy policy <a class="heading-anchor" href="#privacy-policy">#</a></h2>
+<p>The Merative privacy policy is available at <a href="https://www.merative.com/privacy" target="_blank" rel="noopener noreferrer">Merative Privacy policy</a>.</p>
+<h2 id="trademarks">Trademarks <a class="heading-anchor" href="#trademarks">#</a></h2>
+<p>Cúram and the Cúram logo are trademarks of Cúram US L.P. in the United States and other countries.</p>
+<p>IBM, the IBM logo, and ibm.com are trademarks or registered trademarks of International Business Machines Corp., registered in many jurisdictions worldwide.</p>
+<p>Adobe™, the Adobe logo, PostScript™, and the PostScript logo are either registered trademarks or trademarks of Adobe Systems Incorporated in the United States, and/or other countries.</p>
+<p>Oracle and Java are registered trademarks of Oracle and/or its affiliates.</p>
+<p>The registered trademark Linux® is used pursuant to a sublicense from the Linux Foundation, the exclusive licensee of Linus Torvalds, owner of the mark on a world­wide basis.</p>
+<p>Microsoft™, Windows™, and the Windows logo are trademarks of Microsoft Corporation in the United States, other countries, or both.</p>
+<p>UNIX™ is a registered trademark of The Open Group in the United States and other countries.</p>
+<p>Other company, product, and service names may be trademarks or service marks of others.</p>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/contact/contact_us/"><span>Previous</span>Contact Us</a><span></span></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#privacy-policy">Privacy policy</a></li><li class="toc-l2"><a href="#trademarks">Trademarks</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MustGather data for SPM | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="MustGather data for SPM">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="MustGather data for SPM">
+<meta property="og:description" content="MustGather data for SPM">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/" class="active" aria-current="page">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>MustGather data for SPM</h1>
+      
+    </div>
+    <article class="markdown"><h2 id="collecting-mustgather-data-for-cúram-on-kubernetes">Collecting MustGather Data for Cúram on Kubernetes <a class="heading-anchor" href="#collecting-mustgather-data-for-cúram-on-kubernetes">#</a></h2>
+<nav class="anchor-links" aria-label="On this page"><ul><li><a href="#introduction">Introduction</a></li><li><a href="#collecting-mustgather-data-guidelines">Collecting MustGather data guidelines</a></li><li><a href="#general-cúram-mustgather">General Cúram MustGather</a></li><li><a href="#runtime-systems">Runtime systems</a></li><li><a href="#helm-information">Helm information</a></li><li><a href="#kubernetes-deployment-information">Kubernetes deployment information</a></li><li><a href="#mustgather-to-collect-logs-and-other-artifacts">MustGather to Collect Logs and Other Artifacts</a></li></ul></nav>
+<h2 id="introduction">Introduction <a class="heading-anchor" href="#introduction">#</a></h2>
+<p>The information laid out in this section details the information needed when raising a support case. Note that not all information detailed is necessary when
+raising an issue on <a href="https://github.com/merative/curam-kubernetes/issues" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+<div class="note note--info">
+<p>Cúram may request the <strong>Helm Charts</strong> and <strong>Dockerfiles</strong> developed by the engineering team as part of the support process.</p>
+</div>
+<h3 id="question">Question <a class="heading-anchor" href="#question">#</a></h3>
+<p>What information should I collect for issues with Cúram in a Kubernetes environment to assist Meravite Cúram Support with their investigations?</p>
+<h3 id="answer">Answer <a class="heading-anchor" href="#answer">#</a></h3>
+<p>First, a comprehensive description of the problem along with answers to the following questions:</p>
+<ul>
+<li>Can the issue be recreated, and steps provided for the Cúram Support to do same?</li>
+<li>What is the impact of the issue; for instance, frequency of occurrence and pervasiveness?</li>
+<li>Have any workarounds or mitigations been identified?</li>
+<li>What investigation has already been performed?</li>
+</ul>
+<h2 id="collecting-mustgather-data-guidelines">Collecting MustGather Data Guidelines <a class="heading-anchor" href="#collecting-mustgather-data-guidelines">#</a></h2>
+<p>Outlined below are must gather data guidelines that we recommend be followed:</p>
+<ul>
+<li>Do not provide any unanonymized data or information.</li>
+<li>Save all output to text files or files of appropriate formats. Include the command that created the output file.</li>
+<li>Logs and other artifacts can only be obtained from a Kubernetes pod if the pod is running; the two exceptions are:
+<ul>
+<li>stdout is still available via <code>kubectl logs</code> (see <a href="#stdout-logs-from-pods">stdout logs from pods</a> for detail) even if the pod is in a non-running state such as completed</li>
+<li>logs that are stored persistently are available over the lifetime of that storage medium</li>
+</ul>
+</li>
+<li>Regarding command examples that follow:
+<ul>
+<li>In commands with variable information, such as namespaces, these are represented in the example commands by angle brackets, which must be replaced with the correct value(s).</li>
+<li>Commands where additional options are possible are indicated by an ellipses: ...</li>
+</ul>
+</li>
+</ul>
+<h2 id="general-cúram-mustgather">General Cúram MustGather <a class="heading-anchor" href="#general-cúram-mustgather">#</a></h2>
+<p>Beyond the answers to these questions, general third party software information (for example, versions) and more specific diagnostic, log, and other information for the areas where the issue is seen, must be collected.
+This general information is described in the sections that follow.
+For issues with the following third party software, their external MustGather links should be consulted, as appropriate:</p>
+<ul>
+<li><a href="https://www.curaminnovations.com/support/curam/support-articles" target="_blank" rel="noopener noreferrer">SPM</a></li>
+<li><a href="https://www.ibm.com/support/pages/mustgather-read-first-websphere-application-server-and-liberty/stub" target="_blank" rel="noopener noreferrer">Liberty</a></li>
+<li><a href="https://www.ibm.com/support/pages/collecting-data-read-first-db2-linux-unix-and-windows-products" target="_blank" rel="noopener noreferrer">Db2</a></li>
+<li><a href="https://www.ibm.com/support/pages/read-first-collect-ibm-mq-mustgather-data-linux-unix-windows-and-ibm-i" target="_blank" rel="noopener noreferrer">MQ</a></li>
+</ul>
+<p>The following sections describe how to gather information specific to Cúram running on Kubernetes and provide information relating to where logs and traces reside relating to the MustGather.</p>
+<h3 id="cúram-and-base-third-party-software-versions">Cúram and Base Third Party Software Versions <a class="heading-anchor" href="#cúram-and-base-third-party-software-versions">#</a></h3>
+<p>In a Cúram environment the Ant <code>configreport</code> target includes the following versions in its generated zip file:</p>
+<ul>
+<li>Cúram version - available in the <code>Installerlogs/Installhistory.txt</code> file within the resulting <code>$SERVER_DIR/config_report.zip</code> file</li>
+<li>Inside the ConfigReporter*.log file of the config folder within the resulting <code>$SERVER_DIR/config_report.zip</code> file you will find the:
+<ul>
+<li>Java version</li>
+<li>Application server version</li>
+<li>Database version</li>
+<li>Ant version</li>
+</ul>
+</li>
+</ul>
+<p>To generate the <code>$SERVER_DIR/config_report.zip</code> file run the Ant <code>configreport</code> target:</p>
+<pre><code>cd $SERVER_DIR
+./build.sh configreport
+</code></pre>
+<p>Please provide the <code>config_report.zip</code> file.</p>
+<h2 id="runtime-systems">Runtime Systems <a class="heading-anchor" href="#runtime-systems">#</a></h2>
+<h3 id="operating-systems-and-platforms">Operating Systems and Platforms <a class="heading-anchor" href="#operating-systems-and-platforms">#</a></h3>
+<p>Include this information for all relevant platforms used for deployment, where the Azure CLI or Minikube is run.</p>
+<p>On most systems the following command provides basic platform and operating system information:</p>
+<pre><code>uname -a
+</code></pre>
+<h3 id="kubernetes-and-related-software-versions">Kubernetes and Related Software Versions <a class="heading-anchor" href="#kubernetes-and-related-software-versions">#</a></h3>
+<p>The following commands display the relevant versions for Docker, Helm and Kubernetes:</p>
+<pre><code>  docker version # Provides version information for the Docker client and server
+  docker info    # Provides general runtime information about Docker
+
+  helm version   # Provides Helm version information
+
+  # Depending on the environment, obtain the appropriate Kubernetes version information:
+  minikube version   # If applicable
+  oc version         # If applicable (OpenShift)
+  kubectl version    # Applies to Minikube, Kubernetes and OpenShift environments
+</code></pre>
+<h2 id="helm-information">Helm Information <a class="heading-anchor" href="#helm-information">#</a></h2>
+<p>For deployments, gather information relevant or appropriate to the environment and the issue faced.</p>
+<p>For Helm, use the command appropriate to the Helm version to list the deployments in the environment, which provides the release and chart names needed in later Helm commands:</p>
+<pre><code>helm list -a --namespace &lt;name_space&gt;
+</code></pre>
+<h3 id="verify-helm-chart-correctness">Verify Helm Chart Correctness <a class="heading-anchor" href="#verify-helm-chart-correctness">#</a></h3>
+<p>Use the <code>helm lint</code> command to verify the correctness of the Helm Charts, prior to installation, for example:</p>
+<pre><code>cd $SPM_HOME/helm-charts/spm
+helm lint .
+</code></pre>
+<p>You should receive successful output from the <code>helm lint</code> command like this:</p>
+<pre><code>==&gt; Linting .
+Lint OK
+
+1 chart(s) linted, no failures
+</code></pre>
+<p>If any errors are encountered, correct them, and recreate your issue.</p>
+<h3 id="helm-chart-rendering">Helm Chart Rendering <a class="heading-anchor" href="#helm-chart-rendering">#</a></h3>
+<p>Running the <code>helm template</code> command processes the chart and generates output similar to what would be generated during deployment,
+however, the <code>helm install</code> command (see the following examples) provides additional information; notably overrides provided via the install.
+So, where possible, the output from <code>helm install</code> is preferable to that of <code>helm template</code>.</p>
+<pre><code>helm template &lt;release_name&gt; &lt;chart_name&gt; ...
+</code></pre>
+<p>Check the output to verify that the expected values appear as intended.</p>
+<h3 id="helm-chart-installation">Helm Chart Installation <a class="heading-anchor" href="#helm-chart-installation">#</a></h3>
+<p>If errors are encountered when installing Helm Charts, use the <code>helm install</code> command with the following options to generate additional information:</p>
+<ul>
+<li><code>--debug</code> - checks the generated manifests of a release without installing the chart</li>
+<li><code>--dry-run</code> - produces output similar to <code>helm template</code> but additionally executes the secrets and verifies the objects</li>
+</ul>
+<p>For example:</p>
+<pre><code>helm install &lt;release_name&gt; &lt;chart_name&gt; --debug --dry-run ...
+</code></pre>
+<h3 id="verify-helm-chart-installation">Verify Helm Chart Installation <a class="heading-anchor" href="#verify-helm-chart-installation">#</a></h3>
+<p>The following command provides more information about what has been deployed or is running in Kubernetes.</p>
+<p>The <code>helm get all</code> command provides information equivalent to <code>helm install --debug --dry-run</code>. For example:</p>
+<pre><code>helm get all &lt;release-name&gt; ...
+</code></pre>
+<h2 id="kubernetes-deployment-information">Kubernetes Deployment Information <a class="heading-anchor" href="#kubernetes-deployment-information">#</a></h2>
+<h3 id="information-on-a-kubernetes-environment">Information on a Kubernetes Environment <a class="heading-anchor" href="#information-on-a-kubernetes-environment">#</a></h3>
+<p>If running in a Minikube environment use the following command to confirm its status:</p>
+<pre><code>minikube status
+</code></pre>
+<p>Use the following commands to get information about the running Kubernetes environment.</p>
+<p>Display basic information about the cluster configuration:</p>
+<pre><code>kubectl config view --namespace &lt;name_space&gt; ...
+</code></pre>
+<p>Display basic information about the nodes and pods in the cluster:</p>
+<pre><code>kubectl get nodes -o wide --namespace &lt;name_space&gt; ...
+kubectl get pods -o wide --namespace &lt;name_space&gt; ...
+</code></pre>
+<p>For each of the pods displayed by the <code>kubectl get pods</code> command use the pod name as input to the following command to get more detailed information about that pod, for example:</p>
+<pre><code>kubectl describe pod &lt;pod_name&gt; --namespace &lt;name_space&gt; ...
+</code></pre>
+<p>A convenient way to run the <code>kubectl describe pod &lt;pod_name&gt; --namespace &lt;name_space&gt; ...</code> command for all the pods in a namespace is as follows:</p>
+<pre><code>mkdir pod
+pods=`kubectl get pods -o name --namespace &lt;name_space&gt;`
+for p in $pods ; do kubectl describe $p --namespace &lt;name_space&gt; &gt; pod/$p.txt ; done
+</code></pre>
+<p>The results will be in the <code>pod</code> folder created using the <code>mkdir</code> command.</p>
+<h2 id="mustgather-to-collect-logs-and-other-artifacts">MustGather to Collect Logs and Other Artifacts <a class="heading-anchor" href="#mustgather-to-collect-logs-and-other-artifacts">#</a></h2>
+<p>The following sections identify how to obtain logs and artifacts for specific areas of Kubernetes.</p>
+<h3 id="externalizing-logs-and-artifacts-inside-a-kubernetes-pod">Externalizing Logs and Artifacts Inside a Kubernetes Pod <a class="heading-anchor" href="#externalizing-logs-and-artifacts-inside-a-kubernetes-pod">#</a></h3>
+<p>Externalizing logs and artifacts from a Kubernetes pod varies by the type of pod.
+The sections that follow identify locations for this information.
+The <a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#cp" target="_blank" rel="noopener noreferrer">kubectl command reference</a> gives several examples of how to externalize files from within a pod, such as:</p>
+<pre><code>kubectl cp &lt;name_space&gt;/&lt;pod_name&gt;:/logs /tmp/logs
+kubectl exec -n &lt;name_space&gt; &lt;pod_name&gt; -- tar cf - /logs | tar xf - -C /tmp
+</code></pre>
+<p><strong>Note:</strong> Both of the above <code>kubectl</code> command formats produce the following spurious, benign error which can be ignored:</p>
+<pre><code>tar: Removing leading `/&#39; from member names
+</code></pre>
+<h3 id="minikube-logs">Minikube Logs <a class="heading-anchor" href="#minikube-logs">#</a></h3>
+<p>Use the <code>minikube logs</code> command to obtain logs for the Minikube environment.</p>
+<p>The logging level can be set when starting Minikube via the <code>--v</code> option of the <code>minikube start</code> command.
+For instance, and to conveniently save the output at the same time:</p>
+<pre><code>minikube start --alsologtostderr --v=3 2&gt;&amp;1 | tee /tmp/minikube-start.log
+</code></pre>
+<p>Noting that the log output at startup differs from the output from the runtime log content via <code>minikube logs</code>.</p>
+<p>See <a href="https://minikube.sigs.k8s.io/docs/" target="_blank" rel="noopener noreferrer">Minikube documentation</a> for more information.</p>
+<h3 id="stdout-logs-from-pods">Stdout Logs from Pods <a class="heading-anchor" href="#stdout-logs-from-pods">#</a></h3>
+<p>The <code>kubectl logs</code> provides the stdout logs for a specified Kubernetes pod; so the log data provided is specific to the type of pod or software running within it.
+For instance, if a pod is running WebSphere Liberty this command provides the equivalent of the contents of the WebSphere Liberty <code>console.log</code> file
+and for other pods will provide stdout log output specific to that pod's context; for instance MQ, Cúram XML Server, or Cúram batch.</p>
+<p>The command has various options, such as <code>--follow</code>, <code>--tail</code>, and <code>--since</code> to control and display the log output.
+See the <code>kubectl help logs</code> command for option details.</p>
+<h3 id="third-party-software-logs-and-artifacts">Third Party Software Logs and Artifacts <a class="heading-anchor" href="#third-party-software-logs-and-artifacts">#</a></h3>
+<p>Beyond basic stdout logging from a pod, there may be additional logging or artifacts needed for investigating an issue.
+These logs and artifacts will be available within the pod's file system or, in the case of object storage, in the persistent storage location specified.</p>
+<p>Further, the specific logs, artifacts, and their locations vary depending on the software running within the pod.</p>
+<p>The following sections identify these various locations.</p>
+<h4 id="websphere-liberty-stdout-logs">WebSphere Liberty Stdout Logs <a class="heading-anchor" href="#websphere-liberty-stdout-logs">#</a></h4>
+<p>WebSphere Liberty pods are identified by the pod naming pattern beginning with: <code>&lt;helm_release_name&gt;-apps-</code> or <code>&lt;helm_release_name&gt;-uawebapp-</code>.</p>
+<p>Thus, if the Helm release was named &quot;purpleclown&quot;, pod names like these can be found by running a <code>kubectl get pods</code> command:</p>
+<ul>
+<li><code>purpleclown-apps-curam-consumer-7c578b9b59-t487n</code></li>
+<li><code>purpleclown-apps-curam-producer-6794fc9b94-4srxr</code></li>
+<li><code>purpleclown-apps-rest-producer-6858d55bd-x6z6s</code></li>
+<li><code>purpleclown-apps-rest-consumer-5567ddc4cd-qpwp7</code></li>
+<li><code>purpleclown-uawebapp-54b56d5866-2mnk5</code></li>
+</ul>
+<p>where the number of pods may vary depending on the applications deployed and the number of replicas specified.</p>
+<p>The default log location for WebSphere Liberty is the <code>/logs</code> folder of the pod's file system and, for example, can be accessed with the following command:</p>
+<pre><code>kubectl exec --namespace &lt;name_space&gt; -it &lt;pod_name&gt; -- ls -l /logs
+</code></pre>
+<p>which would produce output like:</p>
+<pre><code>-rw-r----- 1 default root 62334 Apr 14 06:01 messages.log
+-rw-r--r-- 1 default root  2134 Mar 19 06:44 messages_20.04.14_06.00.47.0.log
+-rw-r----- 1 default root   973 Apr 14 06:00 trace.log
+</code></pre>
+<p>When using object storage, the WebSphere Liberty logs, JVM dumps, garbage collection logs, and Cúram JMX statistics are symbolically linked to the pod's file system in <code>/tmp/logs</code>, available in the bound cloud storage.</p>
+<h4 id="websphere-liberty-configuration-information">WebSphere Liberty Configuration Information <a class="heading-anchor" href="#websphere-liberty-configuration-information">#</a></h4>
+<p>WebSphere Liberty configuration information can be found in the pod's file system in <code>/liberty/wlp/usr/servers/defaultServer</code>, which contains:</p>
+<pre><code>server.xml
+jvm.options
+server.env
+bootstrap.properties
+adc_conf/
+</code></pre>
+<p>The WebSphere Liberty <code>server package</code> command can be used to zip up the server, but, the logs folder, being stored separately, must be handled directly from the <code>/logs</code> folder.</p>
+<h4 id="mq-logs-and-artifacts">MQ Logs and Artifacts <a class="heading-anchor" href="#mq-logs-and-artifacts">#</a></h4>
+<p>MQ pods are identified by the pod naming pattern beginning with: <code>&lt;helm_release_name&gt;-mqserverapps-</code>.</p>
+<p>So, if the Helm release was named &quot;purpleclown&quot; pod names like the following can be found by running a <code>kubectl get pods</code> command:</p>
+<ul>
+<li><code>purpleclown-mqserver-curam-557d64c76-7sm8r</code></li>
+<li><code>purpleclown-mqserver-rest-dbb994dc8-4p5cv</code></li>
+</ul>
+<p>where the number of pods may vary depending on the Cúram applications deployed.</p>
+<p>The location of MQ logs is inside the MQ pods is as documented in the <a href="https://www.ibm.com/docs/en/ibm-mq/9.1?topic=windows-error-log-directories-unix-linux" target="_blank" rel="noopener noreferrer">MQ IBM Documentation</a>.
+The various log, error, and trace locations identified in the MQ IBM Documentation (and its MustGather), can be investigated by accessing the MQ pod's shell, for example:</p>
+<pre><code>kubectl exec --namespace &lt;name_space&gt; -it &lt;mq_pod_name&gt; -- /bin/bash
+</code></pre>
+<h4 id="cúram-xml-server-logs-and-artifacts">Cúram XML Server Logs and Artifacts <a class="heading-anchor" href="#cúram-xml-server-logs-and-artifacts">#</a></h4>
+<p>Cúram XML Server pods are identified by the pod naming pattern beginning with: <code>&lt;helm_release_name&gt;-xmlserver-</code>.</p>
+<p>So, if the Helm release was named &quot;purpleclown&quot; pods named like the following can be found by running a <code>kubectl get pods</code> command:</p>
+<ul>
+<li><code>purpleclown-xmlserver-86b588c784-z76mz</code></li>
+</ul>
+<p>where the number of pods may vary depending on the number of replicas specified.</p>
+<p>Using the <code>kubectl exec</code> command, as follows, will provide access into the default XML Server directory <code>/opt/ibm/Curam/xmlserver</code>:</p>
+<pre><code>kubectl exec --namespace &lt;name_space&gt; -it &lt;xmlserver_pod_name&gt; -- /bin/bash
+</code></pre>
+<p>The log file in <code>/opt/ibm/Curam/xmlserver/tmp/xmlserver.log</code> is the same as the stdout produced by the <code>kubectl logs</code> command.</p>
+<p>For more information about XML server tracing and logging, see <em>Configuring the XML server</em>* in the <em>Cúram XML Infrastructure Guide</em>. Gathering this data is beyond the scope of this document.</p>
+<div class="note note--info">
+<p>Cúram PDF documentation is available to download from <a href="https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/" target="_blank" rel="noopener noreferrer">Cúram Support Docs</a>.</p>
+</div>
+<h4 id="cúram-batch-logs-and-artifacts">Cúram Batch Logs and Artifacts <a class="heading-anchor" href="#cúram-batch-logs-and-artifacts">#</a></h4>
+<p>Cúram batch pods are identified by the pod naming pattern beginning with: <code>&lt;helm_release_name&gt;-batch-</code>.</p>
+<p>So, if the Helm release was named &quot;purpleclown&quot; pods named like the following can be found by running a <code>kubectl get pods</code> command:</p>
+<ul>
+<li><code>purpleclown-batch-1587036600-9rrnw</code></li>
+</ul>
+<p>where the number of pods may vary depending on the number of replicas specified.</p>
+<p>Use the <code>kubectl logs</code> command to view the batch pod's stdout.</p>
+<p>For these pods the relevant log files can be found within the <code>/opt/ibm/Curam/release/buildlogs</code> folder of the pod’s file system</p>
+<p>Using the <code>kubectl exec</code> command as illustrated will place you into the pod:</p>
+<pre><code>kubectl exec --namespace &lt;name_space&gt; -it &lt;batch_pod_name&gt; -- /bin/bash
+</code></pre>
+<p>The log file is in <code>/opt/ibm/Curam/release/buildlogs/BatchLaucherXXXXXXXXXX.log</code>.</p>
+<p>If the persistence volume is enabled to store data, it will be saved to the Azure blob storage account,</p>
+<p>in the &quot;logs&quot; directory within the pod's directory.</p>
+<p>If persistence is not enabled, the logs will be generated in the folder indicated above by default.</p>
+<p>Enabling persistence activates the parameter</p>
+<pre><code>-Ddir.bld.log=$MOUNT_POINT/$HOSTNAME/logs
+</code></pre>
+<p>In Batch, the -Ddir.bld.log option is used to specify a system property that defines the path to the directory where</p>
+<p>the build logs will be stored. This option is typically used in the context of build commands or automation scripts to</p>
+<p>dynamically configure properties without modifying configuration files.</p>
+<p>Configuring logs correctly is crucial for debugging and maintaining the build process.</p>
+<p>The -Ddir.bld.log option is a flexible and powerful way to dynamically configure the log directory for Batch build processes.</p>
+<p>$MOUNT_POINT/$HOSTNAME/logs is a folder created adhoc to store the logs in the Azure blob storage account.</p>
+<h4 id="http-server-logs-and-artifacts">HTTP Server Logs and Artifacts <a class="heading-anchor" href="#http-server-logs-and-artifacts">#</a></h4>
+<p>The Apache HTTP Server is only used for hosting Cúram static content. This information would only be of interest for issues relating specifically to static content.</p>
+<p>HTTP Server pods are identified by the pod naming pattern beginning with: <code>&lt;helm_release_name&gt;-web-</code>.</p>
+<p>So, if the Helm release was named &quot;purpleclown&quot; pods named like the following can be found by running a <code>kubectl get pods</code> command:</p>
+<ul>
+<li><code>purpleclown-web-5c9cf5d868-ncdqk</code></li>
+</ul>
+<p>where the number of pods may vary depending on the number of replicas specified.</p>
+<p>For these pods the relevant log files can be found within the <code>/var/log/httpd</code> folder of the pod's file system.
+For instance:</p>
+<pre><code>kubectl exec --namespace &lt;name_space&gt; -it &lt;pod_name&gt; -- ls -l /var/log/httpd/error_log /var/log/httpd/access_log
+</code></pre>
+<p>would show the relevant logs:</p>
+<pre><code>-rw-r--r-- 1 default root    7826 Jul 28 09:32 /var/log/httpd/access_log
+-rw-r--r-- 1 default root    3297 Jul 28 09:25 /var/log/httpd/error_log
+</code></pre>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/troubleshooting/xmlserver-trace/"><span>Previous</span>XML Server tracing</a><a class="pager-next" href="/curam-kubernetes/known_issues/"><span>Next</span>Known issues</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#collecting-mustgather-data-for-cúram-on-kubernetes">Collecting MustGather Data for Cúram on Kubernetes</a></li><li class="toc-l2"><a href="#introduction">Introduction</a></li><li class="toc-l3"><a href="#question">Question</a></li><li class="toc-l3"><a href="#answer">Answer</a></li><li class="toc-l2"><a href="#collecting-mustgather-data-guidelines">Collecting MustGather Data Guidelines</a></li><li class="toc-l2"><a href="#general-cúram-mustgather">General Cúram MustGather</a></li><li class="toc-l3"><a href="#cúram-and-base-third-party-software-versions">Cúram and Base Third Party Software Versions</a></li><li class="toc-l2"><a href="#runtime-systems">Runtime Systems</a></li><li class="toc-l3"><a href="#operating-systems-and-platforms">Operating Systems and Platforms</a></li><li class="toc-l3"><a href="#kubernetes-and-related-software-versions">Kubernetes and Related Software Versions</a></li><li class="toc-l2"><a href="#helm-information">Helm Information</a></li><li class="toc-l3"><a href="#verify-helm-chart-correctness">Verify Helm Chart Correctness</a></li><li class="toc-l3"><a href="#helm-chart-rendering">Helm Chart Rendering</a></li><li class="toc-l3"><a href="#helm-chart-installation">Helm Chart Installation</a></li><li class="toc-l3"><a href="#verify-helm-chart-installation">Verify Helm Chart Installation</a></li><li class="toc-l2"><a href="#kubernetes-deployment-information">Kubernetes Deployment Information</a></li><li class="toc-l3"><a href="#information-on-a-kubernetes-environment">Information on a Kubernetes Environment</a></li><li class="toc-l2"><a href="#mustgather-to-collect-logs-and-other-artifacts">MustGather to Collect Logs and Other Artifacts</a></li><li class="toc-l3"><a href="#externalizing-logs-and-artifacts-inside-a-kubernetes-pod">Externalizing Logs and Artifacts Inside a Kubernetes Pod</a></li><li class="toc-l3"><a href="#minikube-logs">Minikube Logs</a></li><li class="toc-l3"><a href="#stdout-logs-from-pods">Stdout Logs from Pods</a></li><li class="toc-l3"><a href="#third-party-software-logs-and-artifacts">Third Party Software Logs and Artifacts</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

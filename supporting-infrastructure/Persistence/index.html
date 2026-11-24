@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Persistence Storage | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Persistence Storage of the Applications Logs">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Persistence Storage">
+<meta property="og:description" content="Persistence Storage of the Applications Logs">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/" class="active" aria-current="page">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Persistence Storage</h1>
+      
+    </div>
+    <article class="markdown"><h2 id="what-is-persistence-storage">What is Persistence Storage? <a class="heading-anchor" href="#what-is-persistence-storage">#</a></h2>
+<p>In Kubernetes, any data stored within the application pods is typically lost when the container terminates.</p>
+<p>Persistent storage addresses this challenge by providing the ability to store and access data in a durable and consistent manner across container deployments, even when the containers are rescheduled, restarted, or replaced.</p>
+<p>Using persistent storage, the applications running in Kubernetes clusters can retain data beyond the lifespan of individual containers.
+This ensures that information such as files, logs, and generated content, remains intact and accessible even if containers are destroyed or recreated.</p>
+<p>For more information about persistent storage, see <a href="https://aws.amazon.com/blogs/storage/persistent-storage-for-kubernetes/" target="_blank" rel="noopener noreferrer">Persistent storage for Kubernetes</a>.</p>
+<h2 id="using-persistent-storage-in-cúram">Using Persistent Storage in Cúram <a class="heading-anchor" href="#using-persistent-storage-in-cúram">#</a></h2>
+<p>There is a wide range of choices provided by various Cloud providers for utilising persistent storage in order to store and access information using Cúram on Kubernetes.
+The common types of storage are Block Storage which controls data on devices, <a href="https://docs.oracle.com/en-us/iaas/Content/File/Concepts/filestorageoverview.htm" target="_blank" rel="noopener noreferrer">File Storage</a> which is using the NFS and SMB protocols, or <a href="https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm" target="_blank" rel="noopener noreferrer">Object Storage</a> for unstructured data such as COS, AWS S3, and Azure Blob.</p>
+<p>Choosing the appropriate method for enabling persistent storage in the Cúram application on Kubernetes depends on number of factors:</p>
+<ul>
+<li>the availability of services offered by the Cloud provider</li>
+<li>the version of the Kubernetes or OpenShift cluster</li>
+<li>the compatibility and support provided by the selected platform.</li>
+</ul>
+<p>Typically, the primary options for achieving persistence are File Storage and Object Storage.</p>
+<h3 id="file-storage">File Storage <a class="heading-anchor" href="#file-storage">#</a></h3>
+<p>File Storage is a storage method that stores data in a hierarchical structure, within folders as a single unit of information.
+It is widely accessible and offers relatively fast performance. File storage is typically leveraging protocols such as Network File System (NFS) and Server Message Block (SMB).
+Some notable implementations of File Storage include IBM Cloud File Storage (CFS), Amazon Elastic File System (EFS), and Azure File Service (AFS).</p>
+<h3 id="object-storage">Object Storage <a class="heading-anchor" href="#object-storage">#</a></h3>
+<p>Object Storage enables the storage of vast amounts of data in a straightforward and cost-effective manner.
+In Azure, you can utilize Azure Blob Storage to access object storage, which is configured within a Premium Storage Account.
+While Azure Blob Storage shares similarities with Cloud Object Storage (COS) and Amazon S3 (S3), it does not offer support for the S3FS protocol interface.</p>
+<h2 id="usage">Usage <a class="heading-anchor" href="#usage">#</a></h2>
+<p>The following sample configurations are examples showing how to create Persistence Volume dynamically during the deployment of Cúram on Kubernetes.</p>
+<div class="tabs" data-tabs id="tabs-1">
+<section class="tab-panel" data-label="Azure File Service" id="tabs-1-panel-0">
+<p>To archive data persistently through <a href="https://learn.microsoft.com/en-us/azure/aks/azure-files-csi" target="_blank" rel="noopener noreferrer">Azure File Service Storage</a>, prepare the following prerequisites in the Kubernetes cluster and in your Azure subscription:</p>
+<ul>
+<li>On Azure, create a storage account of type Premium</li>
+<li>Within the storage account, create a Azure File Service instance, and take note of the name as &quot;AccountName&quot;</li>
+<li>In the Azure File Service instance, in the Access Keys section, create a new key, and take note of the name as &quot;AccountKey&quot; (alternatively create a SAS token)</li>
+<li>Navigate to the Azure File Service instance, create a File Share, select the protocol as 'SMB', and take note of the name as &quot;file-share-smb&quot;</li>
+<li>Encode the values of &quot;AccountName&quot; and &quot;AccountKey&quot; (or SAS token) in Base64 and add the following section to your override-values.yaml file with the correct values inputted</li>
+<li>Enter the properties as illustrated in the example below</li>
+</ul>
+<pre><code class="language-yaml"><span class="hljs-meta">---</span>
+<span class="hljs-attr">global:</span>
+  <span class="hljs-attr">apps:</span>
+    <span class="hljs-attr">common:</span>
+      <span class="hljs-attr">persistence:</span>
+        <span class="hljs-comment">## Persistence volume to store data (such as non-log files)</span>
+        <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span>
+        <span class="hljs-comment">## If enabled, connects to a persistence storage service</span>
+        <span class="hljs-attr">credentials:</span>
+          <span class="hljs-attr">azurestorageaccountname:</span> <span class="hljs-string">&quot;AccountName (encoded in Base64)&quot;</span>
+          <span class="hljs-attr">azurestorageaccountkey:</span> <span class="hljs-string">&quot;AccountKey (encoded in Base64)&quot;</span>
+        <span class="hljs-attr">storageClassName:</span> <span class="hljs-string">&quot;azureblob-fuse-premium&quot;</span>
+        <span class="hljs-attr">storageCapacity:</span> <span class="hljs-string">&quot;10Gi&quot;</span>
+        <span class="hljs-attr">properties:</span>
+          <span class="hljs-attr">azureFile:</span>
+            <span class="hljs-attr">secretName:</span> <span class="hljs-string">&quot;spm-persistence-secret&quot;</span>
+            <span class="hljs-attr">shareName:</span> <span class="hljs-string">&quot;file-share-smb&quot;</span>
+            <span class="hljs-attr">readOnly:</span> <span class="hljs-literal">false</span>
+        <span class="hljs-attr">mountPoint:</span> <span class="hljs-string">&#x27;/tmp/persistence&#x27;</span>
+        <span class="hljs-attr">jmxstats:</span>
+          <span class="hljs-comment">## Parameters of the JMX Stats to be persisted on the PVC</span>
+          <span class="hljs-comment"># The property timerPeriod sets the value curam.jmx.output_statistics_timer_period in milliseconds</span>
+          <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span>
+          <span class="hljs-attr">timerPeriod:</span> <span class="hljs-number">60000</span>
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Azure Blob Storage" id="tabs-1-panel-1">
+<p>To archive data persistently through <a href="https://learn.microsoft.com/en-us/azure/aks/azure-blob-csi?tabs=Blobfuse" target="_blank" rel="noopener noreferrer">Azure Blob Storage</a>, prepare the following prerequisites in the Kubernetes cluster and in your Azure subscription:</p>
+<ul>
+<li>On Azure, create a storage account of type Premium</li>
+<li>Within the storage account, create a Azure Blob Storage instance, and take note of the name as &quot;AccountName&quot;</li>
+<li>In the Azure Blob Storage instance, in the Access Keys section, create a new key, and take note of the name as &quot;AccountKey&quot; (alternatively create a SAS token)</li>
+<li>Navigate to the Azure Blob Storage instance, create a container, and take note of the name as &quot;blob-container&quot;</li>
+<li>Encode the values of &quot;AccountName&quot; and &quot;AccountKey&quot; (or SAS token) in Base64 and add the following section to your override-values.yaml file with the correct values inputted</li>
+<li>Enter the properties as illustrated in the example below</li>
+</ul>
+<div class="note note--warning">
+<p><strong>NOTE</strong> Azure Blob Storage is not supported on the Openshift platform</p>
+</div>
+<pre><code class="language-yaml"><span class="hljs-meta">---</span>
+<span class="hljs-attr">global:</span>
+  <span class="hljs-attr">apps:</span>
+    <span class="hljs-attr">common:</span>
+      <span class="hljs-attr">persistence:</span>
+        <span class="hljs-comment">## Persistence volume to store data (such as non-log files)</span>
+        <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span>
+        <span class="hljs-comment">## If enabled, creates a PV and PVC to connect to Azure Blob Storage container</span>
+        <span class="hljs-attr">credentials:</span>
+          <span class="hljs-attr">azurestorageaccountname:</span> <span class="hljs-string">&quot;AccountName (encoded in Base64)&quot;</span>
+          <span class="hljs-attr">azurestorageaccountkey:</span> <span class="hljs-string">&quot;AccountKey (encoded in Base64)&quot;</span>
+        <span class="hljs-attr">storageClassName:</span> <span class="hljs-string">&quot;azureblob-fuse-premium&quot;</span>
+        <span class="hljs-attr">storageCapacity:</span> <span class="hljs-string">&quot;10Gi&quot;</span>
+        <span class="hljs-attr">storageAccessModes:</span> <span class="hljs-string">&quot;ReadWriteMany&quot;</span>
+        <span class="hljs-attr">properties:</span>
+          <span class="hljs-attr">persistentVolumeReclaimPolicy:</span> <span class="hljs-string">&#x27;Delete&#x27;</span>
+          <span class="hljs-attr">storageClassName:</span> <span class="hljs-string">&#x27;azureblob-fuse-premium&#x27;</span>
+          <span class="hljs-attr">mountOptions:</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">-o</span> <span class="hljs-string">allow_other</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">--file-cache-timeout-in-seconds=120</span>
+          <span class="hljs-attr">csi:</span>
+            <span class="hljs-attr">driver:</span> <span class="hljs-string">&#x27;blob.csi.azure.com&#x27;</span>
+            <span class="hljs-attr">readOnly:</span> <span class="hljs-literal">false</span>
+            <span class="hljs-attr">volumeHandle:</span> <span class="hljs-string">&quot;pv-handle-unique-id&quot;</span>
+            <span class="hljs-attr">volumeAttributes:</span>
+              <span class="hljs-attr">containerName:</span> <span class="hljs-string">&quot;blob-container&quot;</span>
+              <span class="hljs-attr">isHnsEnabled:</span> <span class="hljs-string">&quot;true&quot;</span>
+              <span class="hljs-attr">protocol:</span> <span class="hljs-string">fuse2</span>
+            <span class="hljs-attr">nodeStageSecretRef:</span>
+              <span class="hljs-attr">name:</span> <span class="hljs-string">&quot;spm-persistence-secret&quot;</span>
+              <span class="hljs-attr">namespace:</span> <span class="hljs-string">&quot;my-namespace&quot;</span>
+        <span class="hljs-attr">jmxstats:</span>
+          <span class="hljs-comment">## Parameters of the JMX Stats to be persisted on the PVC</span>
+          <span class="hljs-comment"># The property timerPeriod sets the value curam.jmx.output_statistics_timer_period in milliseconds</span>
+          <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span>
+          <span class="hljs-attr">timerPeriod:</span> <span class="hljs-number">60000</span>
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Elastic File System" id="tabs-1-panel-2">
+<p>To archive data persistently through <a href="https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html" target="_blank" rel="noopener noreferrer">Amazon Elastic File System</a>, prepare the following prerequisites in the Kubernetes cluster and in your AWS subscription:</p>
+<ul>
+<li>Within the EKS Cluster add the addon for EFS</li>
+<li>On Amazon, create an Elastic File System and take note of the name as &quot;File system ID&quot;.</li>
+<li>Within the Elastic File System, create an Access point, and take note of the name as &quot;Access point ID&quot;</li>
+<li>For the Access point set the following;
+<ul>
+<li>Root directory path to &quot;/tmp&quot;</li>
+<li>POSIX; user User ID &quot;1001&quot;</li>
+<li>POSIX; user Group ID &quot;0&quot;</li>
+<li>Root directory creation permissions; Owner user ID &quot;1001&quot;</li>
+<li>Root directory creation permissions; Owner group ID &quot;0
+&quot;</li>
+<li>Root directory creation permissions; Permissions &quot;755&quot;</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-yaml"><span class="hljs-meta">---</span>
+<span class="hljs-attr">global:</span>
+  <span class="hljs-attr">apps:</span>
+    <span class="hljs-attr">common:</span>
+      <span class="hljs-attr">persistence:</span>
+        <span class="hljs-comment">## Persistence volume to store data (such as non-log files)</span>
+        <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span>
+        <span class="hljs-comment">## If enabled, connects to a persistence storage service</span>
+        <span class="hljs-attr">credentials:</span>
+        <span class="hljs-attr">storageClassName:</span> <span class="hljs-string">&quot;efs-sc&quot;</span><span class="hljs-string">,</span>
+        <span class="hljs-attr">storageCapacity:</span> <span class="hljs-string">&quot;10Gi&quot;</span>
+        <span class="hljs-attr">volumeMode:</span> <span class="hljs-string">&quot;Filesystem&quot;</span><span class="hljs-string">,</span>
+        <span class="hljs-attr">properties:</span>
+          <span class="hljs-attr">persistentVolumeReclaimPolicy:</span> <span class="hljs-string">&quot;Delete&quot;</span><span class="hljs-string">,</span>
+          <span class="hljs-attr">mountOptions:</span> [
+          ]<span class="hljs-string">,</span>
+          <span class="hljs-attr">csi:</span> [
+            <span class="hljs-attr">driver:</span> <span class="hljs-string">&quot;efs.csi.aws.com&quot;</span>,
+            <span class="hljs-comment">## Values from EFS that has been setup</span>
+            <span class="hljs-attr">volumeHandle:</span> <span class="hljs-string">&quot;File system ID::Access point ID&quot;</span>,
+          ]
+        <span class="hljs-attr">mountPoint:</span> <span class="hljs-string">&#x27;/tmp/persistence&#x27;</span>
+        <span class="hljs-attr">jmxstats:</span>
+          <span class="hljs-comment">## Parameters of the JMX Stats to be persisted on the PVC</span>
+          <span class="hljs-comment"># The property timerPeriod sets the value curam.jmx.output_statistics_timer_period in milliseconds</span>
+          <span class="hljs-attr">enabled:</span> <span class="hljs-literal">false</span>
+          <span class="hljs-attr">timerPeriod:</span> <span class="hljs-number">60000</span>
+</code></pre>
+</section>
+</div>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/supporting-infrastructure/batch/batch-streaming/"><span>Previous</span>Batch Streaming</a><a class="pager-next" href="/curam-kubernetes/supporting-infrastructure/ISAM/"><span>Next</span>Enabling ISAM</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#what-is-persistence-storage">What is Persistence Storage?</a></li><li class="toc-l2"><a href="#using-persistent-storage-in-cúram">Using Persistent Storage in Cúram</a></li><li class="toc-l3"><a href="#file-storage">File Storage</a></li><li class="toc-l3"><a href="#object-storage">Object Storage</a></li><li class="toc-l2"><a href="#usage">Usage</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building the Docker® images | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Building the Docker images">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Building the Docker® images">
+<meta property="og:description" content="Building the Docker images">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/" class="active" aria-current="page">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Building the Docker® images</h1>
+      
+    </div>
+    <article class="markdown"><h2 id="introduction">Introduction <a class="heading-anchor" href="#introduction">#</a></h2>
+<div class="note note--info">
+<p>Universal Base Image (UBI) consists of enterprise-ready and OCI-compliant Linux containers that offer greater security with stricter defaults than general images.</p>
+<p>For more information, see:<br /> <a href="https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image" target="_blank" rel="noopener noreferrer">RedHat Universal Base Image</a> and <a href="https://developers.redhat.com/blog/2019/07/29/red-hat-universal-base-image-how-it-works-in-3-minutes-or-less/" target="_blank" rel="noopener noreferrer">Red Hat Universal base image how it works</a></p>
+</div>
+<p>Some of the base images require <a href="https://access.redhat.com/terms-based-registry" target="_blank" rel="noopener noreferrer">authentication</a> with the RedHat Container Registry.
+You must be logged in to the following registries:</p>
+<ul>
+<li><code>registry.redhat.io</code>
+<ul>
+<li>For accessing <code>registry.redhat.io/rhel8/httpd-24</code></li>
+<li>Login using <code>docker login registry.redhat.io</code></li>
+</ul>
+</li>
+<li><code>registry.connect.redhat.com</code>
+<ul>
+<li>For accessing <code>registry.connect.redhat.com/ibm/ibmjava8-sdk-ubi8-minimal</code></li>
+<li>Login using <code>docker login registry.connect.redhat.com</code></li>
+</ul>
+</li>
+</ul>
+<p>For the <code>docker</code> commands that follow you must set a <code>DOCKER_REGISTRY</code> environment variable based on the container environment you are deploying:</p>
+<div class="tabs" data-tabs id="tabs-1">
+<section class="tab-panel" data-label="CRC" id="tabs-1-panel-0">
+<p>The URL for this value can be retrieved using this command: <code>oc registry info --public</code></p>
+<p>For example:</p>
+<pre><code class="language-shell">export DOCKER_REGISTRY=default-route-openshift-image-registry.apps-crc.testing
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Minikube Mac/Linux" id="tabs-1-panel-1">
+<pre><code class="language-shell">export DOCKER_REGISTRY=minikube.local:5000
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Minikube Windows PS" id="tabs-1-panel-2">
+<div class="note note--info">
+<p><strong>IMPORTANT:</strong> For Minikube on Windows set <code>DOCKER_REGISTRY</code> to the value: <code>localhost:5000</code>.
+See the <a href="https://minikube.sigs.k8s.io/docs/handbook/registry/#docker-on-windows" target="_blank" rel="noopener noreferrer">Minikube Handbook</a> for more information.</p>
+</div>
+<pre><code class="language-powershell">`$env:DOCKER_REGISTRY = <span class="hljs-string">&quot;localhost:5000&quot;</span>`
+</code></pre>
+</section>
+</div>
+<p>Now that all the elements are in place, build the images as follows:</p>
+<h2 id="building-the-images">Building the images <a class="heading-anchor" href="#building-the-images">#</a></h2>
+<p>The following sections provide steps for building the Docker images.</p>
+<p>Set the <code>PROJECT</code> environment variable:</p>
+<div class="note note--info">
+<p><strong>Note:</strong> In the following commands, the value of <code>$PROJECT</code> will change depending on deployment type:</p>
+<ul>
+<li>For a Minikube deployment the value of <code>$PROJECT</code> is arbitrary.</li>
+<li>For an AKS deployment the value of <code>$PROJECT</code> must equate to a valid namespace in the customer’s account.</li>
+<li>For an OpenShift deployment the value of <code>$PROJECT</code> must equate to a valid project.
+For this runbook it is best to stick with the value chosen for <code>$PROJECT</code> in <a href="/curam-kubernetes/prereq/openshift/codeready-containers#creating-a-crc-project">Creating a CRC project</a></li>
+</ul>
+</div>
+<h3 id="xml-server-image">XML server image <a class="heading-anchor" href="#xml-server-image">#</a></h3>
+<p>To build the XML server image, run the following commands:</p>
+<div class="tabs" data-tabs id="tabs-2">
+<section class="tab-panel" data-label="Using RedHat Registry" id="tabs-2-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/
+docker build \
+     --tag $DOCKER_REGISTRY/$PROJECT/xmlserver:latest \
+     --build-arg &quot;BASE_REGISTRY=registry.connect.redhat.com/&quot; \
+     --file XMLServer.Dockerfile .
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Using RedHat Registry (Windows PS)" id="tabs-2-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">cd</span> <span class="hljs-variable">$SPM_HOME</span>/dockerfiles/Liberty/<span class="hljs-variable">$CURAM_JAVA_MODE</span>/
+docker build `
+     <span class="hljs-literal">--tag</span> <span class="hljs-variable">$env:DOCKER_REGISTRY</span>/<span class="hljs-variable">$env:PROJECT</span>/xmlserver:latest `
+     <span class="hljs-literal">--build-arg</span> <span class="hljs-string">&quot;BASE_REGISTRY=registry.connect.redhat.com/&quot;</span> `
+     <span class="hljs-literal">--file</span> XMLServer.Dockerfile .
+</code></pre>
+</section>
+</div>
+<p><span class="badge badge--version">Cúram 8.0.1.0</span> For information on building an XML server sidecar performance monitoring image see <a href="/curam-kubernetes/monitoring/xmlserver-monitoring">Monitoring XML servers</a>.</p>
+<h3 id="utilities-image">Utilities image <a class="heading-anchor" href="#utilities-image">#</a></h3>
+<p>The utilities image is used at various stages of the deployment to check the state of the deployment.</p>
+<p>To build the utilities image, run the following commands:</p>
+<div class="tabs" data-tabs id="tabs-3">
+<section class="tab-panel" data-label="Using RedHat Registry" id="tabs-3-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/
+docker build \
+     --tag $DOCKER_REGISTRY/$PROJECT/utilities:latest \
+     --build-arg &quot;BASE_REGISTRY=registry.connect.redhat.com/&quot; \
+     --file Utilities.Dockerfile .
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Using RedHat Registry (Windows PS)" id="tabs-3-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">cd</span> <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\Liberty\<span class="hljs-variable">$env:Java_Version</span>\
+docker build `
+     <span class="hljs-literal">--tag</span> <span class="hljs-variable">$env:DOCKER_REGISTRY</span>/<span class="hljs-variable">$env:PROJECT</span>/utilities:latest `
+     <span class="hljs-literal">--build-arg</span> <span class="hljs-string">&quot;BASE_REGISTRY=registry.connect.redhat.com/&quot;</span> `
+     <span class="hljs-literal">--file</span> Utilities.Dockerfile .
+</code></pre>
+</section>
+</div>
+<h3 id="batch-image">Batch image <a class="heading-anchor" href="#batch-image">#</a></h3>
+<p>A <code>.dockerignore</code> file is used to omit the EAR files from the build context for batch.</p>
+<p>To build the batch image, run the following commands:</p>
+<div class="tabs" data-tabs id="tabs-4">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-4-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/
+echo -e &#x27;content/release-stage/ear&#x27; &gt; .dockerignore
+docker build \
+     --tag $DOCKER_REGISTRY/$PROJECT/batch:latest \
+     --file Batch.Dockerfile .
+rm -f .dockerignore
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-4-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">cd</span> <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\Liberty\<span class="hljs-variable">$env:Java_Version</span>\
+<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;content/release-stage/ear&quot;</span> | <span class="hljs-built_in">set-content</span> .dockerignore <span class="hljs-literal">-Encoding</span> Ascii
+docker build `
+     <span class="hljs-literal">--tag</span> <span class="hljs-variable">$env:DOCKER_REGISTRY</span>/<span class="hljs-variable">$env:PROJECT</span>/batch:latest `
+     <span class="hljs-literal">--file</span> Batch.Dockerfile .
+<span class="hljs-built_in">del</span>  .dockerignore
+</code></pre>
+</section>
+</div>
+<h3 id="server-code-image">Server Code image <a class="heading-anchor" href="#server-code-image">#</a></h3>
+<p>To build the Server Code image, run the following commands:</p>
+<div class="tabs" data-tabs id="tabs-5">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-5-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/
+docker build \
+     --tag $DOCKER_REGISTRY/$PROJECT/servercode:latest \
+     --file ServerEAR.Dockerfile \
+     --build-arg &quot;MQ_RA_LICENSE=--acceptLicense&quot; .
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-5-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">cd</span> <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\Liberty\<span class="hljs-variable">$env:Java_Version</span>\
+docker build `
+     <span class="hljs-literal">--tag</span> <span class="hljs-variable">$env:DOCKER_REGISTRY</span>/<span class="hljs-variable">$env:PROJECT</span>/servercode:latest `
+     <span class="hljs-literal">--file</span> ServerEAR.Dockerfile `
+     <span class="hljs-literal">--build-arg</span> <span class="hljs-string">&quot;MQ_RA_LICENSE=--acceptLicense&quot;</span> .
+</code></pre>
+</section>
+</div>
+<h3 id="application-images">Application images <a class="heading-anchor" href="#application-images">#</a></h3>
+<p>Take note of the <code>SERVERCODE_IMAGE</code> build argument which references the server code image - this gives the images a common base.</p>
+<p>To build the application images, run the following commands for each of the applications (EAR files) needed:</p>
+<div class="tabs" data-tabs id="tabs-6">
+<section class="tab-panel" data-label="Curam EAR (Mac/Linux)" id="tabs-6-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/
+docker build \
+     --tag $DOCKER_REGISTRY/$PROJECT/curam:latest \
+     --file ClientEAR.Dockerfile \
+     --build-arg &quot;SERVERCODE_IMAGE=$DOCKER_REGISTRY/$PROJECT/servercode:latest&quot; \
+     --build-arg &quot;EAR_NAME=Curam&quot; .
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Curam EAR (Windows PS)" id="tabs-6-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">cd</span> <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\Liberty\<span class="hljs-variable">$env:Java_Version</span>\
+docker build `
+     <span class="hljs-literal">--tag</span> <span class="hljs-variable">$env:DOCKER_REGISTRY</span>/<span class="hljs-variable">$env:PROJECT</span>/curam:latest `
+     <span class="hljs-literal">--file</span> ClientEAR.Dockerfile \
+     <span class="hljs-literal">--build-arg</span> <span class="hljs-string">&quot;SERVERCODE_IMAGE=<span class="hljs-variable">$env:DOCKER_REGISTRY</span>/<span class="hljs-variable">$env:PROJECT</span>/servercode:latest&quot;</span> \
+     <span class="hljs-literal">--build-arg</span> <span class="hljs-string">&quot;EAR_NAME=Curam&quot;</span> .
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Other EARs (Mac/Linux)" id="tabs-6-panel-2">
+<p>For additional Cúram applications (e.g. Rest, CitizenPortal), make the following changes to the command:</p>
+<ul>
+<li>the value of the <code>--tag</code> argument must be the application name in <em>lowercase</em></li>
+<li>the value of the <code>--build-arg EAR_NAME</code> argument must be the name of the EAR file <em>without</em> the file extension (that is, for <code>Rest.ear</code>, use the value <code>Rest</code>)</li>
+</ul>
+<pre><code class="language-shell">docker build \
+     --tag $DOCKER_REGISTRY/$PROJECT/rest:latest \
+     --file ClientEAR.Dockerfile \
+     --build-arg &quot;SERVERCODE_IMAGE=$DOCKER_REGISTRY/$PROJECT/servercode:latest&quot; \
+     --build-arg &quot;EAR_NAME=Rest&quot; .
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Other EARs (Windows PS)" id="tabs-6-panel-3">
+<p>For additional Cúram applications (e.g. Rest, CitizenPortal), make the following changes to the command:</p>
+<ul>
+<li>the value of the <code>--tag</code> argument must be the application name in <em>lowercase</em></li>
+<li>the value of the <code>--build-arg EAR_NAME</code> argument must be the name of the EAR file <em>without</em> the file extension (that is, for <code>Rest.ear</code>, use the value <code>Rest</code>)</li>
+</ul>
+<pre><code class="language-powershell">docker build `
+     <span class="hljs-literal">--tag</span> <span class="hljs-variable">$env:DOCKER_REGISTRY</span>/<span class="hljs-variable">$env:PROJECT</span>/rest:latest `
+     <span class="hljs-literal">--file</span> ClientEAR.Dockerfile `
+     <span class="hljs-literal">--build-arg</span> <span class="hljs-string">&quot;SERVERCODE_IMAGE=<span class="hljs-variable">$env:DOCKER_REGISTRY</span>/<span class="hljs-variable">$env:PROJECT</span>/servercode:latest&quot;</span> `
+     <span class="hljs-literal">--build-arg</span> <span class="hljs-string">&quot;EAR_NAME=Rest&quot;</span> .
+</code></pre>
+</section>
+</div>
+<h3 id="static-content-image">Static Content image <a class="heading-anchor" href="#static-content-image">#</a></h3>
+<p>To build the static content image, run the following commands:</p>
+<div class="tabs" data-tabs id="tabs-7">
+<section class="tab-panel" data-label="Using RedHat Registry" id="tabs-7-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/dockerfiles/HTTPServer/
+docker build \
+     --tag $DOCKER_REGISTRY/$PROJECT/httpd:latest \
+     --file StaticContent.Dockerfile \
+     --build-arg &quot;BASE_REGISTRY=registry.redhat.io/&quot; \
+     --build-arg &quot;CONTENT_DIR=/CuramStatic&quot; .
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Using RedHat Registry (Windows PS)" id="tabs-7-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">cd</span> <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\HTTPServer\
+docker build `
+     <span class="hljs-literal">--tag</span> <span class="hljs-variable">$env:DOCKER_REGISTRY</span>/<span class="hljs-variable">$env:PROJECT</span>/httpd:latest `
+     <span class="hljs-literal">--file</span> StaticContent.Dockerfile `
+     <span class="hljs-literal">--build-arg</span> <span class="hljs-string">&quot;BASE_REGISTRY=registry.redhat.io/&quot;</span> `
+     <span class="hljs-literal">--build-arg</span> <span class="hljs-string">&quot;CONTENT_DIR=/CuramStatic&quot;</span> .
+</code></pre>
+</section>
+</div>
+<div class="note note--info">
+<p><strong>Note:</strong> The <code>CONTENT_DIR</code> build argument must correspond to the value set in <code>curam-config.xml</code> when the webclient was built.</p>
+</div>
+<h3 id="universal-access-image">Universal Access image <a class="heading-anchor" href="#universal-access-image">#</a></h3>
+<p>To build an Cúram Docker image for your <em>built</em> Universal Access application:</p>
+<ul>
+<li>Copy the <code>build</code> directory from the React application to <code>$SPM_HOME/dockerfiles/HTTPServer</code></li>
+<li>Run the following commands:</li>
+</ul>
+<div class="note note--info">
+<p>This is applicable only if you are licensed for Cúram Universal Access.</p>
+<p><strong>Note:</strong> The <code>CONTENT_DIR</code> build argument must correspond to the value of the <code>PUBLIC_URL</code> variable set when creating the production build of the React app (<code>npm run build</code>).</p>
+</div>
+<div class="tabs" data-tabs id="tabs-8">
+<section class="tab-panel" data-label="Using RedHat Registry" id="tabs-8-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/dockerfiles/HTTPServer/
+docker build \
+     --tag $DOCKER_REGISTRY/$PROJECT/uawebapp:latest \
+     --file UAWebApp.Dockerfile \
+     --build-arg &quot;BASE_REGISTRY=registry.redhat.io/&quot; \
+     --build-arg &quot;CONTENT_DIR=/universal&quot; .
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Using RedHat Registry (Windows PS)" id="tabs-8-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">cd</span> <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\HTTPServer\
+docker build `
+     <span class="hljs-literal">--tag</span> <span class="hljs-variable">$env:DOCKER_REGISTRY</span>/<span class="hljs-variable">$env:PROJECT</span>/uawebapp:latest `
+     <span class="hljs-literal">--file</span> UAWebApp.Dockerfile `
+     <span class="hljs-literal">--build-arg</span> <span class="hljs-string">&quot;BASE_REGISTRY=registry.redhat.io/&quot;</span> `
+     <span class="hljs-literal">--build-arg</span> <span class="hljs-string">&quot;CONTENT_DIR=/universal&quot;</span> .
+</code></pre>
+</section>
+</div>
+<h2 id="pushing-the-images-to-the-registry">Pushing the images to the registry <a class="heading-anchor" href="#pushing-the-images-to-the-registry">#</a></h2>
+<p>A Container Registry is a repository or service for storing and distributing containers that can be used with Kubernetes. Most Cloud providers offer container registries but there are third party options such as JFrog Artifactory available also. If using Minikube a registry was created during setup to store the Docker images locally. Depending on the registry of choice, the commands to push generally use the following format:</p>
+<pre><code class="language-shell">docker push $DOCKER_REGISTRY/$PROJECT/xmlserver:latest
+docker push $DOCKER_REGISTRY/$PROJECT/utilities:latest
+docker push $DOCKER_REGISTRY/$PROJECT/batch:latest
+docker push $DOCKER_REGISTRY/$PROJECT/servercode:latest
+docker push $DOCKER_REGISTRY/$PROJECT/curam:latest
+docker push $DOCKER_REGISTRY/$PROJECT/httpd:latest
+</code></pre>
+<div class="note note--info">
+<p>If any additional images were built (for other Cúram applications or for the React application), do not forget to push the images too. For example:</p>
+<pre><code class="language-shell">docker push $DOCKER_REGISTRY/$PROJECT/rest:latest
+docker push $DOCKER_REGISTRY/$PROJECT/uawebapp:latest
+</code></pre>
+</div>
+<h2 id="view-the-artifacts-in-the-repository">View the artifacts in the repository <a class="heading-anchor" href="#view-the-artifacts-in-the-repository">#</a></h2>
+<p>Confirm that the pushes to the Docker registry succeeded. Run the following command:</p>
+<div class="tabs" data-tabs id="tabs-9">
+<section class="tab-panel" data-label="Minikube" id="tabs-9-panel-0">
+<pre><code class="language-shell">curl http://$DOCKER_REGISTRY/v2/_catalog
+</code></pre>
+</section>
+<section class="tab-panel" data-label="CRC" id="tabs-9-panel-1">
+<pre><code class="language-shell">curl -k -ukubeadmin:$(oc whoami -t) https://$(oc registry info --public)/v2/_catalog
+</code></pre>
+</section>
+</div>
+<p>The command returns the following result, depending on the images built and your tagging:</p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span><span class="hljs-attr">&quot;repositories&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">[</span><span class="hljs-string">&quot;batch&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;curam&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;xmlserver&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;httpd&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-string">&quot;utilities&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;servercode&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">}</span>
+</code></pre>
+<div class="note note--info">
+<p><strong>Note:</strong> Due to an issue with <a href="https://github.com/kubernetes/minikube/issues/2365" target="_blank" rel="noopener noreferrer">Minikube</a> you will need to repush the Docker images to the registry
+each time you shut down.</p>
+</div>
+<p>For more information about the Docker Registry HTTP API, see <a href="https://docs.docker.com/registry/spec/api/" target="_blank" rel="noopener noreferrer">Docker Registry HTTP API V2</a>.</p>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/build-images/setup_docker_context/"><span>Previous</span>Setting up the Docker context</a><a class="pager-next" href="/curam-kubernetes/deployment/hc_preparation/"><span>Next</span>Preparing Helm Charts</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#introduction">Introduction</a></li><li class="toc-l2"><a href="#building-the-images">Building the images</a></li><li class="toc-l3"><a href="#xml-server-image">XML server image</a></li><li class="toc-l3"><a href="#utilities-image">Utilities image</a></li><li class="toc-l3"><a href="#batch-image">Batch image</a></li><li class="toc-l3"><a href="#server-code-image">Server Code image</a></li><li class="toc-l3"><a href="#application-images">Application images</a></li><li class="toc-l3"><a href="#static-content-image">Static Content image</a></li><li class="toc-l3"><a href="#universal-access-image">Universal Access image</a></li><li class="toc-l2"><a href="#pushing-the-images-to-the-registry">Pushing the images to the registry</a></li><li class="toc-l2"><a href="#view-the-artifacts-in-the-repository">View the artifacts in the repository</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

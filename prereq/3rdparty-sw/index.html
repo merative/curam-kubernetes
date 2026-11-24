@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Base third-party software | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Base third-party software">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Base third-party software">
+<meta property="og:description" content="Base third-party software">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/" class="active" aria-current="page">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Base third-party software</h1>
+      
+    </div>
+    <article class="markdown"><div class="note note--warning">
+<p><strong>Important!</strong></p>
+<ul>
+<li>Check with your system administrator before installing any software.</li>
+<li>We advise clients to seek licence advice from their IBM re-seller regarding entitlements</li>
+</ul>
+</div>
+<nav class="anchor-links" aria-label="On this page"><ul><li><a href="#ibm-websphere-liberty">IBM WebSphere Liberty</a></li><li><a href="#java-requirement">Java Requirement</a></li><li><a href="#database">Database</a></li><li><a href="#apache-ant">Apache Ant</a></li></ul></nav>
+<h2 id="ibm-websphere-liberty">IBM WebSphere Liberty <a class="heading-anchor" href="#ibm-websphere-liberty">#</a></h2>
+<p>WebSphere Liberty is the only application server supported by Cúram on Kubernetes and is therefore required.</p>
+<p>When installed, create an environment variable <code>WLP_HOME</code> that points to the WebSphere Liberty installation directory. For example:</p>
+<pre><code class="language-shell">WLP_HOME=/opt/IBM/WebSphere/Liberty
+</code></pre>
+<h2 id="java-requirement">Java Requirement <a class="heading-anchor" href="#java-requirement">#</a></h2>
+<p>As of the Cúram 8.2 release, Cúram supports <code>Java 8</code> and <code>Java 21</code> , the latest version of Java will be referred to as <code>ModernJava</code>.</p>
+<p>See <a href="https://curam-spm-devops.github.io/wh-support-docs/" target="_blank" rel="noopener noreferrer">Cúram Supported Prerequisites</a> for the latest list of supported Java versions and JDK distributions.</p>
+<p>After installing Java, set the <code>JAVA_HOME</code> environment variable as follows:</p>
+<pre><code class="language-sh"><span class="hljs-built_in">export</span> JAVA_HOME=<span class="hljs-variable">$WLP_HOME</span>/java/&lt;version&gt;
+</code></pre>
+<ul>
+<li>Add <code>$JAVA_HOME/bin</code> to the <code>PATH</code> environment variable.</li>
+</ul>
+<p>Because of compatibility differences between Java 8 and Java 21, the Dockerfiles used by Cúram have been separated into version-specific directories. Java8 and ModernJava. These directories are referenced using the placeholder <code>$CURAM_JAVA_MODE</code> in this documentation.</p>
+<p>Be sure to check the <code>dockerfiles/Liberty</code> directory to confirm that you're using a supported Java version.</p>
+<h2 id="database">Database <a class="heading-anchor" href="#database">#</a></h2>
+<p>A supported relational database is required. See <a href="https://curam-spm-devops.github.io/wh-support-docs/" target="_blank" rel="noopener noreferrer">Cúram Supported Prerequisites</a> for list of supported databases.</p>
+<h2 id="apache-ant">Apache Ant <a class="heading-anchor" href="#apache-ant">#</a></h2>
+<p>When using Java 8, Apache Ant <code>1.10.15</code> is required for Cúram version 8.2.1.0 and above. Older versions require Apache Ant <code>1.10.6</code>.</p>
+<p>When using ModernJava, Apache Ant <code>1.10.15</code> is required.</p>
+<div class="note note--warning">
+<p>Please refer to the ModernJava Migration Guide for additional details.</p>
+</div>
+<p>Create the following environment variables:</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Variable Name</th>
+<th>Value</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ANT_HOME</td>
+<td>points to the installation directory</td>
+<td></td>
+</tr>
+<tr>
+<td>ANT_OPTS</td>
+<td>-Xmx1400m -Dcmp.maxmemory=1400m</td>
+<td></td>
+</tr>
+<tr>
+<td>ANT_VERSION_VALUE</td>
+<td>based on the Java version</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td>ANT_LIB_PATH</td>
+<td>point to the <code>CuramSDEJ/lib/nashorn</code> path</td>
+<td><code>2</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(1)</code> Based on the Cúram version you install.</td>
+</tr>
+<tr>
+<td><code>(2)</code> This is only required for Java 21.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>Add $ANT_HOME/bin to the PATH environment variable</li>
+<li>Include <code>ANT_LIB_PATH</code> in your <code>PATH</code>.</li>
+</ul>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/prereq/prereq/"><span>Previous</span>Prerequisite software</a><a class="pager-next" href="/curam-kubernetes/prereq/docker-helm/"><span>Next</span>Docker and Helm</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#ibm-websphere-liberty">IBM WebSphere Liberty</a></li><li class="toc-l2"><a href="#java-requirement">Java Requirement</a></li><li class="toc-l2"><a href="#database">Database</a></li><li class="toc-l2"><a href="#apache-ant">Apache Ant</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

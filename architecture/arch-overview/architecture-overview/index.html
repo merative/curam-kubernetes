@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Architecture Overview | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Architecture Overview">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Architecture Overview">
+<meta property="og:description" content="Architecture Overview">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details open><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/" class="active" aria-current="page">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Architecture Overview</h1>
+      <nav class="page-tabs" aria-label="Section"><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/" class="active" aria-current="page">Architecture Overview</a><a href="/curam-kubernetes/architecture/arch-overview/reference-architecture/">Reference Architecture</a><a href="/curam-kubernetes/architecture/arch-overview/dev-workstation/">Dev Workstation</a><a href="/curam-kubernetes/architecture/arch-overview/static-content/">Static Content</a></nav>
+    </div>
+    <article class="markdown"><p>Cúram is not offered as a Platform-as-a-Service (PaaS) or Software-as-a-Service (SaaS) solution in the cloud. Instead, it is a configurable platform for Social Program Management that customers tailor to meet their specific requirements. Customers are responsible for building, deploying, running, and operating Cúram in environments aligned with their own Software Development Life Cycle (SDLC) processes.</p>
+<p>Cúram can either be deployed on traditional hosting architectures (i.e. virtual machines or bare metal) or on Kubernetes. This runbook focuses exclusively on cloud-native hosting on Kubernetes.</p>
+<p>Cúram can be deployed on the following distributions:</p>
+<ol>
+<li><strong>Azure Kubernetes Services (AKS)</strong></li>
+</ol>
+<div class="note note--info">
+<pre><code>&lt;div style={{ fontSize: &quot;0.8em&quot; }}&gt;
+  &lt;div style={{ margin: &quot;0.8em 0&quot; }}&gt;
+    • &lt;strong&gt;Azure Kubernetes Service (AKS)&lt;/strong&gt; is supported for &lt;strong&gt;Development&lt;/strong&gt; and &lt;strong&gt;Test&lt;/strong&gt; environments for both &lt;strong&gt;Java 8&lt;/strong&gt; and &lt;strong&gt;Java 21&lt;/strong&gt;.
+  &lt;/div&gt;
+  &lt;div style={{ margin: &quot;0.8em 0&quot; }}&gt;
+    • &lt;strong&gt;Azure Kubernetes Service (AKS)&lt;/strong&gt; is supported for &lt;strong&gt;Production&lt;/strong&gt; use with &lt;strong&gt;Java 21&lt;/strong&gt; only.
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+</div>
+<ol start="2">
+<li><strong>Amazon Elastic Kubernetes Service (EKS)</strong></li>
+</ol>
+<div class="note note--info">
+<pre><code>&lt;div style={{ fontSize: &quot;0.8em&quot; }}&gt;
+  &lt;div style={{ margin: &quot;0.8em 0&quot; }}&gt;
+    • &lt;strong&gt;Amazon Elastic Kubernetes Service (EKS)&lt;/strong&gt; is supported exclusively for &lt;strong&gt;Production&lt;/strong&gt;, &lt;strong&gt;Development&lt;/strong&gt; and &lt;strong&gt;Test&lt;/strong&gt; environments with &lt;strong&gt;Java 21&lt;/strong&gt; only.
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+</div>
+<ol start="3">
+<li><strong>Red Hat OpenShift</strong></li>
+</ol>
+<div class="note note--info">
+<pre><code>&lt;div style={{ fontSize: &quot;0.8em&quot; }}&gt;
+  &lt;div style={{ margin: &quot;0.8em 0&quot; }}&gt;
+    • &lt;strong&gt;OpenShift&lt;/strong&gt; is supported for &lt;strong&gt;Development&lt;/strong&gt;, &lt;strong&gt;Test&lt;/strong&gt; and &lt;strong&gt;Production&lt;/strong&gt; environments for both &lt;strong&gt;Java 8&lt;/strong&gt; and &lt;strong&gt;Java 21&lt;/strong&gt;.
+    • OpenShift deployments are environment-agnostic and can be run on any infrastructure that supports OpenShift, including &lt;strong&gt;on-premises&lt;/strong&gt;, &lt;strong&gt;private cloud&lt;/strong&gt; or &lt;strong&gt;public cloud&lt;/strong&gt; environments.
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+</div>
+<p>Figure 1 shows the essential nature of the Cúram architecture on Kubernetes.</p>
+<p>It conveys the governing ideas and major building blocks of the architecture.
+The <strong>&quot;Development &amp; DevOps&quot;</strong>, <strong>&quot;Security&quot;</strong>, and <strong>&quot;Governance&quot;</strong> components and processes described in the architecture diagram are just for reference. They will likely be different depending on your Deployment Architecture.</p>
+<p>Cúram does not require nor impose these components in the architecture.</p>
+<div class="note note--info">
+<p><strong>Note:</strong> This runbook does not provide any content or guidance on the <code>Development and DevOps</code>, <code>Governance</code> or <code>Security</code>.</p>
+</div>
+<p><img src="../../../images/architecture-overview.png" alt="architecture overview"></p>
+<div class="caption">
+<p><em>Figure 1:</em> Cúram on Kubernetes</p>
+</div>
+<p>Figure 2 shows how Cúram is built as a containerized application by using WebSphere® Application Server Liberty, packaged as Docker®
+containers, orchestrated by Helm, and running on Red Hat OpenShift or Kubernetes Service.</p>
+<p><img src="../../../images/curam_on_kubernetes.png" alt="Cúram on kubernetes"></p>
+<div class="caption">
+<p><em>Figure 2:</em> Cúram packaging for Kubernetes</p>
+</div>
+<div class="note note--info">
+<p><strong>Note:</strong> Database support remains on virtual machines (VMs) as the current deployment model.</p>
+</div>
+<p>To support containerized architectures, a number of architectural changes were made. The changes are documented as follows and apply only to Cúram running on
+Kubernetes.</p>
+<ul>
+<li><strong>Message Architecture</strong>
+When Cúram is containerized, IBM MQ Long Term Support (LTS) is used as the message engine to process internal application
+JMS-based deferred processing.</li>
+<li><strong>Transaction Isolation</strong>
+Client HTTP initiated transactions and JMS initiated transactions run on different WebSphere Application Server Liberty instances, integrated through
+an external message engine (for example, IBM MQ).</li>
+<li><strong>Elasticity</strong>
+Elasticity in Kubernetes Service is the ability to scale up or down pods and nodes to adjust to the load to meet the end user demand.</li>
+</ul>
+<p>For more information about Cúram Kubernetes architecture changes, see <strong>Kubernetes architecture</strong> in the <em>Cúram on Kubernetes Guide</em>.</p>
+<div class="note note--info">
+<p>Cúram PDF documentation, including guides on deployment, configuration, and troubleshooting, is available to download from <a href="https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/" target="_blank" rel="noopener noreferrer">Cúram Support Docs</a>.</p>
+</div>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/architecture/kubernetes/what-is-openshift/"><span>Previous</span>What is OpenShift?</a><a class="pager-next" href="/curam-kubernetes/architecture/arch-overview/reference-architecture/"><span>Next</span>Reference Architecture</a></nav>
+  </main>
+  
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

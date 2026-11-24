@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Known issues | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Known issues">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Known issues">
+<meta property="og:description" content="Known issues">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/" class="active" aria-current="page">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Known issues</h1>
+      
+    </div>
+    <article class="markdown"><p>Some issues might require product changes to resolve them.</p>
+<nav class="anchor-links" aria-label="On this page"><ul><li><a href="#storage-initialized-using-a-runbook-version-older-than-20-9-0">Storage initialized using a runbook version older than 20.9.0</a></li><li><a href="#the-logs-contain-occurrences-of-the-icwwks4001i-message">The logs contain occurrences of the ICWWKS4001I message</a></li><li><a href="#ibm-mq-xaer-proto-issue">IBM MQ XAER_PROTO issue</a></li><li><a href="#method-calls-that-cross-the-client-server-boundary">Method calls that cross the client/server boundary</a></li><li><a href="#minikube-dashboard-command-on-red-hat">Minikube dashboard command on Red Hat</a></li><li><a href="#limitations-when-using-the-minikube-none-driver">Limitations when using the Minikube none driver</a></li></ul></nav>
+<h2 id="helm-charts">Helm Charts <a class="heading-anchor" href="#helm-charts">#</a></h2>
+<h3 id="storage-initialized-using-a-runbook-version-older-than-20-9-0">Storage initialized using a runbook version older than 20.9.0 <a class="heading-anchor" href="#storage-initialized-using-a-runbook-version-older-than-20-9-0">#</a></h3>
+<p>If storage has been initialized using a version of the runbook older than 20.9.0, you will need to update your
+override values to include a supplementary group:</p>
+<pre><code class="language-yaml"><span class="hljs-attr">global:</span>
+  <span class="hljs-attr">mq:</span>
+    <span class="hljs-attr">security:</span>
+      <span class="hljs-attr">context:</span>
+        <span class="hljs-attr">supplementalGroups:</span> [<span class="hljs-number">888</span>]
+</code></pre>
+<p>This is due to a update in IBM MQ, the details of which can be found in the <a href="https://github.com/IBM/charts/blob/master/stable/ibm-mqadvanced-server-dev/RELEASENOTES.md" target="_blank" rel="noopener noreferrer">IBM MQ charts</a>.</p>
+<h2 id="websphere-liberty">WebSphere Liberty <a class="heading-anchor" href="#websphere-liberty">#</a></h2>
+<h3 id="the-logs-contain-occurrences-of-the-icwwks4001i-message">The logs contain occurrences of the ICWWKS4001I message <a class="heading-anchor" href="#the-logs-contain-occurrences-of-the-icwwks4001i-message">#</a></h3>
+<p>For example:</p>
+<pre><code>[1/22/19 8:48:18:272 GMT] 000000ba com.ibm.ws.security.token.internal.TokenManagerImpl ICWWKS4001I: The security token cannot be validated. This can be for the following reasons:
+1. The security token was generated on another server using different keys.
+2. The token configuration or the security keys of the token service that created the token has been changed.
+3. The token service that created the token is no longer available.
+</code></pre>
+<p>The root cause is users not clearing the browser cache after the application is redeployed. Users might have old, local cookie files.</p>
+<p>However, after a redeployment or an upgrade, the application does not recognize the cookies that are presented to it by the computer, which causes the error messages in the logs.</p>
+<h3 id="ibm-mq-xaer-proto-issue">IBM MQ XAER_PROTO issue <a class="heading-anchor" href="#ibm-mq-xaer-proto-issue">#</a></h3>
+<p>The following issue has been observed in the JMS consumer pods when JMS transactions is processed by a newly deployed pod, at the initial JMS transactions. The exception in thrown by the IBM MQ Resource Adapter.</p>
+<pre><code>[INFO    ] FFDC1015I: An FFDC Incident has been created: &quot;javax.transaction.xa.XAException: The method &#39;xa_start&#39; has failed with errorCode &#39;-6&#39;. com.ibm.tx.jta.impl.JTAXAResourceImpl.start 307&quot; at ...
+[INFO    ] FFDC1015I: An FFDC Incident has been created: &quot;javax.transaction.xa.XAException: The method &#39;xa_start&#39; has failed with errorCode &#39;-6&#39;. com.ibm.tx.jta.impl.RegisteredResources.startRes 1053&quot; at ...
+[ERROR   ] WTRN0078E: An attempt by the transaction manager to call start on a transactional resource has resulted in an error.
+The error code was XAER_PROTO. The exception stack trace follows: javax.transaction.xa.XAException: The method &#39;xa_start&#39; has failed with errorCode &#39;-6&#39;.
+	at com.ibm.mq.jmqi.JmqiXAResource.start(JmqiXAResource.java:980)
+	at com.ibm.mq.connector.xa.XARWrapper.start(XARWrapper.java:680)
+	at com.ibm.ws.Transaction.JTA.JTAResourceBase.start(JTAResourceBase.java:121)
+	at [internal classes]
+	at com.ibm.mq.connector.inbound.AbstractWorkImpl.run(AbstractWorkImpl.java:210)
+	at com.ibm.ws.jca.inbound.security.JCASecurityContextService.runInInboundSecurityContext(JCASecurityContextService.java:49)
+	at [internal classes]
+</code></pre>
+<p>The issue does not affect the state of the Queue Manager. It does not disrupt the connection between the JMS consumer pods and IBM MQ Queue Manager nor the ability of JMS consumer to process JMS messages.</p>
+<h3 id="timeout-messages-wtrn0006w-and-wtrn0124i">Timeout messages WTRN0006W and WTRN0124I <a class="heading-anchor" href="#timeout-messages-wtrn0006w-and-wtrn0124i">#</a></h3>
+<p>WebSphere Liberty messages <code>WTRN0006W</code> and <code>WTRN0124I</code> may appear in <code>messages.log</code> as shown here:</p>
+<pre><code>WTRN0006W: Transaction 0000017A49B1BD8E0000000125A119FC115513F2FEA8810BAA357685E0C649F93911ADC10000017A49B1BD8E0000000125A119FC115513F2FEA8810BAA357685E0C649F93911ADC100000001 has timed out after 180 seconds.
+WTRN0124I: When the timeout occurred the thread with which the transaction is, or was most recently, associated was Thread[Default Executor-thread-4,5,Default Executor Thread Group]. The stack trace of this thread when the timeout occurred was:
+        java.lang.Object.wait(Native Method)
+        java.lang.Object.wait(Object.java:218)
+        com.ibm.ws.threading.internal.BoundedBuffer.waitGet_(BoundedBuffer.java:176)
+        com.ibm.ws.threading.internal.BoundedBuffer.take(BoundedBuffer.java:647)
+        java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1085)
+        java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+        java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+        java.lang.Thread.run(Thread.java:822)
+</code></pre>
+<p>When these messages appear with a stacktrace similar to above it is not a relvant error or a thread hanging, as per this
+<a href="https://www.ibm.com/support/pages/identifying-idle-threads-thread-dumps-taken-against-websphere-application-server" target="_blank" rel="noopener noreferrer">WebSphere Application Server support page</a>,
+which also covers Liberty.</p>
+<h3 id="method-calls-that-cross-the-client-server-boundary">Method calls that cross the client/server boundary <a class="heading-anchor" href="#method-calls-that-cross-the-client-server-boundary">#</a></h3>
+<p>Some application customizations may cause the client application to reference classes in the server, which, due to isolation and classloading policies, is not possible.
+This results in errors such as <code>java.lang.ClassCastException</code> or <code>java.lang.NoClassDefFoundError</code> exceptions.</p>
+<h4 id="workaround-for-client-server-boundary-errors">Workaround for client/server boundary errors <a class="heading-anchor" href="#workaround-for-client-server-boundary-errors">#</a></h4>
+<p>The workaround is to make the referenced class(es) available to both the client and server applications.
+For example, if the class is in the <code>struct.jar</code> file you can modify the build of your client application image (<code>Client.ear</code>) to include the jar file.
+Before building and deploying the application images, modify the <code>ClientEAR.Dockerfile</code> file to include these lines at the end:</p>
+<pre><code>RUN if [ &quot;$EAR_NAME&quot; = &quot;Curam&quot; ] ; then \
+        cp /config/apps/CuramServerCode.ear/struct.jar /opt/ibm/wlp/usr/servers/defaultServer/apps/${EAR_NAME}.ear/ClientModule.war/WEB-INF/lib \
+        &amp;&amp; cp /config/apps/CuramServerCode.ear/struct.jar /config/apps/${EAR_NAME}.ear/ClientModule.war/WEB-INF/lib ; \
+        fi
+</code></pre>
+<h4 id="why-the-error-occurs">Why the error occurs <a class="heading-anchor" href="#why-the-error-occurs">#</a></h4>
+<p>As part of the Cúram journey to Kubernetes, Cúram made a number of changes in the areas of transaction isolation, messaging architecture, and elasticity so that Cúram could leverage the benefits of Kubernetes.</p>
+<p>For more information about Cúram Kubernetes architecture changes, see <strong>Kubernetes architecture</strong> in the <em>Cúram on Kubernetes Guide</em>.</p>
+<div class="note note--info">
+<p>Cúram PDF documentation is available to download from <a href="https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/" target="_blank" rel="noopener noreferrer">Cúram Support Docs</a>.</p>
+</div>
+<p>Part of these changes included splitting the Curam applications into separate server and client .ear files, which provided necessary flexibility and isolation when deploying and running in Kubernetes.
+However, classes that cross the client/server boundary cause errors due to this isolation.
+For Cúram product classes that have this requirement the Liberty shared folder is used.
+These product classes are the EJB local interfaces as described in the Cúram Transaction isolation. For more information about EJB local interface, see <strong>Transaction isolation</strong> in the <em>Cúram on Kubernetes Guide</em>.</p>
+<p>In relation to the Liberty classloader for Cúram, Cúram specifies the <code>parentFirst</code> classloader policy. This was done to increase cohesion and lower coupling between the client and server.
+The use of this policy means that the classes are loaded from the application server libraries to the application.
+The shared folder is loaded before the applications and it loads all the common classes used by both the server code (CuramServerCode.ear) and client code (Curam.ear).
+After that the server and client load their classes using those already loaded previously from the shared folder.</p>
+<h2 id="minikube">Minikube <a class="heading-anchor" href="#minikube">#</a></h2>
+<h3 id="minikube-dashboard-command-on-red-hat">Minikube dashboard command on Red Hat <a class="heading-anchor" href="#minikube-dashboard-command-on-red-hat">#</a></h3>
+<p>When you follow the steps<code>Kubernetes dashboard</code> in <a href="/curam-kubernetes/monitoring/interrogate_runtime">Monitoring the application</a>, the <code>minikube dashboard</code> command might not work on Red Hat operating systems.
+For more information, see <a href="https://github.com/kubernetes/minikube/issues/5815" target="_blank" rel="noopener noreferrer">Minikube issue 5815</a>.</p>
+<h3 id="limitations-when-using-the-minikube-none-driver">Limitations when using the Minikube none driver <a class="heading-anchor" href="#limitations-when-using-the-minikube-none-driver">#</a></h3>
+<p>There are a number of limitations associated with the Minikube none driver that are documented in <a href="https://minikube.sigs.k8s.io/docs/reference/drivers/none/" target="_blank" rel="noopener noreferrer">Minikube documentation</a>.
+You must evaluate the impacts of these limitations for your implementation.</p>
+<p>However, the unavailability of the <code>minikube ssh</code> command might make it difficult to analyze and resolve problems and issues. For example, switching to the kvm2 driver enables the use of <code>minikube ssh</code> and resolves issues with the Docker Registry.</p>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/troubleshooting/must_gather/"><span>Previous</span>MustGather</a><a class="pager-next" href="/curam-kubernetes/faq/"><span>Next</span>Frequently Asked Questions</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#helm-charts">Helm Charts</a></li><li class="toc-l3"><a href="#storage-initialized-using-a-runbook-version-older-than-20-9-0">Storage initialized using a runbook version older than 20.9.0</a></li><li class="toc-l2"><a href="#websphere-liberty">WebSphere Liberty</a></li><li class="toc-l3"><a href="#the-logs-contain-occurrences-of-the-icwwks4001i-message">The logs contain occurrences of the ICWWKS4001I message</a></li><li class="toc-l3"><a href="#ibm-mq-xaer-proto-issue">IBM MQ XAER_PROTO issue</a></li><li class="toc-l3"><a href="#timeout-messages-wtrn0006w-and-wtrn0124i">Timeout messages WTRN0006W and WTRN0124I</a></li><li class="toc-l3"><a href="#method-calls-that-cross-the-client-server-boundary">Method calls that cross the client/server boundary</a></li><li class="toc-l2"><a href="#minikube">Minikube</a></li><li class="toc-l3"><a href="#minikube-dashboard-command-on-red-hat">Minikube dashboard command on Red Hat</a></li><li class="toc-l3"><a href="#limitations-when-using-the-minikube-none-driver">Limitations when using the Minikube none driver</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

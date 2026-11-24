@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Handling failed JMS Messages on the MQ Dead Message Queue | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Handling failed JMS messages on the MQ dead message queue">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Handling failed JMS Messages on the MQ Dead Message Queue">
+<meta property="og:description" content="Handling failed JMS messages on the MQ dead message queue">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/" class="active" aria-current="page">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Handling failed JMS Messages on the MQ Dead Message Queue</h1>
+      
+    </div>
+    <article class="markdown"><h2 id="introduction">Introduction <a class="heading-anchor" href="#introduction">#</a></h2>
+<p>It would be unusual for JMS processing to fail; but, if messages do fail that is why we define retry counts, and error and dead message queues.
+There are two common contexts for JMS failures:</p>
+<ul>
+<li>Message production: messages to MQ from Liberty.</li>
+<li>Message consumption: message processing in Liberty for messages from MQ.</li>
+</ul>
+<h2 id="message-production-failures">Message Production Failures <a class="heading-anchor" href="#message-production-failures">#</a></h2>
+<p>If the production of a JMS message fails, a Java exception is thrown in Liberty (shown in the application server logs), the transaction fails, and the message is never processed by MQ.</p>
+<p>For example, if an MQ queue fills up, the following exception would be seen in the stack trace. This points back to the issue in MQ and other related exceptions would identify the failing queue.</p>
+<pre><code>traces in the WebSphere Liberty log files:
+Caused by: com.ibm.mq.MQException: JMSCMQ0001:
+IBM MQ call failed with compcode &#39;2&#39; (&#39;MQCC_FAILED&#39;) reason &#39;2053&#39; (&#39;MQRC_Q_FULL&#39;).
+</code></pre>
+<h2 id="message-consumption-failures">Message Consumption Failures <a class="heading-anchor" href="#message-consumption-failures">#</a></h2>
+<p>The JMS configuration for Cúram specifies a hierarchy of queues, from the normal queue, to an error queue, and, finally, to the dead message queue.
+Figure 1 illustrates this flow of JMS messages for SPM.</p>
+<p><img src="../../images/curam_jmsqueue_message_flow.png" alt="Cúram on Kubernetes - Cúram JMS queue message flow"></p>
+<div class="caption">
+<p><em>Figure 1:</em> Cúram JMS queue message flow</p>
+</div>
+<p>JMS messages are usually handled within one of the three queues: <code>DPEnactment</code>, <code>WorkflowEnactment</code>, or <code>WorkflowActivity</code>; and, if necessary, are given up to five retry attempts, which is a configurable value in MQ <code>(BOTHRESH(5))</code>.</p>
+<p>Should the message not succeed at that point it is routed to its associated error or exception queue as shown in the diagram - <code>DPEnactment</code> to <code>DPError</code>, and <code>WorkflowEnactment</code>/<code>WorkflowActivity</code> to <code>WorkflowError</code>.</p>
+<p>At this point, Cúram, or custom error processing, can take over, depending on the message type and the configuration.  Similarly, the error queues are defined to retry up to five times.</p>
+<p>Should the error queue processing fail, the message is finally routed to the <code>CuramDeadMessageQueue</code>, specified as the MQ dead letter queue.
+The message will remian there until it is either resent to its originating queue, or is deleted. How to do that is the subject of this document.</p>
+<p>Normally, the only concern with respect to JMS message failures is what ends up in the dead message queue, since that represents work that should have been processed but wasn’t.</p>
+<p>However, there are some error queue interventions that may be necessary, which are outside the scope of this document.</p>
+<p>For more information about how Cúram Express Rules processing will transfer messages routed to the JMS error queue to batch, see <strong>Dependency Manager deferred processing</strong> in the <em>Cúram Express Rules Reference Manual</em>.</p>
+<div class="note note--info">
+<p>Cúram PDF documentation is available to download from <a href="https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/" target="_blank" rel="noopener noreferrer">Cúram Support Docs</a>.</p>
+</div>
+<p>The dead message queue in MQ, <code>QN.CURAMDEADMESSAGEQUEUE</code>, should be monitored to ensure that messages are not failing to be processed, which should also be evidenced by Java exceptions in the Liberty logs, and a non-zero queue depth in MQ.
+For instance, this MQSC command displays the current queue depth for the dead message queue:</p>
+<pre><code>DISPLAY QUEUE(QN.CURAMDEADMESSAGEQUEUE) CURDEPTH
+</code></pre>
+<p>There are a number of options for processing messages from <code>QN.CURAMDEADMESSAGEQUEUE</code>, provided by two MQ commands:</p>
+<ul>
+<li>The queue load and unload command: <a href="https://www.ibm.com/docs/en/ibm-mq/9.1?topic=reference-dmpmqmsg-queue-load-unload" target="_blank" rel="noopener noreferrer">dmpmqmsg</a></li>
+<li>The run dead-letter queue handler command: <a href="https://www.ibm.com/docs/en/ibm-mq/9.1?topic=reference-runmqdlq-run-dead-letter-queue-handler" target="_blank" rel="noopener noreferrer">runmqdlq</a></li>
+</ul>
+<p>Important points to remember:</p>
+<div class="note note--info">
+<p><strong>Note:</strong> When processing messages from <code>QN.CURAMDEADMESSAGEQUEUE</code> it's essential to be aware of the original queue that the message came from.
+That is, messages from multiple queues can be routed to <code>QN.CURAMDEADMESSAGEQUEUE</code> and routing those messages incorrectly will result in additional errors. The <code>dmpmqmsg</code> command provides filtering options and the <code>runmqdlg</code> command provides a rules table.</p>
+</div>
+<div class="note note--info">
+<p>Messages are processed as they arrive, with the exception of the dead message queue i.e, if messages from <code>QN.CURAMDEADMESSAGEQUEUE</code> are loaded into another queue, and they fail again, duplicate messages can appear, which can be confusing to resolve.
+Therefore, it is recommended that the dead message queue is cleared before processing its contents.</p>
+</div>
+<h3 id="dead-letter-messages-example">Dead Letter Messages Example <a class="heading-anchor" href="#dead-letter-messages-example">#</a></h3>
+<p>This is a simple example illustrating the processing of dead letter messages:</p>
+<ul>
+<li>
+<p>Unload the messages from the queue e.g., from the <code>QN.CURAMDEADMESSAGEQUEUE</code> queue in Queue Manager QM1:</p>
+<pre><code>$MQ_INSTALLATION_PATH/dmpmqmsg -m QM1 -i QN.CURAMDEADMESSAGEQUEUE -f dead_messages.mq
+</code></pre>
+<p>This command would copy all of the messages on the queue into the specified file.</p>
+<p>Replacing the <code>-i</code> option with <code>-I</code> would move the messages, leaving the queue empty.</p>
+<p>To selectively process messages, use the search option (-s), for instance:</p>
+<pre><code>$MQ_INSTALLATION_PATH/dmpmqmsg -m QM1 -I QN.CURAMDEADMESSAGEQUEUE -s QN.DPENACTMENT  -dA -f DPENACTMENT.mq
+$MQ_INSTALLATION_PATH/dmpmqmsg -m QM1 -I QN.CURAMDEADMESSAGEQUEUE -s QN.WORKFLOWENACTMENT  -dA -f WORKFLOWENACTMENT.mq
+</code></pre>
+<p>This would move the messages from the <code>QN.CURAMDEADMESSAGEQUEUE</code> into the specified files based on the filter.
+The <code>DISPLAY QUEUE(QN.CURAMDEADMESSAGEQUEUE) CURDEPTH</code> command can now be used to confirm that all messages are accounted for.</p>
+</li>
+<li>
+<p>If the <code>-I</code> option (or, optionally the <code>-p</code> option) wasn't used when running the <code>dmpmqmsg</code> command to clear the dead message queue as its contents were processed, that should be done now using the MQSC command, for instance:</p>
+<pre><code>CLEAR QLOCAL (QN.CURAMDEADMESSAGEQUEUE)
+</code></pre>
+</li>
+<li>
+<p>Once the original problem is resolved that caused the errors, reload the messages. For example, using the previous filtered example:</p>
+<pre><code>$MQ_INSTALLATION_PATH/dmpmqmsg -m QM1 -o QN.DPENACTMENT -f DPENACTMENT.mq
+$MQ_INSTALLATION_PATH/dmpmqmsg -m QM1 -I QN.WORKFLOWENACTMENT -f WORKFLOWENACTMENT.mq
+</code></pre>
+</li>
+</ul>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/"><span>Previous</span>Apache HTTP server metrics</a><a class="pager-next" href="/curam-kubernetes/troubleshooting/Remote-Debugging/"><span>Next</span>Remote debugging</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#introduction">Introduction</a></li><li class="toc-l2"><a href="#message-production-failures">Message Production Failures</a></li><li class="toc-l2"><a href="#message-consumption-failures">Message Consumption Failures</a></li><li class="toc-l3"><a href="#dead-letter-messages-example">Dead Letter Messages Example</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

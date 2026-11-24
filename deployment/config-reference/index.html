@@ -1,0 +1,1137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Configuration Reference | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Helm Chart configuration reference for SPM">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Configuration Reference">
+<meta property="og:description" content="Helm Chart configuration reference for SPM">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/" class="active" aria-current="page">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Configuration Reference</h1>
+      
+    </div>
+    <article class="markdown"><p>This page contains all available configuration options built into the reference Helm Charts for Cúram.
+The published charts are intended to be a starting point for you to tailor the charts to your own environment and requirements.</p>
+<p>The following tables list the configurable parameters of the <code>spm</code> chart and their default values.</p>
+<nav class="anchor-links" aria-label="On this page"><ul><li><a href="#global-properties">Global properties</a></li><li><a href="#liberty-runtime">Liberty runtime</a></li><li><a href="#batch-jobs">Batch jobs</a></li><li><a href="#ibm-mq">IBM MQ</a></li><li><a href="#static-content-server">Static Content Server</a></li><li><a href="#xml-server">XML Server</a></li><li><a href="#universal-access-react-app-optional">Universal Access React App - optional</a></li></ul></nav>
+<h2 id="global-properties">Global properties <a class="heading-anchor" href="#global-properties">#</a></h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>global.license</code></td>
+<td>Set to <code>accept</code> to accept the terms of the IBM license</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.images.imageLibrary</code></td>
+<td>Namespace in the image registry containing your Cúram images</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.images.imageTag</code></td>
+<td>Image tag of all Cúram images to be used for deployment</td>
+<td><code>latest</code></td>
+</tr>
+<tr>
+<td><code>global.images.registry</code></td>
+<td>Private image registry hosting your Cúram images</td>
+<td><code>minikube.local:5000</code></td>
+</tr>
+<tr>
+<td><code>global.imagePullSecret.secretName</code></td>
+<td>Name of a pre-created secret containing the credentials for connecting to your private image registry - if left blank, will attempt unauthenticated connection</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.hubPullSecret.secretName</code></td>
+<td>Name of a pre-created secret containing the credentials for connecting to the docker hub - if left blank, will attempt unauthenticated connection</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.database.type</code></td>
+<td>Database type (Valid values: <code>DB2</code> or <code>ORA</code>)</td>
+<td><code>DB2</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.3.0.0</span> <code>global.database.credsSecretName</code></td>
+<td>Name of a pre-created secret containing the database credentials (see <a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a> for expected content). The <code>apps</code> custom SQL install hook does not read this secret; see <a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a>.</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.3.0.0</span> <code>global.database.username</code></td>
+<td>Database username used when generating credentials and by the <code>apps</code> custom SQL install hook. Set explicitly to match the external credentials secret when one is used.</td>
+<td><code>db2admin</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.3.0.0</span> <code>global.database.spm_psw</code></td>
+<td>SPM-encrypted database password used when generating credentials and by the <code>apps</code> custom SQL install hook. Use the SPM-encrypted value, not plaintext, Liberty XOR encoding, or the Kubernetes base64 representation.</td>
+<td>Chart sample value; replace with your SPM-encrypted password</td>
+</tr>
+<tr>
+<td><code>global.database.dbName</code></td>
+<td>Database name</td>
+<td><code>DATABASE</code></td>
+</tr>
+<tr>
+<td><code>global.database.serviceName</code></td>
+<td>The Oracle database service name</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.database.hostname</code></td>
+<td>Database server hostname (required)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.database.port</code></td>
+<td>Database server TCP/IP port</td>
+<td><code>50000</code></td>
+</tr>
+<tr>
+<td><code>global.database.ssl.enabled</code></td>
+<td>Use Secure (TLS) connection to the database</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>global.database.ssl.secretKey</code></td>
+<td>The key in the secret containing the TLS certificate for the secure connection to the database</td>
+<td><code>db2admin.arm</code></td>
+</tr>
+<tr>
+<td><code>global.database.ssl.secretName</code></td>
+<td>Name of a pre-created secret containing the TLS certificate for the secure connection to the database</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.apps.common.persistence.enabled</code></td>
+<td>Use persistent storage for logs</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>global.apps.common.persistence.credentials</code></td>
+<td>Credentials in the form of a list of key/value to authenticate with the object storage (contains any keys, but values are to be encoded in Base64)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.apps.common.persistence.storageClassName</code></td>
+<td>Name of the Storage Class to use</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.apps.common.persistence.storageCapacity</code></td>
+<td>Capacity of the storage to request</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.apps.common.persistence.properties</code></td>
+<td>Porperties to include in the creation of the <code>Persistent Volume</code></td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.apps.common.persistence.mountPoint</code></td>
+<td>Path, where the <code>Persistent Volume</code> should be mounted in pods</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.apps.config.&lt;applicationID&gt;.enabled</code></td>
+<td>Enable/disable Cúram applications in the Helm release, where <code>applicationID</code> is the lower-cased name of the EAR file deployed</td>
+<td><code>true</code> for <code>curam</code>, <code>false</code> for all others</td>
+</tr>
+<tr>
+<td><code>global.ingress.enabled</code></td>
+<td>Toggle creation of Ingress/Route resources</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>global.ingress.generateCert</code></td>
+<td>Create a self-signed certificate for use in Ingress definitions</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>global.ingress.hostname</code></td>
+<td>Hostname for use in Ingress/Route definition</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.ingress.tlsSecretName</code></td>
+<td>Name of a pre-created secret containing TLS key and certificate files</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.timezone</code></td>
+<td>Timezone* to be set in all deployed pods - this should be aligned with the underlying infrastructure</td>
+<td><code>UTC</code></td>
+</tr>
+<tr>
+<td><code>global.useBetaFeatures</code></td>
+<td>Use Beta features</td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note note--info">
+<p><strong>Note:</strong> Some elements of the deployment stack may have unexpected behaviour in half-hour timezones - we recommend using the nearest full-hour timezone for the <code>global.timezone</code> property, where possible.</p>
+</div>
+<h2 id="liberty-runtime">Liberty runtime <a class="heading-anchor" href="#liberty-runtime">#</a></h2>
+<p>In the following properties, <code>&lt;applicationID&gt;</code> is a placeholder for the name of Cúram applications in lower case (e.g. <code>curam</code>, <code>citizenportal</code>, <code>rest</code>, etc).</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>global.apps.config.&lt;applicationID&gt;.jvm</code></td>
+<td>Array of JVM options to be passed to Liberty</td>
+<td>Varies by application (see <code>values.yaml</code>)</td>
+</tr>
+<tr>
+<td><span class="badge badge--platform">AKS only</span> <code>global.apps.config.&lt;applicationID&gt;.mqConnectionNameList</code></td>
+<td>Connection list when IBM MQ is running in HA mode outside Kubernets (e.g. <code>mqHost1(1414),mqHost2(1414)</code>)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>global.apps.config.&lt;applicationID&gt;.consumerTuning</code></td>
+<td>Dictionary of tuning values specific to the consumer pods (valid keys: <code>jvm</code>, <code>replicaCount</code>, <code>resources</code>, any keys from <code>apps.tuningDefaults</code>)</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>global.apps.config.&lt;applicationID&gt;.producerTuning</code></td>
+<td>Dictionary of tuning values specific to the producer pods (valid keys: <code>jvm</code>, <code>replicaCount</code>, <code>resources</code>, any keys from <code>apps.tuningDefaults</code>)</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>global.apps.config.&lt;applicationID&gt;.producerTuning.maxEndPoints_DPEnactmentAS</code></td>
+<td>Sets maximum concurrent endpoints for the DPEnactment JMS queue in the producer</td>
+<td><code>Default derived from maxThreads</code></td>
+</tr>
+<tr>
+<td><code>global.apps.config.&lt;applicationID&gt;.producerTuning.maxEndPoints_WorkflowActivityAS</code></td>
+<td>Sets maximum concurrent endpoints for the WorkflowActivity JMS queue in the producer</td>
+<td><code>Default derived from maxThreads</code></td>
+</tr>
+<tr>
+<td><code>global.apps.config.&lt;applicationID&gt;.producerTuning.maxEndPoints_WorkflowEnactmentAS</code></td>
+<td>Sets maximum concurrent endpoints for the WorkflowEnactment JMS queue in the producer</td>
+<td><code>Default derived from maxThreads</code></td>
+</tr>
+<tr>
+<td><code>global.apps.config.&lt;applicationID&gt;.consumerTuning.maxEndPoints_DPEnactmentAS</code></td>
+<td>Sets maximum concurrent endpoints for the DPEnactment JMS queue in the consumer</td>
+<td><code>Default derived from maxThreads</code></td>
+</tr>
+<tr>
+<td><code>global.apps.config.&lt;applicationID&gt;.consumerTuning.maxEndPoints_WorkflowActivityAS</code></td>
+<td>Sets maximum concurrent endpoints for the WorkflowActivity JMS queue in the consumer</td>
+<td><code>Default derived from maxThreads</code></td>
+</tr>
+<tr>
+<td><code>global.apps.config.&lt;applicationID&gt;.consumerTuning.maxEndPoints_WorkflowEnactmentAS</code></td>
+<td>Sets maximum concurrent endpoints for the WorkflowEnactment JMS queue in the consumer</td>
+<td><code>Default derived from maxThreads</code></td>
+</tr>
+<tr>
+<td><code>global.apps.config.&lt;applicationID&gt;.replicaCount</code></td>
+<td>Number of replicas of the application to be deployed</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>global.apps.config.&lt;applicationID&gt;.resources</code></td>
+<td>Pod <a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container" target="_blank" rel="noopener noreferrer">resources</a> definition</td>
+<td>Varies by application (see <code>values.yaml</code>)</td>
+</tr>
+<tr>
+<td><code>apps.initialDelaySeconds</code></td>
+<td>Time in seconds before commencing application readiness probes</td>
+<td><code>150</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.0.0.0</span> <code>apps.jwtConfig.issuerIdentifier</code></td>
+<td>JSON Web Token issuer identity, matching the <code>curam.watson.assistant.issuer</code> database property</td>
+<td><code>spm</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.0.0.0</span> <code>apps.jwtConfig.secretName</code></td>
+<td>Name of a pre-created secret containing signing certificate for JSON Web Tokens (see <a href="/curam-kubernetes/deployment/secrets">Handling Secrets</a> topic for expected secret content)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.2.0.0</span> <code>apps.keycloakConfig.clientId</code></td>
+<td>Identifies the application authenticating with the Keycloak server and must match the client name configured in the Keycloak realm.</td>
+<td>``</td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.2.0.0</span> <code>apps.keycloakConfig.realm</code></td>
+<td>The name of the Keycloak realm, which is a security domain managing users, roles, and clients. It allows for separation of independent authentication contexts</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.2.0.0</span> <code>apps.keycloakConfig.keycloakHost</code></td>
+<td>The URL or hostname of the Keycloak server, including the protocol. This is used by the application to communicate with the authentication server.</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>apps.loginConfig.identityOnly</code></td>
+<td>Use LDAP authentication in <code>Identity-Only</code> mode</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>apps.loginConfig.trace</code></td>
+<td>Debug authentication process by printing tracing information on invocation of the login module</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>apps.replicaCount</code></td>
+<td>Default number of replicas, if <code>global.apps.config.&lt;applicationID&gt;.replicaCount</code> is not specified</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>apps.sessionConfig.maxInMemorySessionCount</code></td>
+<td>Maximum number of sessions to maintain in memory for each web module</td>
+<td><code>1000</code></td>
+</tr>
+<tr>
+<td><code>apps.sessionConfig.sessionTimeout</code></td>
+<td>Amount of time a session can go unused before it is no longer valid</td>
+<td><code>30m</code></td>
+</tr>
+<tr>
+<td><code>apps.sessionConfig.transactionTimeout</code></td>
+<td>Maximum time allowed for transactions started on this server to complete. Any such transactions that do not complete before this timeout occurs are rolled back.</td>
+<td><code>3m</code></td>
+</tr>
+<tr>
+<td><code>apps.systemUser.credsSecretName</code></td>
+<td>Name of a pre-created secret containing credentials of the system user (see <a href="/curam-kubernetes/deployment/secrets">Handling Secrets</a> topic for expected secret content)</td>
+<td><code>SYSTEM</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.coreThreads</code></td>
+<td>Minimum number of threads to associate with the <a href="https://www.ibm.com/docs/en/was-liberty/base?topic=configuration-executor" target="_blank" rel="noopener noreferrer">executor</a></td>
+<td><code>4</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.maxThreads</code></td>
+<td>Maximum number of threads that can be associated with the <a href="https://www.ibm.com/docs/en/was-liberty/base?topic=configuration-executor" target="_blank" rel="noopener noreferrer">executor</a></td>
+<td><code>4</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.curamdb_maxPoolSize</code></td>
+<td>Maximum number of physical connections for a pool on the curamdb database</td>
+<td><code>8</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.curamtimerdb_maxPoolSize</code></td>
+<td>Maximum number of physical connections for a pool on the curamtimerdb database</td>
+<td><code>8</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.curamsessdb_maxPoolSize</code></td>
+<td>Maximum number of physical connections for a pool on the curamsessdb database</td>
+<td><code>8</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.curamdb_numConnectionsPerThreadLocal</code></td>
+<td>Number of connections to the curamdb database to be cached for each thread</td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.curamtimerdb_numConnectionsPerThreadLocal</code></td>
+<td>Number of connections to the curamtimerdb database to be cached for each thread</td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.curamsessdb_numConnectionsPerThreadLocal</code></td>
+<td>Number of connections to the curamsessdb database to be cached for each thread</td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.curamdb_purgePolicy</code></td>
+<td>Specifies which connections on curamdb to destroy when a stale connection is detected in a pool</td>
+<td><code>EntirePool</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.curamtimerdb_purgePolicy</code></td>
+<td>Specifies which connections on curamtimerdb to destroy when a stale connection is detected in a pool</td>
+<td><code>EntirePool</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.curamsessdb_purgePolicy</code></td>
+<td>Specifies which connections on curamsessdb to destroy when a stale connection is detected in a pool</td>
+<td><code>EntirePool</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.curamdb_statementCacheSize</code></td>
+<td>Maximum number of cached statements per connection on curamdb database</td>
+<td><code>1000</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.curamtimerdb_statementCacheSize</code></td>
+<td>Maximum number of cached statements per connection on curamtimerdb database</td>
+<td><code>1000</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.curamsessdb_statementCacheSize</code></td>
+<td>Maximum number of cached statements per connection on curamsessdb</td>
+<td><code>1000</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.maxJMSConnectionsPerThread</code></td>
+<td>Limits the number of open JMS connections on each thread.</td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.mqMaxPoolSize</code></td>
+<td>Maximum number of physical connections for a pool. A value of 0 means unlimited.</td>
+<td><code>12</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.mqMinPoolSize</code></td>
+<td>Minimum number of physical connections for a pool. A value of 0 means unlimited.</td>
+<td><code>12</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.mqNumConnectionsPerThreadLocal</code></td>
+<td>Caches the specified number of connections for each thread.</td>
+<td><code>2</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.maxEndPoints_DPErrorAS</code></td>
+<td>Sets maximum concurrent endpoints for the DPError JMS queue</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.maxEndPoints_WorkflowErrorAS</code></td>
+<td>Sets maximum concurrent endpoints for the WorkflowError JMS queue</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.maxEndPoints_CuramDeadMessageQueueAS</code></td>
+<td>Sets maximum concurrent endpoints for the CuramDeadMessageQueue JMS queue</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>apps.tuningDefaults.resources</code></td>
+<td>yaml stanza to allow fine tuning of resource config for an app. Overrides global.apps.config.APPLICATION_NAME.resources if set</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>apps.wlpAdmin.secretName</code></td>
+<td>Name of a pre-created secret containing WebSphere Liberty administration credentials (see <a href="/curam-kubernetes/deployment/secrets">Handling Secrets</a> topic for expected secret content)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>apps.wlpAdmin.enableAdminCenter</code></td>
+<td>Toggle whether the WebSphere Liberty Admin Center should be enabled</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>apps.podAnnotations</code></td>
+<td>Annotations to be applied during deployment</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>apps.isam.enabled</code></td>
+<td>Set to true if you want to use ISAM for user login or access control</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>apps.oidc.enabled</code></td>
+<td>Set to true if using an OIDC-compliant identity provider</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.0.0.0</span> <code>apps.persistenTimers.missedPersistentTimerAction</code></td>
+<td>How missed timer actions are handled when no server is available. (Valid values: <code>ONCE</code> or <code>ALL</code>)</td>
+<td><code>ONCE</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.0.0.0</span> <code>apps.persistenTimers.lateTimerThreshold</code></td>
+<td>How long before a warning is logged by Liberty when a timer is missed. (Valid value range: <code>0</code> (off) - <code>90m</code>)</td>
+<td><code>5m</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.0.0.0</span> <code>apps.persistenTimers.missedTaskThreshold</code></td>
+<td>Maximum amount of time to allow for successful completion of a timer execution. (Valid value range: <code>100s</code> - <code>9000s</code>)</td>
+<td><code>120s</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.0.0.0</span> <code>apps.persistenTimers.pollInterval</code></td>
+<td>How often the database tables are checked for tasks. (Minimum valid value: <code>100s</code>)</td>
+<td><code>120s</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.0.0.0</span> <code>apps.persistenTimers.initialPollDelay</code></td>
+<td>Delay before Liberty begins polling for timer tasks. (Valid values: <code>0</code> or positive integer followed by the unit of time, <code>s</code> (seconds))</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.0.0.0</span> <code>apps.persistenTimers.pollSize</code></td>
+<td>Maximum number of task entries to find when polling the persistent store. (Valid values: no value (no limit), integer <code>1</code> or greater)</td>
+<td><code>&quot;&quot;</code></td>
+</tr>
+<tr>
+<td><code>apps.properties</code></td>
+<td>Applications properties to be set during deployment</td>
+<td><code>{}</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="batch-jobs">Batch jobs <a class="heading-anchor" href="#batch-jobs">#</a></h2>
+<p>In the following properties, <code>&lt;progID&gt;</code> is a placeholder for the name of the batch program - this must be a valid YAML term (lower case, alphanumerical plus hyphens, must begin with a letter), but does not need to match the Batch process class.</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>batch.backoffLimit</code></td>
+<td>Number of retries for failed batch executions</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>batch.javaOptions</code></td>
+<td>Default Java Heap options for all programs</td>
+<td><code>-Xms1024m -Xmx1024m</code></td>
+</tr>
+<tr>
+<td><code>batch.maxMemory</code></td>
+<td>The maximum Java heap for the batch pods</td>
+<td><code>1024m</code></td>
+</tr>
+<tr>
+<td><code>batch.successfulJobsHistoryLimit</code></td>
+<td>Number of successful batch executions to keep</td>
+<td><code>3</code></td>
+</tr>
+<tr>
+<td><code>batch.jmxExporter.enabled</code></td>
+<td>Enable the Prometheus JMX Exporter for the Batch server metrics</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>batch.jmxExporter.port</code></td>
+<td>The port to monitor the XML server JVM metrics</td>
+<td><code>8080</code></td>
+</tr>
+<tr>
+<td>---------</td>
+<td>-----------</td>
+<td>-------</td>
+</tr>
+<tr>
+<td><code>batch.programs.&lt;progID&gt;.activeDeadlineSeconds</code></td>
+<td>Number of seconds within which the job is expected to complete. If this time is exceeded, the job is terminated. Blank value denoted no limit.</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.programs.&lt;progID&gt;.className</code></td>
+<td>Java class for the batch process (<code>-Dbatch.program=</code>)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.programs.&lt;progID&gt;.javaOptions</code></td>
+<td>Java options to be injected via <code>ANT_OPTS</code></td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.programs.&lt;progID&gt;.parameters</code></td>
+<td>Parameters, if any, to be passed to the batch process (<code>-Dbatch.parameters=</code>)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.programs.&lt;progID&gt;.resources</code></td>
+<td>Pod <a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container" target="_blank" rel="noopener noreferrer">resources</a> definition</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.programs.&lt;progID&gt;.username</code></td>
+<td>Cúram username for the execution of the batch process (<code>-Dbatch.username=</code>)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.programs.&lt;progID&gt;.schedule</code></td>
+<td>Different schedules can be specified for different batch jobs. The default schedule applies to any jobs queued in the system.</td>
+<td><code>*/30 * * * *</code></td>
+</tr>
+<tr>
+<td>---------</td>
+<td>-----------</td>
+<td>-------</td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.activeDeadlineSeconds</code></td>
+<td>Number of seconds within which the job is expected to complete. If this time is exceeded, the job is terminated. Blank value denoted no limit.</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.schedule</code></td>
+<td>Different schedules can be specified for different batch jobs. The default schedule applies to any jobs queued in the system.</td>
+<td><code>*/30 * * * *</code></td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.chunker.className</code></td>
+<td>Java class for the batch chunker (<code>-Dbatch.program=</code>)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.chunker.javaOptions</code></td>
+<td>Java options to be injected via <code>ANT_OPTS</code></td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.chunker.parameters</code></td>
+<td>Parameters, if any, to be passed to the batch chunker (<code>-Dbatch.parameters=</code>)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.chunker.replicaCount</code></td>
+<td>Number of replicas of chunker to launch</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.chunker.resources</code></td>
+<td>Pod <a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container" target="_blank" rel="noopener noreferrer">resources</a> definition</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.chunker.username</code></td>
+<td>Cúram username for the execution of the batch chunker (<code>-Dbatch.username=</code>)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td>---------</td>
+<td>-----------</td>
+<td>-------</td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.stream.className</code></td>
+<td>Java class for the batch stream (<code>-Dbatch.program=</code>)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.stream.javaOptions</code></td>
+<td>Java options to be injected via <code>ANT_OPTS</code></td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.stream.parameters</code></td>
+<td>Parameters, if any, to be passed to the batch stream (<code>-Dbatch.parameters=</code>)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.stream.replicaCount</code></td>
+<td>Number of replicas of stream to launch</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.stream.resources</code></td>
+<td>Pod <a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container" target="_blank" rel="noopener noreferrer">resources</a> definition</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>batch.streamed.&lt;progID&gt;.stream.username</code></td>
+<td>Cúram username for the execution of the batch stream (<code>-Dbatch.username=</code>)</td>
+<td><code>''</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The default batch configuration runs any queued jobs every 30 minutes (equivalent of running <code>build.sh runbatch</code> without any parameters).</p>
+<p>Additional batch jobs may be added with additional keys under <code>batch.programs</code>.</p>
+<p>For more information about batch examples, see <strong>bulk reassessment of all open integrated cases</strong> in the <em>Cúram Health Care Reform Developer Guide</em>.</p>
+<div class="note note--info">
+<p>Cúram PDF documentation is available to download from <a href="https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/" target="_blank" rel="noopener noreferrer">Cúram Support Docs</a>.</p>
+</div>
+<p>The following <code>batch.programs</code> example adds the <strong>bulk reassessment of all open integrated cases</strong> batch job to be run at 2AM every Sunday night.</p>
+<pre><code class="language-yaml"><span class="hljs-attr">batch:</span>
+  <span class="hljs-attr">programs:</span>
+    <span class="hljs-attr">queued:</span>
+      <span class="hljs-attr">schedule:</span> <span class="hljs-string">&quot;*/30 * * * *&quot;</span>
+    <span class="hljs-attr">reassessment:</span>
+      <span class="hljs-attr">className:</span> <span class="hljs-string">curam.healthcare.sl.intf.BulkICReassessment.process</span>
+      <span class="hljs-attr">javaOptions:</span> <span class="hljs-string">&quot;-Xms2g -Xmx2g -Xgcpolicy:gencon&quot;</span>
+      <span class="hljs-attr">parameters:</span> <span class="hljs-string">&quot;evidenceMigrationDetails=CASE|DET0026071;DET0026027|CT26301&quot;</span>
+      <span class="hljs-attr">username:</span> <span class="hljs-string">system</span>
+      <span class="hljs-attr">schedule:</span> <span class="hljs-string">&quot;0 2 * * 6&quot;</span>
+
+  <span class="hljs-attr">streamed:</span>
+    <span class="hljs-attr">pd_eligibility:</span>
+      <span class="hljs-attr">schedule:</span> <span class="hljs-string">&quot;0 1 * * *&quot;</span>
+      <span class="hljs-attr">chunker:</span>
+        <span class="hljs-attr">className:</span> <span class="hljs-string">curam.core.intf.DetermineProductDeliveryEligibility.process</span>
+        <span class="hljs-attr">parameters:</span> <span class="hljs-string">processingDate=20201013</span>
+        <span class="hljs-attr">replicaCount:</span> <span class="hljs-number">1</span>
+      <span class="hljs-attr">stream:</span>
+        <span class="hljs-attr">className:</span> <span class="hljs-string">curam.core.intf.DetermineProductDeliveryEligibilityStream.process</span>
+        <span class="hljs-attr">replicaCount:</span> <span class="hljs-number">3</span>
+        <span class="hljs-attr">javaOptions:</span> <span class="hljs-string">&#x27;-Xms2g -Xmx2g&#x27;</span>
+        <span class="hljs-attr">resources:</span>
+          <span class="hljs-attr">limits:</span>
+            <span class="hljs-attr">cpu:</span> <span class="hljs-string">&quot;2&quot;</span>
+            <span class="hljs-attr">memory:</span> <span class="hljs-string">&quot;4Gi&quot;</span>
+          <span class="hljs-attr">requests:</span>
+            <span class="hljs-attr">cpu:</span> <span class="hljs-string">&quot;1&quot;</span>
+            <span class="hljs-attr">memory:</span> <span class="hljs-string">&quot;2.5Gi&quot;</span>
+</code></pre>
+<div class="note note--info">
+<p><strong>Note:</strong> Kubernetes by default has limits set on resources such as memory and CPU usage. Cúram containers require more resources than the default values that we have set.
+We have set the default resource values to the limits that we have found to work best during development.</p>
+<p><em>The resource values are subject to change during further iterations.</em></p>
+<p>The resource values can be changed. However, for troubleshooting, we will request that our default values are used at a minimum.</p>
+</div>
+<h2 id="ibm-mq">IBM MQ <a class="heading-anchor" href="#ibm-mq">#</a></h2>
+<div class="note note--info">
+<p><strong>Note:</strong> Cúram supports IBM MQ LTS on VMs outside the cluster for Red Hat OpenShift, AKS, and EKS.
+IBM MQ CD 9.4.x containers are supported on all three platforms; MQ CD 9.3.x containers are supported on OpenShift only.
+See <a href="/curam-kubernetes/prereq/mq/mq-overview/#deployment-options-and-support">MQ deployment options and support</a> and the <a href="/curam-kubernetes/prereq/prereq/">prerequisite software matrix</a> for the applicable Cúram, Java, MQ, and platform versions.</p>
+</div>
+<p>The <code>mqserver</code> chart creates <code>QueueManager</code> resources only when the <code>mq.ibm.com/v1beta1</code> API is available; see <a href="/curam-kubernetes/prereq/mq/mq-containers/">MQ containers</a>.</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="badge badge--restriction">Container only</span> <code>global.mq.version</code></td>
+<td>Version of <a href="https://hub.docker.com/r/ibmcom/mq" target="_blank" rel="noopener noreferrer">IBM MQ</a> to deploy</td>
+<td><code>9.4.3.0-r2</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--platform">VM only</span> <code>global.mq.useConnectionNameList</code></td>
+<td>Indicator if IBM MQ is running in HA mode outside the cluster</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>global.mq.tlsSecretName</code></td>
+<td>Name of a pre-created Secret containing TLS certificates for IBM MQ (required if running MQ outside the cluster, optional for MQ containers - certificates are auto-generated if not provided)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--restriction">Container only</span> <code>global.mq.queueManager.name</code></td>
+<td>Name of the queue manager to be created in the MQ container</td>
+<td><code>QM1</code></td>
+</tr>
+<tr>
+<td><code>global.mq.queueManager.secret.name</code></td>
+<td>Name of a pre-created secret containing credentials of the MQ client and admin users (see <a href="/curam-kubernetes/deployment/secrets">Handling Secrets</a> topic)</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--restriction">Container only</span> <code>global.mq.queueManager.secret.adminPasswordKey</code></td>
+<td>The key in the Kubernetes Secret containing the password for the MQ admin user</td>
+<td><code>adminPasswordKey</code></td>
+</tr>
+<tr>
+<td><code>global.mq.queueManager.secret.appUsernameKey</code></td>
+<td>The key in the Kubernetes Secret containing the username for the MQ client user</td>
+<td><code>appUsername</code></td>
+</tr>
+<tr>
+<td><code>global.mq.queueManager.secret.appPasswordKey</code></td>
+<td>The key in the Kubernetes Secret containing the password for the MQ client user</td>
+<td><code>appPasswordKey</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--restriction">Container only</span> <code>global.mq.availabilityType</code></td>
+<td>Availability type to be used for deployments (alternatives: <code>SingleInstance</code> or <code>MultiInstance</code>). Only available with stateful MQ Operators</td>
+<td><code>SingleInstance</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--restriction">Container only</span> <code>global.mq.storageType</code></td>
+<td>Storage type to be used (alternatives: <code>ephemeral</code> or <code>persistent-claim</code>)</td>
+<td><code>ephemeral</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--restriction">Container only</span> <code>global.mq.storageClassName</code></td>
+<td>Storage class used for dynamic provisioning by the provisioner</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--restriction">Container only</span> <code>global.mq.security.context.fsGroup</code></td>
+<td>Primary user group for any filesystem mounts, if required by the storage provisioner</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--restriction">Container only</span> <code>global.mq.security.context.supplementalGroups</code></td>
+<td>Supplemental user groups for any filesystem mounts, if required by the storage provisioner</td>
+<td><code>[]</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--restriction">Container only</span> <code>global.mq.security.initVolumeAsRoot</code></td>
+<td>Initialise storage volume as <code>root</code> user</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--restriction">Container only</span> <code>mqserver.podAnnotations</code></td>
+<td>Annotations to be applied during deployment</td>
+<td><code>{}</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="mq-metrics-optional">MQ Metrics (optional) <a class="heading-anchor" href="#mq-metrics-optional">#</a></h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>global.mq.metrics.enabled</code></td>
+<td>Enable/disable the MQ metrics</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>global.mq.metrics.additionalMetrics</code></td>
+<td>Enable/disable the IBM MQ Queue Depth Events metrics (only valid if <code>global.mq.metrics.enabled</code> is set to <code>true</code>)</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>mqserver.metricsImage.library</code></td>
+<td>Namespace in the image registry containing your IBM MQ Queue Depth Events image</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>mqserver.metricsImage.name</code></td>
+<td>Name of your IBM MQ Queue Depth Events image to be used</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>mqserver.metricsImage.tag</code></td>
+<td>Image tag of your IBM MQ Queue Depth Events image to be used</td>
+<td><code>{}</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="mq-tuning-optional">MQ tuning (optional) <a class="heading-anchor" href="#mq-tuning-optional">#</a></h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>global.apps.config.&lt;applicationID&gt;.mqTuning</code></td>
+<td>MQ Pod <a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container" target="_blank" rel="noopener noreferrer">resources</a> definition per application</td>
+<td>Varies by application (see <code>values.yaml</code>)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="static-content-server">Static Content Server <a class="heading-anchor" href="#static-content-server">#</a></h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>web.ingressPath</code></td>
+<td>Static content Ingress/Route path without a trailing forward slash (must match <a href="/curam-kubernetes/deploy-curam/build-curam#set-up-static-content">what had been defined</a> when the application was built)</td>
+<td><code>/CuramStatic</code></td>
+</tr>
+<tr>
+<td><code>web.readinessProbe.path</code></td>
+<td>Path for the pod readiness probe (should be same as <code>ingressPath</code> except <strong>with</strong> the trailing forward slash)</td>
+<td><code>/CuramStatic/</code></td>
+</tr>
+<tr>
+<td><code>web.replicaCount</code></td>
+<td>Number of replicas to be deployed</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>web.resources</code></td>
+<td>Pod <a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container" target="_blank" rel="noopener noreferrer">resources</a> definition</td>
+<td>Varies by application (see <code>values.yaml</code>)</td>
+</tr>
+<tr>
+<td><code>web.tuning</code></td>
+<td>Tuning values for Apache HTTP server of web component. Multiple values can be configured, each in the form &quot;key value&quot; e.g &quot;ThreadLimit 2&quot;</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>keycloak.ingressPath</code></td>
+<td>This is the HTTP path that your application uses to handle redirects from Keycloak after user authentication.</td>
+<td><code>/oidcclient/redirect/spm/</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="xml-server">XML Server <a class="heading-anchor" href="#xml-server">#</a></h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>xmlserver.replicaCount</code></td>
+<td>Number of replicas to be deployed</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>xmlserver.resources</code></td>
+<td>Pod <a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container" target="_blank" rel="noopener noreferrer">resources</a> definition</td>
+<td>Varies by application (see <code>values.yaml</code>)</td>
+</tr>
+<tr>
+<td><code>xmlserver.serverPort</code></td>
+<td>The port that the XML server (its service) listens on (see note below)</td>
+<td><code>1800</code></td>
+</tr>
+<tr>
+<td><code>xmlserver.jvm.maxMemory</code></td>
+<td>Maximum Java heap for the XML server</td>
+<td><code>768m</code></td>
+</tr>
+<tr>
+<td><code>xmlserver.jvm.threadStackSize</code></td>
+<td>Java thread stack size for the XML server</td>
+<td><code>-Xss4m</code></td>
+</tr>
+<tr>
+<td><code>xmlserver.jvm.jvmOptions</code></td>
+<td>Options to be passed to the JVM, e.g., minimum heap size <code>-Xms1024m</code></td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>xmlserver.config.threadPoolSize</code></td>
+<td>XML server thread pool size</td>
+<td><code>5</code></td>
+</tr>
+<tr>
+<td><code>xmlserver.config.threadPoolQueueSize</code></td>
+<td>XML server thread pool queue size</td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td><code>xmlserver.config.socketTimeout</code></td>
+<td>XML server socket timeout (milliseconds)</td>
+<td><code>60000</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.1.0.0</span> <code>xmlserver.readinessProbe.enabled</code></td>
+<td>Enable XML server readinessProbe described in <a href="/curam-kubernetes/monitoring/xmlserver-monitoring#xml-server-health-checks">XML server health checks</a></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.1.0.0</span> <code>xmlserver.readinessProbe.initialDelaySeconds</code></td>
+<td>Seconds after container startup to initiate readiness probe</td>
+<td><code>15</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.1.0.0</span> <code>xmlserver.readinessProbe.periodSeconds</code></td>
+<td>Seconds between probe invocations</td>
+<td><code>60</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.1.0.0</span> <code>xmlserver.livenessProbe.enabled</code></td>
+<td>Enable XML server livenessProbe described in <a href="/curam-kubernetes/monitoring/xmlserver-monitoring#xml-server-health-checks">XML server health checks</a></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.1.0.0</span> <code>xmlserver.livenessProbe.initialDelaySeconds</code></td>
+<td>Seconds after container startup to initiate liveness probe</td>
+<td><code>60</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.1.0.0</span> <code>xmlserver.livenessProbe.periodSeconds</code></td>
+<td>Seconds between liveness probe invocations</td>
+<td><code>120</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.1.0.0</span> <code>xmlserver.livenessProbe.timeoutSeconds</code></td>
+<td>Number of seconds before the probe times out</td>
+<td><code>30</code></td>
+</tr>
+<tr>
+<td><span class="badge badge--version">Cúram 8.2.0.0</span> <code>xmlserver.tlsSecretName</code></td>
+<td>Name of a pre-created secret containing TLS key and certificate files - certificates are auto-generated if not provided</td>
+<td>``</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="note note--info">
+<p>In Kubernetes, XML server replicas are abstracted to the single <code>xmlserver.serverPort</code> by a Kubernetes service that handles load balancing between multiple replicas.</p>
+</div>
+<h2 id="universal-access-react-app-optional">Universal Access React App - optional <a class="heading-anchor" href="#universal-access-react-app-optional">#</a></h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uawebapp.imageConfig.library</code></td>
+<td>Namespace in the image registry containing your Universal Access image</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>uawebapp.imageConfig.name</code></td>
+<td>Name of your Universal Access image to be used</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>uawebapp.imageConfig.tag</code></td>
+<td>Image tag of your Universal Access image to be used</td>
+<td><code>latest</code></td>
+</tr>
+<tr>
+<td><code>uawebapp.ingressPath</code></td>
+<td>Static content Ingress/Route path without a trailing forward slash (must match the <a href="https://www.merative.com/support/curam" target="_blank" rel="noopener noreferrer">PUBLIC_URL</a> variable used when the application was built)</td>
+<td><code>/universal</code></td>
+</tr>
+<tr>
+<td><code>uawebapp.readinessProbe.path</code></td>
+<td>Path for pod readiness probe (should match <code>ingressPath</code> but with trailing slash)</td>
+<td><code>/universal/</code></td>
+</tr>
+<tr>
+<td><code>uawebapp.replicaCount</code></td>
+<td>Number of replicas to be deployed</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>uawebapp.resources</code></td>
+<td>Pod <a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-requests-and-limits-of-pod-and-container" target="_blank" rel="noopener noreferrer">resources</a> definition</td>
+<td>Varies by application (see <code>values.yaml</code>)</td>
+</tr>
+<tr>
+<td><code>uawebapp.tuning</code></td>
+<td>Tuning values for Apache HTTP server of UAWebApp component. Multiple values can be configured, each in the form &quot;key value&quot; e.g &quot;ThreadLimit 2&quot;</td>
+<td><code>''</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/deployment/hc_preparation/"><span>Previous</span>Preparing Helm Charts</a><a class="pager-next" href="/curam-kubernetes/deployment/secrets/"><span>Next</span>Handling Secrets</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#global-properties">Global properties</a></li><li class="toc-l2"><a href="#liberty-runtime">Liberty runtime</a></li><li class="toc-l2"><a href="#batch-jobs">Batch jobs</a></li><li class="toc-l2"><a href="#ibm-mq">IBM MQ</a></li><li class="toc-l2"><a href="#mq-metrics-optional">MQ Metrics (optional)</a></li><li class="toc-l2"><a href="#mq-tuning-optional">MQ tuning (optional)</a></li><li class="toc-l2"><a href="#static-content-server">Static Content Server</a></li><li class="toc-l2"><a href="#xml-server">XML Server</a></li><li class="toc-l2"><a href="#universal-access-react-app-optional">Universal Access React App - optional</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

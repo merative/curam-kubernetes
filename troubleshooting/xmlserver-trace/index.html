@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XML Server Tracing | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Configuring XML server tracing">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="XML Server Tracing">
+<meta property="og:description" content="Configuring XML server tracing">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/" class="active" aria-current="page">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>XML Server Tracing</h1>
+      
+    </div>
+    <article class="markdown"><h2 id="introduction">Introduction <a class="heading-anchor" href="#introduction">#</a></h2>
+<p>This topic describes how to configure XML server tracing when deployed to Kubernetes.</p>
+<p>For more information about XML server tracing, see <strong>Debug configuration</strong> in the <em>Cúram XML Infrastructure Guide</em>.</p>
+<div class="note note--info">
+<p>Cúram PDF documentation is available to download from <a href="https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/" target="_blank" rel="noopener noreferrer">Cúram Support Docs</a>.</p>
+</div>
+<p>However, to use it in a Kubernetes environment, the following steps will need to be performed:</p>
+<ol>
+<li>Create a new ConfigMap to override the trace setting in the default <code>xmlserverconfig.xml.template</code> file</li>
+<li>Optionally (for the <code>xmlserver</code> deployment only), a ConfigMap can be created to override its default log4j properties file.</li>
+</ol>
+<p>The Kubernetes commands presented in this topic are generic and assume a helm release name of <code>releasename</code>.
+To enter the commands below as-is, <code>&lt;name_space&gt;</code> will need to be substituted with the OpenShift project name or AKS namespace for the deployment:</p>
+<ul>
+<li>For Openshift:
+<ul>
+<li>Create an alias for the <code>oc</code> command:
+<ul>
+<li>Bash: <code>alias k='oc'</code></li>
+<li>Windows PowerShell: <code>Set-Alias -Name k -Value oc</code></li>
+</ul>
+</li>
+<li>Set the default namespace:
+<ul>
+<li><code>k project &lt;name_space&gt;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>For AKS:
+<ul>
+<li>Create an alias for the <code>kubectl</code> command:
+<ul>
+<li>Bash: <code>alias k='kubectl'</code></li>
+<li>Windows PowerShell: <code>Set-Alias -Name k -Value kubectl</code></li>
+</ul>
+</li>
+<li>Set the default namespace:
+<ul>
+<li><code>k config set-context --current --namespace=&lt;name_space&gt;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="specifying-the-xml-server-trace-setting">Specifying the XML Server Trace Setting <a class="heading-anchor" href="#specifying-the-xml-server-trace-setting">#</a></h3>
+<p>To enable XML server tracing the out-of-the-box setting needs to be modified as follows:</p>
+<ul>
+<li>Copy the <code>xmlserver</code> pod's <code>xmlserverconfig.xml.template</code> file to the local file system using the Kubernetes copy command, e.g.
+<code>k cp &lt;xmlserver-pod-name&gt;:xmlserverconfig.xml.template xmlserverconfig.xml.template -c xmlserver</code></li>
+<li>Edit the local <code>xmlserverconfig.xml.template</code> file to change the <code>TRACE_TRAFFIC</code> value as follows:
+<code>&lt;TRACE_TRAFFIC&gt;true&lt;/TRACE_TRAFFIC&gt;</code></li>
+<li>Delete the existing <code>releasename-xmlserverconfig-template-cm</code> ConfigMap. For example:
+<code>k delete configmap releasename-xmlserverconfig-template-cm</code></li>
+<li>Create a new <code>releasename-xmlserverconfig-template-cm</code> ConfigMap using the edited copy of <code>xmlserverconfig.xml.template</code>, e.g.
+<code>k create releasename-xmlserverconfig-template-cm --from-file=xmlserverconfig.xml.template</code>
+The existing <code>releasename-xmlserverconfig-template-cm</code> ConfigMap in the <code>releasename-xmlserver</code> deployment will be replaced with the newly edited file.</li>
+<li>The xmlserver pod(s) must be restarted for the new setting to be used. The pod(s) can be restarted using the Kubernetes <code>delete pod</code> command.  For example:
+<code>k delete pod &lt;xmlserver-pod-name&gt;</code>
+This will terminate the running pod and start a new pod that reflects the new ConfigMap.</li>
+</ul>
+<h3 id="modifying-the-log4j-properties">Modifying the Log4j Properties <a class="heading-anchor" href="#modifying-the-log4j-properties">#</a></h3>
+<p>The out-of-the-box <code>log4j2.properties</code> file will write the XML server trace output to stdout, which is routed to the pod's <code>tmp/xmlserver.log</code> file.
+Optionally, a custom log4j properties file can be provided.
+For instance, it can be useful to modify the output layout to indicate the time-of-day and the worker thread processing the XML server job.
+For example, this log4j pattern:</p>
+<pre><code>appender.A1.layout.pattern=[%p] %d{ABSOLUTE_MICROS} [%t] [%c{1}] %m%n
+</code></pre>
+<p>will produce output in this format:</p>
+<pre><code>[xmlserver] [INFO] 14:01:46,165000 [ThreadPoolWorker-1] [XMLConnectionHandler] - Awaiting job configuration.
+</code></pre>
+<p>as compared to the out-of-the-box format:</p>
+<pre><code>[xmlserver] [INFO] [XMLConnectionHandler] Awaiting job configuration.
+</code></pre>
+<p>For more information on specifying log4j patterns see the <a href="https://logging.apache.org/log4j/2.x/manual/layouts.html" target="_blank" rel="noopener noreferrer">Layouts section</a> of the <a href="https://logging.apache.org/log4j/2.x/manual/index.html" target="_blank" rel="noopener noreferrer">log4j documentation</a>.</p>
+<p>To modify the <code>log4j2.properties</code> file:</p>
+<ul>
+<li>Copy the <code>xmlserver</code> pod's <code>log4j2.properties</code> file to the local file system using the Kubernetes copy command.  For example:
+<code>k cp &lt;xmlserver-pod-name&gt;:/opt/ibm/Curam/xmlserver/log4j2.properties log4j2.properties -c xmlserver</code></li>
+<li>Edit the local file to specify the desired log4j configuration settings.</li>
+<li>Create a ConfigMap using the edited copy of <code>log4j2.properties</code>; for example:
+<code>k create configmap xmlserver-log4j-props-cm --from-file=log4j2.properties</code></li>
+<li>Edit the xmlserver deployment to specify the new ConfigMap:
+<code>k edit deployment releasename-xmlserver</code>
+<ul>
+<li>In the subsequent edit session add the entries for the new ConfigMap, matching the name used when creating it; for example:</li>
+</ul>
+</li>
+</ul>
+<pre><code>...
+        volumeMounts:
+        ...
+        - mountPath: /opt/ibm/Curam/xmlserver/log4j2.properties
+          name: xmlserver-log4j-props-cm
+          subPath: log4j2.properties
+...
+      volumes:
+      ...
+      - configMap:
+          defaultMode: 420
+          name: xmlserver-log4j-props-cm
+        name: xmlserver-log4j-props-cm
+</code></pre>
+<ul>
+<li>The xmlserver pod(s) must be restarted for it to reflect the new trace setting. The pod can be restarted by using the Kubernetes <code>delete pod</code> command, e.g.
+<code>k delete pod &lt;xmlserver-pod-name&gt;</code></li>
+</ul>
+<p>This will terminate the running pod and start a new pod that reflects the new ConfigMap that contains the log4j properties.</p>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/troubleshooting/troubleshoot/"><span>Previous</span>Troubleshooting problems</a><a class="pager-next" href="/curam-kubernetes/troubleshooting/must_gather/"><span>Next</span>MustGather</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#introduction">Introduction</a></li><li class="toc-l3"><a href="#specifying-the-xml-server-trace-setting">Specifying the XML Server Trace Setting</a></li><li class="toc-l3"><a href="#modifying-the-log4j-properties">Modifying the Log4j Properties</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

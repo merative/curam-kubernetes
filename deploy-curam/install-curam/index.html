@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Installing Cúram software | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Installing Cúram software">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Installing Cúram software">
+<meta property="og:description" content="Installing Cúram software">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/" class="active" aria-current="page">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Installing Cúram software</h1>
+      
+    </div>
+    <article class="markdown"><h2 id="cúram-installers">Cúram installers <a class="heading-anchor" href="#cúram-installers">#</a></h2>
+<p>Cúram release that supports deployment to Kubernetes requires running a full Cúram 8.2.0.0 platform installer, which you can download from <a href="https://merative.my.site.com/mysupport/s/" target="_blank" rel="noopener noreferrer">Cúram Support</a>.</p>
+<h2 id="installing-cúram">Installing Cúram <a class="heading-anchor" href="#installing-cúram">#</a></h2>
+<p>Before you run an installer JAR file, you must have your Cúram <code>license</code> folder in the location where you run the installer command.</p>
+<p>Run each of the installers (full or delta) using the following steps:</p>
+<ul>
+<li>
+<p>Substitute <code>&lt;installername.jar&gt;</code> with your actual installer file name to run the following command:</p>
+<pre><code class="language-shell">java -jar &lt;installername.jar&gt;
+</code></pre>
+</li>
+</ul>
+<p>The command starts the Cúram (izPack) installer.</p>
+<div class="note note--info">
+<p><strong><em>Note the following points:</em></strong></p>
+<ul>
+<li>Some of the dialogs are not displayed by the EA installer.</li>
+<li>If <em>Select the language of the application</em> is left blank, <em>English - United States</em> is the default language.</li>
+<li>If the language dialog is empty,  clicking <em>Next</em> installs the default English language.</li>
+<li>If you require additional languages, restart the installer until the dialog is displayed.</li>
+</ul>
+</div>
+<p>Go through the installation dialogs as follows:</p>
+<ul>
+<li>Click <em>Next</em>.:</li>
+<li>Click <em>Next</em> on the Welcome screen.
+<ul>
+<li>The value for <em>Select the installation path:</em> defaults to: <code>./IBM/Curam/Development</code>
+Change this value as needed, and be aware that the default value appends to the working directory from where you ran the Java command.
+<ul>
+<li>Click <em>Next</em>.</li>
+<li>Respond to the dialog to create or reuse the installation folder.</li>
+</ul>
+</li>
+<li>For <em>Select the language of the application</em>, select a language.
+<ul>
+<li>Click <em>Next</em>.</li>
+</ul>
+</li>
+<li>For <em>Please select the license types for which you are licensed:</em>, select the appropriate type(s).
+<ul>
+<li>Click <em>Next</em>.</li>
+</ul>
+</li>
+<li>For <em>Please select the components for which you are licensed:</em> select the appropriate component(s).
+<ul>
+<li>Click <em>Next</em>.</li>
+</ul>
+</li>
+<li>Provide values for the following items:
+<ul>
+<li>Organization Name</li>
+<li>Organization Address</li>
+<li>Click <em>Next</em>.</li>
+</ul>
+</li>
+<li>Provide values corresponding to the database to connect to:
+<ul>
+<li>Select the appropriate <em>Database Platform</em></li>
+<li>Database Account Logon</li>
+<li>Database Account Password</li>
+<li>Click <em>Next</em>.</li>
+</ul>
+</li>
+<li>Provide values corresponding to the database to connect to:
+<ul>
+<li>Database Server Name:</li>
+<li>Database Server Port:</li>
+<li>Database Name:</li>
+<li>Click <em>Next</em>.</li>
+</ul>
+</li>
+<li>Installation progresses for some time.
+<ul>
+<li>Click <em>Next</em>.</li>
+</ul>
+</li>
+<li>Updating of various files and settings occurs.
+<ul>
+<li>Click <em>Next</em>.</li>
+</ul>
+</li>
+<li>Installation is complete.
+<ul>
+<li>Click <em>Done</em>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/prereq/ingress/"><span>Previous</span>Ingress Controller</a><a class="pager-next" href="/curam-kubernetes/deploy-curam/create_curam_db/"><span>Next</span>Creating the Cúram database</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#cúram-installers">Cúram installers</a></li><li class="toc-l2"><a href="#installing-cúram">Installing Cúram</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CodeReady Containers | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="CodeReady Containers">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="CodeReady Containers">
+<meta property="og:description" content="CodeReady Containers">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/" class="active" aria-current="location">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>CodeReady Containers</h1>
+      <nav class="page-tabs" aria-label="Section"><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift Overview</a><a href="/curam-kubernetes/prereq/openshift/codeready-containers/" class="active" aria-current="page">CodeReady Containers</a></nav>
+    </div>
+    <article class="markdown"><h2 id="what-is-crc">What is CRC? <a class="heading-anchor" href="#what-is-crc">#</a></h2>
+<p>CodeReady Containers (CRC) is a minimal, preconfigured OpenShift cluster that is designed to run on your local workstation as a development environment for OpenShift.
+For more information, see <a href="https://github.com/crc-org/crc" target="_blank" rel="noopener noreferrer">CodeReady Containers</a>.</p>
+<p>Similar to Minikube in concept, CRC provides a cloud like environment locally to create and deploy an OpenShift cluster for development and testing purposes.</p>
+<p>This page covers some common CRC operations, including deploying Cúram to the CRC environment. You will use the Helm Charts produced in <a href="/curam-kubernetes/deployment/hc_deployment">Preparing Helm Charts</a>.</p>
+<p>For a full getting started guide for CRC, see <a href="https://crc.dev/docs/getting-started/" target="_blank" rel="noopener noreferrer">Getting Started Guide CodeReady Containers</a></p>
+<h3 id="minimum-system-requirements">Minimum System requirements <a class="heading-anchor" href="#minimum-system-requirements">#</a></h3>
+<p>CodeReady Containers system requirements can be found here: <a href="https://crc.dev/docs/installing/#minimum-system-requirements" target="_blank" rel="noopener noreferrer">CRC Minimum system requirements</a>.</p>
+<div class="note note--info">
+<p>There is a known CRC <a href="https://github.com/crc-org/crc/issues/557" target="_blank" rel="noopener noreferrer">issue</a> with respect to resource usage. When deploying Cúram on CRC our experience has shown that a minimum of 16GB will improve performance, however 32GB is optimal.</p>
+</div>
+<div class="note note--warning">
+<p>Red Hat CodeReady Containers only supports platform-native virtualization technologies:</p>
+<ul>
+<li>HyperKit on macOS</li>
+<li>libvirt on Linux</li>
+</ul>
+<p>Running CRC using nested virtualization is discouraged and not supported.</p>
+</div>
+<div class="note note--warning">
+<p>This Runbook does not support the use of CRC on Windows.</p>
+</div>
+<h2 id="installing-crc">Installing CRC <a class="heading-anchor" href="#installing-crc">#</a></h2>
+<ul>
+<li>
+<p>Create an account at <a href="https://www.redhat.com/" target="_blank" rel="noopener noreferrer">RedHat Cloud</a>.</p>
+</li>
+<li>
+<p>Create a <code>$CRC_HOME</code> folder (e.g. <code>~/crc_home</code>) to use for the purposes of the installation.</p>
+</li>
+<li>
+<p>Download the installation archive from <a href="https://cloud.redhat.com/openshift/install/crc/installer-provisioned" target="_blank" rel="noopener noreferrer">latest release</a> to <code>$CRC_HOME</code> and extract the archive:</p>
+<pre><code class="language-shell">tar -xvf crc-*-amd64.tar.xz
+</code></pre>
+</li>
+<li>
+<p>On the same page, download your pull secret to <code>$CRC_HOME</code>.</p>
+</li>
+<li>
+<p>Copy the <code>crc</code> binary to <code>/usr/local/bin/</code></p>
+<pre><code class="language-shell">sudo cp $CRC_HOME/crc-*-amd64/crc /usr/local/bin/
+</code></pre>
+</li>
+</ul>
+<div class="note note--info">
+<p>Alternatively, you may add the extracted directory to the <code>$PATH</code> variable instead of moving the binary.</p>
+</div>
+<p>Whichever option you choose, you should now have <code>crc</code> in your executable path. Verify by running the following command:</p>
+<pre><code class="language-shell">crc version
+</code></pre>
+<p>The output should be similar to the following:</p>
+<pre><code class="language-shell">CodeReady Containers version: 1.23.1+be17b141
+OpenShift version: 4.7.0 (embedded in executable)
+</code></pre>
+<h2 id="setting-up-crc">Setting up CRC <a class="heading-anchor" href="#setting-up-crc">#</a></h2>
+<p>The first step is to configure the prerequisites for the OpenShift cluster, including taking control of your hosts and resolver files to provide access to the CRC cluster.
+To do this run the following command, providing the workstation administrator password as required.
+This procedure also creates the <code>~/.crc</code> directory if it does not already exist.</p>
+<pre><code class="language-shell">crc setup
+</code></pre>
+<p>Now that the basic configuration is complete, you need to edit the configuration to change the memory limit and add the path to the pull secret file downloaded previously.</p>
+<div class="note note--warning">
+<p><strong>Note:</strong> VPN clients can conflict with the network configuration for CodeReady Containers.
+If you use a VPN client on the same environment as CRC, see the <a href="https://github.com/crc-org/crc/wiki/VPN-support--with-an--userland-network-stack" target="_blank" rel="noopener noreferrer">VPN support</a> document in the CRC GitHub wiki.</p>
+</div>
+<p>To change the memory limit, set the CPUs, and add the path to the pull secret file downloaded previously. Run the following commands:</p>
+<pre><code class="language-shell">crc config set memory &lt;number-in-MiB&gt;
+crc config set cpus &lt;whole-number&gt;
+crc config set pull-secret-file $CRC_HOME/pull-secret.txt
+</code></pre>
+<div class="note note--info">
+<p>CRC's minimum memory allocation requirement is 8GB, only a single replica Cúram deployment can be achieved using this.</p>
+<p>You should allocate as many resources as are available.</p>
+<p><strong>Note:</strong> Values for available memory are set in mebibytes (MiB). Below are some sample values.</p>
+<p>Example memory values:</p>
+<ul>
+<li>32768 (MiB) is equilivant to 34.4GB</li>
+<li>20480 (MiB) is equilivant to 21.5GB</li>
+<li>15120 (MiB) is equilivant to 15.9GB</li>
+</ul>
+<p><strong>Note:</strong> The greater the workload the greater the memory and processor requirements. Any changes to the CRC config require you to delete the cluster and start a new one.</p>
+<p><strong>Note:</strong> CPU limits must not exceed the physical resources.</p>
+</div>
+<p>You can always check the configured options of <code>crc</code>, run the following command:</p>
+<pre><code class="language-shell">crc config view
+</code></pre>
+<p>After setup is complete, start the cluster, run the following command:</p>
+<pre><code class="language-shell">crc start
+</code></pre>
+<p>This outputs something similar to the following:</p>
+<pre><code class="language-log">INFO Checking if running as non-root
+INFO Checking minimum RAM requirements
+INFO Checking if Virtualization is enabled
+...
+...
+Started the OpenShift cluster.
+
+The server is accessible via web console at:
+  https://console-openshift-console.apps-crc.testing
+
+Log in as administrator:
+  Username: kubeadmin
+  Password: kubeadmin-password
+
+Log in as user:
+  Username: developer
+  Password: developer
+
+Use the &#39;oc&#39; command line interface:
+  $ eval $(crc oc-env)
+  $ oc login -u developer https://api.crc.testing:6443
+</code></pre>
+<p>Note the <code>kubeadmin</code> and <code>developer</code> credentials for later use.</p>
+<div class="note note--info">
+<p>For convenience, you may set the <code>kubeadmin</code> user's password as an environment variable:</p>
+<pre><code class="language-shell">export KUBEADMN_PSW=kubeadmin-password
+</code></pre>
+<p>In case you need to retrieve the password later, you can run <code>crc console --credentials</code>.</p>
+</div>
+<p>Next, set up the OpenShift Client <code>oc</code>, which is used to administer the CRC cluster:</p>
+<pre><code class="language-shell">eval $(crc oc-env)
+</code></pre>
+<p>If required, you can stop the cluster:</p>
+<pre><code class="language-shell">crc stop
+</code></pre>
+<p>Or delete the cluster:</p>
+<pre><code class="language-shell">crc delete
+</code></pre>
+<h2 id="creating-a-crc-project">Creating a CRC project <a class="heading-anchor" href="#creating-a-crc-project">#</a></h2>
+<p>Create a project for the Cúram deployment, again use an environment variable for your convenience when following the guide.</p>
+<p>Create the environment variable, you can set to value to anything you like, but it should consist of lower case alphanumeric characters or <code>-</code>, and must start and end with an alphanumeric character (e.g. <code>my-name</code>,  or <code>123-abc</code>):</p>
+<pre><code class="language-shell">export PROJECT=&quot;ocp&quot;
+</code></pre>
+<p>Log in as kubeadmin:</p>
+<pre><code class="language-shell">oc login -u kubeadmin -p $KUBEADMN_PSW https://api.crc.testing:6443
+</code></pre>
+<p>Create the project:</p>
+<pre><code class="language-shell">oc new-project $PROJECT
+</code></pre>
+<h2 id="configuring-the-image-registry">Configuring the Image Registry <a class="heading-anchor" href="#configuring-the-image-registry">#</a></h2>
+<p>CodeReady Containers comes with an internal image registry where you can store the application's Docker images.</p>
+<p>The registry is accessed using different URLs, depending on the use - pods use an internal registry service name, and a developer would use the public route to publish the images.</p>
+<p>The registry URLs can be retrieved using the <code>oc registry info</code> command, with either a <code>--public</code> or <code>--internal</code> flag.</p>
+<ul>
+<li>Public URL: <code>default-route-openshift-image-registry.apps-crc.testing</code>
+<ul>
+<li>Use this when tagging and publishing images.</li>
+</ul>
+</li>
+<li>Internal URL: <code>image-registry.openshift-image-registry.svc:5000</code>
+<ul>
+<li>Use this when deploying using Helm.</li>
+</ul>
+</li>
+</ul>
+<p>The public URL uses a certificate signed by the OpenShift internal CA, which Docker does not trust by default.</p>
+<p>Docker loads all <code>*.crt</code> files under <code>/etc/docker/certs.d/&lt;registryHost[:port]&gt;</code> directories and uses them for verifying any self-signed certificates.</p>
+<p>More information can be found in the Docker documentation <a href="https://docs.docker.com/engine/security/certificates/#understand-the-configuration" target="_blank" rel="noopener noreferrer">Verify repository client with certificates</a>.</p>
+<p>Enable Docker trust certificate:</p>
+<pre><code class="language-shell">CERT_PATH=&quot;/etc/docker/certs.d/$(oc registry info --public)&quot;
+sudo mkdir -p $CERT_PATH
+oc extract secret/router-ca -n openshift-ingress-operator --keys=tls.crt --confirm
+sudo cp tls.crt $CERT_PATH
+</code></pre>
+<p>Log in to the OpenShift registry:</p>
+<pre><code class="language-shell">docker login -u kubeadmin -p $(oc whoami -t) $(oc registry info --public)
+</code></pre>
+<h2 id="hostname-configuration-for-crc">Hostname configuration for CRC <a class="heading-anchor" href="#hostname-configuration-for-crc">#</a></h2>
+<p>This runbook uses a generic hostname of <code>spm-ocp.apps-crc.testing</code> as an example in commands and the configuration files.</p>
+<p>You should add the CRC IP address to the <code>hosts</code> file by using the generic hostname, or else modify the usage of <code>spm-ocp.apps-crc.testing</code> in this runbook to reflect your local hostname.</p>
+<pre><code class="language-shell">echo -e &quot;$(crc ip)\tspm-ocp.apps-crc.testing&quot; | sudo tee -a /etc/hosts
+</code></pre>
+<p>Where <code>crc ip</code> is the command that returns the CRC VM's IP address that is accessible from your workstation.</p>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/prereq/openshift/openshift-overview/"><span>Previous</span>OpenShift</a><a class="pager-next" href="/curam-kubernetes/prereq/mq/mq-overview/"><span>Next</span>MQ Overview and Configuration</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#what-is-crc">What is CRC?</a></li><li class="toc-l3"><a href="#minimum-system-requirements">Minimum System requirements</a></li><li class="toc-l2"><a href="#installing-crc">Installing CRC</a></li><li class="toc-l2"><a href="#setting-up-crc">Setting up CRC</a></li><li class="toc-l2"><a href="#creating-a-crc-project">Creating a CRC project</a></li><li class="toc-l2"><a href="#configuring-the-image-registry">Configuring the Image Registry</a></li><li class="toc-l2"><a href="#hostname-configuration-for-crc">Hostname configuration for CRC</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

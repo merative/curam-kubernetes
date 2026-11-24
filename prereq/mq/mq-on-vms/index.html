@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MQ on Vms | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="MQ on Vms">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="MQ on Vms">
+<meta property="og:description" content="MQ on Vms">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/" class="active" aria-current="location">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>MQ on Vms</h1>
+      <nav class="page-tabs" aria-label="Section"><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview</a><a href="/curam-kubernetes/prereq/mq/mq-on-vms/" class="active" aria-current="page">MQ on VMs</a><a href="/curam-kubernetes/prereq/mq/mq-containers/">MQ Containers</a></nav>
+    </div>
+    <article class="markdown"><p>Cúram also supports <strong>IBM MQ LTS on VMs outside the cluster</strong> when Cúram runs on Red Hat OpenShift, AKS, or EKS. See <a href="/curam-kubernetes/prereq/mq/mq-overview/#deployment-options-and-support">MQ deployment options and support</a> for the platform comparison. The following steps outline how to create:</p>
+<ul>
+<li><a href="https://www.ibm.com/docs/en/ibm-mq/9.1?topic=types-queues" target="_blank" rel="noopener noreferrer">Queues</a></li>
+<li><a href="https://www.ibm.com/docs/en/ibm-mq/9.1?topic=types-listeners" target="_blank" rel="noopener noreferrer">Listeners</a></li>
+<li><a href="https://www.ibm.com/docs/en/ibm-mq/9.1?topic=types-channels" target="_blank" rel="noopener noreferrer">Channels</a></li>
+<li><a href="https://www.ibm.com/docs/en/ibm-mq/9.1?topic=types-topic-objects" target="_blank" rel="noopener noreferrer">Topics</a></li>
+</ul>
+<div class="note note--info">
+<p><strong>Note:</strong> The MQ version for this runbook verification is  9.3.5 LTS.</p>
+</div>
+<p>For the runbook, two standalone VMs were used as MQ nodes.</p>
+<h2 id="queue-manager-names">Queue manager names <a class="heading-anchor" href="#queue-manager-names">#</a></h2>
+<p>For runbook configuration, the following naming conversion was used throughout the MQ setup: <code>NamingConvention_AppName</code>. This must be unique, but ensure you change the commands used on this page accordingly.</p>
+<p><strong>Queue Name:</strong></p>
+<ul>
+<li>curam_qm</li>
+</ul>
+<p><strong>Channel Name:</strong> This value should be all capitals</p>
+<p><code>CHL_NamingConvention_AppName</code></p>
+<ul>
+<li>CHL_CURAM_QM</li>
+</ul>
+<p><strong>Listeners Name:</strong> This value should be all capitals</p>
+<p><code>LS_NamingConvention_AppName</code></p>
+<ul>
+<li>LS_CURAM_QM</li>
+</ul>
+<h2 id="mq-stages">MQ stages <a class="heading-anchor" href="#mq-stages">#</a></h2>
+<p>On both MQ nodes run the following command as root:</p>
+<pre><code class="language-shell">su - mqm # Changing user into mqm
+export PATH=/opt/mqm/inst1/bin:$PATH
+</code></pre>
+<div class="note note--warning">
+<p><strong>Important!</strong></p>
+<p>Run the export PATH command on both MQ nodes, this command will be used in further commands in the runbook.</p>
+</div>
+<h2 id="shared-storage">Shared storage <a class="heading-anchor" href="#shared-storage">#</a></h2>
+<p>Create the shared storage for our nodes.</p>
+<div class="note note--info">
+<p><strong>Note:</strong> Run the commands as root.</p>
+</div>
+<p>On the shared node run the following commands:</p>
+<pre><code class="language-shell">mkdir -p /MQHA/logs
+mkdir -p /MQHA/qmgrs
+mkdir -p /MQHA/scratch
+useradd mqha -s /sbin/nologin
+chown -R mqha:mqha /MQHA/*
+</code></pre>
+<p>Verify that the UID and GUID match the owner ID by running the following command:</p>
+<pre><code class="language-shell">echo &quot;/MQHA  MQ.FQDN(rw,sync,no_wdelay,fsid=0,anonuid=1001,anongid=1001)&quot; &gt;&gt; /etc/exports
+</code></pre>
+<p>Start and enable both the nfs service and rpcbind service by running the following commands:</p>
+<pre><code class="language-shell">systemctl start nfs-server.service
+systemctl enable nfs-server.service
+systemctl start rpcbind
+systemctl enable rpcbind
+</code></pre>
+<p>On MQ nodes run the following commands:</p>
+<div class="note note--info">
+<p><strong>Note:</strong> Commands to be run as root.</p>
+</div>
+<pre><code class="language-shell">echo &quot;SHAREDNODEADDRESS:/MQHA  /MQHA  nfs  defaults  0 0&quot; &gt;&gt; /etc/fstab
+systemctl start rpcbind
+systemctl enable rpcbind
+mkdir -p /MQHA
+chmod 1777 /MQHA #Check permissions
+mount /MQHA
+</code></pre>
+<h2 id="create-qms">Create QMs <a class="heading-anchor" href="#create-qms">#</a></h2>
+<p>When creating the queue, start on the secondary node first then move to the primary node.</p>
+<p>On the secondary MQ node, run the following commands:</p>
+<pre><code class="language-shell">crtmqm -ld /MQHA/logs -md /MQHA/qmgrs curam_qm
+dspmqinf -o command curam_qm
+</code></pre>
+<p>Save the output of the <code>dspmqinf -o command curam_qm</code> command, it should look like the following:</p>
+<pre><code class="language-shell">addmqinf -s QueueManager -v Name=curam_qm -v Directory=curam_qm -v Prefix=/var/mqm -v DataPath=/MQHA/qmgrs/curam_qm
+</code></pre>
+<p>Wait for /MQHA/qmgrs/curam_qm/qm.ini to appear on other node</p>
+<p>On the primary MQ node run the following commands:</p>
+<pre><code class="language-shell">addmqinf -s QueueManager -v Name=curam_qm -v Directory=curam_qm -v Prefix=/var/mqm -v DataPath=/MQHA/qmgrs/curam_qm
+strmqm -x curam_qm
+</code></pre>
+<p>On the secondary MQ node run the following command:</p>
+<pre><code class="language-shell">strmqm -x curam_qm
+</code></pre>
+<h2 id="create-queues">Create queues <a class="heading-anchor" href="#create-queues">#</a></h2>
+<p>On the primary MQ node run the following commands:</p>
+<pre><code class="language-shell">runmqsc curam_qm &lt;&lt;-EOS
+DEFINE QLOCAL(QN.CURAMDEADMESSAGEQUEUE) CLWLUSEQ (ANY) DEFBIND (NOTFIXED)
+DEFINE QLOCAL(QN.WORKFLOWERROR) BOTHRESH(5) BOQNAME(QN.CURAMDEADMESSAGEQUEUE) CLWLUSEQ (ANY) DEFBIND (NOTFIXED)
+DEFINE QLOCAL(QN.WORKFLOWENACTMENT) BOTHRESH(5) BOQNAME(QN.WORKFLOWERROR) CLWLUSEQ (ANY) DEFBIND (NOTFIXED)
+DEFINE QLOCAL(QN.WORKFLOWACTIVITY) BOTHRESH(5) BOQNAME(QN.WORKFLOWERROR) CLWLUSEQ (ANY) DEFBIND (NOTFIXED)
+DEFINE QLOCAL(QN.DPERROR) BOTHRESH(5) BOQNAME(QN.CURAMDEADMESSAGEQUEUE) CLWLUSEQ (ANY) DEFBIND (NOTFIXED)
+DEFINE QLOCAL(QN.DPENACTMENT) BOTHRESH(5) BOQNAME(QN.DPERROR) CLWLUSEQ (ANY) DEFBIND (NOTFIXED)
+ALTER QMGR CHLAUTH(DISABLED)
+ALTER QMGR DEADQ(QN.CURAMDEADMESSAGEQUEUE)
+EOS
+</code></pre>
+<h2 id="create-listeners">Create listeners <a class="heading-anchor" href="#create-listeners">#</a></h2>
+<p>On the primary MQ node run the following commands:</p>
+<pre><code class="language-shell">runmqsc curam_qm &lt;&lt;-EOS
+DEFINE LISTENER (LS_CURAM_QM) TRPTYPE (TCP) CONTROL (QMGR) PORT (1414)
+START LISTENER (LS_CURAM_QM)
+EOS
+</code></pre>
+<h2 id="create-channels">Create channels <a class="heading-anchor" href="#create-channels">#</a></h2>
+<p>On the primary MQ node run the following command:</p>
+<ul>
+<li>Enter your MQ node names into the following commands:</li>
+</ul>
+<div class="note note--info">
+<p><strong>Note:</strong> CERTLABL expects the value to be lower case ibmwebspheremq + Queue Name
+For this example it will be ibmwebspheremqcuram_qm</p>
+</div>
+<pre><code class="language-shell">runmqsc curam_qm &lt;&lt;-EOS
+DEFINE CHANNEL(CHL_CURAM_QM) CHLTYPE(SVRCONN)  TRPTYPE(TCP) MCAUSER(&#x27;mqm&#x27;) SSLCIPH (TLS_RSA_WITH_AES_128_CBC_SHA256)  CERTLABL (&#x27;ibmwebspheremqcuram_qm&#x27;) SSLCAUTH (OPTIONAL) REPLACE
+DEFINE CHANNEL(CHL_CURAM_QM) CHLTYPE(CLNTCONN) TRPTYPE(TCP) CONNAME(&#x27;Node1(1414),Node2(1414)&#x27;) QMNAME(curam_qm) SSLCIPH (TLS_RSA_WITH_AES_128_CBC_SHA256) CERTLABL (&#x27;ibmwebspheremqcuram_qm&#x27;) REPLACE
+EOS
+</code></pre>
+<h2 id="create-topics">Create topics <a class="heading-anchor" href="#create-topics">#</a></h2>
+<p>On the primary MQ node run the following command:</p>
+<pre><code class="language-shell">runmqsc curam_qm &lt;&lt;-EOS
+DEFINE TOPIC (CURAMCACHEINVALIDATIONTOPIC) TOPICSTR (CURAMCACHEINVALIDATIONTOPIC)
+ALTER QMGR CONNAUTH(&#x27;CHECK.PWD&#x27;)
+DEFINE AUTHINFO(&#x27;CHECK.PWD&#x27;) AUTHTYPE(IDPWOS) CHCKLOCL(OPTIONAL) CHCKCLNT(OPTIONAL)
+EOS
+</code></pre>
+<h2 id="configure-security">Configure security <a class="heading-anchor" href="#configure-security">#</a></h2>
+<p>The configuration of security is in four parts</p>
+<ul>
+<li>Setting the object type.</li>
+<li>Creating the keystore and certs.</li>
+<li>Updating the certs on both nodes.</li>
+<li>Refreshing security settings.</li>
+</ul>
+<div class="note note--info">
+<p><strong>Note:</strong></p>
+<p>The application pods must connect to MQ using a non-privileged account. The example commands use <code>mqclient</code> as the non-privileged account.
+This username must be set in the secret referenced by the <code>global.mq.queueManager.secret.name</code> property. See the <a href="/curam-kubernetes/deployment/secrets">Handling Secrets</a> page for more information.</p>
+</div>
+<p>On the secondary MQ node run the following command:</p>
+<pre><code class="language-shell">useradd -g 0 -M mqclient &amp;&amp; usermod -L mqclient
+</code></pre>
+<p>On the primary MQ node run the following commands:</p>
+<pre><code class="language-shell">useradd -g 0 -M mqclient &amp;&amp; usermod -L mqclient
+runmqsc curam_qm &lt;&lt;-EOS
+SET AUTHREC OBJTYPE(QMGR) PRINCIPAL(&#x27;mqclient&#x27;) AUTHADD(ALL)
+SET AUTHREC OBJTYPE(QUEUE) PROFILE(&#x27;QN.DPENACTMENT&#x27;) PRINCIPAL(&#x27;mqclient&#x27;) AUTHADD(ALL)
+SET AUTHREC OBJTYPE(QUEUE) PROFILE(&#x27;QN.DPERROR&#x27;) PRINCIPAL(&#x27;mqclient&#x27;) AUTHADD(ALL)
+SET AUTHREC OBJTYPE(QUEUE) PROFILE(&#x27;QN.WORKFLOWACTIVITY&#x27;) PRINCIPAL(&#x27;mqclient&#x27;) AUTHADD(ALL)
+SET AUTHREC OBJTYPE(QUEUE) PROFILE(&#x27;QN.WORKFLOWENACTMENT&#x27;) PRINCIPAL(&#x27;mqclient&#x27;) AUTHADD(ALL)
+SET AUTHREC OBJTYPE(QUEUE) PROFILE(&#x27;QN.WORKFLOWERROR&#x27;) PRINCIPAL(&#x27;mqclient&#x27;) AUTHADD(ALL)
+SET AUTHREC OBJTYPE(QUEUE) PROFILE(&#x27;QN.CURAMDEADMESSAGEQUEUE&#x27;) PRINCIPAL(&#x27;mqclient&#x27;) AUTHADD(ALL)
+SET AUTHREC OBJTYPE(LISTENER) PROFILE(&#x27;LS_CURAM_QM&#x27;) PRINCIPAL(&#x27;mqclient&#x27;) AUTHADD(ALL)
+SET AUTHREC OBJTYPE(CHANNEL) PROFILE(&#x27;CHL_CURAM_QM&#x27;) PRINCIPAL(&#x27;mqclient&#x27;) AUTHADD(ALL)
+SET AUTHREC OBJTYPE(CLNTCONN) PROFILE(&#x27;CHL_CURAM_QM&#x27;) PRINCIPAL(&#x27;mqclient&#x27;) AUTHADD(ALL)
+SET AUTHREC OBJTYPE(TOPIC) PROFILE(&#x27;CURAMCACHEINVALIDATIONTOPIC&#x27;) PRINCIPAL(&#x27;mqclient&#x27;) AUTHADD(ALL)
+EOS
+</code></pre>
+<pre><code class="language-shell">runmqckm -keydb -create -db /MQHA/qmgrs/curam_qm/ssl/key.kdb -type cms -pw Passw0rd -stash
+runmqakm -cert -create -db /MQHA/qmgrs/curam_qm/ssl/key.kdb -stashed -label ibmwebspheremqcuram_qm -size 2048 -dn &quot;CN=curam_qm,O=IBM,C=US&quot; -x509version 3 -expire 365 -sig_alg SHA256WithRSA
+runmqakm -cert -extract -db /MQHA/qmgrs/curam_qm/ssl/key.kdb -stashed -label ibmwebspheremqcuram_qm -target /MQHA/qmgrs/curam_qm/ssl/key_curam_qm.arm
+runmqakm -cert -export -db /MQHA/qmgrs/curam_qm/ssl/key.kdb -stashed -label ibmwebspheremqcuram_qm -target /MQHA/qmgrs/curam_qm/ssl/key_curam_qm.p12 -target_type pkcs12 -target_pw Passw0rd
+</code></pre>
+<pre><code class="language-shell">openssl pkcs12 -in /MQHA/qmgrs/curam_qm/ssl/key_curam_qm.p12 -passin pass:Passw0rd -nocerts -nodes | sed -ne &#x27;/-BEGIN PRIVATE KEY-/,/-END PRIVATE KEY-/p&#x27; &gt; /MQHA/qmgrs/curam_qm/ssl/tls.key
+openssl pkcs12 -in /MQHA/qmgrs/curam_qm/ssl/key_curam_qm.p12 -passin pass:Passw0rd -clcerts -nokeys | sed -ne &#x27;/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p&#x27; &gt; /MQHA/qmgrs/curam_qm/ssl/tls.crt
+</code></pre>
+<pre><code class="language-shell">runmqsc curam_qm &lt;&lt;-EOS
+ALTER QMGR CONNAUTH(&#x27;CHECK.PWD&#x27;)
+DEFINE AUTHINFO(&#x27;CHECK.PWD&#x27;) AUTHTYPE(IDPWOS) CHCKLOCL(OPTIONAL) CHCKCLNT(OPTIONAL)
+REFRESH SECURITY TYPE(SSL)
+REFRESH SECURITY TYPE(AUTHSERV)
+REFRESH SECURITY TYPE(CONNAUTH)
+EOS
+</code></pre>
+<p>After these stages have been run MQ should be configured.</p>
+<h2 id="clean-up-qms-channels-listeners">Clean up QMs/channels/listeners <a class="heading-anchor" href="#clean-up-qms-channels-listeners">#</a></h2>
+<p>Used these steps if you are reconfiguring MQ or cleaning up MQ.</p>
+<p>On both MQ nodes run the following commands:</p>
+<pre><code class="language-shell">endmqm -w curam_qm
+dltmqm curam_qm
+rmvmqinf curam_qm
+</code></pre>
+<p>On either MQ node run the following commands:</p>
+<pre><code class="language-shell">rm -rf /MQHA/qmgrs/**
+rm -rf /MQHA/logs/**
+rm -rf /MQHA/scratch
+endmqm -w curam_qm
+dltmqm curam_qm
+rmvmqinf curam_qm
+</code></pre>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/prereq/mq/mq-overview/"><span>Previous</span>MQ Overview and Configuration</a><a class="pager-next" href="/curam-kubernetes/prereq/mq/mq-containers/"><span>Next</span>MQ Containers</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#queue-manager-names">Queue manager names</a></li><li class="toc-l2"><a href="#mq-stages">MQ stages</a></li><li class="toc-l2"><a href="#shared-storage">Shared storage</a></li><li class="toc-l2"><a href="#create-qms">Create QMs</a></li><li class="toc-l2"><a href="#create-queues">Create queues</a></li><li class="toc-l2"><a href="#create-listeners">Create listeners</a></li><li class="toc-l2"><a href="#create-channels">Create channels</a></li><li class="toc-l2"><a href="#create-topics">Create topics</a></li><li class="toc-l2"><a href="#configure-security">Configure security</a></li><li class="toc-l2"><a href="#clean-up-qms-channels-listeners">Clean up QMs/channels/listeners</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

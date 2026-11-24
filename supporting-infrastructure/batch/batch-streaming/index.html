@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Batch Streaming | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Batch Streaming in Kubernetes">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Batch Streaming">
+<meta property="og:description" content="Batch Streaming in Kubernetes">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/" class="active" aria-current="location">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Batch Streaming</h1>
+      <nav class="page-tabs" aria-label="Section"><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-streaming/" class="active" aria-current="page">Batch Streaming</a></nav>
+    </div>
+    <article class="markdown"><h2 id="how-batch-streaming-is-deployed-in-kubernetes">How batch streaming is deployed in Kubernetes <a class="heading-anchor" href="#how-batch-streaming-is-deployed-in-kubernetes">#</a></h2>
+<p>Cúram on Kubernetes supports a different model for batch processing in AKS, where, as outlined earlier, Cúram batch processing can be built and deployed into its own pod.
+By running Cúram batch processing in its own pod, the pod can leverage the benefits of flexibility, elasticity, efficiency and the strategic value offered by cloud native architecture.</p>
+<h3 id="what-is-batch-streaming">What is batch streaming? <a class="heading-anchor" href="#what-is-batch-streaming">#</a></h3>
+<p>The batch streaming infrastructure provides a straightforward mechanism to implement a batch process so that it can be run in parallel (streams) across multiple pods.
+For example, if we wanted to issue payments, the chunker identifies all the cases to be paid and the stream would process a case and issue the payments that are due.</p>
+<p><img src="../../../images/curam_batch_processing_on_kubernetes.png" alt="Cúram batch on kubernetes"></p>
+<div class="caption">
+<p><em>Figure 1:</em> Cúram batch processing on kubernetes</p>
+</div>
+<p>For more information about batch streaming architecture, see <strong>Batch Streaming Architecture</strong> in the <em>Cúram Batch Performance Mechanisms</em>.</p>
+<div class="note note--info">
+<p>Cúram PDF documentation is available to download from <a href="https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/" target="_blank" rel="noopener noreferrer">Cúram Support Docs</a>.</p>
+</div>
+<h2 id="setting-up-batch-streaming-with-helm">Setting up Batch Streaming with Helm <a class="heading-anchor" href="#setting-up-batch-streaming-with-helm">#</a></h2>
+<p>Streamed jobs may be scheduled using Helm the same way as standalone Batch jobs.</p>
+<p>In your override values file, add a section under the <code>batch.streamed</code> key for each of the streamed jobs to be scheduled.</p>
+<pre><code class="language-yaml"><span class="hljs-attr">batch:</span>
+  <span class="hljs-attr">streamed:</span>
+    <span class="hljs-attr">cash_reassessment:</span>
+      <span class="hljs-attr">schedule:</span> <span class="hljs-string">&quot;0 1 * * *&quot;</span>
+      <span class="hljs-attr">chunker:</span>
+        <span class="hljs-attr">className:</span> <span class="hljs-string">curam.core.sl.infrastructure.assessment.intf.CREOLEBulkCaseChunkReassessmentByProduct.process</span>
+        <span class="hljs-attr">parameters:</span> <span class="hljs-string">productID=4100</span>
+        <span class="hljs-attr">replicaCount:</span> <span class="hljs-number">1</span>
+      <span class="hljs-attr">stream:</span>
+        <span class="hljs-attr">className:</span> <span class="hljs-string">curam.core.sl.infrastructure.assessment.intf.CREOLEBulkCaseChunkReassessmentStream.process</span>
+        <span class="hljs-attr">replicaCount:</span> <span class="hljs-number">1</span>
+    <span class="hljs-attr">food_reassessment:</span>
+      <span class="hljs-attr">schedule:</span> <span class="hljs-string">&quot;0 2 * * */2&quot;</span>
+      <span class="hljs-attr">chunker:</span>
+        <span class="hljs-attr">className:</span> <span class="hljs-string">curam.core.sl.infrastructure.assessment.intf.CREOLEBulkCaseChunkReassessmentByProduct.process</span>
+        <span class="hljs-attr">parameters:</span> <span class="hljs-string">productID=4200</span>
+        <span class="hljs-attr">replicaCount:</span> <span class="hljs-number">1</span>
+      <span class="hljs-attr">stream:</span>
+        <span class="hljs-attr">className:</span> <span class="hljs-string">curam.core.sl.infrastructure.assessment.intf.CREOLEBulkCaseChunkReassessmentStream.process</span>
+        <span class="hljs-attr">replicaCount:</span> <span class="hljs-number">1</span>
+</code></pre>
+<p>This example schedules Cash Assistance bulk reassessment to run at 1 AM every night, and Food Assistance bulk reassessment to run at 2 AM every second night.</p>
+<p>The <code>cash_reassessment</code> and <code>food_reassessment</code> keys have no special meaning - their purpose is to provide separate definitions of different batch jobs.
+These keys are used in names of the CronJob objects, e.g. <code>&lt;releaseName&gt;-batch-food-reassessment-chunker</code> and <code>&lt;releaseName&gt;-batch-food-reassessment-stream</code></p>
+<p>A complete list of configurable options for the chunkers and streams is available on the Helm <a href="/curam-kubernetes/deployment/config-reference#batch-jobs">Configuration Reference</a> page.</p>
+<h2 id="ad-hoc-execution-of-batch-streaming-jobs">Ad-hoc execution of Batch Streaming jobs <a class="heading-anchor" href="#ad-hoc-execution-of-batch-streaming-jobs">#</a></h2>
+<p>An example for the steps required to set up Batch Streaming is outlined as follows.
+This example uses the bulk reassessment of food assistance case types.</p>
+<p>The first stage is to set up a new YAML file for the streaming and chunking batch processing.</p>
+<div class="note note--info">
+<p><strong>Note:</strong> No Cúram default installation settings were changed.</p>
+</div>
+<pre><code class="language-shell">kubectl create job --from=cronjob/${release_name}-batch-queued \
+       -n $namespace -o yaml --dry-run=client process_name &gt; process_name.yaml
+</code></pre>
+<p>Where:</p>
+<ul>
+<li><code>namespace</code> is the namespace where you want to run the batch processing</li>
+<li><code>release_name</code> is the name of the release you are using</li>
+<li><code>process_name</code> is the name of the batch process you are creating</li>
+</ul>
+<p>You should also create a new file for each process, for example <code>stream_foodassistance.yaml</code>, and <code>chunker_foodassistance.yaml</code></p>
+<p>A corresponding YAML file is created. Open it with your preferred editor and add the following lines to the <code>spec.template.spec.containers[0]</code> section:</p>
+<div class="tabs" data-tabs id="tabs-1">
+<section class="tab-panel" data-label="Chunker" id="tabs-1-panel-0">
+<pre><code class="language-yaml"><span class="hljs-attr">args:</span>
+<span class="hljs-bullet">-</span> <span class="hljs-string">-Dbatch.program=curam.core.sl.infrastructure.assessment.intf.CREOLEBulkCaseChunkReassessmentByProduct.process</span>
+<span class="hljs-bullet">-</span> <span class="hljs-string">-Dbatch.parameters=&quot;productID=4200&quot;</span>
+</code></pre>
+<p><strong>Note:</strong> The <code>args</code> key should become a sibling of the <code>command</code> key.</p>
+</section>
+<section class="tab-panel" data-label="Stream" id="tabs-1-panel-1">
+<pre><code class="language-yaml"><span class="hljs-attr">args:</span>
+<span class="hljs-bullet">-</span> <span class="hljs-string">-Dbatch.program=curam.core.sl.infrastructure.assessment.intf.CREOLEBulkCaseChunkReassessmentStream.process</span>
+</code></pre>
+<p><strong>Note:</strong> The <code>args</code> key should become a sibling of the <code>command</code> key.</p>
+</section>
+</div>
+<p>You should now have YAML files for a chunker and streamer for bulk reassessment of food assistance case types.</p>
+<div class="note note--info">
+<p>Newer versions of <code>kubectl</code> add a <code>metadata.ownerReferences</code> field to the output of <code>kubectl create job --from=...</code>.
+This field must be removed before creating the new jobs from these YAML files.</p>
+</div>
+<h3 id="running-batch-streaming-yaml-files">Running batch streaming yaml files <a class="heading-anchor" href="#running-batch-streaming-yaml-files">#</a></h3>
+<p>To orchestrate the batch process, run the following command and repeat for the chunker and streamer.</p>
+<pre><code class="language-shell">kubectl create -f stream_foodassistance.yaml -n $namespace
+kubectl create -f chunker_foodassistance.yaml -n $namespace
+</code></pre>
+<h3 id="post-batch-processing">Post batch processing <a class="heading-anchor" href="#post-batch-processing">#</a></h3>
+<p>The batch pods that are created for batch streaming are on demand.</p>
+<p>When the batch processes finish, the pods remain in a <code>completed</code> state.
+While this does not consume CPU or Memory resources on the worker nodes of your cluster, this may place added pressure on the Kubernetes API server</p>
+<div class="note note--info">
+<p>A <a href="https://kubernetes.io/docs/concepts/workloads/controllers/ttlafterfinished/" target="_blank" rel="noopener noreferrer">TTL Controller for Finished Resources</a> is available in Kubernetes, which will automatically clean up any completed pods after a specified length of time.
+However, this feature is in Alpha state and has to be enabled using a feature flag on both the <code>kube-apiserver</code> and <code>kube-controller-manager</code>.</p>
+<p><strong>Note:</strong> It is not recommended to use Alpha features in a production environment.</p>
+</div>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/"><span>Previous</span>Batch Processing</a><a class="pager-next" href="/curam-kubernetes/supporting-infrastructure/Persistence/"><span>Next</span>Persistence Storage</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#how-batch-streaming-is-deployed-in-kubernetes">How batch streaming is deployed in Kubernetes</a></li><li class="toc-l3"><a href="#what-is-batch-streaming">What is batch streaming?</a></li><li class="toc-l2"><a href="#setting-up-batch-streaming-with-helm">Setting up Batch Streaming with Helm</a></li><li class="toc-l2"><a href="#ad-hoc-execution-of-batch-streaming-jobs">Ad-hoc execution of Batch Streaming jobs</a></li><li class="toc-l3"><a href="#running-batch-streaming-yaml-files">Running batch streaming yaml files</a></li><li class="toc-l3"><a href="#post-batch-processing">Post batch processing</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

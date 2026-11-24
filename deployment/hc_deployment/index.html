@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deploying Helm Charts | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Deploying Helm Charts">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Deploying Helm Charts">
+<meta property="og:description" content="Deploying Helm Charts">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/" class="active" aria-current="page">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Deploying Helm Charts</h1>
+      
+    </div>
+    <article class="markdown"><p>When moving from an earlier release, review <a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a> before deploying.</p>
+<p>In the following <code>helm install</code> command, we are using <code>releasename</code> as the value for the <code>helm release name</code>. A release name is an arbitrary name that you choose for your
+deployment. It must be all lowercase. All kubernetes objects in your deployment will be prefixed with whatever value you provide.</p>
+<p>For now you could just use <code>releasename</code> and for more information see <a href="https://helm.sh/docs/intro/using_helm/" target="_blank" rel="noopener noreferrer">the helm documentation</a>.</p>
+<div class="note note--info">
+<p><strong>Note:</strong> Helm v3 (<code>releasename</code> is mandatory for Helm v3)</p>
+</div>
+<pre><code class="language-shell">helm install releasename local-development/spm
+</code></pre>
+<p>The <code>helm install</code> command installs the Helm Charts in the order in which they were loaded in the repository, with all the values defined in the files.
+However, as described in <a href="/curam-kubernetes/build-images/setup_docker_context">Setting up the Docker® context</a>, you can override the configuration value by running the following shell script:</p>
+<pre><code class="language-shell">helm install releasename local-development/Curam -f override-values.yaml
+</code></pre>
+<h2 id="sample-override-values-yaml-files">Sample <code>override-values.yaml</code> files <a class="heading-anchor" href="#sample-override-values-yaml-files">#</a></h2>
+<p>The following three override files for Minikube, AKS, and CRC are intended to be used with the config options listed in the
+<a href="/curam-kubernetes/deployment/config-reference">Configuration Reference</a> topic. The minimum details that need to be filled out for a successful deployment
+are the registry, database, and ingress details.</p>
+<ul>
+<li><a href="/curam-kubernetes/resources/minikube-values.yaml">Minikube</a></li>
+<li><a href="/curam-kubernetes/resources/crc-values.yaml">CodeReady Containers</a></li>
+<li><a href="/curam-kubernetes/resources/aks-values.yaml">Azure Kubernetes Service</a></li>
+<li><a href="/curam-kubernetes/resources/tuning-values.yaml">Initial Tuning Settings</a>
+<ul>
+<li>Can be used for AKS, EKS or OpenShift</li>
+</ul>
+</li>
+</ul>
+<div class="note note--info">
+<p><strong>Note on overrides:</strong></p>
+<ul>
+<li>The full image name is based on the <code>registry</code>, <code>imageLibrary</code>, <code>imagePrefix</code>, and <code>imageTag</code> keys nested under <code>global.images</code> as follows:
+<ul>
+<li><code>{registry}/{imageLibrary}/{imagePrefix}curam:{imageTag}</code></li>
+<li>With the given values, the resulting image name will look like this: <code>example.azurecr.io/foo-library/test_curam:latest</code></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="note note--info">
+<p><strong>Note</strong>: If storage has been initialized using a version of the runbook older than 20.9.0, you will need to update your
+override values to include a supplementary group:</p>
+<pre><code class="language-yaml"><span class="hljs-attr">global:</span>
+  <span class="hljs-attr">mq:</span>
+    <span class="hljs-attr">security:</span>
+      <span class="hljs-attr">context:</span>
+        <span class="hljs-attr">supplementalGroups:</span> [<span class="hljs-number">888</span>]
+</code></pre>
+<p>This is due to a update in IBM MQ, the details of which can be found in <a href="https://github.com/IBM/charts/blob/master/stable/ibm-mqadvanced-server-dev/RELEASENOTES.md" target="_blank" rel="noopener noreferrer">IBM MQ charts</a>.</p>
+</div>
+<p>The license agreements for the IBM® WebSphere® Liberty and IBM WebSphere MQ images must be accepted in order to proceed with the deployment of these elements. This can be done by setting the <code>global.license</code> property to <code>accept</code>.</p>
+<p>The respective license agreements can be reviewed by running the following commands:</p>
+<div class="tabs" data-tabs id="tabs-1">
+<section class="tab-panel" data-label="ModernJava" id="tabs-1-panel-0">
+<pre><code class="language-shell">docker run --rm -e LICENSE=view icr.io/appcafe/websphere-liberty/26.0.0.9-full-java21-openj9-ubi-minimal
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Java8" id="tabs-1-panel-1">
+<pre><code class="language-shell">docker run --rm -e LICENSE=view icr.io/appcafe/websphere-liberty/26.0.0.9-full-java8-ibmjava-ubi
+</code></pre>
+</section>
+</div>
+<pre><code class="language-shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">IBM WebSphere MQ</span>
+docker run --rm -e LICENSE=view ibmcom/mq:9.4.3.0
+</code></pre>
+<h2 id="status-of-the-system">Status of the system <a class="heading-anchor" href="#status-of-the-system">#</a></h2>
+<p>The <code>helm install</code> command shows all the Kubernetes objects and also runs the Cúram containers.
+You can track the status of the Cúram containers on real time by running the following command:</p>
+<pre><code class="language-shell">kubectl get pods -w
+
+NAME                                              READY  STATUS    RESTARTS  AGE
+releasename-apps-curam-consumer-595c8bf95f-zn2l5  0/1    Init 3/4  0         5m
+releasename-apps-curam-producer-6b5569c4ff-nvxtd  1/1    Running   0         5m
+releasename-apps-rest-consumer-85b4865b9d-wr6hj   0/1    Init 3/4  0         5m
+releasename-apps-rest-producer-cd8fdbbbf-j2mjj    0/1    Init 3/4  0         5m
+releasename-uawebapp-7cdd64987-qx8l8              1/1    Running   0         5m
+releasename-web-67697ffb8b-fdsk2                  1/1    Running   0         5m
+releasename-mqserver-curam-7f45bcd64d-rlqns       1/1    Running   0         5m
+releasename-mqserver-rest-544c5b4758-pnbpz        1/1    Running   0         5m
+releasename-xmlserver-77d6d9b75d-4xr8k            1/1    Running   0         5m
+
+</code></pre>
+<p>The command lists the pods and their status, where each status change is on a new line.</p>
+<p>Some of the pods have initialization steps, so they are not shown until the steps are completed.</p>
+<p>The output of the <code>kubectl get pods</code> command provides the names of the pods that you can use to substitute for <code>podname</code> in the following example commands.
+For example, the Liberty pod that contains Cúram code is a name that uses a pattern of: <code>releasename-apps-curam-</code>.</p>
+<p>You can also describe a pod by running the following command:</p>
+<pre><code class="language-shell">kubectl describe pod/pod name
+</code></pre>
+<p>You can also read the log when the status is <code>running</code>, by running the following command:</p>
+<pre><code class="language-shell">kubectl logs -f pod/podname
+</code></pre>
+<h2 id="accessing-the-application">Accessing the application <a class="heading-anchor" href="#accessing-the-application">#</a></h2>
+<p>Once Cúram is deployed, access to the application depends on the target environment:</p>
+<ul>
+<li>
+<p><strong>Local environments (Minikube or CodeReady Containers):</strong><br>
+You can typically access the application via a localhost-based URL or a route generated automatically by the environment.</p>
+</li>
+<li>
+<p><strong>OpenShift:</strong><br>
+OpenShift provides a Route resource, which exposes a public URL for the application.</p>
+</li>
+<li>
+<p><strong>Cloud environments (EKS or AKS):</strong><br>
+Access requires additional configuration, such as exposing a LoadBalancer service, setting up an Ingress controller with DNS, or using port forwarding for temporary local access.</p>
+</li>
+</ul>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/deployment/migrating-to-v26-11-0/"><span>Previous</span>Migrating to v26.11.0</a><a class="pager-next" href="/curam-kubernetes/operations/updating_tools/"><span>Next</span>Updating tools</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#sample-override-values-yaml-files">Sample override-values.yaml files</a></li><li class="toc-l2"><a href="#status-of-the-system">Status of the system</a></li><li class="toc-l2"><a href="#accessing-the-application">Accessing the application</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

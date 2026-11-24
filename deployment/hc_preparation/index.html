@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preparing Helm Charts | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Preparing Helm Charts">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Preparing Helm Charts">
+<meta property="og:description" content="Preparing Helm Charts">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/" class="active" aria-current="page">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Preparing Helm Charts</h1>
+      
+    </div>
+    <article class="markdown"><div class="note note--info">
+<p><strong>Troubleshooting</strong> If you need help troubleshooting problems, see <a href="/curam-kubernetes/troubleshooting/troubleshoot">Troubleshooting problems</a>.</p>
+</div>
+<p>The <a href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">curam-kubernetes</a> repository provides the following Helm Charts:</p>
+<ul>
+<li><em>apps:</em> defines how to deploy the IBM® WebSphere® Liberty images with Cúram.</li>
+<li><em>batch:</em> defines the batch image configuration.</li>
+<li><em>uawebapp:</em> defines how to deploy the Universal Access (React) application.</li>
+<li><em>web:</em> defines how to deploy the static content image for Cúram (<code>Curam</code> image only).</li>
+<li><em>mqserver:</em> defines the IBM WebSphere MQ image configuration.</li>
+<li><em>xmlserver:</em> defines the xmlserver container configuration.</li>
+<li><em>spm:</em> an umbrella chart to contain all the other charts.</li>
+</ul>
+<p>The charts use a templating mechanism to create the YAML file that is used by Kubernetes.
+For this reason, the main configuration values are stored for each chart in a <code>values.yaml</code> file in the main folder of the charts.
+The values can also be overwritten by the <code>spm:*</code> umbrella chart or by a provided override file during deployment as described in <a href="/curam-kubernetes/deployment/hc_deployment">Deploying Helm Charts</a>.</p>
+<p>YAML is a human-readable structured data format. It provides powerful configuration settings, without having to learn a more complex code type like CSS, JavaScript, or PHP.</p>
+<h2 id="preparing-to-run-the-helm-charts">Preparing to run the Helm Charts <a class="heading-anchor" href="#preparing-to-run-the-helm-charts">#</a></h2>
+<p>Before you run the charts, you must configure the database, configure IBM MQ, resolve all chart dependencies, and test the charts.
+You may also optionally integrate your deployment with an ISAM server for SSO enablement,
+to do so complete the steps on the <a href="/curam-kubernetes/supporting-infrastructure/ISAM">Enabling ISAM</a> page under Supporting Infrastructure before returning here.</p>
+<p>Many of the Helm Charts that make up a deployment of Cúram depend on the <a href="https://github.com/IBM/charts/tree/master/samples/ibm-sch" target="_blank" rel="noopener noreferrer">IBM Shared Configuration Helpers</a> chart, so an extra Helm repository must be added using the following command:</p>
+<pre><code class="language-shell">helm repo add sch https://raw.githubusercontent.com/IBM/charts/master/repo/samples
+helm repo update
+</code></pre>
+<h3 id="configuring-the-helm-chart">Configuring the Helm Chart <a class="heading-anchor" href="#configuring-the-helm-chart">#</a></h3>
+<p>A catalog of available configuration options is available in the <a href="/curam-kubernetes/deployment/config-reference">Configuration Reference</a> topic.</p>
+<p>While you may change the values in your local copy of <code>helm-charts/spm/values.yaml</code>, it is strongly recommended to use a values override file with your custom options.</p>
+<div class="note note--info">
+<p>Sample override files for Minikube, AKS, and CRC are also available in the <code>$SPM_HOME/static/resources</code> folder. We have provided a minimum
+spec required for a successful deployment in these files, with more options for overriding commented out. The config options from the
+<a href="/curam-kubernetes/deployment/config-reference">Configuration Reference</a> topic should be used with these files.</p>
+</div>
+<div class="note note--warning">
+<p>In November 2020, Docker introduced <a href="https://docs.docker.com/docker-hub/download-rate-limit/" target="_blank" rel="noopener noreferrer">download rate limits</a> on Docker Hub.
+This can be mitigated by providing an Image Pull Secret to the deployment using the <code>global.hubPullSecret.secretName</code> value.</p>
+</div>
+<h3 id="configuring-ibm-mq">Configuring IBM MQ <a class="heading-anchor" href="#configuring-ibm-mq">#</a></h3>
+<p>IBM MQ is already configured to work out of the box with a secure connection with IBM WebSphere Liberty.
+The commands that create all the objects that are needed on the queue manager are defined in a config map, in the <code>configmap-mqsc.yaml</code> file.</p>
+<p>The password for the IBM MQ web console can be retrieved from the created Secret resource using the following command <strong>after</strong> it has been deployed:</p>
+<pre><code class="language-shell">kubectl get secret &lt;releaseName&gt;-mq-credentials -o go-template=&#x27;{{.data.adminPasswordKey | base64decode}}{{&quot;\n&quot;}}&#x27;
+</code></pre>
+<h2 id="packaging-the-helm-charts">Packaging the Helm Charts <a class="heading-anchor" href="#packaging-the-helm-charts">#</a></h2>
+<p>To use the Helm Charts to install SPM, package the charts and load them into a repository. For more information, see <a href="/curam-kubernetes/prereq/chartmuseum">ChartMuseum</a>.</p>
+<p>For each chart, its dependencies must be resolved before it can be loaded into a Helm repository like Chart museum.</p>
+<div class="note note--info">
+<p>Due to a Helm <a href="https://github.com/helm/helm/issues/5780" target="_blank" rel="noopener noreferrer">defect</a>, conditional subchart enablement does not work in Helm 3.
+As a result of this, <code>uawebapp</code> needs to be packaged and pushed, irrespective of whether you are deploying it or not.
+It is possible to remove the dependency from the Cúram <code>chart.yaml</code>, if you do not wish to package and push it to the repo.</p>
+</div>
+<div class="tabs" data-tabs id="tabs-1">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-1-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/helm-charts
+
+helm dependency update apps
+helm dependency update mqserver
+helm dependency update xmlserver
+helm dependency update batch
+helm dependency update web
+helm dependency update uawebapp
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-1-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">cd</span> <span class="hljs-variable">$env:SPM_HOME</span>\helm<span class="hljs-literal">-charts</span>\
+
+helm dependency update apps
+helm dependency update mqserver
+helm dependency update xmlserver
+helm dependency update batch
+helm dependency update web
+helm dependency update uawebapp
+</code></pre>
+</section>
+</div>
+<p>If you made any changes to any of the charts, these can now be verified using the <code>helm lint</code> and <code>helm template</code> commands, for example:</p>
+<div class="tabs" data-tabs id="tabs-2">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-2-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/helm-charts
+
+helm lint apps
+helm template apps
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-2-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">cd</span> <span class="hljs-variable">$env:SPM_HOME</span>\helm<span class="hljs-literal">-charts</span>\
+
+helm lint apps
+helm template apps
+</code></pre>
+</section>
+</div>
+<p>To publish the individual charts to the Chart museum repository, run the following commands from the <code>helm-charts</code> folder. The commands also use the <code>$SPM_HOME</code> value that is defined in <a href="/curam-kubernetes/prereq/git">Install prerequisite software</a>:</p>
+<div class="note note--warning">
+<p>In October 2021, Helm <code>v3.7.0</code> introduced a number of breaking changes, which required modifications of the tooling used in this runbook. For local development, Cúram requires <a href="https://github.com/chartmuseum/helm-push" target="_blank" rel="noopener noreferrer">chartmuseum/helm-push</a>.</p>
+<p>Due to the changes introduced as part of Helm <code>v3.7.0</code> and Chart museum <code>v0.10.0</code>, when using Chartmuseum the target <code>helm push</code> has changed to <code>helm cm-push</code></p>
+</div>
+<div class="tabs" data-tabs id="tabs-3">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-3-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/helm-charts
+
+helm push apps local-development
+helm push mqserver local-development
+helm push xmlserver local-development
+helm push batch local-development
+helm push web local-development
+helm push uawebapp local-development
+
+helm repo update
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-3-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">cd</span> <span class="hljs-variable">$env:SPM_HOME</span>\helm<span class="hljs-literal">-charts</span>\
+
+helm push apps local<span class="hljs-literal">-development</span>
+helm push mqserver local<span class="hljs-literal">-development</span>
+helm push xmlserver local<span class="hljs-literal">-development</span>
+helm push batch local<span class="hljs-literal">-development</span>
+helm push web local<span class="hljs-literal">-development</span>
+helm push uawebapp local<span class="hljs-literal">-development</span>
+
+helm repo update
+</code></pre>
+</section>
+</div>
+<p>To generate the umbrella chart that is used for the deployment, run the following commands:</p>
+<div class="tabs" data-tabs id="tabs-4">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-4-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/helm-charts
+
+helm dependency update spm
+helm push spm local-development
+
+helm repo update
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-4-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">cd</span> <span class="hljs-variable">$env:SPM_HOME</span>\helm<span class="hljs-literal">-charts</span>\
+
+helm dependency update spm
+helm push spm local<span class="hljs-literal">-development</span>
+
+helm repo update
+</code></pre>
+</section>
+</div>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/build-images/build_images/"><span>Previous</span>Building the Docker images</a><a class="pager-next" href="/curam-kubernetes/deployment/config-reference/"><span>Next</span>Configuration Reference</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#preparing-to-run-the-helm-charts">Preparing to run the Helm Charts</a></li><li class="toc-l3"><a href="#configuring-the-helm-chart">Configuring the Helm Chart</a></li><li class="toc-l3"><a href="#configuring-ibm-mq">Configuring IBM MQ</a></li><li class="toc-l2"><a href="#packaging-the-helm-charts">Packaging the Helm Charts</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

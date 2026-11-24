@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enabling ISAM | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Enabling ISAM">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Enabling ISAM">
+<meta property="og:description" content="Enabling ISAM">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/" class="active" aria-current="page">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Enabling ISAM</h1>
+      
+    </div>
+    <article class="markdown"><h2 id="ibm-security-access-manager">IBM Security Access Manager <a class="heading-anchor" href="#ibm-security-access-manager">#</a></h2>
+<p>Cúram can be integrated with <a href="https://www.ibm.com/docs/en/sva/9.0.7" target="_blank" rel="noopener noreferrer">IBM Security Access Manager</a> (ISAM) to enable single sign-on (SSO) authentication.
+SSO authentication enables users to access multiple secure applications by authenticating once with a single user name and password.</p>
+<p>If a user authenticates to an SSO system, they are no longer prompted for credentials when they access any of the other applications that are configured to work with the SSO system.</p>
+<p>SSO systems usually maintain the user accounts on a lightweight directory application protocol (LDAP) server. If user accounts are stored in one location, it is easier for system administrators to safeguard the accounts.
+Also, it is easier for users to reset one account password for multiple applications.</p>
+<p>For an overview of <code>ISAM</code> as well as procurement options, please visit <a href="https://www.ibm.com/support/pages/download-ibm-security-access-manager-907" target="_blank" rel="noopener noreferrer">IBM Marketplace</a>.
+The following guide provides the steps required to configure Cúram on a Kubernetes environment for integration with <code>ISAM</code>.
+For steps covering the configuration of ISAM itself, please review the <a href="https://community.ibm.com/community/user/security/viewdocument/access-manager-federation-cookbook-1?CommunityKey=e7c36119-46d7-42f2-97a9-b44f0cc89c6d&amp;tab=librarydocuments" target="_blank" rel="noopener noreferrer">Federation Cookbook</a>.</p>
+<p><strong>Note:</strong> The version of <code>ISAM</code> used for the following examples is 9.0.7.</p>
+<h2 id="isam-integration-with-cúram">ISAM integration with Cúram <a class="heading-anchor" href="#isam-integration-with-cúram">#</a></h2>
+<p>To integrate with Cúram, we will need to:</p>
+<ol>
+<li>
+<p>Retrieve the federation metadata XML file from ISAM server, either via management console or via RESTful call to API.</p>
+<p>For steps on using the console please review the Federation Cookbook.
+For steps on using the API please review the <a href="https://www.ibm.com/docs/en/sva/9.0.7?topic=developing-rest-api-documentation" target="_blank" rel="noopener noreferrer">RESTful Web service documentation</a>.
+This document will use the latter.</p>
+<p>The <code>RESTful Web service documentation</code> provides a library of the available Web services that can be used to interact with your ISAM server with tools such as curl.
+The information provided in the request section of each Web service can be used to construct a curl command.</p>
+<p>To export the meta-data for a specific federation, the documentation (located under <code>Secure: Federation -&gt; Manage: -&gt; Federations: -&gt; Export a federation</code>) gives an example of:</p>
+<pre><code>GET https://{appliance_hostname}/iam/access/v8/federations/{federation_id}/metadata
+</code></pre>
+<p>and lists the accepted headers as:</p>
+<pre><code>Accept:application/json
+Authorization: Basic
+</code></pre>
+<p>The corresponding curl command would be formatted as follows:</p>
+<pre><code>curl --location --request GET &#39;https://{appliance_hostname}/iam/access/v8/federations/{federation_id}/metadata&#39; \
+--header &#39;Authorization: Basic {token}&#39;
+</code></pre>
+<p>The <code>curl</code> command will return the federation metadata XML file in the response body.</p>
+</li>
+<li>
+<p>Install the federation metadata file as a configmap into namespace.</p>
+<pre><code>kubectl --namespace ${NAMESPACE} create configmap $releaseName-federated-metadata-cm --from-file=${federationMetadataFile}
+</code></pre>
+</li>
+</ol>
+<div class="note note--info">
+<pre><code>**Note:**`${NAMESPACE}` refers to the namespace being used for the install and `${federationMetadataFile}` refers to the XML file returned from the previous step.
+</code></pre>
+</div>
+<ol start="3">
+<li>
+<p>Enable ISAM by toggling the following properties in the override values file injected through Helm during deployment:</p>
+<pre><code class="language-yaml"><span class="hljs-meta">---</span>
+<span class="hljs-attr">global:</span>
+  <span class="hljs-attr">isam:</span>
+    <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span>
+</code></pre>
+</li>
+<li>
+<p>Return to <a href="/curam-kubernetes/deployment/hc_preparation">Preparing Helm Charts</a> and continue the installation of Cúram.</p>
+</li>
+</ol>
+<div class="note note--info">
+<pre><code>**Note:** The `curamAuthFilter` defined within the `helm-charts/apps/templates/configmaps/configmap-isam.yaml` resource may need expansion to handle customisations.
+
+This should be reviewed by your security architect.
+</code></pre>
+</div>
+<ol start="5">
+<li>
+<p>After the completion of the helm install, complete the federation steps.
+Detailed instructions for the following steps can be found in the Federation Cookbook.</p>
+</li>
+<li>
+<p>First, add the Service Provider Signer Certificate to the ISAM server's trust store.</p>
+</li>
+<li>
+<p>Next import the Service Provider XML to ISAM server.</p>
+<p>This XML can be obtained from <code>https://&lt;hostname&gt;/ibm/saml20/defaultSP/samlmetadata</code>.</p>
+</li>
+<li>
+<p>Reload the applicances on the ISAM server.</p>
+</li>
+</ol>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/supporting-infrastructure/Persistence/"><span>Previous</span>Persistence Storage</a><a class="pager-next" href="/curam-kubernetes/supporting-infrastructure/KeyCloak/"><span>Next</span>Enabling Keycloak</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#ibm-security-access-manager">IBM Security Access Manager</a></li><li class="toc-l2"><a href="#isam-integration-with-cúram">ISAM integration with Cúram</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

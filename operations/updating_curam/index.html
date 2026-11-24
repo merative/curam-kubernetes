@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Updating Cúram deployment | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Updating Cúram deployment">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Updating Cúram deployment">
+<meta property="og:description" content="Updating Cúram deployment">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details open><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/" class="active" aria-current="page">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Updating Cúram deployment</h1>
+      
+    </div>
+    <article class="markdown"><p>One of the benefits of Cúram on Kubernetes is the reduced time required to roll out a new version of your application from development all the way to production.</p>
+<p>Depending on the type of change that needs to be made, there are multiple options for rolling out the change. The different options are visualized in figure 1.</p>
+<p><img src="../../images/upgrade_flow.png" alt="Upgrade Flow"></p>
+<div class="caption">
+<p><em>Figure 1:</em> Upgrade process flow</p>
+</div>
+<p>All the application images should be built by a continuous integration environment, tagged appropriately (e.g. combination of product version and a timestamp), and then promoted throughout all the phases.</p>
+<p>Updates can be applied using 2 ways: Helm values, or by editing the deployed resources using <code>kubectl</code>.</p>
+<h2 id="updating-with-kubectl">Updating with <code>kubectl</code> <a class="heading-anchor" href="#updating-with-kubectl">#</a></h2>
+<p>You can update a running application by using the following command to switch out an image, Kubernetes takes care of everything else.
+A new pod with the new image is started up, and when it reports as 'Ready', it takes over serving traffic.</p>
+<pre><code class="language-bash">kubectl <span class="hljs-built_in">set</span> image deployment/&lt;deploymentName&gt; &lt;containerName&gt;=&lt;newImage&gt;:&lt;newTag&gt;
+</code></pre>
+<p>This process is described in greater detail in <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#updating-a-deployment" target="_blank" rel="noopener noreferrer">Updating a Deployment</a>.</p>
+<p>For example, the following command will issue an instruction to the Kubernetes Master to change the image used by the <code>apps-producer-rest</code> container of a deployment called <code>myRelease-apps-rest-producer</code> to <code>minikube.local:5000/rest:vNext</code></p>
+<pre><code class="language-bash">kubectl <span class="hljs-built_in">set</span> image deployment/myRelease-apps-rest-producer apps-producer-rest=minikube.local:5000/rest:vNext
+</code></pre>
+<p>The status of this change can be monitored using <code>kubectl get pods --watch</code> or <code>kubectl rollout status deployment/myRelease-apps-rest-producer</code></p>
+<p>If the rollout is not successful (for example, because of a typo), the last update can be rolled back:</p>
+<pre><code class="language-bash">kubectl rollout undo deployment/&lt;deploymentName&gt;
+</code></pre>
+<p>This is convenient when only a single image needs to be updated, and the changes do not require any database changes (for example, the Universal Access React application would be a good candidate).
+However, bulk updates of images or configuration should be handled with Helm.</p>
+<h2 id="rolling-out-updates-with-helm">Rolling out updates with Helm <a class="heading-anchor" href="#rolling-out-updates-with-helm">#</a></h2>
+<p>An update using Helm can include configuration changes, as well as a change of Docker® images. Assuming that all images are tagged with the same tag, the upgrade command would look like the following example:</p>
+<pre><code class="language-bash">helm upgrade &lt;releasename&gt; &lt;chartName&gt; --reuse-values --<span class="hljs-built_in">set</span> images.tag=vNext
+</code></pre>
+<p>The <code>helm upgrade</code> command keeps all the values used with the original <code>helm install</code> due to the <code>--reuse-values</code> flag, and only changes the <code>images.tag</code> value, so all new images are deployed with the <code>vNext</code> tag.</p>
+<p>Like <code>kubectl</code>, if you must reverse any configuration changes applied by the last action, use <code>helm rollback &lt;releasename&gt;</code>.</p>
+<p>The full documentation of the <code>helm upgrade</code> command is available on the Helm <a href="https://helm.sh/docs/helm/helm_upgrade/" target="_blank" rel="noopener noreferrer">Updating a Deployment</a> page.</p>
+<h2 id="upgrade-with-sql-changes">Upgrade with SQL changes <a class="heading-anchor" href="#upgrade-with-sql-changes">#</a></h2>
+<p>Both of the scenarios described assume a no-impact, zero-downtime upgrade, that is no changes to the database are required.
+However, should the rollout include schema changes, the application must be halted. This must be coordinated together with your IT Operations and DBA teams.</p>
+<p>To halt the application for the duration of the upgrade without deleting all Kubernetes objects, the application can be scaled down to 0 pods:</p>
+<pre><code class="language-bash">kubectl scale --replicas=0 deployment/&lt;deploymentName&gt;
+</code></pre>
+<p>After the database upgrade is completed, the new version of application code can be rolled out using the Helm method described in
+<a href="#rolling-out-updates-with-helm">Rolling out updates with Helm</a>.</p>
+<div class="note note--info">
+<p><strong>Note:</strong> The <code>kubectl scale</code> command can be used to horizontally <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#scaling-a-deployment" target="_blank" rel="noopener noreferrer">scale your application</a>.</p>
+</div>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/operations/updating_tools/"><span>Previous</span>Updating tools</a><a class="pager-next" href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/"><span>Next</span>Batch Processing</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#updating-with-kubectl">Updating with kubectl</a></li><li class="toc-l2"><a href="#rolling-out-updates-with-helm">Rolling out updates with Helm</a></li><li class="toc-l2"><a href="#upgrade-with-sql-changes">Upgrade with SQL changes</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

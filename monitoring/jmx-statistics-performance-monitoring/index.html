@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monitoring performance using JMX statistics | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Monitoring performance using JMX statistics">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Monitoring performance using JMX statistics">
+<meta property="og:description" content="Monitoring performance using JMX statistics">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/" class="active" aria-current="page">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Monitoring performance using JMX statistics</h1>
+      
+    </div>
+    <article class="markdown"><h2 id="what-is-cúram-jmx">What is Cúram JMX? <a class="heading-anchor" href="#what-is-cúram-jmx">#</a></h2>
+<p>Cúram JMX statistics provides operational data from a running Cúram application.
+JMX statistics for use with a traditional application server.</p>
+<p>For more information about JMX statistics, see the <em>Cúram JMX Configuration Guide</em>.</p>
+<div class="note note--info">
+<p>Cúram PDF documentation is available to download from <a href="https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/" target="_blank" rel="noopener noreferrer">Cúram Support Docs</a>.</p>
+</div>
+<h3 id="cúram-jmx-kubernetes-limitations">Cúram JMX Kubernetes Limitations <a class="heading-anchor" href="#cúram-jmx-kubernetes-limitations">#</a></h3>
+<p>Cúram JMX statistics behave similarly in Kubernetes, but have the following limitations:
+Using the Administration Application</p>
+<ul>
+<li>Access by using the Cúram Administration Application is not supported because:
+<ul>
+<li>Not all pods have the requisite Cúram client installed, which means JMS performance is unavailable using this access mechanism.</li>
+<li>The reverse proxy nature of Kubernetes means that even for the pods with clients installed, identifying the correct target server would be difficult.</li>
+</ul>
+</li>
+</ul>
+<p>Therefore, for Kubernetes you are restricted to using the timer-based access method. For more information about JMX statistics, see <strong>Using the JMX timer</strong> in the <em>Cúram JMX Configuration Guide</em>.</p>
+<h2 id="cúram-jmx-timer-based-statistics-on-kubernetes">Cúram JMX timer-based statistics on Kubernetes <a class="heading-anchor" href="#cúram-jmx-timer-based-statistics-on-kubernetes">#</a></h2>
+<p>This mechanism writes the JMX statistics periodically at a file system location. The advantage of this mechanism is that it can be used for collecting statistics from every server in an environment</p>
+<p>The primary properties used to configure timer-based statistics are integrated into the Helm Charts.</p>
+<p>A prerequisite for using timer-based Cúram JMX statistics is to override <code>global.apps.common.persistence.enabled=true</code>.</p>
+<p>You must also consider the other persistence-related settings and configure them appropriately.</p>
+<h3 id="cúram-jmx-statistics-persisteance">Cúram JMX statistics persisteance <a class="heading-anchor" href="#cúram-jmx-statistics-persisteance">#</a></h3>
+<p>Persistence is required for timer-based statistics because the non-permanent nature of pods means that as they come and go, you might need statistics from an earlier execution.</p>
+<p>Enable timer-based JMX statistics with a <code>global.apps.common.persistence.jmxstats.enabled=true</code> override.
+Once configured, the following Cúram properties are added to the Liberty pod jvm.options files with the defaults shown:</p>
+<pre><code class="language-shell">-Dcuram.jmx.output_statistics_timer_enabled=true
+-Dcuram.jmx.output_statistics_timer_folder=/tmp/jmx/
+-Dcuram.jmx.output_statistics_timer_period=60000
+</code></pre>
+<p>You can override the value of the timer period by using <code>global.apps.common.persistence.jmxstats.timerPeriod</code> where the value is specified as the
+number of milliseconds between each timer. For example, 60000 = 1 minute.</p>
+<p>Inside the specified timer folder are the statistics XML files, named with a datetimestamp and pod name.</p>
+<p><strong>For example:</strong><code>202009171025363411@bugsbunny-apps-curam-producer-6c9bf7dc46-snw4w-1661122509.xml</code></p>
+<h2 id="considerations">Considerations <a class="heading-anchor" href="#considerations">#</a></h2>
+<ul>
+<li>
+<p>The default of <code>1 minute</code> for the timer period might be too short because over an extended time, depending upon the amount of application activity, the persistent storage could be exhausted.</p>
+<ul>
+<li>Consider also the length of time a pod will run; if the timer period is too short, data since the last timer period is lost.</li>
+</ul>
+</li>
+<li>
+<p>No timer-based statistics are generated until the first login or JMS message is processed.</p>
+</li>
+<li>
+<p>Turn off statistics for running pods by editing the configmaps where <code>-Dcuram.jmx.output_statistics_timer_enabled=true</code> is set, changing the value to false, and restarting the pods.
+For example:</p>
+<ul>
+<li>Use the <code>kubectl get configmaps</code> command to list all the configmaps.</li>
+<li>The configmaps you need to change are those named with <code>*-jvm-override-*</code> and the number and names of the configmaps vary depending on your configuration.</li>
+<li>For each configmap, use the <code>kubectl edit configmap</code> command to change the <code>curam.jmx.output_statistics_timer_enabled</code> setting to false.</li>
+<li>Use the <code>kubectl delete pod</code> command for each of the application producer and consumer pods that have a corresponding application name to the configmap.</li>
+<li>On restart the new pod no longer generates statistics files.</li>
+</ul>
+</li>
+<li>
+<p>By default, statistics are accumulated over the life of a pod; therefore, the last file generated is a superset of all the other files for that pod, therefore and you should only need the latest file.</p>
+<ul>
+<li>There is a property to change this behavior so each period resets the statistics, but then you would have to address how to amalgamate the data and make sense of it; so,changing this is not recommended.</li>
+</ul>
+</li>
+<li>
+<p>In support of EJB timers, IBM WebSphere Liberty dynamically creates three tables each time a pod starts; a <code>PART</code>, <code>PROP</code>, and <code>TASK</code> table.</p>
+<ul>
+<li>The amount of data in these tables is small; but, over time could result in a large number of these tables in your database.</li>
+<li>You should monitor these tables and drop those for pods that no longer exist.</li>
+<li>These tables are prefixed with <code>EJBTIMER_</code>, followed by the pod name. For example, for the bugsbunny-apps-curam-consumer deployment, the following three tables were created for a single pod:</li>
+</ul>
+<pre><code>  EJBTIMER_BUGSBUNNY_APPS_CURAM_CONSUMER_786586FD5F_BGMGWPART
+  EJBTIMER_BUGSBUNNY_APPS_CURAM_CONSUMER_786586FD5F_BGMGWPROP
+  EJBTIMER_BUGSBUNNY_APPS_CURAM_CONSUMER_786586FD5F_BGMGWTASK
+</code></pre>
+<p>In the context of Kubernetes pods, if the JMX and Liberty metrics are being made available from the pods by the JMX Exporter to be scraped by Prometheus,
+the following rules file may be employed to ensure that the metrics are surfaced and labelled appropriately.</p>
+<p><a href="/curam-kubernetes/resources/example_jmx_rules.yml">Example jmxExporter rules file</a></p>
+</li>
+</ul>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/monitoring/Health Checks/"><span>Previous</span>Health checks</a><a class="pager-next" href="/curam-kubernetes/monitoring/xmlserver-monitoring/"><span>Next</span>XML servers</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#what-is-cúram-jmx">What is Cúram JMX?</a></li><li class="toc-l3"><a href="#cúram-jmx-kubernetes-limitations">Cúram JMX Kubernetes Limitations</a></li><li class="toc-l2"><a href="#cúram-jmx-timer-based-statistics-on-kubernetes">Cúram JMX timer-based statistics on Kubernetes</a></li><li class="toc-l3"><a href="#cúram-jmx-statistics-persisteance">Cúram JMX statistics persisteance</a></li><li class="toc-l2"><a href="#considerations">Considerations</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minikube | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Minikube">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Minikube">
+<meta property="og:description" content="Minikube">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/" class="active" aria-current="location">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Minikube</h1>
+      <nav class="page-tabs" aria-label="Section"><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes Overview</a><a href="/curam-kubernetes/prereq/kubernetes/minikube/" class="active" aria-current="page">Minikube</a><a href="/curam-kubernetes/prereq/kubernetes/aks/">AKS</a><a href="/curam-kubernetes/prereq/kubernetes/eks/">EKS</a></nav>
+    </div>
+    <article class="markdown"><p>Minikube runs a single-node Kubernetes cluster inside a virtual machine (VM) on your laptop, for users who want to try out Kubernetes or develop with it.
+Minikube documentation is available at <a href="https://minikube.sigs.k8s.io/docs/start/" target="_blank" rel="noopener noreferrer">Installing Kubernetes with Minikube</a>.
+The following sections are not a substitute for the official documentation but they get you started in a classic configuration.</p>
+<p>The following installation steps are described:</p>
+<ul>
+<li>Installing Minikube</li>
+<li>Starting Minikube</li>
+<li>Setting up the Docker® registry</li>
+<li>Configuring the hosts file for Minikube</li>
+<li>Enabling Helm for Minikube</li>
+<li>A summary of some useful Minikube commands</li>
+</ul>
+<h2 id="minikube-installation">Minikube installation <a class="heading-anchor" href="#minikube-installation">#</a></h2>
+<p>Minikube installation steps are described in the official documentation for your preferred Operating System: <a href="https://minikube.sigs.k8s.io/docs/start/" target="_blank" rel="noopener noreferrer">Install Minikube</a>.</p>
+<h2 id="starting-minikube">Starting Minikube <a class="heading-anchor" href="#starting-minikube">#</a></h2>
+<p>Minikube can be started with a command as simple as <code>minikube start</code> without any additional parameters. However, the resulting VM will be too small to deploy an instance of Cúram,
+so several other parameters are required as described in the following sections.</p>
+<h3 id="specifying-the-resource-allocation">Specifying the resource allocation <a class="heading-anchor" href="#specifying-the-resource-allocation">#</a></h3>
+<p>You can add properties to specify the resource allocation. For example:</p>
+<ul>
+<li><code>--cpus 4</code> to use 4 CPUs</li>
+<li><code>--memory 8G</code> to use 8 GB of RAM</li>
+<li><code>--disk-size=30G</code> to use 30 GB of disk space</li>
+</ul>
+<h3 id="specifying-the-vm-driver">Specifying the VM driver <a class="heading-anchor" href="#specifying-the-vm-driver">#</a></h3>
+<p>Add the <code>--driver=</code> option to the <code>minikube start</code> command to specify the underlying virtual machine driver. The following drivers were tested:</p>
+<ul>
+<li><a href="https://minikube.sigs.k8s.io/docs/drivers/virtualbox/" target="_blank" rel="noopener noreferrer">VirtualBox</a> (<code>virtualbox</code>) on OSX and Linux</li>
+<li><a href="https://minikube.sigs.k8s.io/docs/drivers/vmware/" target="_blank" rel="noopener noreferrer">VMware Fusion</a> (<code>vmware</code>) on OSX
+<ul>
+<li><strong>Note</strong>: There is an <a href="https://github.com/kubernetes/minikube/issues/9720" target="_blank" rel="noopener noreferrer">issue</a> running Minikube on macOS Big Sur with VMware Fusion 12. If you are using Big Sur, use an alternative driver.</li>
+</ul>
+</li>
+<li><a href="https://minikube.sigs.k8s.io/docs/drivers/kvm2/" target="_blank" rel="noopener noreferrer">Docker</a> (<code>docker</code>) on Linux</li>
+<li><a href="https://minikube.sigs.k8s.io/docs/drivers/kvm2/" target="_blank" rel="noopener noreferrer">KVM</a> (<code>kvm2</code>) on Linux</li>
+<li><a href="https://minikube.sigs.k8s.io/docs/drivers/hyperv/" target="_blank" rel="noopener noreferrer">Hyperv</a> (<code>hyperv</code>) on Windows</li>
+</ul>
+<p>The <a href="https://minikube.sigs.k8s.io/docs/start/" target="_blank" rel="noopener noreferrer">Install Minikube</a> page gives you more information on available VM driver options.</p>
+<h3 id="specifying-the-insecure-registry">Specifying the insecure registry <a class="heading-anchor" href="#specifying-the-insecure-registry">#</a></h3>
+<p>You must specify the <code>--insecure-registry</code> option to reference the Docker registry that is created. The <code>--insecure-registry</code> value is the same as specified in the  <code>daemon.json</code> file.</p>
+<div class="note note--info">
+<p><strong>Note:</strong> Because of a limitation in the current version of Minikube, adding the <code>--insecure-registry</code> option works on a new Minikube instance only.
+If you start Minikube, be sure to run <code>minikube stop</code> and <code>minikube delete</code> before you start it again with the <code>--insecure-registry</code> option.</p>
+</div>
+<p>For Windows see the <a href="https://minikube.sigs.k8s.io/docs/handbook/registry/#enabling-insecure-registries" target="_blank" rel="noopener noreferrer">Minikube handbook</a> for information regarding the <code>--insecure-registry &quot;10.0.0.0/24</code>&quot; setting on the <code>minikube start</code> command.</p>
+<h3 id="specifying-the-kubernetes-version">Specifying the Kubernetes version <a class="heading-anchor" href="#specifying-the-kubernetes-version">#</a></h3>
+<p>You can override the version of Kubernetes that gets installed inside the Minikube VM by using the <code>--kubernetes-version</code> flag. This flag controls the compatibility between the client tools and the Kubernetes specification.</p>
+<p>If you override the Kubernetes version, ensure that you download and install the corresponding version of <code>kubectl</code> - this version must be the same version as the Kubernetes cluster.</p>
+<div class="note note--info">
+<p><strong>Note:</strong> The <code>kubectl</code> version running locally and on Minikube should be compatible, so it's possible to use the <code>--kubernetes-version</code> flag to keep them consistent.</p>
+</div>
+<h3 id="minikube-start-command">Minikube start command <a class="heading-anchor" href="#minikube-start-command">#</a></h3>
+<div class="note note--info">
+<p><strong>Note:</strong> In the following example for Mac and Linux we set the <code>--insecure-registry</code> option passing in a subnet of <code>192.168.0.0/16</code>.
+The IP address on your machine <em>may</em> not be on the appropriate network for this subnet to work.
+Therefore, start a Minikube instance to verify the IP address begins with 192.168.0.X. You need only do this once.
+See the note in <a href="#specifying-the-insecure-registry">Specifying the insecure registry</a>.</p>
+</div>
+<p>Example <code>minikube start</code> commands based on the recommended settings above:</p>
+<div class="tabs" data-tabs id="tabs-1">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-1-panel-0">
+<pre><code class="language-shell">minikube start --driver=virtualbox --cpus 4 --memory 8G \
+               --insecure-registry &quot;192.168.0.0/16&quot; \
+               --disk-size=&#x27;30G&#x27; \
+               --kubernetes-version v1.20.11
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-1-panel-1">
+<pre><code class="language-powershell">minikube <span class="hljs-built_in">start</span> <span class="hljs-literal">--vm-driver</span>=hyperv <span class="hljs-literal">--cpus</span> <span class="hljs-number">4</span> <span class="hljs-literal">--memory</span> <span class="hljs-number">8</span>G `
+              <span class="hljs-literal">--insecure-registry</span> <span class="hljs-string">&quot;10.0.0.0/24&quot;</span> `
+              <span class="hljs-literal">--disk-size</span>=<span class="hljs-string">&#x27;30G&#x27;</span> `
+              <span class="hljs-literal">--kubernetes-version</span> v1.<span class="hljs-number">20.11</span>
+</code></pre>
+</section>
+</div>
+<h3 id="using-docker-inside-the-minikube-vm">Using Docker inside the Minikube VM <a class="heading-anchor" href="#using-docker-inside-the-minikube-vm">#</a></h3>
+<p>You can use the Docker installed in your local environment or, optionally, the Docker inside the Minikube VM.</p>
+<p>The command to use the Docker inside of the Minikube VM is:</p>
+<pre><code class="language-shell">minikube docker-env
+</code></pre>
+<p>The output of that command will instruct you how to run the command for your particular shell as illustrated:</p>
+<div class="tabs" data-tabs id="tabs-2">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-2-panel-0">
+<pre><code class="language-shell">eval $(minikube -p minikube docker-env)
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-2-panel-1">
+<pre><code class="language-powershell">&amp; minikube <span class="hljs-literal">-p</span> minikube docker<span class="hljs-literal">-env</span> | <span class="hljs-built_in">Invoke-Expression</span>
+</code></pre>
+</section>
+</div>
+<p>Then <code>docker</code> commands will operate against the Minikube VM's docker, allowing, for example, the likes of <code>docker run</code> for chartmuseum and the <code>docker build</code> commands to work.
+Don't forget that if you are using multiple shells you must run the <code>minikube docker-env</code> command in each shell.</p>
+<h2 id="docker-hub-download-rate-limit-and-minikube">Docker Hub download rate limit and Minikube <a class="heading-anchor" href="#docker-hub-download-rate-limit-and-minikube">#</a></h2>
+<p>In November 2020, Docker introduced <a href="https://docs.docker.com/docker-hub/download-rate-limit/" target="_blank" rel="noopener noreferrer">download rate limits</a> on Docker Hub.
+Normally, this can be mitigated by providing an Image Pull Secret to the deployment.</p>
+<p>For Minikube addons these pull secrets are not exposed, so the solution involves providing a <code>config.json</code> file containing the credentials to the Kubelet process running inside the Minikube environment.</p>
+<ol>
+<li>
+<p>Authenticate your local Docker client with Docker Hub: <code>docker login</code></p>
+<ul>
+<li>You can register for a free account on the <a href="https://hub.docker.com/signup" target="_blank" rel="noopener noreferrer">Docker Hub website</a></li>
+</ul>
+</li>
+<li>
+<p>Copy the contents of your local Docker secrets:</p>
+<pre><code class="language-shell">cat ~/.docker/config.json &amp;&amp; echo
+</code></pre>
+<ul>
+<li>The output should look something like below:</li>
+</ul>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;auths&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;https://index.docker.io/v1/&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;auth&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;base64 of username:password&gt;&quot;</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+</li>
+<li>
+<p>Open a terminal in your Minikube VM:</p>
+<pre><code class="language-shell">minikube ssh
+</code></pre>
+</li>
+<li>
+<p>Paste the contents of the file from step 2 into <code>/var/lib/kubelet/config.json</code>:</p>
+<ul>
+<li>Edit the command to include the contents of your <code>config.json</code> file first</li>
+</ul>
+<pre><code class="language-shell">cat &lt;&lt; EOS | sudo tee /var/lib/kubelet/config.json
+{
+  &quot;auths&quot;: {
+    &quot;https://index.docker.io/v1/&quot;: {
+      &quot;auth&quot;: &quot;&lt;base64 of username:password&gt;&quot;
+    }
+  }
+}
+EOS
+</code></pre>
+</li>
+<li>
+<p>Restart the <code>kubelet</code> process in the Minikube VM:</p>
+<pre><code class="language-shell">sudo systemctl restart kubelet
+</code></pre>
+</li>
+<li>
+<p>Exit the Minikube terminal.</p>
+</li>
+</ol>
+<h2 id="docker-registry">Docker registry <a class="heading-anchor" href="#docker-registry">#</a></h2>
+<p>You need a registry to use docker images with Helm in Minikube.
+There are different types of registries that can be used. However, this page describes a simple registry option that doesn't require extra components.</p>
+<p>Minikube provides an add-on to run a registry in a container. For more information, see <a href="https://minikube.sigs.k8s.io/docs/tasks/docker_registry/" target="_blank" rel="noopener noreferrer">How to access the Docker registry within minikube</a>.</p>
+<p>You can use the following command to enable the add-on:</p>
+<pre><code class="language-shell">minikube addons enable registry
+</code></pre>
+<p>When enabled, starting Minikube starts two pods on the <code>kube-system</code> namespace, named <code>registry</code> and <code>registry-proxy</code>. Now the registry is active and can be used. The registry points to the Minikube IP address on port 5000.</p>
+<p>The containers don't mount any volumes, so stopping Minikube deletes the registry content.</p>
+<p>For Windows, you must follow the steps in the <a href="https://minikube.sigs.k8s.io/docs/handbook/registry/#docker-on-windows" target="_blank" rel="noopener noreferrer">Minikube Handbook</a> and set the value of the <code>DOCKER_REGISTRY</code> environment variable as follows:</p>
+<pre><code class="language-powershell"><span class="hljs-variable">$env:DOCKER_REGISTRY</span> = <span class="hljs-string">&quot;localhost:5000&quot;</span>
+</code></pre>
+<h3 id="using-the-insecure-registry-on-windows">Using the insecure registry on Windows <a class="heading-anchor" href="#using-the-insecure-registry-on-windows">#</a></h3>
+<p>For more information see the <a href="https://minikube.sigs.k8s.io/docs/handbook/registry/#docker-on-windows" target="_blank" rel="noopener noreferrer">Minikube handbook</a>.</p>
+<p>Perform these steps to use the insecure registry on Windows:</p>
+<ul>
+<li>Confirm the registry service is running in minikube:
+<code>kubectl get service --namespace kube-system</code></li>
+<li>Part one of making the registry port available:
+<code>kubectl port-forward --namespace kube-system service/registry 5000:80</code>
+Note: The port-forward sporadically times out/dies; so, you have to periodically check that it's running and renter it if needed.</li>
+<li>Part two of making the registry port available:
+<code>docker run -d --rm -it --network=host alpine ash -c &quot;apk add socat &amp;&amp; socat TCP-LISTEN:5000,reuseaddr,fork TCP:host.docker.internal:5000&quot;</code></li>
+<li>Test the registry:
+<code>curl http://localhost:5000/v2/_catalog</code>
+This first time it will be empty: <code>{&quot;repositories&quot;:[]}</code>
+Running the same <code>curl</code> command inside Minikube via <code>minikube ssh</code> is also a good check.</li>
+</ul>
+<h2 id="hostname-configuration-for-minikube">Hostname configuration for Minikube <a class="heading-anchor" href="#hostname-configuration-for-minikube">#</a></h2>
+<p>This runbook uses a generic hostname of <code>minikube.local</code> as an example in commands and the configuration files.
+You should add the Minikube IP address to the <code>hosts</code> file by using the generic hostname, or else modify the usage of <code>minikube.local</code> in this runbook to reflect your local hostname.</p>
+<p>Specifying <code>minikube ip</code> in the following command returns the Minikube VM's IP address that is accessible from your workstation:</p>
+<div class="tabs" data-tabs id="tabs-3">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-3-panel-0">
+<pre><code class="language-shell">echo -e &quot;$(minikube ip)\tminikube.local&quot; | sudo tee -a /etc/hosts
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-3-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">Add-Content</span> <span class="hljs-literal">-Path</span> C:\Windows\System32\drivers\etc\hosts <span class="hljs-literal">-Value</span> <span class="hljs-string">&quot;<span class="hljs-variable">$</span>(minikube ip)`tminikube.local&quot;</span> <span class="hljs-literal">-Force</span>
+</code></pre>
+</section>
+</div>
+<p>If not using the Docker inside of the Minikube VM [minikube docker-env](Using Docker inside the Minikube VM), the local Docker client configuration must be also be updated with the corresponding IP address.</p>
+<ul>
+<li>Update the <code>daemon.json</code> docker configuration file with the Minikube IP address. This file is usually located in:
+<ul>
+<li><code>~/.docker/daemon.json</code> on OSX</li>
+<li><code>/etc/docker/daemon.json</code> on Linux</li>
+<li><code>C:\ProgramData\Docker\config\daemon.json</code> or <code>$env:USERPROFILE\.docker\daemon.json</code> on Windows, depending on your installation.</li>
+</ul>
+</li>
+<li>Restart the Docker daemon:
+<ul>
+<li>On Linux - run: <code>sudo systemctl restart docker</code></li>
+<li>On Mac and Windows - use the &quot;Restart Docker&quot; menu option in the Docker Desktop application.</li>
+</ul>
+</li>
+</ul>
+<p>Example of <code>daemon.json</code>:</p>
+<div class="tabs" data-tabs id="tabs-4">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-4-panel-0">
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;insecure-registries&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-string">&quot;192.168.0.0/16&quot;</span>
+  <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows" id="tabs-4-panel-1">
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;insecure-registries&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-string">&quot;10.0.0.0/24&quot;</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+</section>
+</div>
+<div class="note note--info">
+<p><strong>Note:</strong> You can provide a specific IP address, or specify a subnet to future-proof the Docker client configuration.</p>
+</div>
+<p>The Minikube IP address might change when you run <code>minikube delete</code>. If it changes, you must repeat these steps.</p>
+<p>Therefore, reconfirm the Minikube IP and its setting in the <code>hosts</code> file every time you start Minikube, or after you run <code>minikube delete</code>.</p>
+<h2 id="minikube-ingress">Minikube Ingress <a class="heading-anchor" href="#minikube-ingress">#</a></h2>
+<p>Ingress is a reverse proxy, which sits in front of the application that is deployed in Kubernetes. It facilitates use of a custom domain name to access a deployed application, instead of using service ports.
+To enable Ingress for Minikube, you must enable the <code>ingress</code> add-on.</p>
+<pre><code class="language-shell">minikube addons enable ingress
+</code></pre>
+<h2 id="create-a-namespace">Create a namespace <a class="heading-anchor" href="#create-a-namespace">#</a></h2>
+<p>Create a namespace for the Cúram deployment, again use an environment variable for your convenience when following the guide.</p>
+<p>Create the environment variable, you can set to value to anything you like, but it should consist of lower case alphanumeric characters or <code>-</code>, and must start and end with an alphanumeric character (e.g. <code>my-name</code>,  or <code>123-abc</code>):</p>
+<div class="tabs" data-tabs id="tabs-5">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-5-panel-0">
+<pre><code class="language-shell">export PROJECT=&quot;dev&quot;
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-5-panel-1">
+<pre><code class="language-powershell"><span class="hljs-variable">$env:PROJECT</span> = <span class="hljs-string">&quot;dev&quot;</span>
+</code></pre>
+</section>
+</div>
+<p>Create the namespace:</p>
+<div class="tabs" data-tabs id="tabs-6">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-6-panel-0">
+<pre><code class="language-shell">kubectl create namespace $PROJECT
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-6-panel-1">
+<pre><code class="language-powershell">kubectl create namespace <span class="hljs-variable">$env:PROJECT</span>
+</code></pre>
+</section>
+</div>
+<p>Switch to the new namespace:</p>
+<div class="tabs" data-tabs id="tabs-7">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-7-panel-0">
+<pre><code class="language-shell">kubectl config set-context --current --namespace $PROJECT
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-7-panel-1">
+<pre><code class="language-powershell">kubectl config <span class="hljs-built_in">set-context</span> <span class="hljs-literal">--current</span> <span class="hljs-literal">--namespace</span> <span class="hljs-variable">$env:PROJECT</span>
+</code></pre>
+</section>
+</div>
+<h2 id="useful-minikube-commands">Useful Minikube commands <a class="heading-anchor" href="#useful-minikube-commands">#</a></h2>
+<p>Some useful Minikube commands are as follows:</p>
+<pre><code class="language-shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">Sample commands</span>
+minikube status       # See if Minikube is running
+minikube start        # Create and start Minikube
+minikube dashboard    # Access the Kubernetes dashboard running within the Minikube cluster
+minikube ssh          # Login into the Minikube VM
+minikube addons list  # Show the status of the available add-ons
+minikube stop         # Stop Minikube
+minikube delete       # Delete the Minikube VM
+minikube ip           # Show the Minikube IP
+</code></pre>
+<p>For a full list of commands, see <a href="https://minikube.sigs.k8s.io/docs/start/" target="_blank" rel="noopener noreferrer">Installing Kubernetes with Minikube</a>.</p>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/"><span>Previous</span>Kubernetes</a><a class="pager-next" href="/curam-kubernetes/prereq/kubernetes/aks/"><span>Next</span>AKS</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#minikube-installation">Minikube installation</a></li><li class="toc-l2"><a href="#starting-minikube">Starting Minikube</a></li><li class="toc-l3"><a href="#specifying-the-resource-allocation">Specifying the resource allocation</a></li><li class="toc-l3"><a href="#specifying-the-vm-driver">Specifying the VM driver</a></li><li class="toc-l3"><a href="#specifying-the-insecure-registry">Specifying the insecure registry</a></li><li class="toc-l3"><a href="#specifying-the-kubernetes-version">Specifying the Kubernetes version</a></li><li class="toc-l3"><a href="#minikube-start-command">Minikube start command</a></li><li class="toc-l3"><a href="#using-docker-inside-the-minikube-vm">Using Docker inside the Minikube VM</a></li><li class="toc-l2"><a href="#docker-hub-download-rate-limit-and-minikube">Docker Hub download rate limit and Minikube</a></li><li class="toc-l2"><a href="#docker-registry">Docker registry</a></li><li class="toc-l3"><a href="#using-the-insecure-registry-on-windows">Using the insecure registry on Windows</a></li><li class="toc-l2"><a href="#hostname-configuration-for-minikube">Hostname configuration for Minikube</a></li><li class="toc-l2"><a href="#minikube-ingress">Minikube Ingress</a></li><li class="toc-l2"><a href="#create-a-namespace">Create a namespace</a></li><li class="toc-l2"><a href="#useful-minikube-commands">Useful Minikube commands</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

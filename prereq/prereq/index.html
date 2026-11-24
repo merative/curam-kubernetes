@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prerequisite software | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Prerequisite software">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Prerequisite software">
+<meta property="og:description" content="Prerequisite software">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/" class="active" aria-current="page">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Prerequisite software</h1>
+      
+    </div>
+    <article class="markdown"><div class="note note--warning">
+<p><strong>Ready to jump right in?</strong></p>
+<p>Please note that the preceding section provides an introduction to the architecture of Cúram on Kubernetes and to concepts you will encounter throughout the rest of the runbook.
+If you have already read through the <a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101">Architecture</a> section please continue.
+If not, it's the place to start.</p>
+</div>
+<p>Cúram was enhanced in version 7.0.10.0 to enable it to be deployed on cloud native hosting platforms.</p>
+<p>To build and run Cúram for Kubernetes, install the following software components:</p>
+<ul>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/install-curam">Cúram software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm">Docker®, and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview">Kubernetes</a>
+<ul>
+<li><a href="/curam-kubernetes/prereq/kubernetes/minikube">minikube</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum">ChartMuseum</a></li>
+</ul>
+</li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview">Red Hat OpenShift</a>
+<ul>
+<li><a href="/curam-kubernetes/prereq/openshift/codeready-containers">CodeReady Containers</a></li>
+</ul>
+</li>
+<li><a href="/curam-kubernetes/prereq/git">GitHub repo</a></li>
+</ul>
+<p>In order to be hosted on Kubernetes, Cúram has been enhanced to support the following technologies:</p>
+<div class="curam-prereq-table-container">
+<br />
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Supported<br />Software</th>
+<th>Latest<br />Tested</th>
+<th>Minimum<br />Tested</th>
+<th>v8.3.x</th>
+<th>v8.2.x</th>
+<th>v8.1.x</th>
+<th>v8.0.x</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Azure Kubernetes Service (AKS)</td>
+<td>1.36</td>
+<td>1.34</td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td>1,2,5,6,8</td>
+</tr>
+<tr>
+<td>Amazon Elastic Kubernetes Service (EKS)</td>
+<td>1.36</td>
+<td>1.35</td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td>1,2,6,8,20</td>
+</tr>
+<tr>
+<td>Red Hat OpenShift</td>
+<td>4.21</td>
+<td>4.16</td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td>3,4,5,6,7,8</td>
+</tr>
+<tr>
+<td>WebSphere Liberty</td>
+<td>26.0.0.9</td>
+<td>24.0.0.9</td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td>9,10,11,14</td>
+</tr>
+<tr>
+<td>IBM MQ CD</td>
+<td>9.4.3.0</td>
+<td>9.4.3.0</td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td>12,14</td>
+</tr>
+<tr>
+<td>IBM MQ CD</td>
+<td>9.3.5.1</td>
+<td>9.3.5.0</td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td>13,14</td>
+</tr>
+<tr>
+<td>IBM MQ</td>
+<td>9.2</td>
+<td>9.2.5.8</td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td>13,14</td>
+</tr>
+<tr>
+<td>Helm</td>
+<td>v3</td>
+<td>v3</td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td>15,16</td>
+</tr>
+<tr>
+<td>Docker Engine</td>
+<td>v29</td>
+<td>28</td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td>17</td>
+</tr>
+<tr>
+<td>Ant</td>
+<td>1.10.15</td>
+<td>1.10.15</td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td>21</td>
+</tr>
+<tr>
+<td>Ant</td>
+<td>1.10.6</td>
+<td>1.10.6</td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td>22</td>
+</tr>
+<tr>
+<td>Java</td>
+<td>8</td>
+<td>8</td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td>18</td>
+</tr>
+<tr>
+<td>Modern Java</td>
+<td>21</td>
+<td>21</td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--ok" title="Supported">✔</span></td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td><span class="status status--no" title="Not supported">✘</span></td>
+<td>19</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(1)</code> | Kubernetes releases at a 4 month cadence. When a new version is released <code>n-2</code> is deprecated, and <code>n-3</code> is unsupported.</td>
+</tr>
+<tr>
+<td><code>(2)</code> | Production Support introduced in 8.2. Prior to 8.2 only Dev/Test deployments are supported.</td>
+</tr>
+<tr>
+<td><code>(3)</code> | Red Hat OpenShift releases at a 4 month cadence. When a new version is released <code>n-1</code> and <code>n-2</code> is in <em>Maintenance Support</em>, and <code>n-3</code> is <em>unsupported</em>. For more information please see <a href="https://access.redhat.com/support/policy/updates/openshift" target="_blank" rel="noopener noreferrer">Red Hat OpenShift Container Platform Life Cycle Policy</a>.</td>
+</tr>
+<tr>
+<td><code>(4)</code> | Cúram supports Red Hat OpenShift Extended Update Support (EUS). For more information please see <a href="https://access.redhat.com/support/policy/updates/openshift-eus" target="_blank" rel="noopener noreferrer">Red Hat OpenShift Extended Update Support (EUS) Overview</a>.</td>
+</tr>
+<tr>
+<td><code>(5)</code> | Supported for Development and Test environments with Java 8.</td>
+</tr>
+<tr>
+<td><code>(6)</code> | Supported for Development and Test environments with Java 21.</td>
+</tr>
+<tr>
+<td><code>(7)</code> | Supported for Production environments with Java 8.</td>
+</tr>
+<tr>
+<td><code>(8)</code> | Supported for Production environments with Java 21.</td>
+</tr>
+<tr>
+<td><code>(9)</code> | Cúram only supports IBM WebSphere Liberty when containerized as Docker containers and deployed on Kubernetes or OpenShift.</td>
+</tr>
+<tr>
+<td><code>(10)</code> | WebSphere Liberty LTS lines are updated every 3 months. As such the minimum tested version is updated on a quarterly basis.</td>
+</tr>
+<tr>
+<td><code>(11)</code> | Only Linux-based containers are supported by Cúram.</td>
+</tr>
+<tr>
+<td><code>(12)</code> | IBM MQ CD 9.4.x is supported when Cúram is containerized and deployed on Red Hat OpenShift, AKS and EKS.</td>
+</tr>
+<tr>
+<td><code>(13)</code> | IBM MQ CD 9.3.x is supported when Cúram is containerized and deployed on Red Hat OpenShift only.</td>
+</tr>
+<tr>
+<td><code>(14)</code> | Only containerized deployments on supported cloud platforms are supported.</td>
+</tr>
+<tr>
+<td><code>(15)</code> | Cúram only supports Helm version 3.x.</td>
+</tr>
+<tr>
+<td><code>(16)</code> | From Helm release <code>v3.7.0</code> or greater, the ChartMuseum Push plugin to be used with Cúram must be version <code>0.10.0</code> or greater.</td>
+</tr>
+<tr>
+<td><code>(17)</code> | Docker is only supported for building container images, not as a runtime engine.</td>
+</tr>
+<tr>
+<td><code>(18)</code> | For information on supported version of Java 8 please refer to <a href="https://curam-spm-devops.github.io/wh-support-docs/spm/prerequisites/820_java8" target="_blank" rel="noopener noreferrer">8.2.0.0 Java8 CD</a>.</td>
+</tr>
+<tr>
+<td><code>(19)</code> | For information on supported version of Modern Java please refer to <a href="https://curam-spm-devops.github.io/wh-support-docs/spm/prerequisites/820_modernjava" target="_blank" rel="noopener noreferrer">8.2.0.0 ModernJava CD</a>.</td>
+</tr>
+<tr>
+<td><code>(20)</code> | From Cúram 8.2.1.0, EKS is supported for Development, Test and Production with Java 21.</td>
+</tr>
+<tr>
+<td><code>(21)</code> | Ant version <code>1.10.15</code> is supported for Java8 from Cúram v8.2.1.0 onward. For Modern Java, only Ant <code>1.10.15</code> is supported from Cúram v8.2.0.0 onward.</td>
+</tr>
+<tr>
+<td><code>(22)</code> | Ant version <code>1.10.6</code> is supported only for earlier Cúram releases (up to v8.2.0.0).</td>
+</tr>
+</tbody>
+</table>
+</div>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/architecture/openshift-consideration/storage/"><span>Previous</span>Storage</a><a class="pager-next" href="/curam-kubernetes/prereq/3rdparty-sw/"><span>Next</span>Base third-party software</a></nav>
+  </main>
+  
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

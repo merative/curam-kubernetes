@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MQ Queue Depth Events monitoring | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="MQ Queue Depth Events monitoring">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="MQ Queue Depth Events monitoring">
+<meta property="og:description" content="MQ Queue Depth Events monitoring">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/" class="active" aria-current="page">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>MQ Queue Depth Events monitoring</h1>
+      
+    </div>
+    <article class="markdown"><h2 id="what-are-mq-queue-depth-events">What are MQ Queue Depth Events? <a class="heading-anchor" href="#what-are-mq-queue-depth-events">#</a></h2>
+<p>A wide variety of metrics for the IBM MQ queue manager exist such as documented in the
+<a href="https://www.ibm.com/docs/en/ibm-mq/9.3?topic=operator-metrics-published-when-using-mq" target="_blank" rel="noopener noreferrer">IBM Documentation</a>.
+However, these metrics do not currently cover the queue or the topic level attributes such as
+the queue depth, that is the number of messages on the queue.
+This data are valuable for more successful monitoring.</p>
+<h2 id="enabling-monitoring">Enabling monitoring <a class="heading-anchor" href="#enabling-monitoring">#</a></h2>
+<p>To operate correctly, the queues must not become full as, if they do, the applications can no longer
+put messages on the queue that they specify. Although the message is not
+lost if this occurs, a full queue can cause considerable inconvenience.
+With IBM MQ Prometheus monitor, a wide variety of statistics
+about that queue manager are published.</p>
+<p>The following information describes how to enable Prometheus monitoring agent that connects to an IBM MQ server.
+This monitor is based on the open-source project <a href="https://github.com/ibm-messaging/mq-metric-samples" target="_blank" rel="noopener noreferrer">MQ Metrics Sample</a>
+which provides the monitor <code>mq_prometheus</code> to be compiled and the image <code>mq-metric-prometheus</code> to be built.</p>
+<p>Together, they will expose metrics about the following queue depth events
+which permit to understand what is happening in the queues:</p>
+<ul>
+<li><strong>Queue Depth High events</strong>
+Indicate that the queue depth has increased to a predefined threshold
+called the Queue Depth High limit.</li>
+<li><strong>Queue Depth Low events</strong>
+Indicate that the queue depth has decreased to a predefined threshold
+called the Queue Depth Low limit.</li>
+<li><strong>Queue Full events</strong>
+Indicate that the queue has reached its maximum depth, that is, the queue
+is full.</li>
+</ul>
+<p>More details are available in the
+<a href="https://www.ibm.com/docs/en/ibm-mq/9.3?topic=events-enabling-queue-depth" target="_blank" rel="noopener noreferrer">IBM MQ Queue Depth Events</a>
+documentation.</p>
+<h2 id="building-mq-metric-pod">Building MQ Metric Pod <a class="heading-anchor" href="#building-mq-metric-pod">#</a></h2>
+<p>The following commands show how to build the MQ Metrics Pod which contains the monitor <code>mq_prometheus</code>.</p>
+<pre><code># Clone repository locally
+git clone https://github.com/ibm-messaging/mq-metric-samples.git
+
+# Build code and image
+cd mq-metric-samples/scripts
+./buildRuntime.sh mq_prometheus
+
+# Retrieve current latest image tag
+DIST_TAG_LATEST=`git tag -l | sort | tail -1 | sed &quot;s/^v//g&quot;`
+echo &quot;The current latest image tag is: $DIST_TAG_LATEST&quot;
+
+# Show built image(s)
+docker images
+</code></pre>
+<h2 id="pushing-image">Pushing Image <a class="heading-anchor" href="#pushing-image">#</a></h2>
+<p>The following commands are illustrating how to tag and push the MQ Metric Pod to a typical Container Registry.</p>
+<pre><code># Tagging image
+docker tag mq-metric-prometheus:$DIST_TAG_LATEST ${server-name}.jfrog.io/{repo-name}/mq-metric-prometheus:$DIST_TAG_LATEST
+
+
+# Push images to registry
+docker push --all-tags ${server-name}.jfrog.io/{repo-name}/mq-metric-prometheus:$DIST_TAG_LATEST
+
+</code></pre>
+<h2 id="deploy">Deploy <a class="heading-anchor" href="#deploy">#</a></h2>
+<p>To enable the deployment of the MQ Metric Pod, the values <code>global.mq.metrics.enabled</code> and
+<code>global.mq.metrics.additionalMetrics</code> are required to be toggled to <code>true</code>.</p>
+<p>Additionally, the values <code>mqserver.metricsImage.library</code>, <code>mqserver.metricsImage.name</code>, and <code>mqserver.metricsImage.tag</code>
+are required to be set with the details of the image registry containing your IBM MQ Queue Depth Events image.</p>
+<p>More details about the configuration values are provided in the
+<a href="/curam-kubernetes/deployment/config-reference">Configuration Reference</a>
+under the <a href="/curam-kubernetes/deployment/config-reference#mq-metrics-optional">MQ Metrics</a> topic.</p>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/monitoring/xmlserver-monitoring/"><span>Previous</span>XML servers</a><a class="pager-next" href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/"><span>Next</span>Apache HTTP server metrics</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#what-are-mq-queue-depth-events">What are MQ Queue Depth Events?</a></li><li class="toc-l2"><a href="#enabling-monitoring">Enabling monitoring</a></li><li class="toc-l2"><a href="#building-mq-metric-pod">Building MQ Metric Pod</a></li><li class="toc-l2"><a href="#pushing-image">Pushing Image</a></li><li class="toc-l2"><a href="#deploy">Deploy</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

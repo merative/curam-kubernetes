@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Migrating to v26.11.0 | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Deployment changes and migration steps for Cúram 8.3 using the v26.11.0 Helm charts">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Migrating to v26.11.0">
+<meta property="og:description" content="Deployment changes and migration steps for Cúram 8.3 using the v26.11.0 Helm charts">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/" class="active" aria-current="page">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Migrating to v26.11.0</h1>
+      
+    </div>
+    <article class="markdown"><p>This guidance applies to <strong>Cúram 8.3</strong> deployments using the <strong>v26.11.0 Helm charts</strong>.
+The version <code>26.11.0</code> identifies the Helm chart release, not the Cúram product version.</p>
+<p>Review these changes before upgrading an existing deployment or installing the v26.11.0 charts for Cúram 8.3 with values from an earlier chart release.
+Merge the examples below into your existing override file; they are not complete deployment configurations.</p>
+<h2 id="supply-credentials-for-the-custom-sql-install-hook">Supply credentials for the custom SQL install hook <a class="heading-anchor" href="#supply-credentials-for-the-custom-sql-install-hook">#</a></h2>
+<p>The <code>apps</code> chart's <code>apply-customsql</code> hook now reads the database username and SPM-encrypted password from Helm values, rather than from <code>global.database.credsSecretName</code>.
+Customers using an external credentials secret must supply matching values explicitly; Helm does not copy them from the secret.
+The chart's non-empty sample defaults are not a substitute for your database credentials.</p>
+<p><strong>Before</strong>, an override file could refer only to an existing credentials secret:</p>
+<pre><code class="language-yaml"><span class="hljs-attr">global:</span>
+  <span class="hljs-attr">database:</span>
+    <span class="hljs-attr">credsSecretName:</span> <span class="hljs-string">spm-db-credentials</span>
+</code></pre>
+<p><strong>After</strong>, keep the secret reference and add the credentials used by the install hook:</p>
+<pre><code class="language-yaml"><span class="hljs-attr">global:</span>
+  <span class="hljs-attr">database:</span>
+    <span class="hljs-attr">credsSecretName:</span> <span class="hljs-string">spm-db-credentials</span>
+    <span class="hljs-attr">username:</span> <span class="hljs-string">curamdbuser</span>
+    <span class="hljs-attr">spm_psw:</span> <span class="hljs-string">&quot;&lt;SPM-encrypted password for curamdbuser&gt;&quot;</span>
+</code></pre>
+<ol>
+<li>Set <code>username</code> to the database user represented by the secret's <code>SPM_DB_USR</code> key; do not assume the default <code>db2admin</code> is correct.</li>
+<li>Set <code>spm_psw</code> to that user's SPM-encrypted password, matching the secret's <code>SPM_DB_PSW</code> value. Replace the placeholder; do not use plaintext or the Liberty XOR-encoded password. When reading from a Kubernetes Secret's <code>data</code> field, decode the outer Kubernetes base64 layer first, leaving the SPM-encrypted value intact.</li>
+<li>Retain <code>credsSecretName</code>: application pods and batch jobs still use that secret. This change only removes the custom SQL hook's use of it.</li>
+<li>Use the updated values for subsequent deployments. During an installation, Helm waits for the <code>apply-customsql</code> job to succeed. If it fails, inspect the job status and pod logs before proceeding. Successful hook jobs are automatically deleted, so their absence after a successful install is expected.</li>
+</ol>
+<div class="note note--info">
+<p><strong>Install versus upgrade:</strong> <code>apply-customsql</code> is a <code>pre-install</code> hook, not a <code>pre-upgrade</code> hook.
+A normal <code>helm upgrade</code> does not execute this job, although Helm still renders its templates and the credential values must be valid.
+New installations, or reinstallations that execute install hooks, use the new credential source.
+Do not uninstall an existing release just to run this hook.</p>
+</div>
+<div class="note note--warning">
+<p><strong>Protect the credentials:</strong> Values supplied to Helm become part of the Helm release data.
+The hook also renders these credentials into a ConfigMap as <code>Bootstrap.properties</code>; SPM encryption does not make the ConfigMap a Kubernetes Secret.
+Keep credential override files out of source control, restrict file and cluster access, and avoid exposing rendered manifests or credentials in logs.
+See <a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a> for password formats and secret management.</p>
+</div>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/deployment/secrets/"><span>Previous</span>Handling Secrets</a><a class="pager-next" href="/curam-kubernetes/deployment/hc_deployment/"><span>Next</span>Deploying Helm Charts</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#supply-credentials-for-the-custom-sql-install-hook">Supply credentials for the custom SQL install hook</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

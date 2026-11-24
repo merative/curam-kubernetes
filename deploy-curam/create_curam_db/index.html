@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Creating the Cúram database | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Creating the Cúram database">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Creating the Cúram database">
+<meta property="og:description" content="Creating the Cúram database">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/" class="active" aria-current="page">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Creating the Cúram database</h1>
+      
+    </div>
+    <article class="markdown"><p>The following database configuration is an example for Cúram development environments.
+Consult your database administrator for optimum performance and security settings.</p>
+<h2 id="database-encryption">Database encryption <a class="heading-anchor" href="#database-encryption">#</a></h2>
+<p>You can implement either Db2 or Oracle as your database, however you must encrypt your Database.
+For more information on encrypting Db2 databases, see <a href="https://www.ibm.com/docs/en/db2/11.5?topic=rest-db2-native-encryption" target="_blank" rel="noopener noreferrer">Db2 native encryption</a>.
+For more information on encrypting Oracle databases, see <a href="https://docs.oracle.com/en/database/oracle/oracle-database/19/asoag/asopart1.html" target="_blank" rel="noopener noreferrer">Part I Using Transparent Data Encryption</a>.</p>
+<h2 id="db2">Db2 <a class="heading-anchor" href="#db2">#</a></h2>
+<p>If necessary, create a database by using the Db2 user to run the following commands:</p>
+<div class="tabs" data-tabs id="tabs-1">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-1-panel-0">
+<pre><code class="language-shell">cd $SERVER_DIR
+./build.sh -f $CURAMSDEJ/util/db2_createdb.xml
+./build.sh -f $CURAMSDEJ/util/db2_postconfig.xml -Ddb2.dir=$DB2_HOME
+./build.sh -f $CURAMSDEJ/util/db2_createdb.xml restart.db2
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows DOS" id="tabs-1-panel-1">
+<pre><code class="language-bat"><span class="hljs-built_in">cd</span> <span class="hljs-variable">%SERVER_DIR%</span>
+build.bat -f <span class="hljs-variable">%CURAMSDEJ%</span>\util\db2_createdb.xml
+build.bat -f <span class="hljs-variable">%CURAMSDEJ%</span>\util\db2_postconfig.xml -Ddb2.<span class="hljs-built_in">dir</span>=<span class="hljs-variable">%DB2_HOME%</span>
+build.bat -f <span class="hljs-variable">%CURAMSDEJ%</span>\util\db2_createdb.xml restart.db2
+</code></pre>
+</section>
+</div>
+<p>If you are installing a new Db2 database, ensure that your log configuration is correctly configured.
+For example, to specify circular logging for a database named <code>CURAM</code>, run the following command:</p>
+<pre><code class="language-shell">db2 update db cfg for CURAM using logfilsiz 1024 logprimary 50 logsecond 30
+</code></pre>
+<p>If you do not run the update command, the default Db2 configuration causes the database build to fail.</p>
+<h2 id="oracle-database">Oracle Database <a class="heading-anchor" href="#oracle-database">#</a></h2>
+<p>If necessary, create a database by using the Oracle user to run the following commands:</p>
+<pre><code class="language-shell">cd $ORACLE_HOME
+export ORA_GLOBAL_NAME=orcl
+export ORA_SID=orcl
+export ORA_ADMIN_PASS=Passw0rd1
+./bin/dbca  -silent -createdatabase \
+            -templatename General_Purpose.dbc \
+            -gdbname $ORA_GLOBAL_NAME \
+            -sid $ORA_SID \
+            -syspassword $ORA_ADMIN_PASS \
+            -systempassword $ORA_ADMIN_PASS \
+            -storageType FS \
+            -datafileDestination $ORACLE_BASE/oradata \
+            -emConfiguration NONE \
+            -characterSet AL32UTF8 \
+            -memoryPercentage 40 \
+            -initParams processes=1500
+</code></pre>
+<p>The application needs certain privileges to use the Oracle XA interface.
+Later, when you configure the application, the user name under which the server connects to Oracle is specified. You must assign appropriate privileges to this user name for the server to work successfully.</p>
+<p>The following commands create a role that is called <code>CURAM_SERVER</code> and give it the necessary privileges. A user named <code>CURAM_USER</code> is then assigned that role and given the password <code>PASSWORD</code>.
+You must run the commands from a SQLPlus terminal, which can be opened with <code>sqlplus ?/? as SYSDBA</code>.</p>
+<pre><code class="language-sql"><span class="hljs-keyword">CREATE</span> ROLE &quot;CURAM_SERVER&quot;;
+<span class="hljs-keyword">GRANT</span> RESOURCE <span class="hljs-keyword">TO</span> &quot;CURAM_SERVER&quot;;
+@$ORACLE_HOME<span class="hljs-operator">/</span>rdbms<span class="hljs-operator">/</span>admin<span class="hljs-operator">/</span>xaview.sql
+<span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">ON</span> V$XATRANS$ <span class="hljs-keyword">TO</span> PUBLIC;
+<span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">ON</span> PENDING_TRANS$ <span class="hljs-keyword">TO</span> PUBLIC;
+<span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">ON</span> DBA_2PC_PENDING <span class="hljs-keyword">TO</span> PUBLIC;
+<span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">ON</span> DBA_PENDING_TRANSACTIONS <span class="hljs-keyword">TO</span> PUBLIC;
+<span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">EXECUTE</span> <span class="hljs-keyword">ON</span> DBMS_SYSTEM <span class="hljs-keyword">TO</span> CURAM_SERVER;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">USER</span> CURAM_USER IDENTIFIED <span class="hljs-keyword">BY</span> PASSWORD <span class="hljs-keyword">DEFAULT</span> TABLESPACE &quot;USERS&quot; TEMPORARY TABLESPACE &quot;TEMP&quot;;
+<span class="hljs-keyword">GRANT</span> &quot;CONNECT&quot;, &quot;CURAM_SERVER&quot;, UNLIMITED TABLESPACE <span class="hljs-keyword">TO</span> CURAM_USER;
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SYSTEM</span> <span class="hljs-keyword">SET</span> &quot;_optimizer_ansi_join_lateral_enhance&quot;<span class="hljs-operator">=</span><span class="hljs-literal">false</span>;
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SYSTEM</span> <span class="hljs-keyword">SET</span> DDL_LOCK_TIMEOUT<span class="hljs-operator">=</span><span class="hljs-number">30</span>;
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SYSTEM</span> <span class="hljs-keyword">SET</span> NLS_LENGTH_SEMANTICS<span class="hljs-operator">=</span>&quot;CHAR&quot;;
+</code></pre>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/deploy-curam/install-curam/"><span>Previous</span>Installing Cúram software</a><a class="pager-next" href="/curam-kubernetes/deploy-curam/build-curam/"><span>Next</span>Building the Cúram application</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#database-encryption">Database encryption</a></li><li class="toc-l2"><a href="#db2">Db2</a></li><li class="toc-l2"><a href="#oracle-database">Oracle Database</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

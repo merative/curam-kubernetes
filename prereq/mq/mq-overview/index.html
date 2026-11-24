@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MQ Overview and Configuration | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="MQ Overview">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="MQ Overview and Configuration">
+<meta property="og:description" content="MQ Overview">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/" class="active" aria-current="page">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>MQ Overview and Configuration</h1>
+      <nav class="page-tabs" aria-label="Section"><a href="/curam-kubernetes/prereq/mq/mq-overview/" class="active" aria-current="page">MQ Overview</a><a href="/curam-kubernetes/prereq/mq/mq-on-vms/">MQ on VMs</a><a href="/curam-kubernetes/prereq/mq/mq-containers/">MQ Containers</a></nav>
+    </div>
+    <article class="markdown"><div class="note note--info">
+<p>IBM MQ has been updated to version 9.4.3.0-r2</p>
+</div>
+<div class="note note--info">
+<p>IBM MQ CD 9.4.x containers are supported with Cúram on Red Hat OpenShift, Azure Kubernetes Service (AKS), and Amazon Elastic Kubernetes Service (EKS), subject to the Cúram release and platform requirements in the <a href="/curam-kubernetes/prereq/prereq/">prerequisite software matrix</a>. MQ CD 9.3.x containers remain supported on OpenShift only.</p>
+</div>
+<p>IBM MQ is a queue managing service from the IBM stack. To support Kubernetes, changes to Cúram were required.</p>
+<p>For more information about Cúram Kubernetes architecture changes, see <strong>Kubernetes architecture</strong> in the <em>Cúram on Kubernetes Guide</em>.</p>
+<div class="note note--info">
+<p>Cúram PDF documentation is available to download from <a href="https://curam-spm-devops.github.io/wh-support-docs/spm/pdf-documentation/" target="_blank" rel="noopener noreferrer">Cúram Support Docs</a>.</p>
+</div>
+<p>When Cúram is containerized on Kubernetes, it uses IBM MQ to manage JMS messages for Cúram Deferred Processes and Cúram Workflows. For more information about MQ, see <a href="https://www.ibm.com/docs/en/ibm-mq/9.1?topic=mq-about" target="_blank" rel="noopener noreferrer">About IBM MQ</a>.</p>
+<p>If MQ fails, certain functionality will be unusable. This includes and is not limited to, creation of a case and creation of an application. In order to reduce the likelihood
+of this, MQ can be configured to be a multi-instance deployment. This results in a stateful set being created, with one active/primary queue manager, and one standby/secondary queue manager.</p>
+<h2 id="deployment-options-and-support">Deployment options and support <a class="heading-anchor" href="#deployment-options-and-support">#</a></h2>
+<p>Cúram supports IBM MQ deployed outside the cluster on <a href="/curam-kubernetes/prereq/mq/mq-on-vms/">VMs</a> or within the cluster as <a href="/curam-kubernetes/prereq/mq/mq-containers/">containers</a>. The MQ release stream and version determine the supported deployment option.</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>MQ deployment</th>
+<th>Red Hat OpenShift</th>
+<th>AKS</th>
+<th>EKS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IBM MQ CD 9.4.x containers</td>
+<td>Supported</td>
+<td>Supported</td>
+<td>Supported</td>
+</tr>
+<tr>
+<td>IBM MQ CD 9.3.x containers</td>
+<td>Supported</td>
+<td>Not supported</td>
+<td>Not supported</td>
+</tr>
+<tr>
+<td>IBM MQ LTS on VMs outside the cluster</td>
+<td>Supported</td>
+<td>Supported</td>
+<td>Supported</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Use the <a href="/curam-kubernetes/prereq/prereq/">prerequisite software matrix</a> to select the tested MQ level and a supported Cúram, Java, and platform combination. The current matrix lists MQ CD 9.4.3.0 for Cúram 8.2.x; this does not extend AKS or EKS support to older MQ CD releases. AKS production support starts with Cúram 8.2, and EKS production support starts with Cúram 8.2.1.0.</p>
+<p>The runbook's <code>mqserver</code> chart creates a <code>QueueManager</code> resource only when the <code>mq.ibm.com/v1beta1</code> API is available. Without that API, it does not deploy a queue manager.</p>
+<p>For production, plan persistent storage, recovery, and availability for MQ alongside the application tier. Use the <a href="/curam-kubernetes/prereq/mq/mq-containers/#mq-file-systems-consideration">MQ file system guidance</a> when selecting storage for a multi-instance deployment. Choose between containers and external VMs according to the supported software combination and your operational requirements.</p>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/prereq/openshift/codeready-containers/"><span>Previous</span>CodeReady Containers</a><a class="pager-next" href="/curam-kubernetes/prereq/mq/mq-on-vms/"><span>Next</span>MQ on VMs</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#deployment-options-and-support">Deployment options and support</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

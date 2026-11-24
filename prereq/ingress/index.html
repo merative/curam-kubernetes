@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ingress Controller | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Ingress controller prerequisite for Cúram on Kubernetes">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Ingress Controller">
+<meta property="og:description" content="Ingress controller prerequisite for Cúram on Kubernetes">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/" class="active" aria-current="page">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Ingress Controller</h1>
+      
+    </div>
+    <article class="markdown"><h2 id="ingress-controller">Ingress Controller <a class="heading-anchor" href="#ingress-controller">#</a></h2>
+<p>An ingress controller is required to manage external HTTP/HTTPS access to Cúram services running in the Kubernetes cluster.</p>
+<p>Cúram on Kubernetes uses the <strong>F5 NGINX Ingress Controller</strong> (<code>f5-nginx-ingress</code>).</p>
+<div class="note note--warning">
+<p><strong>Migrating from <code>ingress-nginx</code>:</strong> If you are upgrading from a previous deployment that used the community <code>ingress-nginx</code> controller, you must update your ingress annotations before deploying. See the <a href="#annotation-migration">Annotation Migration</a> section below.</p>
+</div>
+<h2 id="installation">Installation <a class="heading-anchor" href="#installation">#</a></h2>
+<p>Refer to the <a href="https://docs.nginx.com/nginx-ingress-controller/" target="_blank" rel="noopener noreferrer">F5 NGINX Ingress Controller documentation</a> for installation instructions appropriate to your target platform.</p>
+<p>Ensure the ingress controller is running and healthy in your cluster before deploying the Cúram Helm charts:</p>
+<pre><code class="language-shell">kubectl get pods -n nginx-ingress
+</code></pre>
+<h2 id="ssl-services">SSL Services <a class="heading-anchor" href="#ssl-services">#</a></h2>
+<p>The F5 NGINX Ingress Controller uses the <code>nginx.org/ssl-services</code> annotation to identify which backend services communicate over HTTPS.</p>
+<p>See the <a href="https://github.com/nginx/kubernetes-ingress/tree/v5.4.1/examples/ingress-resources/ssl-services" target="_blank" rel="noopener noreferrer">F5 NGINX ssl-services example</a> for further details.</p>
+<p>The Helm chart (<code>helm-charts/spm/templates/ingress.yaml</code>) includes a commented-out <code>nginx.org/ssl-services</code> annotation listing all Cúram backend services. Before deploying, uncomment this annotation and replace <code>{release-name}</code> with your Helm release name, including only the services you have enabled:</p>
+<pre><code class="language-yaml"><span class="hljs-attr">nginx.org/ssl-services:</span> <span class="hljs-string">&quot;spm-apps-curam,spm-apps-rest,spm-uawebapp,spm-web&quot;</span>
+</code></pre>
+<p>The full list of possible services is:</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Enabled by default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{release-name}-apps-curam</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-rest</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-citizenportal</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-curamwebservices</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-curambirtviewer</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-cpmexternalns</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-cpmexternals</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-navigatorns</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-navigators</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-mdtworkspace</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-samplepublicaccess</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-uawebapp</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-web</code></td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="sticky-cookie-services">Sticky Cookie Services <a class="heading-anchor" href="#sticky-cookie-services">#</a></h2>
+<p>The F5 NGINX Ingress Controller uses the <code>nginx.org/sticky-cookie-services</code> annotation to enable session affinity per service. Only stateful Liberty app services require sticky sessions — the <code>web</code> and <code>uawebapp</code> services serve static content and do not need to be included.</p>
+<p>See the <a href="https://github.com/nginx/kubernetes-ingress/tree/v5.4.1/examples/ingress-resources/session-persistence" target="_blank" rel="noopener noreferrer">F5 NGINX session-persistence example</a> for further details. The cookie parameters (<code>cookieName</code>, <code>expires</code>, <code>domain</code>, <code>httponly</code>, <code>secure</code>, <code>path</code>) follow the same syntax as the <a href="https://nginx.org/en/docs/http/ngx_http_upstream_module.html#sticky" target="_blank" rel="noopener noreferrer">NGINX sticky directive</a>.</p>
+<p>The Helm chart (<code>helm-charts/spm/templates/ingress.yaml</code>) includes a commented-out <code>nginx.org/sticky-cookie-services</code> annotation. Before deploying, uncomment it and replace <code>{release-name}</code> with your Helm release name, including only the <code>apps</code> services you have enabled:</p>
+<pre><code class="language-yaml"><span class="hljs-attr">nginx.org/sticky-cookie-services:</span> <span class="hljs-string">&quot;serviceName=spm-apps-curam srv_id expires=1h path=/Curam&quot;</span>
+</code></pre>
+<p>Multiple services are separated by <code>;</code>. The full list of possible <code>apps</code> services is:</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Enabled by default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{release-name}-apps-curam</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-rest</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-citizenportal</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-curamwebservices</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-curambirtviewer</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-cpmexternalns</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-cpmexternals</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-navigatorns</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-navigators</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-mdtworkspace</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>{release-name}-apps-samplepublicaccess</code></td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="annotation-migration">Annotation Migration <a class="heading-anchor" href="#annotation-migration">#</a></h2>
+<p>This section is for clients migrating from the community <code>ingress-nginx</code> controller to the F5 NGINX Ingress Controller.</p>
+<p>The Helm chart retains the community <code>ingress-nginx</code> annotations for backwards compatibility and includes the F5 equivalents commented out. When you are ready to migrate, replace the community annotations with the F5 equivalents as shown below.</p>
+<p><strong>Before (community <code>ingress-nginx</code>)</strong></p>
+<pre><code class="language-yaml"><span class="hljs-attr">annotations:</span>
+  <span class="hljs-attr">nginx.ingress.kubernetes.io/affinity:</span> <span class="hljs-string">cookie</span>
+  <span class="hljs-attr">nginx.ingress.kubernetes.io/backend-protocol:</span> <span class="hljs-string">HTTPS</span>
+  <span class="hljs-attr">nginx.ingress.kubernetes.io/session-cookie-path:</span> <span class="hljs-string">/</span>
+  <span class="hljs-attr">nginx.ingress.kubernetes.io/proxy-read-timeout:</span> <span class="hljs-string">&quot;150&quot;</span>
+  <span class="hljs-attr">nginx.ingress.kubernetes.io/server-snippet:</span> <span class="hljs-string">|
+    gzip on;
+    gzip_types application/atom+xml application/javascript ...;
+</span></code></pre>
+<p><strong>After (F5 NGINX Ingress Controller)</strong></p>
+<pre><code class="language-yaml"><span class="hljs-attr">annotations:</span>
+  <span class="hljs-attr">nginx.org/ssl-services:</span> <span class="hljs-string">&quot;spm-apps-curam,spm-apps-rest,spm-uawebapp,spm-web&quot;</span>
+  <span class="hljs-attr">nginx.org/sticky-cookie-services:</span> <span class="hljs-string">&quot;serviceName=spm-apps-curam srv_id expires=1h path=/;serviceName=spm-apps-rest srv_id expires=1h path=/&quot;</span>
+  <span class="hljs-attr">nginx.org/proxy-read-timeout:</span> <span class="hljs-string">&quot;150s&quot;</span>
+  <span class="hljs-attr">nginx.org/server-snippets:</span> <span class="hljs-string">|
+    gzip on;
+    gzip_types application/atom+xml application/javascript ...;
+</span></code></pre>
+<p>Key differences:</p>
+<ul>
+<li><strong>HTTPS backends</strong> — replace <code>nginx.ingress.kubernetes.io/backend-protocol: HTTPS</code> with <code>nginx.org/ssl-services</code> listing each backend service by name.</li>
+<li><strong>Session affinity</strong> — replace <code>nginx.ingress.kubernetes.io/affinity: cookie</code> and <code>session-cookie-path</code> with <code>nginx.org/sticky-cookie-services</code>, which combines affinity and cookie configuration per service in a single annotation.</li>
+<li><strong>Read timeout</strong> — replace <code>nginx.ingress.kubernetes.io/proxy-read-timeout: &quot;150&quot;</code> with <code>nginx.org/proxy-read-timeout: &quot;150s&quot;</code>. Note the unit suffix is required by F5 NGINX.</li>
+<li><strong>Server config</strong> — replace <code>nginx.ingress.kubernetes.io/server-snippet</code> with <code>nginx.org/server-snippets</code>. Multi-line blocks are supported in both.</li>
+</ul>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/prereq/bitnami/"><span>Previous</span>Bitnami Secure</a><a class="pager-next" href="/curam-kubernetes/deploy-curam/install-curam/"><span>Next</span>Installing Cúram software</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#ingress-controller">Ingress Controller</a></li><li class="toc-l2"><a href="#installation">Installation</a></li><li class="toc-l2"><a href="#ssl-services">SSL Services</a></li><li class="toc-l2"><a href="#sticky-cookie-services">Sticky Cookie Services</a></li><li class="toc-l2"><a href="#annotation-migration">Annotation Migration</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

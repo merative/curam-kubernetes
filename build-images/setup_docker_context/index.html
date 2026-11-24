@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Setting up the Docker® context | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Setting up the Docker context">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Setting up the Docker® context">
+<meta property="og:description" content="Setting up the Docker context">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/" class="active" aria-current="page">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Setting up the Docker® context</h1>
+      
+    </div>
+    <article class="markdown"><p><strong>Note:</strong> Dockerfiles are now separated by folder based on the java version. Please ensure you have the correct <code>CURAM_JAVA_MODE</code> environment variable set as described in <a href="/curam-kubernetes/prereq/3rdparty-sw">Java Requirement</a>.</p>
+<p>To build the required Docker images, the context for building them must be established as described in the <a href="https://docs.docker.com/engine/reference/commandline/build/" target="_blank" rel="noopener noreferrer">Docker build</a> command description.</p>
+<p>The following components provide this context:</p>
+<ul>
+<li>The artifacts that you downloaded by following the steps that are described in <a href="/curam-kubernetes/prereq/git">GitHub repo</a>.</li>
+<li>The <code>release.zip</code> and <code>StaticContent.zip</code> files that you built in <a href="/curam-kubernetes/deploy-curam/build-curam">Building the Cúram application</a>.</li>
+</ul>
+<h2 id="building-cúram-resources">Building Cúram resources <a class="heading-anchor" href="#building-cúram-resources">#</a></h2>
+<p>Some of the Docker images that you build rely on the <code>release.zip</code> and <code>StaticContent.zip</code> files that you built in <a href="/curam-kubernetes/deploy-curam/build-curam">Building the Cúram application</a>.</p>
+<p>If you built <code>release.zip</code> and <code>StaticContent.zip</code> on a different computer to the one where container environment will be deployed, you must transfer the files to the computer you're currently working on.
+For simplicity, it is assumed that these files are copied to <code>/tmp/</code>.</p>
+<h2 id="preparing-the-cúram-environment">Preparing the Cúram environment <a class="heading-anchor" href="#preparing-the-cúram-environment">#</a></h2>
+<p>Prepare the Cúram Docker environment by using the <code>release.zip</code> file.</p>
+<p>For the following steps, use the <code>$SPM_HOME</code> folder that you created in <a href="/curam-kubernetes/prereq/git">GitHub repo</a>.</p>
+<ol>
+<li>To create a <code>release-stage</code> folder to contain the contents of <code>release.zip</code>, run the following command:</li>
+</ol>
+<div class="tabs" data-tabs id="tabs-1">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-1-panel-0">
+<pre><code class="language-shell">mkdir $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-1-panel-1">
+<pre><code class="language-powershell">mkdir <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\Liberty\<span class="hljs-variable">$env:Java_Version</span>\content\release<span class="hljs-literal">-stage</span>
+</code></pre>
+</section>
+</div>
+<ol>
+<li>To extract <code>release.zip</code> into the <code>release-stage</code> folder, run the following commands:</li>
+</ol>
+<div class="tabs" data-tabs id="tabs-2">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-2-panel-0">
+<pre><code class="language-shell">unzip -qd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage /tmp/release.zip
+chmod +x $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage/*.sh
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-2-panel-1">
+<pre><code class="language-powershell">unzip <span class="hljs-literal">-qd</span> <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\Liberty\<span class="hljs-variable">$env:Java_Version</span>\content\release<span class="hljs-literal">-stage</span> <span class="hljs-variable">$env:TMP</span>\release.zip
+</code></pre>
+</section>
+</div>
+<p>Where <code>/tmp/release.zip</code> (or for Windows: <code>$env:TMP\release.zip</code>) is the absolute path where the <code>release.zip</code> is saved.</p>
+<h2 id="modifying-cúram-properties">Modifying Cúram properties <a class="heading-anchor" href="#modifying-cúram-properties">#</a></h2>
+<p><code>Bootstrap.properties</code> and <code>AppServer.properties</code> are required to configure WebSphere® Liberty.
+However the relevant properties in <code>Bootstrap.properties</code> that you modify in the on-premise implementation of Cúram are no longer relevant because Kubernetes configmaps provide the necessary values for the database configuration.</p>
+<p>The only properties that you must modify in <code>AppServer.properties</code> are <code>security.username</code> and <code>security.password</code>.
+These properties contain the WebSphere Liberty administrator credentials.
+If the password is changed, the value must be re-encrypted by running the following commands and updating <code>AppServer.properties</code> with the new encrypted password:</p>
+<div class="tabs" data-tabs id="tabs-3">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-3-panel-0">
+<pre><code class="language-shell">./build.sh encrypt -Dpassword=&lt;The password to be encrypted&gt;
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows DOS" id="tabs-3-panel-1">
+<pre><code class="language-bat"><span class="hljs-built_in">cd</span> <span class="hljs-variable">%SERVER_DIR%</span>
+build.bat encrypt -Dpassword=&lt;The password to be encrypted&gt;
+</code></pre>
+</section>
+</div>
+<p>Copy the property files by using the following command:</p>
+<div class="tabs" data-tabs id="tabs-4">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-4-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content
+cp -vf *.properties release-stage/project/properties/
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-4-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">cd</span>  <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\Liberty\<span class="hljs-variable">$env:Java_Version</span>\content\
+<span class="hljs-built_in">copy</span> *.properties .\release<span class="hljs-literal">-stage</span>\project\properties\ <span class="hljs-literal">-Force</span>
+</code></pre>
+</section>
+</div>
+<h2 id="websphere-liberty-server-configuration">WebSphere Liberty server configuration <a class="heading-anchor" href="#websphere-liberty-server-configuration">#</a></h2>
+<p>All configuration of WebSphere Liberty will be handled by the Helm Charts. See the <a href="/curam-kubernetes/deployment/hc_preparation">Preparing Helm Charts</a> topic for more information.</p>
+<h2 id="copying-static-content-artifacts">Copying static content artifacts <a class="heading-anchor" href="#copying-static-content-artifacts">#</a></h2>
+<p>Copy the static content <code>.zip</code> file for Docker image creation. Run the following command:</p>
+<div class="tabs" data-tabs id="tabs-5">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-5-panel-0">
+<pre><code class="language-shell">cp -vf /tmp/StaticContent.zip $SPM_HOME/dockerfiles/HTTPServer/
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-5-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">copy</span> <span class="hljs-variable">$env:TMP</span>\StaticContent.zip <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\HTTPServer\ <span class="hljs-literal">-Force</span>
+</code></pre>
+</section>
+</div>
+<h2 id="installing-external-artifacts">Installing external artifacts <a class="heading-anchor" href="#installing-external-artifacts">#</a></h2>
+<p>In addition to <code>release.zip</code> and <code>StaticContent.zip</code>, download and install the following artifacts.</p>
+<h3 id="add-the-ant-zip-file-to-the-docker-environment">Add the Ant zip file to the Docker environment <a class="heading-anchor" href="#add-the-ant-zip-file-to-the-docker-environment">#</a></h3>
+<p>Copy <code>apache-ant-$ANT_VERSION_VALUE-bin.zip</code> to <code>$SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content</code>. If Ant is not already available on the computer, run the following commands:</p>
+<div class="tabs" data-tabs id="tabs-6">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-6-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content
+wget https://archive.apache.org/dist/ant/binaries/apache-ant-$ANT_VERSION_VALUE-bin.zip
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-6-panel-1">
+<pre><code class="language-powershell"><span class="hljs-built_in">cd</span> <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\Liberty\<span class="hljs-variable">$env:Java_Version</span>\content
+<span class="hljs-built_in">wget</span> https://archive.apache.org/dist/ant/binaries/apache<span class="hljs-literal">-ant-</span><span class="hljs-variable">$env:ANT_VERSION_VALUE</span><span class="hljs-literal">-bin</span>.zip
+</code></pre>
+</section>
+</div>
+<h3 id="cryptoconfig-jar">CryptoConfig.jar <a class="heading-anchor" href="#cryptoconfig-jar">#</a></h3>
+<p><code>CryptoConfig.jar</code> is required for Cúram cryptography to function correctly. This jar is automatically created in the following locations when you run the
+<code>build.sh configtest</code> target:</p>
+<ul>
+<li><code>$SERVER_DIR/build/CryptoConfig.jar</code></li>
+<li><code>$JAVA_HOME/jre/lib/ext/CryptoConfig.jar</code> as a location of the CryptoConfig jar only if  using Java 8</li>
+</ul>
+<p>However, the <code>release.zip</code> does not include this jar file, so the jar file must be copied separately from the environment where the <code>release.zip</code> was built.</p>
+<p>Place the <code>CryptoConfig.jar</code> file in <code>$SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage/build</code>.</p>
+<div class="note note--info">
+<p>Please see the Cúram credentials documentation for keystore creation.</p>
+<p>Cryptography keystores for Cúram vary based on the JVM vendor, so the vendor in the build environment must correspond to that used in the Docker images.</p>
+<p>For ModernJava create a new folder <code>content/release-stage/project/properties/sun</code>
+For Java8 create a new folder <code>content/release-stage/project/properties/ibm</code></p>
+<p>Copy the keystore from your build environment to the respective folder based on your Java version.</p>
+</div>
+<p>For convenience, you can use a docker container to create the <code>CryptoConfig.jar</code> file.
+Note the use of <code>$ANT_HOME</code> environment variable in the following <code>docker run</code> command.
+This value must map to a working copy of Ant on your workstation.
+If you do not have a copy of Ant locally you can extract it from <code>$SPM_HOME</code> using:</p>
+<div class="tabs" data-tabs id="tabs-7">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-7-panel-0">
+<pre><code class="language-shell">unzip -qd /tmp/ $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/apache-ant-$ANT_VERSION_VALUE-bin.zip
+export ANT_HOME=/tmp/apache-ant-$ANT_VERSION_VALUE
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-7-panel-1">
+<pre><code class="language-powershell">unzip <span class="hljs-literal">-qd</span> <span class="hljs-variable">$env:TMP</span> <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\Liberty\<span class="hljs-variable">$env:Java_Version</span>\content\apache<span class="hljs-literal">-ant-</span><span class="hljs-variable">$env:ANT_VERSION_VALUE</span><span class="hljs-literal">-bin</span>.zip
+<span class="hljs-variable">$env:ANT_HOME</span> = <span class="hljs-string">&quot;<span class="hljs-variable">$env:TMP</span>\apache-ant-<span class="hljs-variable">$env:ANT_VERSION_VALUE</span>&quot;</span>
+</code></pre>
+</section>
+</div>
+<div class="tabs" data-tabs id="tabs-8">
+<section class="tab-panel" data-label="Mac/Linux ModernJava" id="tabs-8-panel-0">
+<pre><code class="language-shell">docker run --rm \
+    -v $ANT_HOME:/tmp/ant \
+    -v $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage:/work/dir \
+    -v $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage/SetEnvironment.sh:/work/SetEnvironment.sh \
+    -w /work/dir \
+    -u root \
+    -e ANT_HOME=/tmp/ant \
+    -e WLP_HOME=/opt/ibm/wlp \
+    icr.io/appcafe/websphere-liberty/26.0.0.9-full-java21-openj9-ubi-minimal \
+    bash -c &#x27;export ANT_LIB_PATH ; export PATH=$ANT_HOME/bin:$PATH:.; tmp/ant/bin/ant -Dnashorn.args=&quot;--language=es6&quot; $ANT_LIB_PATH -f /work/dir/build.xml -Dprp.noninternedstrings=true installcryptojar init_passwords 
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Mac/Linux Java 8" id="tabs-8-panel-1">
+<pre><code class="language-shell">docker run --rm \
+    -v $ANT_HOME:/tmp/ant \
+    -v $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage:/work/dir \
+    -v $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/release-stage/SetEnvironment.sh:/work/SetEnvironment.sh \
+    -w /work/dir \
+    -u root \
+    -e ANT_HOME=/tmp/ant \
+    -e WLP_HOME=/opt/ibm/wlp \
+    icr.io/appcafe/websphere-liberty/26.0.0.9-full-java8-ibmjava-ubi \
+    bash -c &#x27;export PATH=$ANT_HOME/bin:$PATH:.; build.sh internal.update.crypto.jar&#x27;
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS ModernJava" id="tabs-8-panel-2">
+<pre><code class="language-powershell">docker run <span class="hljs-literal">--rm</span> `
+    <span class="hljs-literal">-v</span> <span class="hljs-variable">$env:ANT_HOME</span>\:/tmp/ant `
+    <span class="hljs-literal">-v</span> <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\Liberty\<span class="hljs-variable">$env:Java_Version</span>\content\release<span class="hljs-literal">-stage</span>\:/work/<span class="hljs-built_in">dir</span> `
+    <span class="hljs-literal">-v</span> <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\Liberty\<span class="hljs-variable">$env:Java_Version</span>\content\release<span class="hljs-literal">-stage</span>\SetEnvironment.sh:/work/SetEnvironment.sh `
+    <span class="hljs-literal">-w</span> /work/<span class="hljs-built_in">dir</span> `
+    <span class="hljs-literal">-u</span> root `
+    <span class="hljs-literal">-e</span> ANT_HOME=/tmp/ant `
+    <span class="hljs-literal">-e</span> WLP_HOME=/opt/ibm/wlp `
+    icr.io/appcafe/websphere<span class="hljs-literal">-liberty</span>/<span class="hljs-number">26.0</span>.<span class="hljs-number">0.9</span><span class="hljs-literal">-full-java21-openj9-ubi-minimal</span> `
+    bash <span class="hljs-literal">-c</span> <span class="hljs-string">&#x27;export ANT_LIB_PATH ; export PATH=$ANT_HOME/bin:$PATH:.; tmp/ant/bin/ant -Dnashorn.args=&quot;--language=es6&quot; $ANT_LIB_PATH -f /work/dir/build.xml -Dprp.noninternedstrings=true installcryptojar init_passwords 
+</span></code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS Java 8" id="tabs-8-panel-3">
+<pre><code class="language-powershell">docker run <span class="hljs-literal">--rm</span> `
+    <span class="hljs-literal">-v</span> <span class="hljs-variable">$env:ANT_HOME</span>\:/tmp/ant `
+    <span class="hljs-literal">-v</span> <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\Liberty\<span class="hljs-variable">$env:Java_Version</span>\content\release<span class="hljs-literal">-stage</span>\:/work/<span class="hljs-built_in">dir</span> `
+    <span class="hljs-literal">-v</span> <span class="hljs-variable">$env:SPM_HOME</span>\dockerfiles\Liberty\<span class="hljs-variable">$env:Java_Version</span>\content\release<span class="hljs-literal">-stage</span>\SetEnvironment.sh:/work/SetEnvironment.sh `
+    <span class="hljs-literal">-w</span> /work/<span class="hljs-built_in">dir</span> `
+    <span class="hljs-literal">-u</span> root `
+    <span class="hljs-literal">-e</span> ANT_HOME=/tmp/ant `
+    <span class="hljs-literal">-e</span> WLP_HOME=/opt/ibm/wlp `
+    icr.io/appcafe/websphere<span class="hljs-literal">-liberty</span>/<span class="hljs-number">26.0</span>.<span class="hljs-number">0.9</span><span class="hljs-literal">-full-java8-ibmjava-ubi</span> `
+    bash <span class="hljs-literal">-c</span> <span class="hljs-string">&#x27;export PATH=$ANT_HOME/bin:$PATH:.; build.sh internal.update.crypto.jar&#x27;</span>
+</code></pre>
+</section>
+</div>
+<h3 id="installing-javax-mail-jar-and-activation-jar-files">Installing javax.mail.jar and activation.jar files <a class="heading-anchor" href="#installing-javax-mail-jar-and-activation-jar-files">#</a></h3>
+<p>Java Mail is an external dependency for Cúram and is represented by the JAR files <code>activation.jar</code> and <code>javax.mail.jar</code>.
+Place these files in the folder <code>$SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/dependencies</code> (filenames must be exact, that is, have no version numbers).</p>
+<p>If you do not have the jar files available, you can use the <code>getJavaMail.xml</code> Ant file that is located in the <code>$SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content</code> folder to download the files:</p>
+<div class="tabs" data-tabs id="tabs-9">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-9-panel-0">
+<pre><code class="language-shell">cd $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content
+<span class="hljs-meta prompt_">$</span><span class="language-bash">ANT_HOME/bin/ant -f getJavaMail.xml</span>
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows DOS" id="tabs-9-panel-1">
+<pre><code class="language-bat"><span class="hljs-built_in">cd</span> $env:ANT_HOME\bin
+.\ant.bat -f $env:SPM_HOME\dockerfiles\Liberty\$env:Java_Version\content\getJavaMail.xml
+</code></pre>
+</section>
+</div>
+<p>Confirm the availability of the JAR files by running the following command:</p>
+<p><code>ls $SPM_HOME/dockerfiles/Liberty/$CURAM_JAVA_MODE/content/dependencies</code></p>
+<h3 id="downloading-ibm-mq-resource-adapter">Downloading IBM MQ Resource Adapter <a class="heading-anchor" href="#downloading-ibm-mq-resource-adapter">#</a></h3>
+<div class="note note--info">
+<p><strong>Note:</strong> As of Release 25.X.0, the IBM MQ Resource Adapter version used to verify this runbook is 9.4.3.0.</p>
+<p>&nbsp;</p>
+An IBM MQ Resources Adapter of a supported version level can connect to any IBM MQ Queue Manager of supported version level,
+but the feature set available will be based on whichever is of the lower level.
+For more information, see the [related version compatibility documentation](https://www.ibm.com/docs/en/ibm-mq/9.3?topic=cci-compatibility-between-different-versions-mq-mqi-client-queue-manager).
+</div>
+<p>IBM MQ is required for WebSphere Liberty JMS support, therefore you must install the MQ Resource Adapter.</p>
+<ol>
+<li>
+<p>Download the IBM MQ resource adapter from Fix Central.</p>
+<ul>
+<li>Click this link:
+<a href="https://www.ibm.com/support/fixcentral/swg/selectFixes?parent=ibm~WebSphere&amp;product=ibm/WebSphere/WebSphere+MQ&amp;release=9.4.3.0&amp;platform=All&amp;function=fixid&amp;fixids=*IBM-MQ-Java-InstallRA*" target="_blank" rel="noopener noreferrer">IBM MQ Resource Adapter</a></li>
+<li>Find the resource adapter for your version of IBM MQ in the displayed list of available fixes. For example:</li>
+</ul>
+<pre><code>release level: 9.4.3.0-IBM-MQ-Java-InstallRA
+Continuous Delivery: 9.4.3.0 IBM MQ Resource Adapter for use with Application Servers
+</code></pre>
+<ul>
+<li>Then click the resource adapter file name and follow the download process.</li>
+</ul>
+</li>
+<li>
+<p>Copy the downloaded file ( <code>V.R.M.F-IBM-MQ-Java-InstallRA.jar</code> ) to <code>$SPM_HOME/dockerfiles/Liberty/content/</code>.</p>
+</li>
+</ol>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/deploy-curam/build-curam/"><span>Previous</span>Building the Cúram application</a><a class="pager-next" href="/curam-kubernetes/build-images/build_images/"><span>Next</span>Building the Docker images</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#building-cúram-resources">Building Cúram resources</a></li><li class="toc-l2"><a href="#preparing-the-cúram-environment">Preparing the Cúram environment</a></li><li class="toc-l2"><a href="#modifying-cúram-properties">Modifying Cúram properties</a></li><li class="toc-l2"><a href="#websphere-liberty-server-configuration">WebSphere Liberty server configuration</a></li><li class="toc-l2"><a href="#copying-static-content-artifacts">Copying static content artifacts</a></li><li class="toc-l2"><a href="#installing-external-artifacts">Installing external artifacts</a></li><li class="toc-l3"><a href="#add-the-ant-zip-file-to-the-docker-environment">Add the Ant zip file to the Docker environment</a></li><li class="toc-l3"><a href="#cryptoconfig-jar">CryptoConfig.jar</a></li><li class="toc-l3"><a href="#installing-javax-mail-jar-and-activation-jar-files">Installing javax.mail.jar and activation.jar files</a></li><li class="toc-l3"><a href="#downloading-ibm-mq-resource-adapter">Downloading IBM MQ Resource Adapter</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

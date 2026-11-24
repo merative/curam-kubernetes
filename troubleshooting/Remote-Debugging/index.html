@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Remote debugging | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="Remote debugging">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="Remote debugging">
+<meta property="og:description" content="Remote debugging">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/" class="active" aria-current="page">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>Remote debugging</h1>
+      
+    </div>
+    <article class="markdown"><h2 id="remote-debugging">Remote Debugging <a class="heading-anchor" href="#remote-debugging">#</a></h2>
+<p>It might be necessary to use a remote debugger to step through code execution on the cluster, where log analysis does not provide sufficient information to resolve an issue.
+The following is an outline of the steps required to connect eclipse's remote debugger to the Cúram code running on the cluster.</p>
+<ul>
+<li>Edit the Cúram producer deployment spec to pass debug arguments to the WebSphere® Liberty server.</li>
+<li>Forward the debugging port from the port running the Cúram producer pod.</li>
+<li>Create the remote debug configuration in eclipse.</li>
+<li>Connect the remote debugger to the listener.</li>
+</ul>
+<p>These steps are explained in more detail below.</p>
+<h3 id="edit-the-cúram-producer-deployment">Edit the Cúram Producer Deployment <a class="heading-anchor" href="#edit-the-cúram-producer-deployment">#</a></h3>
+<p>Edit the deployment spec for the Cúram producer deployment.</p>
+<p><code>kubectl edit deployment release-apps-curam-producer</code></p>
+<p>Add the following lines under <code>.spec.template.spec.containers</code>:</p>
+<div class="note note--info">
+<p><strong>Note:</strong> Under <code>.spec.template.spec.containers</code> we can define multiple containers. The top level indented hyphen character preceding args
+signifies the start of <em>a</em> container definition, remove the <code>-</code> at the same indentation level before env section or they will be treated
+as two separate container definitions, with one being invalid.</p>
+</div>
+<div class="tabs" data-tabs id="tabs-1">
+<section class="tab-panel" data-label="Correct Example" id="tabs-1-panel-0">
+<pre><code>containers:
+- args:
+  - /opt/ibm/wlp/bin/server
+  - debug
+  - defaultServer
+  env:
+  ...
+  ...
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Incorrect Example" id="tabs-1-panel-1">
+<pre><code>containers:
+- args:
+  - /opt/ibm/wlp/bin/server
+  - debug
+  - defaultServer
+- env:
+  ...
+  ...
+</code></pre>
+</section>
+</div>
+<p>Upon saving deployment setting changes, the Cúram producer deployment will terminate its pod and start a new one with the debug configuration.</p>
+<div class="note note--info">
+<p><strong>Note:</strong> The liveness, readiness, or startup probes could interfere with debugging and may need to be disabled.
+The probes are designed and configured for a typical environment and the delays involved in debugging sessions may be incompatible, causing unexpected restarts and failures.</p>
+</div>
+<h3 id="forward-the-debugging-port">Forward the Debugging Port <a class="heading-anchor" href="#forward-the-debugging-port">#</a></h3>
+<p>Once the restarted pod has completed initialization and the Liberty server has started, the <code>kubectl logs</code> command will indicate that the Liberty server is waiting on the debug port:</p>
+<pre><code>Listening for transport dt_socket at address: 7777
+</code></pre>
+<p>At this point forward the Liberty server's debug port to make it available to the remote debugger. 7777 is the default debug port for WebSphere® Liberty.</p>
+<p><code>kubectl port-forward release-apps-curam-producer-XXXX 7777:7777</code></p>
+<h3 id="create-the-remote-debug-configuration">Create the Remote Debug Configuration <a class="heading-anchor" href="#create-the-remote-debug-configuration">#</a></h3>
+<p>From the Eclipse debug view, create a Java Remote Application. Attach an appropriate source code project, and attach the Java Remote Application to the port forwarded to in <a href="#forward-the-debugging-port">Forward the debugging port</a>.
+The <code>Host</code> field in the debug configuration will be <code>localhost</code> even if a remote cluster is being used, because the port forwarding
+relies on the local loopback device.</p>
+<p><img src="../../images/remote_debugger.png" alt="Figure 1: Example Debugger Config"></p>
+<div class="caption">
+<p><em>Figure 1:</em> Example debugger config</p>
+</div>
+<h3 id="connect-the-remote-debugger-to-the-listener">Connect the Remote Debugger to the Listener <a class="heading-anchor" href="#connect-the-remote-debugger-to-the-listener">#</a></h3>
+<p>Launch the debugger and debug as usual.</p>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/troubleshooting/failed_jms_messages/"><span>Previous</span>Handling failed JMS messages on the MQ dead message queue</a><a class="pager-next" href="/curam-kubernetes/troubleshooting/troubleshoot/"><span>Next</span>Troubleshooting problems</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#remote-debugging">Remote Debugging</a></li><li class="toc-l3"><a href="#edit-the-cúram-producer-deployment">Edit the Cúram Producer Deployment</a></li><li class="toc-l3"><a href="#forward-the-debugging-port">Forward the Debugging Port</a></li><li class="toc-l3"><a href="#create-the-remote-debug-configuration">Create the Remote Debug Configuration</a></li><li class="toc-l3"><a href="#connect-the-remote-debugger-to-the-listener">Connect the Remote Debugger to the Listener</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>

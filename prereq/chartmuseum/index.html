@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChartMuseum | Cúram on Kubernetes Runbook</title>
+<meta name="description" content="ChartMuseum">
+<meta name="keywords" content="merative,curam,containers,kubernetes">
+<meta property="og:title" content="ChartMuseum">
+<meta property="og:description" content="ChartMuseum">
+<link rel="icon" href="/curam-kubernetes/images/curam-favicon-32.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/curam-kubernetes/theme/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="masthead">
+  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false"></button>
+  <a class="brand" href="/curam-kubernetes/">
+    <img class="brand-logo" src="/curam-kubernetes/images/curam-favicon-32.svg" alt="" width="26" height="26">
+    <span class="brand-mark">Cúram</span>
+    <span class="brand-title">Kubernetes Runbook</span>
+  </a>
+  <div class="masthead-actions">
+    <input type="search" id="nav-search" class="nav-search" placeholder="Filter pages" aria-label="Filter pages">
+    <a class="gh-link" href="https://github.com/merative/curam-kubernetes" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+</header>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation"><ul><li class="nav-solo"><a href="/curam-kubernetes/Introduction/">Introduction</a></li>
+<li class="nav-group nav-divider"><details><summary>Architecture</summary><ul><li><a href="/curam-kubernetes/architecture/kubernetes/curam-on-kubernetes-101/">Cúram on Kubernetes 101</a></li>
+<li><a href="/curam-kubernetes/architecture/arch-overview/architecture-overview/">Architecture Overview</a></li>
+<li><a href="/curam-kubernetes/architecture/aks-consideration/security/">AKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/eks-consideration/security/">EKS Consideration</a></li>
+<li><a href="/curam-kubernetes/architecture/openshift-consideration/security/">OpenShift Consideration</a></li></ul></details></li>
+<li class="nav-group"><details open><summary>Prerequisites</summary><ul><li><a href="/curam-kubernetes/prereq/prereq/">Prerequisite software</a></li>
+<li><a href="/curam-kubernetes/prereq/3rdparty-sw/">Base third-party software</a></li>
+<li><a href="/curam-kubernetes/prereq/docker-helm/">Docker and Helm</a></li>
+<li><a href="/curam-kubernetes/prereq/kubernetes/kubernetes-overview/">Kubernetes</a></li>
+<li><a href="/curam-kubernetes/prereq/openshift/openshift-overview/">OpenShift</a></li>
+<li><a href="/curam-kubernetes/prereq/mq/mq-overview/">MQ Overview and Configuration</a></li>
+<li><a href="/curam-kubernetes/prereq/chartmuseum/" class="active" aria-current="page">ChartMuseum</a></li>
+<li><a href="/curam-kubernetes/prereq/git/">GitHub repo</a></li>
+<li><a href="/curam-kubernetes/prereq/bitnami/">Bitnami Secure</a></li>
+<li><a href="/curam-kubernetes/prereq/ingress/">Ingress Controller</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Cúram application</summary><ul><li><a href="/curam-kubernetes/deploy-curam/install-curam/">Installing Cúram software</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/create_curam_db/">Creating the Cúram database</a></li>
+<li><a href="/curam-kubernetes/deploy-curam/build-curam/">Building the Cúram application</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Building Docker images</summary><ul><li><a href="/curam-kubernetes/build-images/setup_docker_context/">Setting up the Docker context</a></li>
+<li><a href="/curam-kubernetes/build-images/build_images/">Building the Docker images</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Deploying with Helm Charts</summary><ul><li><a href="/curam-kubernetes/deployment/hc_preparation/">Preparing Helm Charts</a></li>
+<li><a href="/curam-kubernetes/deployment/config-reference/">Configuration Reference</a></li>
+<li><a href="/curam-kubernetes/deployment/secrets/">Handling Secrets</a></li>
+<li><a href="/curam-kubernetes/deployment/migrating-to-v26-11-0/">Migrating to v26.11.0</a></li>
+<li><a href="/curam-kubernetes/deployment/hc_deployment/">Deploying Helm Charts</a></li></ul></details></li>
+<li class="nav-group nav-divider"><details><summary>Operations</summary><ul><li><a href="/curam-kubernetes/operations/updating_tools/">Updating tools</a></li>
+<li><a href="/curam-kubernetes/operations/updating_curam/">Updating Cúram deployment</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Supporting infrastructure</summary><ul><li><a href="/curam-kubernetes/supporting-infrastructure/batch/batch-processing/">Batch Processing</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/Persistence/">Persistence Storage</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/ISAM/">Enabling ISAM</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/KeyCloak/">Enabling Keycloak</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/logging/">Logging</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/persistent-timers/">Persistent Timers</a></li>
+<li><a href="/curam-kubernetes/supporting-infrastructure/xmlserver-service/">XML server service</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Monitoring</summary><ul><li><a href="/curam-kubernetes/monitoring/interrogate_runtime/">Cluster status</a></li>
+<li><a href="/curam-kubernetes/monitoring/Health Checks/">Health checks</a></li>
+<li><a href="/curam-kubernetes/monitoring/jmx-statistics-performance-monitoring/">JMX statistics</a></li>
+<li><a href="/curam-kubernetes/monitoring/xmlserver-monitoring/">XML servers</a></li>
+<li><a href="/curam-kubernetes/monitoring/mq_queue_depth_events_monitoring/">MQ Queue depth events</a></li>
+<li><a href="/curam-kubernetes/monitoring/Web_components_Apache_monitoring/">Apache HTTP server metrics</a></li></ul></details></li>
+<li class="nav-group"><details><summary>Troubleshooting</summary><ul><li><a href="/curam-kubernetes/troubleshooting/failed_jms_messages/">Handling failed JMS messages on the MQ dead message queue</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/Remote-Debugging/">Remote debugging</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/troubleshoot/">Troubleshooting problems</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/xmlserver-trace/">XML Server tracing</a></li>
+<li><a href="/curam-kubernetes/troubleshooting/must_gather/">MustGather</a></li></ul></details></li>
+<li class="nav-solo nav-divider"><a href="/curam-kubernetes/known_issues/">Known issues</a></li>
+<li class="nav-solo"><a href="/curam-kubernetes/faq/">FAQ</a></li>
+<li class="nav-group"><details><summary>Feedback</summary><ul><li><a href="/curam-kubernetes/contact/contact_us/">Contact Us</a></li></ul></details></li>
+<li class="nav-solo"><a href="/curam-kubernetes/notices/">Notices</a></li></ul></nav>
+  <main id="main" class="content">
+    <div class="page-header">
+      <h1>ChartMuseum</h1>
+      
+    </div>
+    <article class="markdown"><p>Helm Charts are stored in a repository. For development purposes, you can use a local repository to use Helm along with Minikube. This runbook uses <a href="https://github.com/helm/chartmuseum/" target="_blank" rel="noopener noreferrer">ChartMuseum</a> as the local repository.</p>
+<p>A Helm Chart is a collection of files that describe a related set of Kubernetes resources. Helm Charts are the recommended way to distribute deployments on Kubernetes clusters.</p>
+<p>Use ChartMuseum to develop, test, and deploy locally before you distribute the charts. For more information, see <a href="https://helm.sh/docs/intro/" target="_blank" rel="noopener noreferrer">Introduction to Helm</a>.</p>
+<h2 id="installing-chartmuseum-in-a-docker-container">Installing ChartMuseum in a Docker® container <a class="heading-anchor" href="#installing-chartmuseum-in-a-docker-container">#</a></h2>
+<p>ChartMuseum can run in a Docker container by using the <code>docker run</code> command when the docker container is created.</p>
+<p>Take the following steps:</p>
+<ul>
+<li>Start a Docker container that is accessible locally on port 8080:</li>
+</ul>
+<div class="tabs" data-tabs id="tabs-1">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-1-panel-0">
+<pre><code class="language-shell">docker run --rm -d --name chartmuseum \
+  -p 8080:8080 \
+  -e DEBUG=true \
+  -e STORAGE=local \
+  -e STORAGE_LOCAL_ROOTDIR=/tmp/charts \
+  chartmuseum/chartmuseum:v0.12.0
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-1-panel-1">
+<pre><code class="language-powershell">docker run <span class="hljs-literal">--rm</span> <span class="hljs-literal">-d</span> <span class="hljs-literal">--name</span> chartmuseum `
+  <span class="hljs-literal">-p</span> <span class="hljs-number">8080</span>:<span class="hljs-number">8080</span> `
+  <span class="hljs-literal">-e</span> DEBUG=true `
+  <span class="hljs-literal">-e</span> STORAGE=local `
+  <span class="hljs-literal">-e</span> STORAGE_LOCAL_ROOTDIR=/tmp/charts `
+  chartmuseum/chartmuseum:v0.<span class="hljs-number">12.0</span>
+</code></pre>
+</section>
+</div>
+<ul>
+<li>Run the <code>docker logs</code> command to view the Chart Museum logs:</li>
+</ul>
+<pre><code class="language-shell">docker logs chartmuseum
+</code></pre>
+<h3 id="testing-chartmuseum-connectivity">Testing ChartMuseum connectivity <a class="heading-anchor" href="#testing-chartmuseum-connectivity">#</a></h3>
+<p>Run the following command to test connectivity. <code>127.0.0.1</code> is the localhost IP address.</p>
+<div class="note note--info">
+<p><strong>Note:</strong> On Windows, the Docker Engine can run in a dedicated docker-machine, or can be reused from the Minikube VM.</p>
+</div>
+<div class="tabs" data-tabs id="tabs-2">
+<section class="tab-panel" data-label="Mac/Linux" id="tabs-2-panel-0">
+<pre><code class="language-shell">curl http://127.0.0.1:8080/index.yaml
+</code></pre>
+</section>
+<section class="tab-panel" data-label="Windows PS" id="tabs-2-panel-1">
+<pre><code class="language-powershell"><span class="hljs-comment"># Uncomment the appropriate command:</span>
+
+<span class="hljs-comment"># Use this command if using Docker locally:</span>
+<span class="hljs-comment"># Invoke-RestMethod http://127.0.0.1:8080/index.yaml</span>
+
+<span class="hljs-comment"># Use this command if using the Docker inside Minikube:</span>
+<span class="hljs-comment"># Invoke-RestMethod http://$(minikube ip):8080/index.yaml</span>
+</code></pre>
+</section>
+</div>
+<p>You will see something like the following example:</p>
+<pre><code class="language-yaml"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span>
+<span class="hljs-attr">entries:</span> {}
+<span class="hljs-attr">generated:</span> <span class="hljs-string">&quot;2019-06-17T10:55:37Z&quot;</span>
+<span class="hljs-attr">serverInfo:</span> {}
+</code></pre>
+<h2 id="provisioning-charts">Provisioning charts <a class="heading-anchor" href="#provisioning-charts">#</a></h2>
+<p>When ChartMuseum is running, you can copy the compressed <code>tgz</code> files that are produced by Helm, or by using the <a href="https://github.com/chartmuseum/helm-push" target="_blank" rel="noopener noreferrer">Helm Push</a> plugin (recommended approach).</p>
+<div class="note note--info">
+<p><strong>Note:</strong> On Windows, as per <a href="https://github.com/chartmuseum/helm-push/issues/24" target="_blank" rel="noopener noreferrer">this issue</a>, the Helm Push plugin must be installed from a Bash shell (e.g., Git Bash).</p>
+</div>
+<pre><code class="language-shell">helm plugin install https://github.com/chartmuseum/helm-push
+</code></pre>
+<p>Creating the chart files is covered later in the runbook when you run the <code>helm package</code> command. For more information, see <a href="/curam-kubernetes/deployment/hc_preparation">Preparing Helm Charts</a>.</p>
+<h2 id="configure-helm-to-access-the-local-repository">Configure Helm to access the local repository <a class="heading-anchor" href="#configure-helm-to-access-the-local-repository">#</a></h2>
+<p>To use ChartMuseum as a repository, you must configure Helm to point to it. Run the appropriate command:</p>
+<div class="tabs" data-tabs id="tabs-3">
+<section class="tab-panel" data-label="Local Docker" id="tabs-3-panel-0">
+<pre><code class="language-shell">helm repo add local-development http://127.0.0.1:8080/
+</code></pre>
+</section>
+<section class="tab-panel" data-label="minikube VM Docker" id="tabs-3-panel-1">
+<pre><code class="language-shell">helm repo add local-development http://$(minikube ip):8080/
+</code></pre>
+</section>
+</div>
+<p>Verify the list of repositories by running the following command:</p>
+<pre><code class="language-shell">helm repo list
+</code></pre>
+<p>The helm repo list command also returns the <code>local-development</code> repository that you added when you ran the <code>helm repo add</code> command.</p>
+<p>When the repository is added, run the following command to refresh the Helm index:</p>
+<pre><code class="language-shell">helm repo update
+</code></pre>
+</article>
+    <nav class="pager" aria-label="Pagination"><a class="pager-prev" href="/curam-kubernetes/prereq/mq/mq-containers/"><span>Previous</span>MQ Containers</a><a class="pager-next" href="/curam-kubernetes/prereq/git/"><span>Next</span>GitHub repo</a></nav>
+  </main>
+  <aside class="toc"><h2>On this page</h2><ul><li class="toc-l2"><a href="#installing-chartmuseum-in-a-docker-container">Installing ChartMuseum in a Docker® container</a></li><li class="toc-l3"><a href="#testing-chartmuseum-connectivity">Testing ChartMuseum connectivity</a></li><li class="toc-l2"><a href="#provisioning-charts">Provisioning charts</a></li><li class="toc-l2"><a href="#configure-helm-to-access-the-local-repository">Configure Helm to access the local repository</a></li></ul></aside>
+</div>
+<footer class="site-footer">
+  <p>© 2026 Merative L.P. Licensed under Apache 2.0.</p>
+  <p><a href="/curam-kubernetes/notices/">Notices</a> · <a href="/curam-kubernetes/contributing/">Contributing</a> · <a href="/curam-kubernetes/contact/contact_us/">Contact us</a></p>
+</footer>
+<script src="/curam-kubernetes/theme/site.js" defer></script>
+</body>
+</html>
